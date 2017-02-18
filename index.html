@@ -263,7 +263,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/aricle-title/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Inno Fang">
@@ -288,8 +288,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/12/aricle-title/" itemprop="url">
-                  aricle title
+                <a class="post-title-link" href="/2017/01/12/Android-BroadcastReceiver/" itemprop="url">
+                  Android BroadcastReceiver
                 </a>
               
             
@@ -343,7 +343,50 @@
       
         
           
-            <h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2>
+            <p>[TOC]</p>
+<p>广播的应用场景：</p>
+<ul>
+<li>同一app内部的同一组件内的消息通信（单个或多个线程之间）</li>
+<li>同一app内部的不同组件之间的消息通信</li>
+<li>同一app具有多个线程的不同组件之间的消息通信</li>
+<li>不同app之间的组建之间消息通信</li>
+<li>Android系统在特定情况下与App之间的消息通信</li>
+</ul>
+<p>广播分为两种：</p>
+<ul>
+<li>有序广播<ul>
+<li>类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游戏者。若某一个游戏者的花掉了，这就是广播截断，广播就不能继续传下去</li>
+</ul>
+</li>
+<li>无序广播<ul>
+<li>类似于老师宣布下课，学生就是广播接收者，基本都是按照同一时间执行某些操作</li>
+</ul>
+</li>
+</ul>
+<p>广播的使用，需要继承BroadcastReceiver并实现抽象方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcast</span>  <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span></span>&#123;</div><div class="line">        Toast.makeText(context, <span class="string">"收到广播，执行onReceiver()方法"</span>, Toast.LENGTH_LONG).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当BroadcastReceiver作为Android的四大组件之一，在使用时，必须对BroadcastReceiver进行注册<br>注册方式分为两种：</p>
+<ul>
+<li><p>静态注册</p>
+<ul>
+<li><p>类似于Activity，自定义广播接收器之后，在AndroidManifest.xml中注册即为静态注册</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">receiver</span> <span class="attr">android:name</span>=<span class="string">".MyBroadcast"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"io.innofang.broadcastdemo.MYBROADCAST"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reveiver</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>其中action类似于显示广播的频段，当广播发送的时候需要指定后面的字符串。接收器接收的时候，也会根据该处指定的字符串进行过滤</p>
+</li>
+</ul>
+</li>
+<li><p>动态注册</p>
+<ul>
+<li>动态注册，即在java代码中进行注册，也就是程序启动后，执行到注册的代码才会注册成功，并且动态注册的广播需要接触注册<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MY_ACTION = <span class="string">"io.innofang.broadcastdemo.MYBROADCAST"</span>;</div><div class="line">    <span class="keyword">private</span> MyBroadcast mMyBroadcast;</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        <span class="keyword">final</span> Intent intent = <span class="keyword">new</span> Intent(MY_ACTION);</div><div class="line">        <span class="comment">// 初始化广播接收器</span></div><div class="line">        mMyCast = <span class="keyword">new</span> MyBroadcast();</div><div class="line">        <span class="comment">// 初始化过滤器，对应Manifest文件中的receiver的字段</span></div><div class="line">        IntentFilter filter = <span class="keyword">new</span> IntentFilter();</div><div class="line">        <span class="comment">// 在过滤器中添加action</span></div><div class="line">        filter.addAction(MY_ACTION);</div><div class="line">        <span class="comment">// 注册广播接收器</span></div><div class="line">        registerReceiver(mMyCast, filter);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">        <span class="comment">// 在onDestroy中取消注册</span></div><div class="line">        unregisterReceiver(mMyCast);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>动态注册的广播接收者要优先于静态注册的广播接收者</li>
+<li>当程序被销毁掉之后，静态注册的广播接收者任然可以接受到广播，但是动态注册的广播接收者则不可以</li>
+</ul>
+
           
         
       
@@ -381,7 +424,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/hello-world/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/11/Android-ContentProvider/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Inno Fang">
@@ -406,8 +449,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/12/hello-world/" itemprop="url">
-                  Hello World
+                <a class="post-title-link" href="/2017/01/11/Android-ContentProvider/" itemprop="url">
+                  Android ContentProvider
                 </a>
               
             
@@ -423,8 +466,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-12T11:01:37+08:00">
-                2017-01-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-11T15:36:06+08:00">
+                2017-01-11
               </time>
             
 
@@ -461,15 +504,22 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+            <p>ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享</p>
+<p>ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据</p>
+<p>ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表，然后把数据组织成表格</p>
+<p>ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），<br>getType（的到数据类型），onCreate（创建数据时调用的回调函数）</p>
+<p>每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据</p>
+<p>Uri：为系统的每一个资源给其一个名字，它由权限和路径组成，为了避免冲突，权限通常使用应用包名</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 通常使用应用包名为权限</span></div><div class="line"><span class="comment">// 使用Uri.parse方法将字符串解析成Uri对象</span></div><div class="line">Uri uri = Uri.parse(<span class="string">"content://io.innofang.app.provider/table"</span>);</div></pre></td></tr></table></figure>
+<p>Android 所提供的ContentProvider都存放在android.provider包中，将其分为A，B，C，D四个部分，例如:<br><code>content://com.example.transportationprovider/trains/122</code></p>
+<p>A (content://) : 标准前缀，用于说明一个ContentProvider控制这些数据，无法改变的：“content://:”<br>B （com.example.transportationprovider）:URI标识，用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它一般是定义该ContentProvider的包.类的名称<br>C (trains) ： 路径，通俗的讲就是要操作的数据库中表的名字，或者自定义，在使用的时候保持一致<br>D (122)：如果URI中包含表示需要获取的记录的ID，则就返回该id对应的数据，如果没有ID，就表示返回全部</p>
+<p><em><strong>Eg:</strong></em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 数1为管理联系人电话的Uri，后面的条件填写null为查询全部</span></div><div class="line">Cursor cursor = cr.query(</div><div class="line">    ContactsContract.CommonDataKinds.Phone.CONTENT_URI, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line"><span class="comment">// 获得的Cursor对象就可以使用了</span></div></pre></td></tr></table></figure>
+<p>自定义ContentProvider必须在AndroidManifest.xml文件中注册</p>
+<p>如果想访问其他程序共享的数据，需要借助COntentResolver类来实现</p>
+<p>ContentResolver相当于在系统内部的HttpClient，应用该程序使用ContentResolver来操作ContentProvider锁暴露的数据</p>
+<h2 id="获得ContentResolver对象"><a href="#获得ContentResolver对象" class="headerlink" title="获得ContentResolver对象"></a>获得ContentResolver对象</h2><p>ContentResolver cr  = getContentResolver();</p>
+<h2 id="ContentResolver方法"><a href="#ContentResolver方法" class="headerlink" title="ContentResolver方法"></a>ContentResolver方法</h2><p><img src="http://p1.bpimg.com/567571/d23b776cb100e776.png" alt=""></p>
 
           
         
@@ -550,6 +600,13 @@
 
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>

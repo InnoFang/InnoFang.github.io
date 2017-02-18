@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -86,16 +86,52 @@
 
 
 
-<meta name="description" content="Hello World">
+<meta name="description" content="[TOC]
+广播的应用场景：
+
+同一app内部的同一组件内的消息通信（单个或多个线程之间）
+同一app内部的不同组件之间的消息通信
+同一app具有多个线程的不同组件之间的消息通信
+不同app之间的组建之间消息通信
+Android系统在特定情况下与App之间的消息通信
+
+广播分为两种：
+
+有序广播
+类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传">
 <meta property="og:type" content="article">
-<meta property="og:title" content="aricle title">
-<meta property="og:url" content="http://yoursite.com/2017/01/12/aricle-title/index.html">
+<meta property="og:title" content="Android BroadcastReceiver">
+<meta property="og:url" content="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="Hello World">
-<meta property="og:updated_time" content="2017-01-12T03:15:16.312Z">
+<meta property="og:description" content="[TOC]
+广播的应用场景：
+
+同一app内部的同一组件内的消息通信（单个或多个线程之间）
+同一app内部的不同组件之间的消息通信
+同一app具有多个线程的不同组件之间的消息通信
+不同app之间的组建之间消息通信
+Android系统在特定情况下与App之间的消息通信
+
+广播分为两种：
+
+有序广播
+类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传">
+<meta property="og:updated_time" content="2017-02-18T14:14:40.933Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="aricle title">
-<meta name="twitter:description" content="Hello World">
+<meta name="twitter:title" content="Android BroadcastReceiver">
+<meta name="twitter:description" content="[TOC]
+广播的应用场景：
+
+同一app内部的同一组件内的消息通信（单个或多个线程之间）
+同一app内部的不同组件之间的消息通信
+同一app具有多个线程的不同组件之间的消息通信
+不同app之间的组建之间消息通信
+Android系统在特定情况下与App之间的消息通信
+
+广播分为两种：
+
+有序广播
+类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传">
 
 
 
@@ -123,13 +159,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/12/aricle-title/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/"/>
 
 
 
 
 
-  <title> aricle title | Inno's Bolg </title>
+  <title> Android BroadcastReceiver | Inno's Bolg </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -262,7 +298,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/aricle-title/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Inno Fang">
@@ -286,7 +322,7 @@
             
             
               
-                aricle title
+                Android BroadcastReceiver
               
             
           </h1>
@@ -337,7 +373,50 @@
       
 
       
-        <h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2>
+        <p>[TOC]</p>
+<p>广播的应用场景：</p>
+<ul>
+<li>同一app内部的同一组件内的消息通信（单个或多个线程之间）</li>
+<li>同一app内部的不同组件之间的消息通信</li>
+<li>同一app具有多个线程的不同组件之间的消息通信</li>
+<li>不同app之间的组建之间消息通信</li>
+<li>Android系统在特定情况下与App之间的消息通信</li>
+</ul>
+<p>广播分为两种：</p>
+<ul>
+<li>有序广播<ul>
+<li>类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游戏者。若某一个游戏者的花掉了，这就是广播截断，广播就不能继续传下去</li>
+</ul>
+</li>
+<li>无序广播<ul>
+<li>类似于老师宣布下课，学生就是广播接收者，基本都是按照同一时间执行某些操作</li>
+</ul>
+</li>
+</ul>
+<p>广播的使用，需要继承BroadcastReceiver并实现抽象方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcast</span>  <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span></span>&#123;</div><div class="line">        Toast.makeText(context, <span class="string">"收到广播，执行onReceiver()方法"</span>, Toast.LENGTH_LONG).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当BroadcastReceiver作为Android的四大组件之一，在使用时，必须对BroadcastReceiver进行注册<br>注册方式分为两种：</p>
+<ul>
+<li><p>静态注册</p>
+<ul>
+<li><p>类似于Activity，自定义广播接收器之后，在AndroidManifest.xml中注册即为静态注册</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">receiver</span> <span class="attr">android:name</span>=<span class="string">".MyBroadcast"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"io.innofang.broadcastdemo.MYBROADCAST"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reveiver</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>其中action类似于显示广播的频段，当广播发送的时候需要指定后面的字符串。接收器接收的时候，也会根据该处指定的字符串进行过滤</p>
+</li>
+</ul>
+</li>
+<li><p>动态注册</p>
+<ul>
+<li>动态注册，即在java代码中进行注册，也就是程序启动后，执行到注册的代码才会注册成功，并且动态注册的广播需要接触注册<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MY_ACTION = <span class="string">"io.innofang.broadcastdemo.MYBROADCAST"</span>;</div><div class="line">    <span class="keyword">private</span> MyBroadcast mMyBroadcast;</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        <span class="keyword">final</span> Intent intent = <span class="keyword">new</span> Intent(MY_ACTION);</div><div class="line">        <span class="comment">// 初始化广播接收器</span></div><div class="line">        mMyCast = <span class="keyword">new</span> MyBroadcast();</div><div class="line">        <span class="comment">// 初始化过滤器，对应Manifest文件中的receiver的字段</span></div><div class="line">        IntentFilter filter = <span class="keyword">new</span> IntentFilter();</div><div class="line">        <span class="comment">// 在过滤器中添加action</span></div><div class="line">        filter.addAction(MY_ACTION);</div><div class="line">        <span class="comment">// 注册广播接收器</span></div><div class="line">        registerReceiver(mMyCast, filter);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">        <span class="comment">// 在onDestroy中取消注册</span></div><div class="line">        unregisterReceiver(mMyCast);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>动态注册的广播接收者要优先于静态注册的广播接收者</li>
+<li>当程序被销毁掉之后，静态注册的广播接收者任然可以接受到广播，但是动态注册的广播接收者则不可以</li>
+</ul>
+
       
     </div>
 
@@ -358,13 +437,19 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/12/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2017/01/11/Android-ContentProvider/" rel="next" title="Android ContentProvider">
+                <i class="fa fa-chevron-left"></i> Android ContentProvider
               </a>
             
           </div>
@@ -418,17 +503,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://i1.piimg.com/567571/2940be93a688853d.jpg"
@@ -449,6 +525,13 @@
 
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -477,22 +560,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-World"><span class="nav-number">1.</span> <span class="nav-text">Hello World</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>

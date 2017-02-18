@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -86,19 +86,24 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享
+ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据
+ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2017/01/12/hello-world/index.html">
+<meta property="og:title" content="Android ContentProvider">
+<meta property="og:url" content="http://yoursite.com/2017/01/11/Android-ContentProvider/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2017-01-12T03:01:37.786Z">
+<meta property="og:description" content="ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享
+ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据
+ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表">
+<meta property="og:image" content="http://p1.bpimg.com/567571/d23b776cb100e776.png">
+<meta property="og:updated_time" content="2017-02-18T14:14:42.997Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="Android ContentProvider">
+<meta name="twitter:description" content="ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享
+ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据
+ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表">
+<meta name="twitter:image" content="http://p1.bpimg.com/567571/d23b776cb100e776.png">
 
 
 
@@ -126,13 +131,13 @@ Quick">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/12/hello-world/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/11/Android-ContentProvider/"/>
 
 
 
 
 
-  <title> Hello World | Inno's Bolg </title>
+  <title> Android ContentProvider | Inno's Bolg </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -265,7 +270,7 @@ Quick">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/hello-world/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/11/Android-ContentProvider/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Inno Fang">
@@ -289,7 +294,7 @@ Quick">
             
             
               
-                Hello World
+                Android ContentProvider
               
             
           </h1>
@@ -304,8 +309,8 @@ Quick">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-12T11:01:37+08:00">
-                2017-01-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-11T15:36:06+08:00">
+                2017-01-11
               </time>
             
 
@@ -340,15 +345,22 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享</p>
+<p>ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据</p>
+<p>ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表，然后把数据组织成表格</p>
+<p>ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），<br>getType（的到数据类型），onCreate（创建数据时调用的回调函数）</p>
+<p>每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据</p>
+<p>Uri：为系统的每一个资源给其一个名字，它由权限和路径组成，为了避免冲突，权限通常使用应用包名</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 通常使用应用包名为权限</span></div><div class="line"><span class="comment">// 使用Uri.parse方法将字符串解析成Uri对象</span></div><div class="line">Uri uri = Uri.parse(<span class="string">"content://io.innofang.app.provider/table"</span>);</div></pre></td></tr></table></figure>
+<p>Android 所提供的ContentProvider都存放在android.provider包中，将其分为A，B，C，D四个部分，例如:<br><code>content://com.example.transportationprovider/trains/122</code></p>
+<p>A (content://) : 标准前缀，用于说明一个ContentProvider控制这些数据，无法改变的：“content://:”<br>B （com.example.transportationprovider）:URI标识，用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它一般是定义该ContentProvider的包.类的名称<br>C (trains) ： 路径，通俗的讲就是要操作的数据库中表的名字，或者自定义，在使用的时候保持一致<br>D (122)：如果URI中包含表示需要获取的记录的ID，则就返回该id对应的数据，如果没有ID，就表示返回全部</p>
+<p><em><strong>Eg:</strong></em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 数1为管理联系人电话的Uri，后面的条件填写null为查询全部</span></div><div class="line">Cursor cursor = cr.query(</div><div class="line">    ContactsContract.CommonDataKinds.Phone.CONTENT_URI, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line"><span class="comment">// 获得的Cursor对象就可以使用了</span></div></pre></td></tr></table></figure>
+<p>自定义ContentProvider必须在AndroidManifest.xml文件中注册</p>
+<p>如果想访问其他程序共享的数据，需要借助COntentResolver类来实现</p>
+<p>ContentResolver相当于在系统内部的HttpClient，应用该程序使用ContentResolver来操作ContentProvider锁暴露的数据</p>
+<h2 id="获得ContentResolver对象"><a href="#获得ContentResolver对象" class="headerlink" title="获得ContentResolver对象"></a>获得ContentResolver对象</h2><p>ContentResolver cr  = getContentResolver();</p>
+<h2 id="ContentResolver方法"><a href="#ContentResolver方法" class="headerlink" title="ContentResolver方法"></a>ContentResolver方法</h2><p><img src="http://p1.bpimg.com/567571/d23b776cb100e776.png" alt=""></p>
 
       
     </div>
@@ -370,6 +382,12 @@ Quick">
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
@@ -381,8 +399,8 @@ Quick">
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/12/aricle-title/" rel="prev" title="aricle title">
-                aricle title <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/12/Android-BroadcastReceiver/" rel="prev" title="Android BroadcastReceiver">
+                Android BroadcastReceiver <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -462,6 +480,13 @@ Quick">
           
 
           
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
 
         </nav>
 
@@ -499,7 +524,7 @@ Quick">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#获得ContentResolver对象"><span class="nav-number">1.</span> <span class="nav-text">获得ContentResolver对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ContentResolver方法"><span class="nav-number">2.</span> <span class="nav-text">ContentResolver方法</span></a></li></ol></div>
             
 
           </div>
