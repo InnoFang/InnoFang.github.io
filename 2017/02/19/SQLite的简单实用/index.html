@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android, SQLite," />
 
 
 
@@ -86,15 +86,31 @@
 
 
 
-<meta name="description" content="Talk is cheap, show me the code.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Inno's Bolg">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="使用Android自带的API操作数据库创建数据库openOrCreateDatabase(···) 和 databaseList() 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。
+不过，实际开发中，建议总是遵循以下步骤：
+
+确认目标数据库实际存在
+如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据
+如果存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQLite的简单实用">
+<meta property="og:url" content="http://yoursite.com/2017/02/19/SQLite的简单实用/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="Talk is cheap, show me the code.">
+<meta property="og:description" content="使用Android自带的API操作数据库创建数据库openOrCreateDatabase(···) 和 databaseList() 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。
+不过，实际开发中，建议总是遵循以下步骤：
+
+确认目标数据库实际存在
+如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据
+如果存">
+<meta property="og:updated_time" content="2017-02-19T07:38:44.528Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Inno's Bolg">
-<meta name="twitter:description" content="Talk is cheap, show me the code.">
+<meta name="twitter:title" content="SQLite的简单实用">
+<meta name="twitter:description" content="使用Android自带的API操作数据库创建数据库openOrCreateDatabase(···) 和 databaseList() 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。
+不过，实际开发中，建议总是遵循以下步骤：
+
+确认目标数据库实际存在
+如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据
+如果存">
 
 
 
@@ -122,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/19/SQLite的简单实用/"/>
 
 
 
 
 
-  <title> Inno's Bolg </title>
+  <title> SQLite的简单实用 | Inno's Bolg </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -149,9 +165,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -252,9 +266,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -287,10 +301,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/02/19/SQLite的简单实用/" itemprop="url">
-                  SQLite的简单实用
-                </a>
+                SQLite的简单实用
               
             
           </h1>
@@ -363,9 +374,7 @@
       
 
       
-        
-          
-            <h1 id="使用Android自带的API操作数据库"><a href="#使用Android自带的API操作数据库" class="headerlink" title="使用Android自带的API操作数据库"></a>使用Android自带的API操作数据库</h1><h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><p><code>openOrCreateDatabase(···)</code> 和 <code>databaseList()</code> 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。</p>
+        <h1 id="使用Android自带的API操作数据库"><a href="#使用Android自带的API操作数据库" class="headerlink" title="使用Android自带的API操作数据库"></a>使用Android自带的API操作数据库</h1><h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><p><code>openOrCreateDatabase(···)</code> 和 <code>databaseList()</code> 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。</p>
 <p>不过，实际开发中，建议总是遵循以下步骤：</p>
 <ul>
 <li>确认目标数据库实际存在</li>
@@ -487,551 +496,62 @@
 <h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">delete from 表名 where 删除条件</div><div class="line">delete from person where _id=2</div></pre></td></tr></table></figure>
 <h3 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">select 字段名 from 表名 where 查询条件 group by 分组字段 having 筛选条件 order by 排序字段</div><div class="line">select * from person                        // 查询表中所有数据</div><div class="line">select _id,name from person                 // 查询person表中的id,name字段</div><div class="line">select * from person where _id=1            // 查询person表，id为1的情况</div><div class="line">select * from person where _id&lt;&gt;1           // 查询person表，id不为1的情况</div><div class="line">select * from person where _id=1 and age&gt;18 // 查询person表，id为1和age大于18的情况</div><div class="line">select * from person where name like &quot;%小%&quot; // 模糊查询name这个字段中，中间包含“小”(前后可以有任意长的字符)的情况</div><div class="line">select * from person where name like &quot;_小%&quot; // 模糊查询name这个字段中，一个字符之后是“小”(后面可以有任意长的字符)的情况</div><div class="line">select * from person where name is null     // 查询名字为空的情况</div><div class="line">select * from person where age between 10 and 20 // 年龄在10到20之间的情况</div><div class="line">select * from person where age&gt;18 orderby _id // 年龄大于18并根据id进行排序的情况</div></pre></td></tr></table></figure>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/设计模式-一-：单例模式/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Inno Fang">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Inno's Bolg">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/18/设计模式-一-：单例模式/" itemprop="url">
-                  设计模式(一)：单例模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-18T22:20:09+08:00">
-                2017-02-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/Android-SQLite/" rel="tag"># Android, SQLite</a>
           
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h1 id="Singleton-单例模式"><a href="#Singleton-单例模式" class="headerlink" title="Singleton (单例模式)"></a>Singleton (单例模式)</h1><blockquote>
-<p>确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个</p>
-</blockquote>
-<h2 id="实现单例模式的几个注意点："><a href="#实现单例模式的几个注意点：" class="headerlink" title="实现单例模式的几个注意点："></a>实现单例模式的几个注意点：</h2><ol>
-<li>构造函数不对外开放，一般设为private</li>
-<li>通过一个静态方法或者枚举返回一个单例类对象</li>
-<li>确保单例类的对象有且只有一个，尤其是在多线程环境下</li>
-<li><p>确保单例类对象在反序列化时不会重新构建对象</p>
-<h2 id="实现方式汇总"><a href="#实现方式汇总" class="headerlink" title="实现方式汇总"></a>实现方式汇总</h2><h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            instance = <span class="keyword">new</span> Singleton();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>优点：</strong> 只有在使用时才会实例化，在一定程度上节约资源</p>
-<p><strong>缺点：</strong> 第一次加载时需要及时进行实例化，反应稍慢</p>
-<p>有的时候为了线程同步也会为<code>getInstance()</code>添加<code>synchronized</code>关键字</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            instance = <span class="keyword">new</span> Singleton();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>优点：</strong> 在多线程的情况下保证单例对象唯一性的手段</p>
-<p><strong>缺点：</strong> 每次调用<code>getInstance()</code>方法都进行同步，造成不必要的开销</p>
-<h3 id="Double-Cheack-Lock-DCL-实现单例"><a href="#Double-Cheack-Lock-DCL-实现单例" class="headerlink" title="Double Cheack Lock (DCL) 实现单例"></a>Double Cheack Lock (DCL) 实现单例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">                    instance = <span class="keyword">new</span> Singleton();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;  </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>优点：</strong> 既能够在需要时才初始化单例，又能够保证线程安全，且单例对象初始化后调用<code>getInstance()</code>不进行同步锁，资源利用率高</p>
-<p><strong>缺点：</strong> 第一次加载时反应稍慢，也由于Java内存模型的原因偶尔会失败，在高并发情况下可能出现DCL失效问题，虽然概率很小</p>
-<p><strong>总结：</strong> 能够在绝大多数场景下保证单例对象的唯一性，除非你的代码在并发场景比较复杂，或低于JDK 6版本下使用，否则，这种方式一般能够满足需求</p>
-<h3 id="静态内部类单例模式"><a href="#静态内部类单例模式" class="headerlink" title="静态内部类单例模式"></a>静态内部类单例模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> SingletonHolder.sInstance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton sInstance = <span class="keyword">new</span> Singleton();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>由于在DCL在高并发的情况下，可能出现DCL失效问题，所以这里<strong>更建议采用这种创建单例类的方式</strong>，原因如下：<br>当第一次加载Singleton类时并不会初始化<code>sInstance</code>，只有在第一次调用Singleton的<code>getInstance()</code>方法时才会导致<code>sInstance</code>初始化，第一次调用时<br>会导致虚拟机加载SingletonHolder类，这种方式技能保证线程安全，也能保证单例对象的唯一性，同时也延迟了单例的实例化。</p>
-<h3 id="枚举单例"><a href="#枚举单例" class="headerlink" title="枚举单例"></a>枚举单例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SingletonEnum &#123;</div><div class="line">    INSTANCE;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种方式写法简单，并且默认枚举实例的创建是线程安全的</p>
-<h3 id="使用容器实现单例模式"><a href="#使用容器实现单例模式" class="headerlink" title="使用容器实现单例模式"></a>使用容器实现单例模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonManager</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Object&gt; objectMap = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingletonManager</span><span class="params">()</span> </span>&#123;&#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">registerService</span><span class="params">(String key, Object instance)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!objectMap.containsKey(key)) &#123;</div><div class="line">            objectMap.put(key, instance);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getService</span><span class="params">(String key)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> objectMap.get(key);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>将多种单例类型注入到一个统一的管理类中，在使用时根据key获取对象对应类型的对象。</p>
-<p>利用这种方式有以下几个优势：</p>
-<ul>
-<li>可以管理多种类型的单例</li>
-<li>并且在使用可以通过统一的接口进行获取操作，降低用户成本</li>
-<li>对用户隐藏了具体实现，降低了耦合度</li>
-</ul>
-<hr>
-<p>无论采用哪种方式，都应该根据项目本身来决定</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Inno Fang">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Inno's Bolg">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/02/18/设计模式-一-：单例模式/" rel="next" title="设计模式(一)：单例模式">
+                <i class="fa fa-chevron-left"></i> 设计模式(一)：单例模式
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2017/01/12/Android-BroadcastReceiver/" itemprop="url">
-                  Android BroadcastReceiver
-                </a>
-              
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-12T11:14:49+08:00">
-                2017-01-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>广播的应用场景：</p>
-<ul>
-<li>同一app内部的同一组件内的消息通信（单个或多个线程之间）</li>
-<li>同一app内部的不同组件之间的消息通信</li>
-<li>同一app具有多个线程的不同组件之间的消息通信</li>
-<li>不同app之间的组建之间消息通信</li>
-<li>Android系统在特定情况下与App之间的消息通信</li>
-</ul>
-<p>广播分为两种：</p>
-<ul>
-<li>有序广播<ul>
-<li>类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游戏者。若某一个游戏者的花掉了，这就是广播截断，广播就不能继续传下去</li>
-</ul>
-</li>
-<li>无序广播<ul>
-<li>类似于老师宣布下课，学生就是广播接收者，基本都是按照同一时间执行某些操作</li>
-</ul>
-</li>
-</ul>
-<p>广播的使用，需要继承BroadcastReceiver并实现抽象方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcast</span>  <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span></span>&#123;</div><div class="line">        Toast.makeText(context, <span class="string">"收到广播，执行onReceiver()方法"</span>, Toast.LENGTH_LONG).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>当BroadcastReceiver作为Android的四大组件之一，在使用时，必须对BroadcastReceiver进行注册<br>注册方式分为两种：</p>
-<ul>
-<li><p>静态注册</p>
-<ul>
-<li><p>类似于Activity，自定义广播接收器之后，在AndroidManifest.xml中注册即为静态注册</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">receiver</span> <span class="attr">android:name</span>=<span class="string">".MyBroadcast"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"io.innofang.broadcastdemo.MYBROADCAST"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">reveiver</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>其中action类似于显示广播的频段，当广播发送的时候需要指定后面的字符串。接收器接收的时候，也会根据该处指定的字符串进行过滤</p>
-</li>
-</ul>
-</li>
-<li><p>动态注册</p>
-<ul>
-<li>动态注册，即在java代码中进行注册，也就是程序启动后，执行到注册的代码才会注册成功，并且动态注册的广播需要接触注册<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MY_ACTION = <span class="string">"io.innofang.broadcastdemo.MYBROADCAST"</span>;</div><div class="line">    <span class="keyword">private</span> MyBroadcast mMyBroadcast;</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        <span class="keyword">final</span> Intent intent = <span class="keyword">new</span> Intent(MY_ACTION);</div><div class="line">        <span class="comment">// 初始化广播接收器</span></div><div class="line">        mMyCast = <span class="keyword">new</span> MyBroadcast();</div><div class="line">        <span class="comment">// 初始化过滤器，对应Manifest文件中的receiver的字段</span></div><div class="line">        IntentFilter filter = <span class="keyword">new</span> IntentFilter();</div><div class="line">        <span class="comment">// 在过滤器中添加action</span></div><div class="line">        filter.addAction(MY_ACTION);</div><div class="line">        <span class="comment">// 注册广播接收器</span></div><div class="line">        registerReceiver(mMyCast, filter);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">        <span class="comment">// 在onDestroy中取消注册</span></div><div class="line">        unregisterReceiver(mMyCast);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<p>区别：</p>
-<ul>
-<li>动态注册的广播接收者要优先于静态注册的广播接收者</li>
-<li>当程序被销毁掉之后，静态注册的广播接收者任然可以接受到广播，但是动态注册的广播接收者则不可以</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/11/Android-ContentProvider/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Inno Fang">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Inno's Bolg">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/11/Android-ContentProvider/" itemprop="url">
-                  Android ContentProvider
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-11T15:36:06+08:00">
-                2017-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享</p>
-<p>ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据</p>
-<p>ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表，然后把数据组织成表格</p>
-<p>ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），<br>getType（的到数据类型），onCreate（创建数据时调用的回调函数）</p>
-<p>每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据</p>
-<p>Uri：为系统的每一个资源给其一个名字，它由权限和路径组成，为了避免冲突，权限通常使用应用包名</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 通常使用应用包名为权限</span></div><div class="line"><span class="comment">// 使用Uri.parse方法将字符串解析成Uri对象</span></div><div class="line">Uri uri = Uri.parse(<span class="string">"content://io.innofang.app.provider/table"</span>);</div></pre></td></tr></table></figure>
-<p>Android 所提供的ContentProvider都存放在android.provider包中，将其分为A，B，C，D四个部分，例如:<br><code>content://com.example.transportationprovider/trains/122</code></p>
-<p>A (content://) : 标准前缀，用于说明一个ContentProvider控制这些数据，无法改变的：“content://:”<br>B （com.example.transportationprovider）:URI标识，用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它一般是定义该ContentProvider的包.类的名称<br>C (trains) ： 路径，通俗的讲就是要操作的数据库中表的名字，或者自定义，在使用的时候保持一致<br>D (122)：如果URI中包含表示需要获取的记录的ID，则就返回该id对应的数据，如果没有ID，就表示返回全部</p>
-<p><em><strong>Eg:</strong></em></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 数1为管理联系人电话的Uri，后面的条件填写null为查询全部</span></div><div class="line">Cursor cursor = cr.query(</div><div class="line">    ContactsContract.CommonDataKinds.Phone.CONTENT_URI, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line"><span class="comment">// 获得的Cursor对象就可以使用了</span></div></pre></td></tr></table></figure>
-<p>自定义ContentProvider必须在AndroidManifest.xml文件中注册</p>
-<p>如果想访问其他程序共享的数据，需要借助COntentResolver类来实现</p>
-<p>ContentResolver相当于在系统内部的HttpClient，应用该程序使用ContentResolver来操作ContentProvider锁暴露的数据</p>
-<h2 id="获得ContentResolver对象"><a href="#获得ContentResolver对象" class="headerlink" title="获得ContentResolver对象"></a>获得ContentResolver对象</h2><p>ContentResolver cr  = getContentResolver();</p>
-<h2 id="ContentResolver方法"><a href="#ContentResolver方法" class="headerlink" title="ContentResolver方法"></a>ContentResolver方法</h2><p><img src="http://p1.bpimg.com/567571/d23b776cb100e776.png" alt=""></p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
           
           </div>
@@ -1039,6 +559,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -1058,8 +582,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://i1.piimg.com/567571/2940be93a688853d.jpg"
@@ -1122,6 +655,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Android自带的API操作数据库"><span class="nav-number">1.</span> <span class="nav-text">使用Android自带的API操作数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建数据库"><span class="nav-number">1.1.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sqlite-数据库数据类型"><span class="nav-number">1.2.</span> <span class="nav-text">sqlite 数据库数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQLite数据库的-“增”-“删”-“改”-“查”"><span class="nav-number">1.3.</span> <span class="nav-text">SQLite数据库的 “增” “删” “改” “查”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#“增”-——-添加数据"><span class="nav-number">1.3.1.</span> <span class="nav-text">“增” —— 添加数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“删”-——-删除数据"><span class="nav-number">1.3.2.</span> <span class="nav-text">“删” —— 删除数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“查”-——-查找数据"><span class="nav-number">1.3.3.</span> <span class="nav-text">“查” —— 查找数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用原生SQLite语句操作数据库"><span class="nav-number">2.</span> <span class="nav-text">使用原生SQLite语句操作数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建表"><span class="nav-number">2.0.1.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除表"><span class="nav-number">2.0.2.</span> <span class="nav-text">删除表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入表"><span class="nav-number">2.0.3.</span> <span class="nav-text">插入表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改数据"><span class="nav-number">2.0.4.</span> <span class="nav-text">修改数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除数据"><span class="nav-number">2.0.5.</span> <span class="nav-text">删除数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询语句"><span class="nav-number">2.0.6.</span> <span class="nav-text">查询语句</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -1228,6 +777,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -1259,6 +812,10 @@
 
   
 
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
   
 
 

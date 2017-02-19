@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-18T14:22:11.654Z</updated>
+  <updated>2017-02-19T07:38:44.528Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,154 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>SQLite的简单实用</title>
+    <link href="http://yoursite.com/2017/02/19/SQLite%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8/"/>
+    <id>http://yoursite.com/2017/02/19/SQLite的简单实用/</id>
+    <published>2017-02-19T07:16:14.000Z</published>
+    <updated>2017-02-19T07:38:44.528Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="使用Android自带的API操作数据库"><a href="#使用Android自带的API操作数据库" class="headerlink" title="使用Android自带的API操作数据库"></a>使用Android自带的API操作数据库</h1><h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><p><code>openOrCreateDatabase(···)</code> 和 <code>databaseList()</code> 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。</p>
+<p>不过，实际开发中，建议总是遵循以下步骤：</p>
+<ul>
+<li>确认目标数据库实际存在</li>
+<li>如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据</li>
+<li>如果存在，打开并确认数据是否为最新版本</li>
+<li>如果是旧版本，就运行相关代码升级到最新版本</li>
+</ul>
+<p>Android为我们提供的SQLiteOpenHelper类可以帮我们处理这些。首先 SQLiteOpenHelper 类是抽象类，有两个抽象方法 <code>onCreate()</code> 和 <code>onUpgrade()</code>，我们需要重写这两个方法并且分别在这两个方法中去实现创建和升级数据库的逻辑。</p>
+<p>SQLiteOpenHelper 中有两个构造方法可供重写，一般使用参数少一点的那个构造方法即可。这个构造方法接收四个参数：</p>
+<ul>
+<li>第一个参数是 Context，有它才能对数据库进行操作。</li>
+<li>第二个参数是数据库名，创建数据库时使用的就是这里指定的名称。</li>
+<li>第三个参数允许我们在查询数据的时候返回一个自定义的Cursor，一般都是传入null</li>
+<li>第四个参数表示当前数据库的版本号，可用于对数据库进行升级操作</li>
+</ul>
+<p>SQLiteOpenHelper 中还有两个非常重要的实例方法， <code>getReadableDatabase()</code> 和 <code>getWritableDatabase()</code>。这两个方法都乐意创建或打开一个现有的数据库（如果数据库已存在就打开，否则创建一个新的数据库），并且返回一个可对数据库进行读写操作的对象。不同的是，当数据库不可写入的时候（如果磁盘空间已满）<code>getReadableDatabase()</code> 方法返回的对象将以只读方式去打开数据库，而<code>getWritableDatabase()</code>方法则会抛出异常。</p>
+<p>如果我们想创建一个名为 Student.db 的数据库，然后在这个数据库中新建一张Student表，表中有 学号(主键)，名字，性别等列。</p>
+<p>  <em><strong>Eg:</strong></em><br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">create table Bool(</div><div class="line">  id integer primary key autoincrement,</div><div class="line">  name text,</div><div class="line">  gender text</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>  在建表语句中使用了 primary key 将 id 列设为主键，并用autoincrement 关键字表示 id 列是自增长。</p>
+<h2 id="sqlite-数据库数据类型"><a href="#sqlite-数据库数据类型" class="headerlink" title="sqlite 数据库数据类型"></a>sqlite 数据库数据类型</h2><ul>
+<li>Integer</li>
+<li>varchar(10)</li>
+<li>flaot</li>
+<li>double</li>
+<li>char(10)</li>
+<li>text</li>
+</ul>
+<p>又因为SQLite允许存入数据时忽略底层数据列实际的数据类型，因此在编写建表语句时可以省略数据列后面的类型声明，所以下面的写法也是对的，</p>
+<p><em><strong>Eg:</strong></em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">create table Bool(</div><div class="line">  id integer primary key autoincrement,</div><div class="line">  name,</div><div class="line">  gender</div><div class="line">  )</div></pre></td></tr></table></figure></p>
+<p>所以，我们创建一个 MyDatebaseHelper 类，继承自 SQLiteOpenHelper ，并实现它的两个抽象方法，及一个构造方法，完成建表与执行SQL语句。</p>
+<p><em><strong>Eg:</strong></em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDatebaseHelper</span> <span class="keyword">extends</span> <span class="title">SQLiteOpenHelper</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CREAT_STUDENT = <span class="string">"create table Bool("</span> +</div><div class="line">      <span class="string">"id integer primary key autoincrement, "</span> +</div><div class="line">      <span class="string">"name, "</span> +</div><div class="line">      <span class="string">"gender "</span> +</div><div class="line">      <span class="string">")"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CrimeBaseHelper</span><span class="params">(Context context, String name, SQLiteDatabase.CursorFactory factory, <span class="keyword">int</span> version)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context, name, factory, version);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(SQLiteDatabase db)</span> </span>&#123;</div><div class="line">        db.exec(CREAT_STUDENT);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="SQLite数据库的-“增”-“删”-“改”-“查”"><a href="#SQLite数据库的-“增”-“删”-“改”-“查”" class="headerlink" title="SQLite数据库的 “增” “删” “改” “查”"></a>SQLite数据库的 “增” “删” “改” “查”</h2><h3 id="“增”-——-添加数据"><a href="#“增”-——-添加数据" class="headerlink" title="“增” —— 添加数据"></a>“增” —— 添加数据</h3><pre><code>public long insert(String table, String nullColumnHack, ContentValues values)
+</code></pre><p>该方法接收三个参数：</p>
+<ul>
+<li>第一个参数是表名</li>
+<li>第二个参数用于在未指定添加数据的情况下给某些可为空的列自赋值null，一般直接传入null即可</li>
+<li>第三个参数是一个 ContentValues 对象，它提供了一系列的 put() 方法重载，用于向 ContentValues 中添加数据，只需要将表中的每个列名以及相应的待添加数据传入即可。</li>
+</ul>
+<p><em><strong>Eg:</strong></em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> MyDatebaseHelper dbHelper;</div><div class="line"><span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">      <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">      setContentView(R.layout.activity_fragment);</div><div class="line">      dbHelper = <span class="keyword">new</span> MyDatebaseHelper(<span class="keyword">this</span>, <span class="string">"Student.db"</span>, <span class="keyword">null</span>, <span class="number">1</span>);</div><div class="line">      ···</div><div class="line">      <span class="comment">//  点击按钮添加数据</span></div><div class="line">        onClick(View v)&#123;</div><div class="line">          SQLiteDatabase db = dbHelper.getWritableDatabase();</div><div class="line">          ContentValues values = <span class="keyword">new</span> ContentValues();</div><div class="line">          <span class="comment">//  开始组装第一组数据</span></div><div class="line">          values.put(<span class="string">"id"</span>, <span class="string">"001"</span>);</div><div class="line">          values.put(<span class="string">"name"</span>, <span class="string">"Jacob"</span>);</div><div class="line">          values.put(<span class="string">"gender"</span>, <span class="string">"male"</span>);</div><div class="line">          db.insert(<span class="string">"Student"</span>, <span class="keyword">null</span>, values);  <span class="comment">//  插入第一条数据</span></div><div class="line">          values.clear();  <span class="comment">//  若想在下面继续添加数据，这一定要调用该方法</span></div><div class="line">          <span class="comment">//  开始组装第二组数据</span></div><div class="line">          values.put(<span class="string">"id"</span>, <span class="string">"002"</span>);</div><div class="line">          values.put(<span class="string">"name"</span>, <span class="string">"Jane"</span>);</div><div class="line">          values.put(<span class="string">"gender"</span>, <span class="string">"female"</span>);</div><div class="line">          db.insert(<span class="string">"Student"</span>, <span class="keyword">null</span>, values);  <span class="comment">//  插入第二条数据</span></div><div class="line">        &#125;</div><div class="line">      ···</div></pre></td></tr></table></figure>
+<h3 id="“删”-——-删除数据"><a href="#“删”-——-删除数据" class="headerlink" title="“删” —— 删除数据"></a>“删” —— 删除数据</h3><pre><code>public int delete(String table, String whereClause, String[] whereArgs)
+</code></pre><p>该方法接收三个参数：</p>
+<ul>
+<li>第一个参数是表名</li>
+<li>第二，三个参数 用于约束删除某一行或某几行的数据，不指定的话默认就是删除所有行，在第二个参数中我们可以使用占位符 “?”</li>
+</ul>
+<p><em><strong>Eg:</strong></em> （以 <em>Student.db</em> 为例）</p>
+<blockquote>
+<p>删除 “name” 为 “Jacob” 的数据</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.dele(<span class="string">"Student"</span>, <span class="string">"name like ?"</span>, <span class="keyword">new</span> String[]&#123;<span class="string">"Jacob"</span>&#125;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>删除所有 “name” 以 “J” 开头的数据</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.dele(<span class="string">"Student"</span>, <span class="string">"name like ?"</span>, <span class="keyword">new</span> String[]&#123;<span class="string">"J_"</span>&#125;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>删除所有 “id” 为 “002” 的数据</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">  db.dele("Student", "id = ?", new String[]&#123;"002"&#125;);</div><div class="line">```    </div><div class="line"></div><div class="line">&gt; 删除所有 "id" 大于 "001" 的数据</div><div class="line"></div><div class="line">```java</div><div class="line">  db.dele("Student", "id &gt; ?", new String[]&#123;"001"&#125;);</div><div class="line">```   </div><div class="line"></div><div class="line">### “改” —— 更新数据</div><div class="line"></div><div class="line">    public int update(String table, ContentValues values, String whereClause, String[] whereArgs)</div><div class="line"></div><div class="line"></div><div class="line">该方法接收四个参数：</div><div class="line">  + 第一个参数是表名</div><div class="line">  + 第二个参数是 ContentValues 对象，要把更新数据在这里组装进去</div><div class="line">  + 第三，四个参数 用于约束更新某一行或某几行的数据，不指定的话默认就是更新所有行，在第二个参数中我们可以使用占位符 “?”</div><div class="line"></div><div class="line">_**Eg:**_</div><div class="line">```java</div><div class="line">    private MyDatebaseHelper dbHelper;</div><div class="line">    @Override</div><div class="line">      protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">          super.onCreate(savedInstanceState);</div><div class="line">          setContentView(R.layout.activity_fragment);</div><div class="line">          dbHelper = new MyDatebaseHelper(this, "Student.db", null, 1);</div><div class="line">          ···</div><div class="line">          //  点击按钮更新数据，将 "id" 为 "002" 的数据的 "name" 改为 "Mary"</div><div class="line">            onClick(View v)&#123;</div><div class="line">              SQLiteDatabase db = dbHelper.getWritableDatabase();</div><div class="line">              ContentValues values = new ContentValues();</div><div class="line">              values.put("name", "Mary");</div><div class="line">              db.insert("Student", values, "id = ?", new String[]&#123;"002"&#125;);</div><div class="line">            &#125;</div><div class="line">          ···</div></pre></td></tr></table></figure>
+<h3 id="“查”-——-查找数据"><a href="#“查”-——-查找数据" class="headerlink" title="“查” —— 查找数据"></a>“查” —— 查找数据</h3><p>SQLite的查询方法有很多，而且参数都很多，这里我们讲一个参数最少却常用的</p>
+<pre><code>public Cursor query(String table, String[] columns, String selection,
+    String[] selectionArgs, String groupBy, String having,
+    String orderBy)
+</code></pre><table>
+<thead>
+<tr>
+<th>query() 方法参数</th>
+<th>对应 SQL 部分</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>table</td>
+<td>from table_name</td>
+<td>指定查询的表明</td>
+</tr>
+<tr>
+<td>columns</td>
+<td>select column1,column2</td>
+<td>指定查询的列名</td>
+</tr>
+<tr>
+<td>selection</td>
+<td>where column = value</td>
+<td>指定 where 的约束条件</td>
+</tr>
+<tr>
+<td>selectionArgs</td>
+<td>-</td>
+<td>为 where 中的占位符提供具体的值</td>
+</tr>
+<tr>
+<td>groupBy</td>
+<td>group by column</td>
+<td>指定需要 group by 的列</td>
+</tr>
+<tr>
+<td>having</td>
+<td>having column = value</td>
+<td>对 group by 后的结果进一步约束</td>
+</tr>
+<tr>
+<td>orderBy</td>
+<td>order by column1,column2</td>
+<td>指定查询结果的排序方式</td>
+</tr>
+</tbody>
+</table>
+<p>如果我们想查询数据库的全部数据，只需要传入表名即可；如果我们想查询单个数据，传入表名后，再在第三，四个参数上指定约束条件即可，也就是说我们没必要指定所有的参数</p>
+<p><em><strong>Eg:</strong></em><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">private MyDatebaseHelper dbHelper;</div><div class="line">@Override</div><div class="line">  protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">      super.onCreate(savedInstanceState);</div><div class="line">      setContentView(R.layout.activity_fragment);</div><div class="line">      dbHelper = new MyDatebaseHelper(this, "Student.db", null, 1);</div><div class="line">      ···</div><div class="line">      //  点击按钮更新数据，将 "id" 为 "002" 的数据的 "name" 改为 "Mary"</div><div class="line">        onClick(View v)&#123;</div><div class="line">          SQLiteDatabase db = dbHelper.getWritableDatabase();</div><div class="line">          Cursor cursor = db.query("Student</div><div class="line">                  null,  //  Columns - null selects all columns</div><div class="line">                  "id = ?",</div><div class="line">                  new String[]&#123;"002"&#125;,</div><div class="line">                  null,  //  groupBy</div><div class="line">                  null,  //  having</div><div class="line">                  null   //  orderBy</div><div class="line">          );</div><div class="line">          cursor.moveToFirst();</div><div class="line">          String id = getString(getColumnIndex("id"));</div><div class="line">          String name = getString(getColumnIndex("name"));</div><div class="line">          String gender = getString(getColumnIndex("gender"));</div><div class="line">          Log.d("MainActivity", "Student's id is " + id);</div><div class="line">          Log.d("MainActivity", "Student's name is " + name);</div><div class="line">          Log.d("MainActivity", "Student's gender is " + gender);</div><div class="line">          cursor.close();</div><div class="line">        &#125;</div><div class="line">      ···</div></pre></td></tr></table></figure></p>
+<hr>
+<p>那么简单的API操作讲了，还是讲一下如何用原生SQLite语句来操作吧</p>
+<h1 id="使用原生SQLite语句操作数据库"><a href="#使用原生SQLite语句操作数据库" class="headerlink" title="使用原生SQLite语句操作数据库"></a>使用原生SQLite语句操作数据库</h1><h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">create table 表名(字段名称 数据类型 约束， 字段名称 数据类型 约束 ... ... )</div><div class="line">create table person(_id Integer primary key, name varchar(10), age Integer not null)</div></pre></td></tr></table></figure>
+<h3 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">drop table 表名</div><div class="line">drop table person</div></pre></td></tr></table></figure>
+<h3 id="插入表"><a href="#插入表" class="headerlink" title="插入表"></a>插入表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">insert into 表名[字段, 字段] values&#123;值1, 值2 ... ...&#125;</div><div class="line">insert into person&#123;_id, age&#125; values(1, 20)  // value在插入时必须与前面的字段相对应</div><div class="line">insert into person values(2, &quot;zs&quot;, 30)       // 若没指定字段，则默认从第一个字段开始</div></pre></td></tr></table></figure>
+<h3 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">update 表名 set 字段 = 新值 where 修改的条件</div><div class="line">update person set name=&quot;ls&quot;,age=20 where _id=1</div></pre></td></tr></table></figure>
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">delete from 表名 where 删除条件</div><div class="line">delete from person where _id=2</div></pre></td></tr></table></figure>
+<h3 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">select 字段名 from 表名 where 查询条件 group by 分组字段 having 筛选条件 order by 排序字段</div><div class="line">select * from person                        // 查询表中所有数据</div><div class="line">select _id,name from person                 // 查询person表中的id,name字段</div><div class="line">select * from person where _id=1            // 查询person表，id为1的情况</div><div class="line">select * from person where _id&lt;&gt;1           // 查询person表，id不为1的情况</div><div class="line">select * from person where _id=1 and age&gt;18 // 查询person表，id为1和age大于18的情况</div><div class="line">select * from person where name like &quot;%小%&quot; // 模糊查询name这个字段中，中间包含“小”(前后可以有任意长的字符)的情况</div><div class="line">select * from person where name like &quot;_小%&quot; // 模糊查询name这个字段中，一个字符之后是“小”(后面可以有任意长的字符)的情况</div><div class="line">select * from person where name is null     // 查询名字为空的情况</div><div class="line">select * from person where age between 10 and 20 // 年龄在10到20之间的情况</div><div class="line">select * from person where age&gt;18 orderby _id // 年龄大于18并根据id进行排序的情况</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;使用Android自带的API操作数据库&quot;&gt;&lt;a href=&quot;#使用Android自带的API操作数据库&quot; class=&quot;headerlink&quot; title=&quot;使用Android自带的API操作数据库&quot;&gt;&lt;/a&gt;使用Android自带的API操作数据库&lt;/h1&gt;&lt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+    
+    
+      <category term="Android, SQLite" scheme="http://yoursite.com/tags/Android-SQLite/"/>
+    
+  </entry>
+  
+  <entry>
     <title>设计模式(一)：单例模式</title>
     <link href="http://yoursite.com/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/18/设计模式-一-：单例模式/</id>
     <published>2017-02-18T14:20:09.000Z</published>
-    <updated>2017-02-18T14:22:11.654Z</updated>
+    <updated>2017-02-19T07:38:47.027Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Singleton-单例模式"><a href="#Singleton-单例模式" class="headerlink" title="Singleton (单例模式)"></a>Singleton (单例模式)</h1><blockquote>
 <p>确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个</p>
@@ -67,6 +210,8 @@
     
     </summary>
     
+      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
     
       <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
@@ -77,10 +222,9 @@
     <link href="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/"/>
     <id>http://yoursite.com/2017/01/12/Android-BroadcastReceiver/</id>
     <published>2017-01-12T03:14:49.000Z</published>
-    <updated>2017-02-18T14:14:40.933Z</updated>
+    <updated>2017-02-19T07:38:46.507Z</updated>
     
-    <content type="html"><![CDATA[<p>[TOC]</p>
-<p>广播的应用场景：</p>
+    <content type="html"><![CDATA[<p>广播的应用场景：</p>
 <ul>
 <li>同一app内部的同一组件内的消息通信（单个或多个线程之间）</li>
 <li>同一app内部的不同组件之间的消息通信</li>
@@ -126,15 +270,16 @@
     
     <summary type="html">
     
-      &lt;p&gt;[TOC]&lt;/p&gt;
-&lt;p&gt;广播的应用场景：&lt;/p&gt;
+      &lt;p&gt;广播的应用场景：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;同一app内部的同一组件内的消息通信（单个或多个线程之间）&lt;/li&gt;
 &lt;li&gt;同一app内部的不同组件之间的消息通信&lt;/li&gt;
 &lt;li&gt;同一app具有多个线程的不同组件之间的消息通信&lt;/li&gt;
-&lt;li&gt;不
+&lt;li&gt;不同app之间的组建之间消息
     
     </summary>
+    
+      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
     
     
       <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
@@ -146,7 +291,7 @@
     <link href="http://yoursite.com/2017/01/11/Android-ContentProvider/"/>
     <id>http://yoursite.com/2017/01/11/Android-ContentProvider/</id>
     <published>2017-01-11T07:36:06.000Z</published>
-    <updated>2017-02-18T14:14:42.997Z</updated>
+    <updated>2017-02-19T07:38:45.741Z</updated>
     
     <content type="html"><![CDATA[<p>ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享</p>
 <p>ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据</p>
@@ -172,6 +317,8 @@
 &lt;p&gt;ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去
     
     </summary>
+    
+      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
     
     
       <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
