@@ -86,7 +86,7 @@
     <link href="http://yoursite.com/2017/02/19/SQLite%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8/"/>
     <id>http://yoursite.com/2017/02/19/SQLite的简单实用/</id>
     <published>2017-02-19T07:16:14.000Z</published>
-    <updated>2017-02-19T07:40:25.326Z</updated>
+    <updated>2017-02-21T07:16:56.680Z</updated>
     
     <content type="html"><![CDATA[<h1 id="使用Android自带的API操作数据库"><a href="#使用Android自带的API操作数据库" class="headerlink" title="使用Android自带的API操作数据库"></a>使用Android自带的API操作数据库</h1><h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><p><code>openOrCreateDatabase(···)</code> 和 <code>databaseList()</code> 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。</p>
 <p>不过，实际开发中，建议总是遵循以下步骤：</p>
@@ -221,6 +221,8 @@
     
     
       <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+      <category term="SQLite" scheme="http://yoursite.com/tags/SQLite/"/>
     
   </entry>
   
