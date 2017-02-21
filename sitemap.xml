@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
+
   <url>
     <loc>http://innofang.github.io/2017/02/21/%E6%8C%87%E9%92%88,%E6%95%B0%E7%BB%84,%E5%87%BD%E6%95%B0%E9%82%A3%E4%BA%9B%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%A6%82%E5%BF%B5/</loc>
-    
+
     <lastmod>2017-02-21T07:29:30.102Z</lastmod>
-    
+
   </url>
-  
+
   <url>
-    <loc>http://yoursite.com/2017/02/19/SQLite%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8/</loc>
-    
+    <loc>http://innofang.github.io/2017/02/19/SQLite%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8/</loc>
+
     <lastmod>2017-02-21T07:16:56.680Z</lastmod>
-    
+
   </url>
-  
+
   <url>
-    <loc>http://yoursite.com/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</loc>
-    
+    <loc>http://innofang.github.io/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</loc>
+
     <lastmod>2017-02-21T07:09:04.519Z</lastmod>
-    
+
   </url>
-  
+
   <url>
-    <loc>http://yoursite.com/2017/01/12/Android-BroadcastReceiver/</loc>
-    
+    <loc>http://innofang.github.io/2017/01/12/Android-BroadcastReceiver/</loc>
+
     <lastmod>2017-02-21T07:09:01.440Z</lastmod>
-    
+
   </url>
-  
+
   <url>
-    <loc>http://yoursite.com/2017/01/11/Android-ContentProvider/</loc>
-    
+    <loc>http://innofang.github.io/2017/01/11/Android-ContentProvider/</loc>
+
     <lastmod>2017-02-21T07:08:59.197Z</lastmod>
-    
+
   </url>
-  
+
   <url>
-    <loc>http://yoursite.com/tags/index.html</loc>
-    
+    <loc>http://innofang.github.io/tags/index.html</loc>
+
     <lastmod>2017-01-12T06:19:02.631Z</lastmod>
-    
+
   </url>
-  
+
   <url>
-    <loc>http://yoursite.com/categories/index.html</loc>
-    
+    <loc>http://innofang.github.io/categories/index.html</loc>
+
     <lastmod>2017-01-12T06:18:55.449Z</lastmod>
-    
+
   </url>
-  
+
   <url>
-    <loc>http://yoursite.com/about/index.html</loc>
-    
+    <loc>http://innofang.github.io/about/index.html</loc>
+
     <lastmod>2017-01-12T06:18:46.516Z</lastmod>
-    
+
   </url>
-  
+
 </urlset>
