@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-21T07:28:41.339Z</updated>
+  <updated>2017-02-21T07:29:30.102Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,9 +20,9 @@
     <link href="http://yoursite.com/2017/02/21/%E6%8C%87%E9%92%88,%E6%95%B0%E7%BB%84,%E5%87%BD%E6%95%B0%E9%82%A3%E4%BA%9B%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%A6%82%E5%BF%B5/"/>
     <id>http://yoursite.com/2017/02/21/指针,数组,函数那些容易混淆的概念/</id>
     <published>2017-02-21T07:04:29.000Z</published>
-    <updated>2017-02-21T07:28:41.339Z</updated>
+    <updated>2017-02-21T07:29:30.102Z</updated>
     
-    <content type="html"><![CDATA[<p>无论对C还是C++，指针都是其精华所在，但是也是难点所在，本文是为了梳理一写在指针，数组，函数三者中那些容易混淆的概念</p>
+    <content type="html"><![CDATA[<p>无论对C还是C++，指针都是其精华所在，但是也是难点所在，本文是为了梳理一些在指针，数组，函数三者中那些容易混淆的概念</p>
 <ul>
 <li>指针数组</li>
 <li>数组指针</li>
@@ -80,7 +80,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;无论对C还是C++，指针都是其精华所在，但是也是难点所在，本文是为了梳理一写在指针，数组，函数三者中那些容易混淆的概念&lt;/p&gt;
+      &lt;p&gt;无论对C还是C++，指针都是其精华所在，但是也是难点所在，本文是为了梳理一些在指针，数组，函数三者中那些容易混淆的概念&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;指针数组&lt;/li&gt;
 &lt;li&gt;数组指针&lt;/li&gt;
