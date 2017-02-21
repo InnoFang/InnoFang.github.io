@@ -263,6 +263,188 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/指针,数组,函数那些容易混淆的概念/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Inno Fang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Inno's Bolg">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/21/指针,数组,函数那些容易混淆的概念/" itemprop="url">
+                  指针，数组，函数那些容易混淆的概念
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-21T15:04:29+08:00">
+                2017-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-C/" itemprop="url" rel="index">
+                    <span itemprop="name">C/C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="指针和数组"><a href="#指针和数组" class="headerlink" title="指针和数组"></a>指针和数组</h2><h3 id="指针数组"><a href="#指针数组" class="headerlink" title="指针数组"></a>指针数组</h3><p>定义：<code>datatype *arr[length]</code></p>
+<p>指针数组，即在这个数组内，元素都是指针，那么length即数组内包含的指针个数，而指针的类型则跟datatype有关</p>
+<p>举个例子，定义一个字符指针数据，然后访问内部元素<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">   <span class="keyword">char</span> *arr[] =&#123; <span class="comment">// 指针数组</span></div><div class="line">	<span class="string">"computer"</span>,</div><div class="line">	<span class="string">"science"</span>,</div><div class="line">	<span class="string">"and"</span>,</div><div class="line">	<span class="string">"technology"</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>, arr[<span class="number">0</span>]); <span class="comment">// output : computer</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>, arr[<span class="number">1</span>]); <span class="comment">// output : science</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>, arr[<span class="number">2</span>]); <span class="comment">// output : and</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>, arr[<span class="number">3</span>]); <span class="comment">// output : technology</span></div><div class="line"></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%c\n"</span>, *arr[<span class="number">0</span>]);<span class="comment">// output : c</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%c\n"</span>, *(arr[<span class="number">0</span>] + <span class="number">1</span>));<span class="comment">// output : o</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%c\n"</span>, *(*(arr + <span class="number">0</span>) + <span class="number">2</span>));<span class="comment">// output : m</span></div></pre></td></tr></table></figure></p>
+<p>在这里能看出来，字符串格式化输出数组元素时，都能打印出对应的字符串，说明指针数组内部元素都是对应类型的指针，并且在下面的代码中，还利用了对应的指针获取对应元素。</p>
+<h3 id="数组指针"><a href="#数组指针" class="headerlink" title="数组指针"></a>数组指针</h3><p>定义：<code>datatype (*arr)[length]</code></p>
+<p>数组指针，其实就是一个指针，一般用于指向二维数组的首地址，datatype即数组指针的类型，而这里的length可以比作“列数”，即跟指向的二维数组的列数要相等。并且这里添加了一个括号的原因是<code>[]</code>的优先级比<code>*</code>高，所以这里的括号不能省略，否则意义就不同了</p>
+<p>举个例子，定义一个二维整型数组和整型数组指针，让数组指针指向该二维数组，并访问数据<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">   <span class="keyword">int</span> nums[][<span class="number">3</span>] = &#123;</div><div class="line">	<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,</div><div class="line">	<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>,</div><div class="line">	<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">int</span> (*arr)[<span class="number">3</span>]; <span class="comment">// 数组指针</span></div><div class="line">arr = nums;    <span class="comment">// 数组指针指向二维数组</span></div><div class="line"></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, arr[<span class="number">0</span>]);			<span class="comment">// output : 10485280</span></div><div class="line"><span class="built_in">putchar</span>(<span class="string">'\n'</span>);</div><div class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, *(arr[<span class="number">0</span>] + <span class="number">0</span>));  <span class="comment">// output : 1</span></div><div class="line"><span class="built_in">putchar</span>(<span class="string">'\n'</span>);</div><div class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, arr[<span class="number">0</span>][<span class="number">1</span>]);     <span class="comment">// output : 2</span></div><div class="line"><span class="built_in">putchar</span>(<span class="string">'\n'</span>);</div><div class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, *(*(arr + <span class="number">0</span>) + <span class="number">2</span>));  <span class="comment">// output : 3</span></div></pre></td></tr></table></figure></p>
+<p>从上面代码可以看到，数组指针可以直接指向同类型的二维数组，并且在使用时完全可以像一个二维数组一样获取二维数组的数据</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>经过上面的分析可以看出数组指针和指针数组的不同了</p>
+<ul>
+<li>从定义上，指针数组是一个内部含有若干指针的数组，而数组指针则是一个指针</li>
+<li>当有一个二维数组时，同类型的数组指针可以用来直接指向，但是同类型的指针数组则不行<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i;</div><div class="line"><span class="keyword">int</span> nums[][<span class="number">3</span>] = &#123;</div><div class="line">	<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,</div><div class="line">	<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>,</div><div class="line">	<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">int</span> *p[<span class="number">3</span>];</div><div class="line"><span class="keyword">int</span> (*q)[<span class="number">3</span>];</div><div class="line">q = nums;	<span class="comment">// 数组指针指向二维数组</span></div><div class="line"></div><div class="line"><span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)&#123;<span class="comment">// 将二维数组的值赋给指针数组</span></div><div class="line">	p[i] = nums[i];    <span class="comment">// 指针数组内的每个指针指向二维数组对应行的首地址</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="指针和函数"><a href="#指针和函数" class="headerlink" title="指针和函数"></a>指针和函数</h2><h3 id="指针函数"><a href="#指针函数" class="headerlink" title="指针函数"></a>指针函数</h3><p>定义：<code>返回值类型 * 函数名(形参列表)</code></p>
+<p>指针函数：即返回值是指针的函数，本质还是函数，只不过返回值是一个指针</p>
+<p>举个例子：创建一个学生结构体，然后创建一个指针函数用来创建学生信息，然后再主函数打印输出学生信息<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</div><div class="line">	<span class="keyword">char</span> name[<span class="number">10</span>];</div><div class="line">	<span class="keyword">int</span> age;</div><div class="line">&#125; Student;</div><div class="line"><span class="function">Student* <span class="title">createInfo</span><span class="params">(<span class="keyword">char</span> name[], <span class="keyword">int</span> age)</span></span></div><div class="line">&#123;</div><div class="line">	Student *student = (Student*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Student));</div><div class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == student)</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	<span class="built_in">strcpy</span>(student-&gt;name, name);</div><div class="line">	student-&gt;age = age;</div><div class="line">	<span class="keyword">return</span> student;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	Student *student = createInfo(<span class="string">"ZhangSan"</span>, <span class="number">19</span>);</div><div class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == student)</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"Create failed"</span>);</div><div class="line">	<span class="keyword">else</span></div><div class="line">	    <span class="built_in">printf</span>(<span class="string">"Student's name is %s, age is %d\n"</span>, student-&gt;name, student-&gt;age); <span class="comment">// output : Student's name is ZhangSan, age is 19</span></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>从上面代码中，可以看到，在主函数中，传入对应的值并调用<code>createInfo</code>函数，该函数(在开辟空间成功的情况下)就会返回一个带有对应信息的Student类型的指针变量，那么就可以利用该指针变量访问数据</p>
+<h3 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h3><p>定义：<code>类型 (* 指针名)(形参列表)</code></p>
+<p>函数指针：仍然是一个指针，只不过是一个指向函数入口地址的指针</p>
+<p>这里要说明的是，每一个函数无论是否带返回值或者形参列表，它都有一个对应的入口地址，当用函数指针指向函数时，两者的函数原型必须相一致，即返回值类型和形参列表都必须一致</p>
+<p>例如我们需要一个返回值为整型的，参数为两个整型的函数指针时，只需做出如下声明即可：<br><code>int (*fun)(int x, int y);</code><br>当我们需要让函数指针指向特定函数时，<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">do</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>&#123; ... &#125; <span class="comment">// do函数，函数原型与fun函数指针相一致</span></div><div class="line">... <span class="comment">// 代码省略</span></div><div class="line">fun = <span class="keyword">do</span>; <span class="comment">// 让函数指针fun指向do函数的入口地址时，两者都不需要括号或者形参列表</span></div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>当函数指针指向特定函数时，便可以做对应函数的操作了</p>
+<p>举个例子：现在输入一个算式，二元加减运算，中间不带空格，然后输出运算结果<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">plus</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">return</span> x + y;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">minus</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">return</span> x - y;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> (*calc)(<span class="keyword">int</span> x, <span class="keyword">int</span> y); <span class="comment">// 函数指针</span></div><div class="line">	<span class="keyword">int</span> x, y, result;</div><div class="line">	<span class="keyword">char</span> o;</div><div class="line">	<span class="built_in">scanf</span>(<span class="string">"%d%c%d"</span>, &amp;x, &amp;o, &amp;y);<span class="comment">//输入算式，eg:1+2,4-3...</span></div><div class="line">	<span class="keyword">if</span>(o == <span class="string">'+'</span>)</div><div class="line">		calc = plus;</div><div class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (o == <span class="string">'-'</span>)</div><div class="line">		calc = minus;</div><div class="line">	result = (*calc)(x, y);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"= %d\n"</span>, result);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输入输出<br><code>1+2</code>↙<br><code>= 3</code><br><code>4-3</code>↙<br><code>= 1</code></p>
+<p>在使用时，一定要注意函数指针和所指向的函数，这两者的函数原型要一致</p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>指针函数是一个返回值是指针的函数，函数指针则是指向函数的指针</li>
+</ul>
+<h2 id="指针，数组，函数"><a href="#指针，数组，函数" class="headerlink" title="指针，数组，函数"></a>指针，数组，函数</h2><h3 id="函数指针数组"><a href="#函数指针数组" class="headerlink" title="函数指针数组"></a>函数指针数组</h3><p>定义：<code>类型 (*函数指针数组名[元素个数])(形参列表)</code></p>
+<p>函数指针数组：一句话解释就是数组元素全是函数指针的数组</p>
+<p>比如，定义一个类型为整型，有两个整型参数的函数指针数组<br><code>int (*fun[])(int x, int y);</code><br>相比于函数指针就是在名字的后面多了<code>[]</code><br>那么如何初始化呢？<br>其实跟普通数组的初始化是一样的，这里先假设有加，减，乘三个方法，并且函数原型与函数指针数组相一致</p>
+<ul>
+<li><p>先声明后赋值</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">   <span class="keyword">int</span> (*fun[<span class="number">3</span>])(<span class="keyword">int</span> x, <span class="keyword">int</span> y); <span class="comment">// 声明函数指针数组</span></div><div class="line">fun[<span class="number">0</span>] = plus; <span class="comment">// 加法函数</span></div><div class="line">fun[<span class="number">1</span>] = minus;<span class="comment">// 减法函数</span></div><div class="line">fun[<span class="number">2</span>] = multiply;<span class="comment">// 乘法函数</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>声明的同时赋值</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> (*fun[])(<span class="keyword">int</span> x, <span class="keyword">int</span> y)&#123;</div><div class="line">        plus,     <span class="comment">// 加法函数</span></div><div class="line">		minus,    <span class="comment">// 减法函数</span></div><div class="line">		multiply  <span class="comment">// 乘法函数</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在使用的时候要记得带上下标，以及参数列表<br><figure class="highlight plain"><figcaption><span>y);</span><a href="//">使用函数指针函数数组中的第一个函数```</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">下面接着举个例子:有三个函数分别为返回值为整型，有两个整型参数的加，减，乘函数，然后定义一个函数指针数组并初始化，最后计算6和4的加，减，乘的结果并输出</div><div class="line">```c</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">int plus(int x, int y)</div><div class="line">&#123;</div><div class="line">	return x + y;</div><div class="line">&#125;</div><div class="line">int minus(int x, int y)</div><div class="line">&#123;</div><div class="line">	return x - y;</div><div class="line">&#125;</div><div class="line">int multiply(int x, int y)</div><div class="line">&#123;</div><div class="line">	return x * y;</div><div class="line">&#125;</div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	int (*fun[])(int x, int y)&#123;</div><div class="line">	        plus,     // 加法函数</div><div class="line">			minus,    // 减法函数</div><div class="line">			multiply  // 乘法函数</div><div class="line">	&#125;;</div><div class="line">	int x = 6, y = 4;</div><div class="line">	printf(&quot;6 + 4 = %d\n&quot;, fun[0](x, y)); // output : 6 + 4 = 10</div><div class="line">	printf(&quot;6 - 4 = %d\n&quot;, fun[1](x, y)); // output : 6 - 4 = 2</div><div class="line">	printf(&quot;6 * 4 = %d\n&quot;, fun[2](x, y)); // output : 6 * 4 = 24</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>END.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/19/SQLite的简单实用/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1072,7 +1254,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1081,7 +1263,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1090,7 +1272,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
