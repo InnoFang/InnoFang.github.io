@@ -163,7 +163,7 @@
     <link href="http://yoursite.com/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/18/设计模式-一-：单例模式/</id>
     <published>2017-02-18T14:20:09.000Z</published>
-    <updated>2017-02-19T07:38:47.027Z</updated>
+    <updated>2017-02-21T07:09:04.519Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Singleton-单例模式"><a href="#Singleton-单例模式" class="headerlink" title="Singleton (单例模式)"></a>Singleton (单例模式)</h1><blockquote>
 <p>确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个</p>
@@ -222,7 +222,7 @@
     <link href="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/"/>
     <id>http://yoursite.com/2017/01/12/Android-BroadcastReceiver/</id>
     <published>2017-01-12T03:14:49.000Z</published>
-    <updated>2017-02-19T07:38:46.507Z</updated>
+    <updated>2017-02-21T07:09:01.440Z</updated>
     
     <content type="html"><![CDATA[<p>广播的应用场景：</p>
 <ul>
@@ -291,7 +291,7 @@
     <link href="http://yoursite.com/2017/01/11/Android-ContentProvider/"/>
     <id>http://yoursite.com/2017/01/11/Android-ContentProvider/</id>
     <published>2017-01-11T07:36:06.000Z</published>
-    <updated>2017-02-19T07:38:45.741Z</updated>
+    <updated>2017-02-21T07:08:59.197Z</updated>
     
     <content type="html"><![CDATA[<p>ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享</p>
 <p>ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据</p>
