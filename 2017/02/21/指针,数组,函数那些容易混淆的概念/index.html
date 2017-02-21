@@ -86,25 +86,46 @@
 
 
 
-<meta name="description" content="指针和数组指针数组定义：datatype *arr[length]
+<meta name="description" content="无论对C还是C++，指针都是其精华所在，但是也是难点所在，本文是为了梳理一写在指针，数组，函数三者中那些容易混淆的概念
+
+指针数组
+数组指针
+指针函数
+函数指针
+函数指针数组
+
+指针和数组指针数组定义：datatype *arr[length]
 指针数组，即在这个数组内，元素都是指针，那么length即数组内包含的指针个数，而指针的类型则跟datatype有关
-举个例子，定义一个字符指针数据，然后访问内部元素
-123456789101112131415   char *arr[] =&amp;#123; // 指针数组	&quot;computer&quot;,	&quot;science&quot;,	&quot;and&quot;,">
+举个例子，定义一个字符指针数据，然后">
 <meta property="og:type" content="article">
 <meta property="og:title" content="指针，数组，函数那些容易混淆的概念">
 <meta property="og:url" content="http://yoursite.com/2017/02/21/指针,数组,函数那些容易混淆的概念/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="指针和数组指针数组定义：datatype *arr[length]
+<meta property="og:description" content="无论对C还是C++，指针都是其精华所在，但是也是难点所在，本文是为了梳理一写在指针，数组，函数三者中那些容易混淆的概念
+
+指针数组
+数组指针
+指针函数
+函数指针
+函数指针数组
+
+指针和数组指针数组定义：datatype *arr[length]
 指针数组，即在这个数组内，元素都是指针，那么length即数组内包含的指针个数，而指针的类型则跟datatype有关
-举个例子，定义一个字符指针数据，然后访问内部元素
-123456789101112131415   char *arr[] =&amp;#123; // 指针数组	&quot;computer&quot;,	&quot;science&quot;,	&quot;and&quot;,">
-<meta property="og:updated_time" content="2017-02-21T07:24:58.518Z">
+举个例子，定义一个字符指针数据，然后">
+<meta property="og:updated_time" content="2017-02-21T07:28:41.339Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="指针，数组，函数那些容易混淆的概念">
-<meta name="twitter:description" content="指针和数组指针数组定义：datatype *arr[length]
+<meta name="twitter:description" content="无论对C还是C++，指针都是其精华所在，但是也是难点所在，本文是为了梳理一写在指针，数组，函数三者中那些容易混淆的概念
+
+指针数组
+数组指针
+指针函数
+函数指针
+函数指针数组
+
+指针和数组指针数组定义：datatype *arr[length]
 指针数组，即在这个数组内，元素都是指针，那么length即数组内包含的指针个数，而指针的类型则跟datatype有关
-举个例子，定义一个字符指针数据，然后访问内部元素
-123456789101112131415   char *arr[] =&amp;#123; // 指针数组	&quot;computer&quot;,	&quot;science&quot;,	&quot;and&quot;,">
+举个例子，定义一个字符指针数据，然后">
 
 
 
@@ -368,7 +389,15 @@
       
 
       
-        <h2 id="指针和数组"><a href="#指针和数组" class="headerlink" title="指针和数组"></a>指针和数组</h2><h3 id="指针数组"><a href="#指针数组" class="headerlink" title="指针数组"></a>指针数组</h3><p>定义：<code>datatype *arr[length]</code></p>
+        <p>无论对C还是C++，指针都是其精华所在，但是也是难点所在，本文是为了梳理一写在指针，数组，函数三者中那些容易混淆的概念</p>
+<ul>
+<li>指针数组</li>
+<li>数组指针</li>
+<li>指针函数</li>
+<li>函数指针</li>
+<li>函数指针数组</li>
+</ul>
+<h2 id="指针和数组"><a href="#指针和数组" class="headerlink" title="指针和数组"></a>指针和数组</h2><h3 id="指针数组"><a href="#指针数组" class="headerlink" title="指针数组"></a>指针数组</h3><p>定义：<code>datatype *arr[length]</code></p>
 <p>指针数组，即在这个数组内，元素都是指针，那么length即数组内包含的指针个数，而指针的类型则跟datatype有关</p>
 <p>举个例子，定义一个字符指针数据，然后访问内部元素</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">   <span class="keyword">char</span> *arr[] =&#123; <span class="comment">// 指针数组</span></div><div class="line">	<span class="string">"computer"</span>,</div><div class="line">	<span class="string">"science"</span>,</div><div class="line">	<span class="string">"and"</span>,</div><div class="line">	<span class="string">"technology"</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>, arr[<span class="number">0</span>]); <span class="comment">// output : computer</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>, arr[<span class="number">1</span>]); <span class="comment">// output : science</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>, arr[<span class="number">2</span>]); <span class="comment">// output : and</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%s\n"</span>, arr[<span class="number">3</span>]); <span class="comment">// output : technology</span></div><div class="line"></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%c\n"</span>, *arr[<span class="number">0</span>]);<span class="comment">// output : c</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%c\n"</span>, *(arr[<span class="number">0</span>] + <span class="number">1</span>));<span class="comment">// output : o</span></div><div class="line"><span class="built_in">printf</span>(<span class="string">"%c\n"</span>, *(*(arr + <span class="number">0</span>) + <span class="number">2</span>));<span class="comment">// output : m</span></div></pre></td></tr></table></figure>
