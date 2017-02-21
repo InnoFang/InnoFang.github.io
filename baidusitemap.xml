@@ -1,112 +1,113 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 
-
+    
+    
   <url>
-    <loc>http://innofang.github.io/2017/02/21/%E6%8C%87%E9%92%88,%E6%95%B0%E7%BB%84,%E5%87%BD%E6%95%B0%E9%82%A3%E4%BA%9B%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%A6%82%E5%BF%B5/</loc>
+    <loc>http://yoursite.com/2017/02/21/%E6%8C%87%E9%92%88,%E6%95%B0%E7%BB%84,%E5%87%BD%E6%95%B0%E9%82%A3%E4%BA%9B%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%A6%82%E5%BF%B5/</loc>
     <lastmod>2017-02-21T07:29:30.102Z</lastmod>
     <data>
         <display>
         <title>指针，数组，函数那些容易混淆的概念</title>
         <pubTime>2017-02-21T07:04:29.000Z</pubTime>
-
+        
         <tag>C语言</tag>
-
+         
         <tag>指针</tag>
-
-
-
-
-              <breadCrumb title="C/C++" url="http://innofang.github.io/categories/C-C/"/>
-
+         
+         
+           
+             
+              <breadCrumb title="C/C++" url="http://yoursite.com/categories/C-C/"/>
+          
         </display>
     </data>
     </url>
 
-
+    
   <url>
-    <loc>http://innofang.github.io/2017/02/19/SQLite%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8/</loc>
+    <loc>http://yoursite.com/2017/02/19/SQLite%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8/</loc>
     <lastmod>2017-02-21T07:16:56.680Z</lastmod>
     <data>
         <display>
         <title>SQLite的简单实用</title>
         <pubTime>2017-02-19T07:16:14.000Z</pubTime>
-
+        
         <tag>Android</tag>
-
+         
         <tag>SQLite</tag>
-
-
-
-
-              <breadCrumb title="Android" url="http://innofang.github.io/categories/Android/"/>
-
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
+          
         </display>
     </data>
     </url>
 
-
+    
   <url>
-    <loc>http://innofang.github.io/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>http://yoursite.com/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2017-02-21T07:09:04.519Z</lastmod>
     <data>
         <display>
         <title>设计模式(一)：单例模式</title>
         <pubTime>2017-02-18T14:20:09.000Z</pubTime>
-
+        
         <tag>设计模式</tag>
-
-
-
-
-              <breadCrumb title="设计模式" url="http://innofang.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
         </display>
     </data>
     </url>
 
-
+    
   <url>
-    <loc>http://innofang.github.io/2017/01/12/Android-BroadcastReceiver/</loc>
+    <loc>http://yoursite.com/2017/01/12/Android-BroadcastReceiver/</loc>
     <lastmod>2017-02-21T07:09:01.440Z</lastmod>
     <data>
         <display>
         <title>Android BroadcastReceiver</title>
         <pubTime>2017-01-12T03:14:49.000Z</pubTime>
-
+        
         <tag>Android</tag>
-
-
-
-
-              <breadCrumb title="Android" url="http://innofang.github.io/categories/Android/"/>
-
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
+          
         </display>
     </data>
     </url>
 
-
+    
   <url>
-    <loc>http://innofang.github.io/2017/01/11/Android-ContentProvider/</loc>
+    <loc>http://yoursite.com/2017/01/11/Android-ContentProvider/</loc>
     <lastmod>2017-02-21T07:08:59.197Z</lastmod>
     <data>
         <display>
         <title>Android ContentProvider</title>
         <pubTime>2017-01-11T07:36:06.000Z</pubTime>
-
+        
         <tag>Android</tag>
-
-
-
-
-              <breadCrumb title="Android" url="http://innofang.github.io/categories/Android/"/>
-
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
+          
         </display>
     </data>
     </url>
 
-
-
-
+    
+    
+    
 </urlset>
