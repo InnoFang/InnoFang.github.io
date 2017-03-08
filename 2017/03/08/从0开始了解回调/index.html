@@ -284,231 +284,11 @@
             
 
   <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/08/从0开始了解回调/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Inno Fang">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Inno's Bolg">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
-    </span>
-  </span>
 
     
-      <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                从0开始了解回调
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-08T15:30:45+08:00">
-                2017-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="关于回调，先讲个例子"><a href="#关于回调，先讲个例子" class="headerlink" title="关于回调，先讲个例子"></a>关于回调，先讲个例子</h2><p>假如现在你有一家鞋店，生意十分红火，每天来买鞋的客人络绎不绝。为了照顾生意，你招聘了一名店员——小王来帮忙。那么现在，有一名客人挑中了一双鞋，但是这时货架上符合客人的鞋码没有了，所以你打算叫小王去库房去符合客人鞋码的鞋子过来，然后你继续去招呼其他客人。</p>
-<p>好，例子讲完了。下面分析一下这个例子，我们有几个主体：</p>
-<ul>
-<li>主体一：老板（ 你 ）</li>
-<li>主体二：店员（小王）</li>
-</ul>
-<p>接下来分析一下这个例子的主要事件，</p>
-<ul>
-<li>老板叫店员去做事</li>
-</ul>
-<p>这个做事可以是去库房取鞋，也可以是打杂等工作，也就是说，这个老板叫店员去做的事是完全可以抽象出来</p>
-<p>那么老板，店员，叫店员做事之间就大致可以用下面的关系描述</p>
-<p><img src="http://p1.bqimg.com/567571/945a59c5558ee93f.png" alt=""></p>
-<p>上面这个例子就是一个生活中十分常见的回调过程：</p>
-<blockquote>
-<p><code>老板</code>调用<code>小王</code>的<code>工作</code>方法，<code>小王</code>再反过来调用<code>老板</code>让他<code>具体做的事</code>,其中老板叫店员具体做的事就是一个回调方法 </p>
-</blockquote>
-<p>其实这个过程更通俗的讲，就是老板叫了小王一声，小王跑过来看看老板有什么吩咐，然后根据吩咐去做事</p>
-<p>那么经过这个简单但是常见的例子过后，就可以用代码具体实现一下这个过程了</p>
-<h2 id="回调的简单实现"><a href="#回调的简单实现" class="headerlink" title="回调的简单实现"></a>回调的简单实现</h2><p>根据上面对例子的分析，首先需要将这个 叫店员去做的事  抽象出来作为一个接口，这里就直接将接口命名为<code>CallBack</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 这是一个叫店员做事的接口</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CallBack</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">call</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后创建<code>Boss</code>类，并实现该接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Boss</span> <span class="keyword">implements</span> <span class="title">CallBack</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> Wang wang;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Boss</span><span class="params">(Wang wang)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.wang = wang;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doThings</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">			System.out.println(<span class="string">"招呼客人"</span>);</div><div class="line">			<span class="keyword">if</span> (i == <span class="number">5</span>) &#123; <span class="comment">// 没鞋了，叫小王去拿鞋</span></div><div class="line">				wang.doWork(<span class="keyword">this</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">    </div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"小王去库房拿鞋"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>那么对于店员 <code>小王</code>类的实现就更简单了，只需要照着老板说的做就好了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wang</span>  </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doWork</span><span class="params">(CallBack callBack)</span> </span>&#123;</div><div class="line">	    <span class="comment">// 回调老板让做的事情</span></div><div class="line">		callBack.call();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>测试的话，只需要分别new出各自的对象，并调用老板那个招呼客人的方法就可以了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Wang wang = <span class="keyword">new</span> Wang();</div><div class="line">		Boss boss = <span class="keyword">new</span> Boss(wang);</div><div class="line">		boss.doThings();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="为什么需要回调？"><a href="#为什么需要回调？" class="headerlink" title="为什么需要回调？"></a>为什么需要回调？</h2><p>上面讲了什么是回调以及回调的简单实现，但是如果你是第一次接触这个，可能就会问为什么需要回调？不要可以吗？</p>
-<p>对于这个问题，还是拿上面鞋店的例子来解释好了，如果你不采用回调就有可能面临这样的窘境：</p>
-<p>现在来了一个客人，他挑中了一双鞋，但是现在这个鞋码的鞋在鞋架上已经没有了，这时你叫小王到库房去找这类鞋码的鞋，但是你不知道他拿到了鞋子没有，这时，你就要主动去库房问小王，你找到鞋了吗？小王回复说，还在找。然后你回去招呼其他客人，但是过了一会，你又去库房问小王有没有找到鞋，小王回复说，快了。又过了一会儿，你又去问，小王又回复：马上就找到了… …，经过几次询问小王终于找到了鞋，然后你把鞋拿来再去给客人穿。</p>
-<p>你会发现这中处理事情的过程其实是不妥的，或许当你拿到鞋的那一刻，客人都已经走了。那么回调就是用来解决这个问题的</p>
-<p>利用回调，老板只需要叫小王自己去找即可，自己继续去招呼其他客人，当小王找到鞋过后，他就会自己把鞋拿过来，完全不需要你自己去询问然后自己把鞋子拿来，你可以继续去执行你自己的逻辑，两边都不会耽误</p>
-<h2 id="回调的应用"><a href="#回调的应用" class="headerlink" title="回调的应用"></a>回调的应用</h2><p>上面讲了很多，下面就来看看在实际开发当中如何使用回调</p>
-<h3 id="案例一：给RecyclerView的item添加点击事件"><a href="#案例一：给RecyclerView的item添加点击事件" class="headerlink" title="案例一：给RecyclerView的item添加点击事件"></a>案例一：给RecyclerView的item添加点击事件</h3><blockquote>
-<p>因为本文主要是讲解如何使用回调，所以这里就不解释如何使用RecyclerView了</p>
-</blockquote>
-<p>在平常使用RecyclerView的时候，我们发现其实RecyclerView是没有给item设置点击事件的，但是我们肯定是需要这个功能的，那么怎么办呢？其实这个点击事件是可以利用回调实现的</p>
-<p>下面直接上代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClickAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">ClickAdapter</span>.<span class="title">ViewHolder</span>&gt;</span>&#123;</div><div class="line">    <span class="comment">/*上下文对象*/</span></div><div class="line">    <span class="keyword">private</span> Context mContext;     </div><div class="line">    <span class="comment">/*列表*/</span></div><div class="line">    <span class="keyword">private</span> List&lt;String&gt; mStringList;</div><div class="line">    <span class="comment">/*接口实例*/</span></div><div class="line">    <span class="keyword">private</span> OnClickItemListener mOnClickItemListener;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ClickAdapter</span><span class="params">(Context context, List&lt;String&gt; strings)</span> </span>&#123;</div><div class="line">        mContext = context;</div><div class="line">        mStringList = strings;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStringList</span><span class="params">(List&lt;String&gt; stringList)</span> </span>&#123;</div><div class="line">        mStringList = stringList;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*设置接口实例*/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnClickItemListener</span><span class="params">(OnClickItemListener onClickItemListener)</span> </span>&#123;</div><div class="line">        mOnClickItemListener = onClickItemListener;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*加载RecyclrView的item视图*/</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</div><div class="line">        View view = LayoutInflater</div><div class="line">                .from(mContext)</div><div class="line">                <span class="comment">/*item_recycler_view中只有一个水平视图，一副图片和一段文字*/</span></div><div class="line">                .inflate(R.layout.item_recycler_view, parent, <span class="keyword">false</span>);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ViewHolder(view);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*绑定视图*/</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(ViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        holder.bindHolder(mStringList.get(position));</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*获得item个数*/</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mStringList.size();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*ViewHolder逻辑*/</span></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> TextView mTextView;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>(itemView);</div><div class="line">            mTextView = (TextView) itemView.findViewById(R.id.text_view);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">/*绑定视图方法，在Adapter的onBindViewHolder中调用*/</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindHolder</span><span class="params">(<span class="keyword">final</span> String text)</span> </span>&#123;</div><div class="line">            mTextView.setText(text);</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != mOnClickItemListener) &#123;</div><div class="line">                itemView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                        <span class="comment">/*回调方法*/</span></div><div class="line">                        mOnClickItemListener.onClick(text);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*回调接口*/</span></div><div class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">OnClickItemListener</span></span>&#123;</div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(String text)</span></span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>代码很长，但是大部分都是关于RecyclerView的Adapter和ViewHolder的编写，符合点击事件回调的逻辑其实并不长，所以，在上面代码中，只需要下面几点就可以了</p>
-<ul>
-<li><code>private OnClickItemListener mOnClickItemListener;</code> 接口实例</li>
-<li><code>setOnClickItemListener(OnClickItemListener onClickItemListener)</code> 设置接口实例</li>
-<li>ViewHolder 中的 bindHolder</li>
-<li><code>OnClickItemListener</code>回调接口</li>
-</ul>
-<p>可以看到，这里将接口写在Adapter的内部，因为大部分情况，接口点击需要参数都不一样，所以一般都会写在Adapter的内部</p>
-<p>所以如果除去关于RecyclerView的Adapter和ViewHolder的编写，那么剩下的逻辑无非就是：</p>
-<ul>
-<li>创建内部接口</li>
-<li>定义接口实例</li>
-<li>设置接口实例的setter方法</li>
-<li>在点击事件中进行回调</li>
-</ul>
-<p>如果你在疑惑为什么要在itemView的点击事件中进行回调，那么可以这么想，itemView其实是一个子item布局加载后产生的view，view都是有默认点击事件的，但是这个点击事件无法传递我们想要的参数，所以我们就可以借助这个itemView的点击事件，在该点击事件中进行回调</p>
-<p>如果想要使用这个回调，那么就可以想之前给Button设置点击事件那样使用这个回调<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">List&lt;String&gt; strings = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"><span class="comment">/*实例化Adapter*/</span></div><div class="line">ClickAdapter adapter = <span class="keyword">new</span> ClickAdapter(<span class="keyword">this</span>, strings);</div><div class="line"><span class="comment">/*数据初始化*/</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">100</span>; i++) &#123;</div><div class="line">    strings.add(<span class="string">"Hello, I am "</span> + i);</div><div class="line">&#125;</div><div class="line"><span class="comment">/*初始化RecyclerView*/</span></div><div class="line">RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);</div><div class="line">recyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>));</div><div class="line">recyclerView.setAdapter(adapter);</div><div class="line"><span class="comment">/*为RecyclerView的item设置点击事件*/</span></div><div class="line">adapter.setOnClickItemListener(<span class="keyword">new</span> ClickAdapter.OnClickItemListener() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(String text)</span> </span>&#123;</div><div class="line">        Toast.makeText(ClickRecyclerViewActivity.<span class="keyword">this</span>, text, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>测试运行，点击第二个item，效果如下：</p>
-<p><img src="http://p1.bpimg.com/567571/95011a7b0ddcdee1.png" height="500px" width="300px"></p>
-<h3 id="案例二：在子线程中加载网络图片并显示在IamgeView中"><a href="#案例二：在子线程中加载网络图片并显示在IamgeView中" class="headerlink" title="案例二：在子线程中加载网络图片并显示在IamgeView中"></a>案例二：在子线程中加载网络图片并显示在IamgeView中</h3><p>在平常的开发中，加载网络图片要在子线程中操作是常识，但是当加载完图片资源过后，返回的bitmap如何传递给主线程中的ImageView就成了一个问题，关于这个问题，这里提出两个解决办法：</p>
-<ul>
-<li>方法一：使用<code>runOnUiThread()</code>，这个方法在Activity中，所以如果实在工具类中使用就需要传递一个Activity实例</li>
-<li>方法二：使用回调</li>
-</ul>
-<p>同样的，先上代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadeIamge</span><span class="params">(<span class="keyword">final</span> String url, <span class="keyword">final</span> LoadeImageListener listener)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                InputStream is = <span class="keyword">null</span>;</div><div class="line">                BufferedInputStream bis = <span class="keyword">null</span>;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    HttpURLConnection connection = (HttpURLConnection) <span class="keyword">new</span> URL(url).openConnection();</div><div class="line">                    connection.setConnectTimeout(<span class="number">5000</span>);</div><div class="line">                    connection.connect();</div><div class="line">                    is = connection.getInputStream();</div><div class="line">                    bis = <span class="keyword">new</span> BufferedInputStream(is);</div><div class="line">                    listener.onLoadeImageListener(BitmapFactory.decodeStream(bis));</div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;<span class="keyword">finally</span> &#123;</div><div class="line">                    CloseUtil.closeQuietly(is);</div><div class="line">                    CloseUtil.closeQuietly(bis);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LoadeImageListener</span> </span>&#123;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">onLoadeImageListener</span><span class="params">(Bitmap bitmap)</span></span>;</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>跟案例一进行对比，可以发现这个案例的逻辑和代码相较案例一更简洁</p>
-<p>上面的代码就是一个加载网络图片的工具类，可以发现在这里，没有定义接口实例，也没有定义接口实例的setter方法，而是直接用调用者那里传来的接口实例进行操作</p>
-<p>下面来看看调用者的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> ImageView imageView = (ImageView) findViewById(R.id.image_view);</div><div class="line"></div><div class="line">       ImageUtil.loadeIamge(IMG_URL, <span class="keyword">new</span> ImageUtil.LoadeImageListener() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoadeImageListener</span><span class="params">(Bitmap bitmap)</span> </span>&#123;</div><div class="line">               imageView.setImageBitmap(bitmap);</div><div class="line">           &#125;</div><div class="line">       &#125;);</div></pre></td></tr></table></figure></p>
-<p>IMG_URL 是一个静态字符串常量，这里直接调用了ImageUtil的loadeImage方法，并且这里采用了匿名内部类的方式将接口的具体是实现传递给了loadeImage，并且利用会调过来的bitmap直接设置给imageView，整个代码看起来更加的简洁。</p>
-<p>效果图就不上啦~~</p>
-<p>END.</p>
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Java/" rel="tag"># Java</a>
-          
-            <a href="/tags/回调/" rel="tag"># 回调</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/03/04/设计模式-六-策略模式/" rel="next" title="设计模式(六):策略模式">
-                <i class="fa fa-chevron-left"></i> 设计模式(六):策略模式
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
+  
+  
 
 
     <div class="post-spread">
@@ -678,6 +458,12 @@
     NexT.Pisces
   </a>
 </div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
 
 
         
