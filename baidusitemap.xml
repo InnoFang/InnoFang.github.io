@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/03/09/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%83-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-03-09T04:22:55.394Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(七):状态模式</title>
+        <pubTime>2017-03-09T04:09:50.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/03/08/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E4%BA%86%E8%A7%A3%E5%9B%9E%E8%B0%83/</loc>
     <lastmod>2017-03-09T04:19:28.608Z</lastmod>
     <data>
@@ -20,21 +40,6 @@
              
               <breadCrumb title="Java" url="http://yoursite.com/categories/Java/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/03/09/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%83-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-03-09T04:09:50.579Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(七):状态模式</title>
-        <pubTime>2017-03-09T04:09:50.000Z</pubTime>
-        
-         
-           
         </display>
     </data>
     </url>
