@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-09T04:22:55.394Z</updated>
+  <updated>2017-03-09T04:24:49.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/03/09/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%83-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/03/09/设计模式-七-状态模式/</id>
     <published>2017-03-09T04:09:50.000Z</published>
-    <updated>2017-03-09T04:22:55.394Z</updated>
+    <updated>2017-03-09T04:24:49.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="State（状态模式）"><a href="#State（状态模式）" class="headerlink" title="State（状态模式）"></a>State（状态模式）</h1><p>什么是状态模式呢？</p>
 <p>有时候做一件事会存在很多的状态，而在不同的状态之下会有不同的行为。而状态模式就是根据不同的状态来改变不同的行为</p>
