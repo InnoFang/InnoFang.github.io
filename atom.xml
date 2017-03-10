@@ -146,9 +146,10 @@
     <link href="http://yoursite.com/2017/03/08/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9B%9E%E8%B0%83/"/>
     <id>http://yoursite.com/2017/03/08/从零开始的回调/</id>
     <published>2017-03-08T07:30:45.000Z</published>
-    <updated>2017-03-09T11:30:49.240Z</updated>
+    <updated>2017-03-10T04:57:44.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="关于回调，先讲个例子"><a href="#关于回调，先讲个例子" class="headerlink" title="关于回调，先讲个例子"></a>关于回调，先讲个例子</h2><p>假如现在你有一家鞋店，生意十分红火，每天来买鞋的客人络绎不绝。为了照顾生意，你招聘了一名店员——小王来帮忙。那么现在，有一名客人挑中了一双鞋，但是这时货架上符合客人的鞋码没有了，所以你打算叫小王去库房去符合客人鞋码的鞋子过来，然后你继续去招呼其他客人。</p>
+<a id="more"></a>
 <p>好，例子讲完了。下面分析一下这个例子，我们有几个主体：</p>
 <ul>
 <li>主体一：老板（ 你 ）</li>
@@ -220,7 +221,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;关于回调，先讲个例子&quot;&gt;&lt;a href=&quot;#关于回调，先讲个例子&quot; class=&quot;headerlink&quot; title=&quot;关于回调，先讲个例子&quot;&gt;&lt;/a&gt;关于回调，先讲个例子&lt;/h2&gt;&lt;p&gt;假如现在你有一家鞋店，生意十分红火，每天来买鞋的客人络绎不绝。为了照顾生意，
+      &lt;h2 id=&quot;关于回调，先讲个例子&quot;&gt;&lt;a href=&quot;#关于回调，先讲个例子&quot; class=&quot;headerlink&quot; title=&quot;关于回调，先讲个例子&quot;&gt;&lt;/a&gt;关于回调，先讲个例子&lt;/h2&gt;&lt;p&gt;假如现在你有一家鞋店，生意十分红火，每天来买鞋的客人络绎不绝。为了照顾生意，你招聘了一名店员——小王来帮忙。那么现在，有一名客人挑中了一双鞋，但是这时货架上符合客人的鞋码没有了，所以你打算叫小王去库房去符合客人鞋码的鞋子过来，然后你继续去招呼其他客人。&lt;/p&gt;
     
     </summary>
     
