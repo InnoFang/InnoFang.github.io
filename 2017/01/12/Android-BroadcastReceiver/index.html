@@ -92,12 +92,7 @@
 同一app内部的不同组件之间的消息通信
 同一app具有多个线程的不同组件之间的消息通信
 不同app之间的组建之间消息通信
-Android系统在特定情况下与App之间的消息通信
-
-广播分为两种：
-
-有序广播
-类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游">
+Android系统在特定情况下与App之间的消息通信">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android BroadcastReceiver">
 <meta property="og:url" content="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/index.html">
@@ -108,13 +103,8 @@ Android系统在特定情况下与App之间的消息通信
 同一app内部的不同组件之间的消息通信
 同一app具有多个线程的不同组件之间的消息通信
 不同app之间的组建之间消息通信
-Android系统在特定情况下与App之间的消息通信
-
-广播分为两种：
-
-有序广播
-类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游">
-<meta property="og:updated_time" content="2017-03-10T04:55:30.052Z">
+Android系统在特定情况下与App之间的消息通信">
+<meta property="og:updated_time" content="2017-03-10T05:00:07.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android BroadcastReceiver">
 <meta name="twitter:description" content="广播的应用场景：
@@ -123,12 +113,7 @@ Android系统在特定情况下与App之间的消息通信
 同一app内部的不同组件之间的消息通信
 同一app具有多个线程的不同组件之间的消息通信
 不同app之间的组建之间消息通信
-Android系统在特定情况下与App之间的消息通信
-
-广播分为两种：
-
-有序广播
-类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游">
+Android系统在特定情况下与App之间的消息通信">
 
 
 
@@ -413,6 +398,7 @@ Android系统在特定情况下与App之间的消息通信
 <li>不同app之间的组建之间消息通信</li>
 <li>Android系统在特定情况下与App之间的消息通信</li>
 </ul>
+<a id="more"></a>
 <p>广播分为两种：</p>
 <ul>
 <li>有序广播<ul>
@@ -424,7 +410,6 @@ Android系统在特定情况下与App之间的消息通信
 </ul>
 </li>
 </ul>
-<a id="more"></a>
 <p>广播的使用，需要继承BroadcastReceiver并实现抽象方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcast</span>  <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span></span>&#123;</div><div class="line">        Toast.makeText(context, <span class="string">"收到广播，执行onReceiver()方法"</span>, Toast.LENGTH_LONG).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>当BroadcastReceiver作为Android的四大组件之一，在使用时，必须对BroadcastReceiver进行注册<br>注册方式分为两种：</p>
 <ul>

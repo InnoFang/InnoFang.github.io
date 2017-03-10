@@ -4,6 +4,66 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/01/11/Android-ContentProvider/</loc>
+    <lastmod>2017-03-10T05:00:26.574Z</lastmod>
+    <data>
+        <display>
+        <title>Android ContentProvider</title>
+        <pubTime>2017-01-11T07:36:06.000Z</pubTime>
+        
+        <tag>Android</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/01/12/Android-BroadcastReceiver/</loc>
+    <lastmod>2017-03-10T05:00:07.231Z</lastmod>
+    <data>
+        <display>
+        <title>Android BroadcastReceiver</title>
+        <pubTime>2017-01-12T03:14:49.000Z</pubTime>
+        
+        <tag>Android</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/02/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%9B%9B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-03-10T04:59:35.908Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(四):抽象工厂模式</title>
+        <pubTime>2017-02-25T07:13:37.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/03/08/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9B%9E%E8%B0%83/</loc>
     <lastmod>2017-03-10T04:57:44.000Z</lastmod>
     <data>
@@ -36,46 +96,6 @@
         <tag>Android</tag>
          
         <tag>SQLite</tag>
-         
-         
-           
-             
-              <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/01/11/Android-ContentProvider/</loc>
-    <lastmod>2017-03-10T04:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>Android ContentProvider</title>
-        <pubTime>2017-01-11T07:36:06.000Z</pubTime>
-        
-        <tag>Android</tag>
-         
-         
-           
-             
-              <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/01/12/Android-BroadcastReceiver/</loc>
-    <lastmod>2017-03-10T04:55:30.052Z</lastmod>
-    <data>
-        <display>
-        <title>Android BroadcastReceiver</title>
-        <pubTime>2017-01-12T03:14:49.000Z</pubTime>
-        
-        <tag>Android</tag>
          
          
            
@@ -136,26 +156,6 @@
         <display>
         <title>设计模式(五):原型模式</title>
         <pubTime>2017-03-02T04:13:13.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/02/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%9B%9B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-03-10T04:54:50.548Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(四):抽象工厂模式</title>
-        <pubTime>2017-02-25T07:13:37.000Z</pubTime>
         
         <tag>设计模式</tag>
          

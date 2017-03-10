@@ -847,17 +847,6 @@
 <li>不同app之间的组建之间消息通信</li>
 <li>Android系统在特定情况下与App之间的消息通信</li>
 </ul>
-<p>广播分为两种：</p>
-<ul>
-<li>有序广播<ul>
-<li>类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游戏者。若某一个游戏者的花掉了，这就是广播截断，广播就不能继续传下去</li>
-</ul>
-</li>
-<li>无序广播<ul>
-<li>类似于老师宣布下课，学生就是广播接收者，基本都是按照同一时间执行某些操作</li>
-</ul>
-</li>
-</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/01/12/Android-BroadcastReceiver/#more" rel="contents">
@@ -1007,8 +996,6 @@
           <p>ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享</p>
 <p>ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据</p>
 <p>ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表，然后把数据组织成表格</p>
-<p>ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），<br>getType（的到数据类型），onCreate（创建数据时调用的回调函数）</p>
-<p>每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/01/11/Android-ContentProvider/#more" rel="contents">

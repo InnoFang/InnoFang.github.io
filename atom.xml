@@ -403,10 +403,11 @@
     <link href="http://yoursite.com/2017/02/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%9B%9B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/25/设计模式-四-抽象工厂模式/</id>
     <published>2017-02-25T07:13:37.000Z</published>
-    <updated>2017-03-10T04:54:50.548Z</updated>
+    <updated>2017-03-10T04:59:35.908Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Abstract-Factory（抽象工厂）"><a href="#Abstract-Factory（抽象工厂）" class="headerlink" title="Abstract Factory（抽象工厂）"></a>Abstract Factory（抽象工厂）</h1><p>在此之前，已经学习过了<a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/FactoryMethod" target="_blank" rel="external">Factory Method（工厂方法）</a>，抽象工厂和工厂方法这两个模式都属于创建型设计模式，那么根据[工厂]这个词，大概也能猜出这两个模式都是用来“生产”的</p>
 <p>那么这两种用来“生产”的模式 ——— 抽象工厂和工厂方法，这两个设计模式有什么区别呢？或者说也两个模式“生产”的东西有什么不同的吗？</p>
+<a id="more"></a>
 <p>在之前工厂方法的简单实现中，举了个工厂制作蛋糕的例子，那么现在我们的蛋糕店需要生产两种蛋糕，分别为草莓口味的红色的爱心型蛋糕和芒果口味的黄色的方形蛋糕，这两个都是具体的产品，换句话说，对于草莓味心型蛋糕，心型模具和草莓味奶油都是只用来生产这类蛋糕的，那如果我们想做一个爱心型的芒果蛋糕呢？难道还有做一个只属于芒果蛋糕的模具吗？</p>
 <p>不，当然不是，在日常生活中，对于这种情况，应该是拿一个爱心模具来做一类爱心型蛋糕，而不会说一种蛋糕做一个模具</p>
 <p>到这里，或许对于抽象工厂和工厂方法的区别还是有点模糊</p>
@@ -416,7 +417,6 @@
 <li>如果是用来生产具体细节抽象的产品，产品的内部元素可变，选择<strong>抽象工厂</strong></li>
 </ul>
 <p>说了这么多，但是还没有见到抽象模式的真身，下面先介绍一下抽象工厂模式，然后，再重新打造我们的工厂，让其能够生产更多类型的蛋糕</p>
-<a id="more"></a>
 <h2 id="Abstract-Factory（抽象工厂）的UML类图"><a href="#Abstract-Factory（抽象工厂）的UML类图" class="headerlink" title="Abstract Factory（抽象工厂）的UML类图"></a>Abstract Factory（抽象工厂）的UML类图</h2><p><img src="http://img.my.csdn.net/uploads/201301/25/1359118637_4907.jpg"></p>
 <ul>
 <li>AbstractProductA：抽象产品A<ul>
@@ -486,15 +486,6 @@
     
       &lt;h1 id=&quot;Abstract-Factory（抽象工厂）&quot;&gt;&lt;a href=&quot;#Abstract-Factory（抽象工厂）&quot; class=&quot;headerlink&quot; title=&quot;Abstract Factory（抽象工厂）&quot;&gt;&lt;/a&gt;Abstract Factory（抽象工厂）&lt;/h1&gt;&lt;p&gt;在此之前，已经学习过了&lt;a href=&quot;https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/FactoryMethod&quot;&gt;Factory Method（工厂方法）&lt;/a&gt;，抽象工厂和工厂方法这两个模式都属于创建型设计模式，那么根据[工厂]这个词，大概也能猜出这两个模式都是用来“生产”的&lt;/p&gt;
 &lt;p&gt;那么这两种用来“生产”的模式 ——— 抽象工厂和工厂方法，这两个设计模式有什么区别呢？或者说也两个模式“生产”的东西有什么不同的吗？&lt;/p&gt;
-&lt;p&gt;在之前工厂方法的简单实现中，举了个工厂制作蛋糕的例子，那么现在我们的蛋糕店需要生产两种蛋糕，分别为草莓口味的红色的爱心型蛋糕和芒果口味的黄色的方形蛋糕，这两个都是具体的产品，换句话说，对于草莓味心型蛋糕，心型模具和草莓味奶油都是只用来生产这类蛋糕的，那如果我们想做一个爱心型的芒果蛋糕呢？难道还有做一个只属于芒果蛋糕的模具吗？&lt;/p&gt;
-&lt;p&gt;不，当然不是，在日常生活中，对于这种情况，应该是拿一个爱心模具来做一类爱心型蛋糕，而不会说一种蛋糕做一个模具&lt;/p&gt;
-&lt;p&gt;到这里，或许对于抽象工厂和工厂方法的区别还是有点模糊&lt;/p&gt;
-&lt;p&gt;那么，现在来总结一下，&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;如果是用来生成一个复杂的对象，他的内部元素无法抽象出来时，选择&lt;strong&gt;工厂方法模式&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;如果是用来生产具体细节抽象的产品，产品的内部元素可变，选择&lt;strong&gt;抽象工厂&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;说了这么多，但是还没有见到抽象模式的真身，下面先介绍一下抽象工厂模式，然后，再重新打造我们的工厂，让其能够生产更多类型的蛋糕&lt;/p&gt;
     
     </summary>
     
@@ -948,7 +939,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/"/>
     <id>http://yoursite.com/2017/01/12/Android-BroadcastReceiver/</id>
     <published>2017-01-12T03:14:49.000Z</published>
-    <updated>2017-03-10T04:55:30.052Z</updated>
+    <updated>2017-03-10T05:00:07.231Z</updated>
     
     <content type="html"><![CDATA[<p>广播的应用场景：</p>
 <ul>
@@ -958,6 +949,7 @@ Hi, I&#39;m product B!</code></p>
 <li>不同app之间的组建之间消息通信</li>
 <li>Android系统在特定情况下与App之间的消息通信</li>
 </ul>
+<a id="more"></a>
 <p>广播分为两种：</p>
 <ul>
 <li>有序广播<ul>
@@ -969,7 +961,6 @@ Hi, I&#39;m product B!</code></p>
 </ul>
 </li>
 </ul>
-<a id="more"></a>
 <p>广播的使用，需要继承BroadcastReceiver并实现抽象方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcast</span>  <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span></span>&#123;</div><div class="line">        Toast.makeText(context, <span class="string">"收到广播，执行onReceiver()方法"</span>, Toast.LENGTH_LONG).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>当BroadcastReceiver作为Android的四大组件之一，在使用时，必须对BroadcastReceiver进行注册<br>注册方式分为两种：</p>
 <ul>
@@ -1005,17 +996,6 @@ Hi, I&#39;m product B!</code></p>
 &lt;li&gt;不同app之间的组建之间消息通信&lt;/li&gt;
 &lt;li&gt;Android系统在特定情况下与App之间的消息通信&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;广播分为两种：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;有序广播&lt;ul&gt;
-&lt;li&gt;类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游戏者。若某一个游戏者的花掉了，这就是广播截断，广播就不能继续传下去&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;无序广播&lt;ul&gt;
-&lt;li&gt;类似于老师宣布下课，学生就是广播接收者，基本都是按照同一时间执行某些操作&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
     
     </summary>
     
@@ -1031,14 +1011,14 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/01/11/Android-ContentProvider/"/>
     <id>http://yoursite.com/2017/01/11/Android-ContentProvider/</id>
     <published>2017-01-11T07:36:06.000Z</published>
-    <updated>2017-03-10T04:56:02.000Z</updated>
+    <updated>2017-03-10T05:00:26.574Z</updated>
     
     <content type="html"><![CDATA[<p>ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享</p>
 <p>ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据</p>
 <p>ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表，然后把数据组织成表格</p>
-<p>ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），<br>getType（的到数据类型），onCreate（创建数据时调用的回调函数）</p>
-<p>每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据</p>
 <a id="more"></a>
+<p>ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），<br>getType（的到数据类型），onCreate（创建数据时调用的回调函数）</p>
+<p>每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据 </p>
 <p>Uri：为系统的每一个资源给其一个名字，它由权限和路径组成，为了避免冲突，权限通常使用应用包名</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 通常使用应用包名为权限</span></div><div class="line"><span class="comment">// 使用Uri.parse方法将字符串解析成Uri对象</span></div><div class="line">Uri uri = Uri.parse(<span class="string">"content://io.innofang.app.provider/table"</span>);</div></pre></td></tr></table></figure>
 <p>Android 所提供的ContentProvider都存放在android.provider包中，将其分为A，B，C，D四个部分，例如:<br><code>content://com.example.transportationprovider/trains/122</code></p>
@@ -1057,8 +1037,6 @@ Hi, I&#39;m product B!</code></p>
       &lt;p&gt;ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享&lt;/p&gt;
 &lt;p&gt;ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据&lt;/p&gt;
 &lt;p&gt;ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表，然后把数据组织成表格&lt;/p&gt;
-&lt;p&gt;ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），&lt;br&gt;getType（的到数据类型），onCreate（创建数据时调用的回调函数）&lt;/p&gt;
-&lt;p&gt;每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据&lt;/p&gt;
     
     </summary>
     
