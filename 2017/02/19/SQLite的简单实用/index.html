@@ -102,7 +102,7 @@
 确认目标数据库实际存在
 如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据
 如果存">
-<meta property="og:updated_time" content="2017-02-21T07:16:56.680Z">
+<meta property="og:updated_time" content="2017-03-10T04:56:20.135Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQLite的简单实用">
 <meta name="twitter:description" content="使用Android自带的API操作数据库创建数据库openOrCreateDatabase(···) 和 databaseList() 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。
@@ -395,6 +395,7 @@
 <li>如果存在，打开并确认数据是否为最新版本</li>
 <li>如果是旧版本，就运行相关代码升级到最新版本</li>
 </ul>
+<a id="more"></a>
 <p>Android为我们提供的SQLiteOpenHelper类可以帮我们处理这些。首先 SQLiteOpenHelper 类是抽象类，有两个抽象方法 <code>onCreate()</code> 和 <code>onUpgrade()</code>，我们需要重写这两个方法并且分别在这两个方法中去实现创建和升级数据库的逻辑。</p>
 <p>SQLiteOpenHelper 中有两个构造方法可供重写，一般使用参数少一点的那个构造方法即可。这个构造方法接收四个参数：</p>
 <ul>

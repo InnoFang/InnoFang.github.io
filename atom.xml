@@ -74,11 +74,12 @@
     <link href="http://yoursite.com/2017/03/09/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%83-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/03/09/设计模式-七-状态模式/</id>
     <published>2017-03-09T04:09:50.000Z</published>
-    <updated>2017-03-09T04:24:49.000Z</updated>
+    <updated>2017-03-10T04:54:34.408Z</updated>
     
     <content type="html"><![CDATA[<h1 id="State（状态模式）"><a href="#State（状态模式）" class="headerlink" title="State（状态模式）"></a>State（状态模式）</h1><p>什么是状态模式呢？</p>
 <p>有时候做一件事会存在很多的状态，而在不同的状态之下会有不同的行为。而状态模式就是根据不同的状态来改变不同的行为</p>
 <p>下面看一下状态模式的UML类图</p>
+<a id="more"></a>
 <h2 id="State（状态模式）的UML类图"><a href="#State（状态模式）的UML类图" class="headerlink" title="State（状态模式）的UML类图"></a>State（状态模式）的UML类图</h2><p><img src="http://my.csdn.net/uploads/201204/02/1333348183_3457.jpg"></p>
 <ul>
 <li>Context：上下文，维护状态的实例</li>
@@ -128,7 +129,8 @@
     <summary type="html">
     
       &lt;h1 id=&quot;State（状态模式）&quot;&gt;&lt;a href=&quot;#State（状态模式）&quot; class=&quot;headerlink&quot; title=&quot;State（状态模式）&quot;&gt;&lt;/a&gt;State（状态模式）&lt;/h1&gt;&lt;p&gt;什么是状态模式呢？&lt;/p&gt;
-&lt;p&gt;有时候做一件事会存在很多的状态，而
+&lt;p&gt;有时候做一件事会存在很多的状态，而在不同的状态之下会有不同的行为。而状态模式就是根据不同的状态来改变不同的行为&lt;/p&gt;
+&lt;p&gt;下面看一下状态模式的UML类图&lt;/p&gt;
     
     </summary>
     
@@ -236,7 +238,7 @@
     <link href="http://yoursite.com/2017/03/04/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%85%AD-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/03/04/设计模式-六-策略模式/</id>
     <published>2017-03-04T04:03:54.000Z</published>
-    <updated>2017-03-09T04:22:57.000Z</updated>
+    <updated>2017-03-10T04:54:24.747Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Strategy（策略模式）"><a href="#Strategy（策略模式）" class="headerlink" title="Strategy（策略模式）"></a>Strategy（策略模式）</h1><p>在讲策略模式之前，我们先来讲个例子：</p>
 <p>人在广州的小王想出去旅游，此时他面临几个选择</p>
@@ -247,6 +249,7 @@
 </ul>
 <p>那么面对这种不同情况的不同处理方式，我们最自然想到的就是使用if-else或者switch-case来解决，<br>通过判断不同的情况，然后提出对应的处理方式。</p>
 <p>但是这样子处理真的没有问题吗？</p>
+<a id="more"></a>
 <p>我们试着按照平常的思维写一下这个例子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wang</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String GUI_LIN = <span class="string">"guang_xi_gui_lin"</span>;   <span class="comment">//广西桂林</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String E_MEI = <span class="string">"guang_xi_gui_lin"</span>;     <span class="comment">//四川峨嵋</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CHANG_CHUN = <span class="string">"guang_xi_gui_lin"</span>;<span class="comment">//吉林长春</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Wang wang = <span class="keyword">new</span> Wang();</div><div class="line">        wang.goTo(GUI_LIN);</div><div class="line">        wang.goTo(E_MEI);</div><div class="line">        wang.goTo(CHANG_CHUN);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeCar</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"take my car"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeTrain</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"take train"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">tekePlane</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"take plane"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">goTo</span><span class="params">(String place)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (GUI_LIN.equals(place)) &#123;</div><div class="line">            takeCar();</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (E_MEI.equals(place)) &#123;</div><div class="line">            takeTrain();</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (CHANG_CHUN.equals(place)) &#123;</div><div class="line">            tekePlane();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>似乎没有什么不妥的地方，但是如果小王想改坐轮船从广州去海南呢？</p>
@@ -296,6 +299,14 @@
     <summary type="html">
     
       &lt;h1 id=&quot;Strategy（策略模式）&quot;&gt;&lt;a href=&quot;#Strategy（策略模式）&quot; class=&quot;headerlink&quot; title=&quot;Strategy（策略模式）&quot;&gt;&lt;/a&gt;Strategy（策略模式）&lt;/h1&gt;&lt;p&gt;在讲策略模式之前，我们先来讲个例子：&lt;/p&gt;
+&lt;p&gt;人在广州的小王想出去旅游，此时他面临几个选择&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果是从广州到广西桂林，由于距离适中，他想自己驾车前往&lt;/li&gt;
+&lt;li&gt;如果是从广州到四川峨嵋，由于距离稍远，他打算乘火车前往&lt;/li&gt;
+&lt;li&gt;如果是从广州到吉林长春，由于距离太远，他选择坐飞机前往&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;那么面对这种不同情况的不同处理方式，我们最自然想到的就是使用if-else或者switch-case来解决，&lt;br&gt;通过判断不同的情况，然后提出对应的处理方式。&lt;/p&gt;
+&lt;p&gt;但是这样子处理真的没有问题吗？&lt;/p&gt;
     
     </summary>
     
@@ -311,9 +322,10 @@
     <link href="http://yoursite.com/2017/03/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%94-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/03/02/设计模式-五-原型模式/</id>
     <published>2017-03-02T04:13:13.000Z</published>
-    <updated>2017-03-02T04:14:14.115Z</updated>
+    <updated>2017-03-10T04:54:58.565Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Prototype（原型）"><a href="#Prototype（原型）" class="headerlink" title="Prototype（原型）"></a>Prototype（原型）</h1><p>原型模式，是利用已有的实例对象通过克隆的方式，复制出一个具有相同属性的对象，起作用在于<br>当在面临创建一个复杂对象或实例时，通过克隆可以是程序更高效的运行，保证了程序的效率，因此<br>原型模式也是一种创建型模式</p>
+<a id="more"></a>
 <h2 id="Prototype（原型）的UML类图"><a href="#Prototype（原型）的UML类图" class="headerlink" title="Prototype（原型）的UML类图"></a>Prototype（原型）的UML类图</h2><p><img src="http://img.my.csdn.net/uploads/201204/02/1333348002_1920.jpg"></p>
 <ul>
 <li>Client：客户类</li>
@@ -374,7 +386,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Prototype（原型）&quot;&gt;&lt;a href=&quot;#Prototype（原型）&quot; class=&quot;headerlink&quot; title=&quot;Prototype（原型）&quot;&gt;&lt;/a&gt;Prototype（原型）&lt;/h1&gt;&lt;p&gt;原型模式，是利用已有的实例对象通过克隆的方式，复制出
+      &lt;h1 id=&quot;Prototype（原型）&quot;&gt;&lt;a href=&quot;#Prototype（原型）&quot; class=&quot;headerlink&quot; title=&quot;Prototype（原型）&quot;&gt;&lt;/a&gt;Prototype（原型）&lt;/h1&gt;&lt;p&gt;原型模式，是利用已有的实例对象通过克隆的方式，复制出一个具有相同属性的对象，起作用在于&lt;br&gt;当在面临创建一个复杂对象或实例时，通过克隆可以是程序更高效的运行，保证了程序的效率，因此&lt;br&gt;原型模式也是一种创建型模式&lt;/p&gt;
     
     </summary>
     
@@ -390,7 +402,7 @@
     <link href="http://yoursite.com/2017/02/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%9B%9B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/25/设计模式-四-抽象工厂模式/</id>
     <published>2017-02-25T07:13:37.000Z</published>
-    <updated>2017-02-25T07:16:33.997Z</updated>
+    <updated>2017-03-10T04:54:50.548Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Abstract-Factory（抽象工厂）"><a href="#Abstract-Factory（抽象工厂）" class="headerlink" title="Abstract Factory（抽象工厂）"></a>Abstract Factory（抽象工厂）</h1><p>在此之前，已经学习过了<a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/FactoryMethod" target="_blank" rel="external">Factory Method（工厂方法）</a>，抽象工厂和工厂方法这两个模式都属于创建型设计模式，那么根据[工厂]这个词，大概也能猜出这两个模式都是用来“生产”的</p>
 <p>那么这两种用来“生产”的模式 ——— 抽象工厂和工厂方法，这两个设计模式有什么区别呢？或者说也两个模式“生产”的东西有什么不同的吗？</p>
@@ -403,6 +415,7 @@
 <li>如果是用来生产具体细节抽象的产品，产品的内部元素可变，选择<strong>抽象工厂</strong></li>
 </ul>
 <p>说了这么多，但是还没有见到抽象模式的真身，下面先介绍一下抽象工厂模式，然后，再重新打造我们的工厂，让其能够生产更多类型的蛋糕</p>
+<a id="more"></a>
 <h2 id="Abstract-Factory（抽象工厂）的UML类图"><a href="#Abstract-Factory（抽象工厂）的UML类图" class="headerlink" title="Abstract Factory（抽象工厂）的UML类图"></a>Abstract Factory（抽象工厂）的UML类图</h2><p><img src="http://img.my.csdn.net/uploads/201301/25/1359118637_4907.jpg"></p>
 <ul>
 <li>AbstractProductA：抽象产品A<ul>
@@ -470,7 +483,17 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Abstract-Factory（抽象工厂）&quot;&gt;&lt;a href=&quot;#Abstract-Factory（抽象工厂）&quot; class=&quot;headerlink&quot; title=&quot;Abstract Factory（抽象工厂）&quot;&gt;&lt;/a&gt;Abstract Factory（抽象工
+      &lt;h1 id=&quot;Abstract-Factory（抽象工厂）&quot;&gt;&lt;a href=&quot;#Abstract-Factory（抽象工厂）&quot; class=&quot;headerlink&quot; title=&quot;Abstract Factory（抽象工厂）&quot;&gt;&lt;/a&gt;Abstract Factory（抽象工厂）&lt;/h1&gt;&lt;p&gt;在此之前，已经学习过了&lt;a href=&quot;https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/FactoryMethod&quot;&gt;Factory Method（工厂方法）&lt;/a&gt;，抽象工厂和工厂方法这两个模式都属于创建型设计模式，那么根据[工厂]这个词，大概也能猜出这两个模式都是用来“生产”的&lt;/p&gt;
+&lt;p&gt;那么这两种用来“生产”的模式 ——— 抽象工厂和工厂方法，这两个设计模式有什么区别呢？或者说也两个模式“生产”的东西有什么不同的吗？&lt;/p&gt;
+&lt;p&gt;在之前工厂方法的简单实现中，举了个工厂制作蛋糕的例子，那么现在我们的蛋糕店需要生产两种蛋糕，分别为草莓口味的红色的爱心型蛋糕和芒果口味的黄色的方形蛋糕，这两个都是具体的产品，换句话说，对于草莓味心型蛋糕，心型模具和草莓味奶油都是只用来生产这类蛋糕的，那如果我们想做一个爱心型的芒果蛋糕呢？难道还有做一个只属于芒果蛋糕的模具吗？&lt;/p&gt;
+&lt;p&gt;不，当然不是，在日常生活中，对于这种情况，应该是拿一个爱心模具来做一类爱心型蛋糕，而不会说一种蛋糕做一个模具&lt;/p&gt;
+&lt;p&gt;到这里，或许对于抽象工厂和工厂方法的区别还是有点模糊&lt;/p&gt;
+&lt;p&gt;那么，现在来总结一下，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果是用来生成一个复杂的对象，他的内部元素无法抽象出来时，选择&lt;strong&gt;工厂方法模式&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;如果是用来生产具体细节抽象的产品，产品的内部元素可变，选择&lt;strong&gt;抽象工厂&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;说了这么多，但是还没有见到抽象模式的真身，下面先介绍一下抽象工厂模式，然后，再重新打造我们的工厂，让其能够生产更多类型的蛋糕&lt;/p&gt;
     
     </summary>
     
@@ -486,10 +509,11 @@
     <link href="http://yoursite.com/2017/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%89-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/24/设计模式-三-工厂方法模式/</id>
     <published>2017-02-24T04:56:35.000Z</published>
-    <updated>2017-02-25T06:03:09.205Z</updated>
+    <updated>2017-03-10T04:54:41.284Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Factory-Method（工厂方法）"><a href="#Factory-Method（工厂方法）" class="headerlink" title="Factory Method（工厂方法）"></a>Factory Method（工厂方法）</h1><p>工厂，顾名思义是用来生产东西的，那么在平常Coding的过程中，能用在什么地方呢？</p>
 <p>在任何需要生成复杂对象的地方都可以使用工厂模式，当然，如果只是用new就可以创建的对象就没必要使用工厂模式了</p>
+<a id="more"></a>
 <h2 id="Factory-Method（工厂方法）的UML类图"><a href="#Factory-Method（工厂方法）的UML类图" class="headerlink" title="Factory Method（工厂方法）的UML类图"></a>Factory Method（工厂方法）的UML类图</h2><p><img src="http://img.my.csdn.net/uploads/201204/02/1333347948_2280.jpg" alt=""></p>
 <p>如上图</p>
 <ul>
@@ -543,7 +567,8 @@ Hi, I&#39;m product B!</code></p>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Factory-Method（工厂方法）&quot;&gt;&lt;a href=&quot;#Factory-Method（工厂方法）&quot; class=&quot;headerlink&quot; title=&quot;Factory Method（工厂方法）&quot;&gt;&lt;/a&gt;Factory Method（工厂方法）&lt;/h1&gt;&lt;
+      &lt;h1 id=&quot;Factory-Method（工厂方法）&quot;&gt;&lt;a href=&quot;#Factory-Method（工厂方法）&quot; class=&quot;headerlink&quot; title=&quot;Factory Method（工厂方法）&quot;&gt;&lt;/a&gt;Factory Method（工厂方法）&lt;/h1&gt;&lt;p&gt;工厂，顾名思义是用来生产东西的，那么在平常Coding的过程中，能用在什么地方呢？&lt;/p&gt;
+&lt;p&gt;在任何需要生成复杂对象的地方都可以使用工厂模式，当然，如果只是用new就可以创建的对象就没必要使用工厂模式了&lt;/p&gt;
     
     </summary>
     
@@ -559,7 +584,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%8C-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/22/设计模式-二-建造者模式/</id>
     <published>2017-02-22T05:00:50.000Z</published>
-    <updated>2017-02-22T05:02:18.096Z</updated>
+    <updated>2017-03-10T04:54:10.691Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Builder（建造者模式）"><a href="#Builder（建造者模式）" class="headerlink" title="Builder（建造者模式）"></a>Builder（建造者模式）</h1><blockquote>
 <p>对一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示</p>
@@ -567,6 +592,7 @@ Hi, I&#39;m product B!</code></p>
 <p>其实建造者模式在项目中进场能够看到，比如在Android中我们使用AlertDialog的时候</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">AlertDialog.Builder builder =</div><div class="line">      <span class="keyword">new</span> AlertDialog.Builder(context)</div><div class="line">                     .setIcon(R.mipmap.ic_launcher)</div><div class="line">                     .setTitle(<span class="string">"This is title"</span>)</div><div class="line">                     .setMessage(<span class="string">"This is Message"</span>)</div><div class="line">                     .setPositiveButton(<span class="string">"ok"</span>, <span class="keyword">null</span>)</div><div class="line">                     .create();</div><div class="line">builder.show();</div></pre></td></tr></table></figure>
 <p>类似的还有很多的库都使用了这种建造者模式，可以见的学习这种模式的必要性了</p>
+<a id="more"></a>
 <h2 id="Builder（建造者模式）的UML类图"><a href="#Builder（建造者模式）的UML类图" class="headerlink" title="Builder（建造者模式）的UML类图"></a>Builder（建造者模式）的UML类图</h2><p><img src="http://img.my.csdn.net/uploads/201204/02/1333347984_5022.jpg"></p>
 <p>其中：</p>
 <ul>
@@ -596,7 +622,11 @@ Hi, I&#39;m product B!</code></p>
     <summary type="html">
     
       &lt;h1 id=&quot;Builder（建造者模式）&quot;&gt;&lt;a href=&quot;#Builder（建造者模式）&quot; class=&quot;headerlink&quot; title=&quot;Builder（建造者模式）&quot;&gt;&lt;/a&gt;Builder（建造者模式）&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;对一个复杂对象的构
+&lt;p&gt;对一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;其实建造者模式在项目中进场能够看到，比如在Android中我们使用AlertDialog的时候&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;AlertDialog.Builder builder =&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; AlertDialog.Builder(context)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                     .setIcon(R.mipmap.ic_launcher)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                     .setTitle(&lt;span class=&quot;string&quot;&gt;&quot;This is title&quot;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                     .setMessage(&lt;span class=&quot;string&quot;&gt;&quot;This is Message&quot;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                     .setPositiveButton(&lt;span class=&quot;string&quot;&gt;&quot;ok&quot;&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;null&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                     .create();&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;builder.show();&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;类似的还有很多的库都使用了这种建造者模式，可以见的学习这种模式的必要性了&lt;/p&gt;
     
     </summary>
     
@@ -612,7 +642,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/21/%E6%8C%87%E9%92%88,%E6%95%B0%E7%BB%84,%E5%87%BD%E6%95%B0%E9%82%A3%E4%BA%9B%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%A6%82%E5%BF%B5/"/>
     <id>http://yoursite.com/2017/02/21/指针,数组,函数那些容易混淆的概念/</id>
     <published>2017-02-21T07:04:29.000Z</published>
-    <updated>2017-02-21T07:29:30.102Z</updated>
+    <updated>2017-03-10T04:55:18.838Z</updated>
     
     <content type="html"><![CDATA[<p>无论对C还是C++，指针都是其精华所在，但是也是难点所在，本文是为了梳理一些在指针，数组，函数三者中那些容易混淆的概念</p>
 <ul>
@@ -622,6 +652,7 @@ Hi, I&#39;m product B!</code></p>
 <li>函数指针</li>
 <li>函数指针数组</li>
 </ul>
+<a id="more"></a>
 <h2 id="指针和数组"><a href="#指针和数组" class="headerlink" title="指针和数组"></a>指针和数组</h2><h3 id="指针数组"><a href="#指针数组" class="headerlink" title="指针数组"></a>指针数组</h3><p>定义：<code>datatype *arr[length]</code></p>
 <p>指针数组，即在这个数组内，元素都是指针，那么length即数组内包含的指针个数，而指针的类型则跟datatype有关</p>
 <p>举个例子，定义一个字符指针数据，然后访问内部元素</p>
@@ -678,7 +709,8 @@ Hi, I&#39;m product B!</code></p>
 &lt;li&gt;数组指针&lt;/li&gt;
 &lt;li&gt;指针函数&lt;/li&gt;
 &lt;li&gt;函数指针&lt;/li&gt;
-&lt;li&gt;函数指针数组&lt;/
+&lt;li&gt;函数指针数组&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -696,7 +728,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/19/SQLite%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8/"/>
     <id>http://yoursite.com/2017/02/19/SQLite的简单实用/</id>
     <published>2017-02-19T07:16:14.000Z</published>
-    <updated>2017-02-21T07:16:56.680Z</updated>
+    <updated>2017-03-10T04:56:20.135Z</updated>
     
     <content type="html"><![CDATA[<h1 id="使用Android自带的API操作数据库"><a href="#使用Android自带的API操作数据库" class="headerlink" title="使用Android自带的API操作数据库"></a>使用Android自带的API操作数据库</h1><h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><p><code>openOrCreateDatabase(···)</code> 和 <code>databaseList()</code> 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。</p>
 <p>不过，实际开发中，建议总是遵循以下步骤：</p>
@@ -706,6 +738,7 @@ Hi, I&#39;m product B!</code></p>
 <li>如果存在，打开并确认数据是否为最新版本</li>
 <li>如果是旧版本，就运行相关代码升级到最新版本</li>
 </ul>
+<a id="more"></a>
 <p>Android为我们提供的SQLiteOpenHelper类可以帮我们处理这些。首先 SQLiteOpenHelper 类是抽象类，有两个抽象方法 <code>onCreate()</code> 和 <code>onUpgrade()</code>，我们需要重写这两个方法并且分别在这两个方法中去实现创建和升级数据库的逻辑。</p>
 <p>SQLiteOpenHelper 中有两个构造方法可供重写，一般使用参数少一点的那个构造方法即可。这个构造方法接收四个参数：</p>
 <ul>
@@ -823,7 +856,14 @@ Hi, I&#39;m product B!</code></p>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;使用Android自带的API操作数据库&quot;&gt;&lt;a href=&quot;#使用Android自带的API操作数据库&quot; class=&quot;headerlink&quot; title=&quot;使用Android自带的API操作数据库&quot;&gt;&lt;/a&gt;使用Android自带的API操作数据库&lt;/h1&gt;&lt;
+      &lt;h1 id=&quot;使用Android自带的API操作数据库&quot;&gt;&lt;a href=&quot;#使用Android自带的API操作数据库&quot; class=&quot;headerlink&quot; title=&quot;使用Android自带的API操作数据库&quot;&gt;&lt;/a&gt;使用Android自带的API操作数据库&lt;/h1&gt;&lt;h2 id=&quot;创建数据库&quot;&gt;&lt;a href=&quot;#创建数据库&quot; class=&quot;headerlink&quot; title=&quot;创建数据库&quot;&gt;&lt;/a&gt;创建数据库&lt;/h2&gt;&lt;p&gt;&lt;code&gt;openOrCreateDatabase(···)&lt;/code&gt; 和 &lt;code&gt;databaseList()&lt;/code&gt; 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。&lt;/p&gt;
+&lt;p&gt;不过，实际开发中，建议总是遵循以下步骤：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;确认目标数据库实际存在&lt;/li&gt;
+&lt;li&gt;如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据&lt;/li&gt;
+&lt;li&gt;如果存在，打开并确认数据是否为最新版本&lt;/li&gt;
+&lt;li&gt;如果是旧版本，就运行相关代码升级到最新版本&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -841,7 +881,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/18/设计模式-一-：单例模式/</id>
     <published>2017-02-18T14:20:09.000Z</published>
-    <updated>2017-02-21T07:09:04.519Z</updated>
+    <updated>2017-03-10T04:55:07.736Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Singleton-单例模式"><a href="#Singleton-单例模式" class="headerlink" title="Singleton (单例模式)"></a>Singleton (单例模式)</h1><blockquote>
 <p>确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个</p>
@@ -850,10 +890,10 @@ Hi, I&#39;m product B!</code></p>
 <li>构造函数不对外开放，一般设为private</li>
 <li>通过一个静态方法或者枚举返回一个单例类对象</li>
 <li>确保单例类的对象有且只有一个，尤其是在多线程环境下</li>
-<li><p>确保单例类对象在反序列化时不会重新构建对象</p>
-<h2 id="实现方式汇总"><a href="#实现方式汇总" class="headerlink" title="实现方式汇总"></a>实现方式汇总</h2><h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
+<li>确保单例类对象在反序列化时不会重新构建对象</li>
 </ol>
+<a id="more"></a>
+<h2 id="实现方式汇总"><a href="#实现方式汇总" class="headerlink" title="实现方式汇总"></a>实现方式汇总</h2><h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3> <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            instance = <span class="keyword">new</span> Singleton();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>优点：</strong> 只有在使用时才会实例化，在一定程度上节约资源</p>
 <p><strong>缺点：</strong> 第一次加载时需要及时进行实例化，反应稍慢</p>
@@ -884,7 +924,14 @@ Hi, I&#39;m product B!</code></p>
     <summary type="html">
     
       &lt;h1 id=&quot;Singleton-单例模式&quot;&gt;&lt;a href=&quot;#Singleton-单例模式&quot; class=&quot;headerlink&quot; title=&quot;Singleton (单例模式)&quot;&gt;&lt;/a&gt;Singleton (单例模式)&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;确保一个类
+&lt;p&gt;确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;实现单例模式的几个注意点：&quot;&gt;&lt;a href=&quot;#实现单例模式的几个注意点：&quot; class=&quot;headerlink&quot; title=&quot;实现单例模式的几个注意点：&quot;&gt;&lt;/a&gt;实现单例模式的几个注意点：&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;构造函数不对外开放，一般设为private&lt;/li&gt;
+&lt;li&gt;通过一个静态方法或者枚举返回一个单例类对象&lt;/li&gt;
+&lt;li&gt;确保单例类的对象有且只有一个，尤其是在多线程环境下&lt;/li&gt;
+&lt;li&gt;确保单例类对象在反序列化时不会重新构建对象&lt;/li&gt;
+&lt;/ol&gt;
     
     </summary>
     
@@ -900,7 +947,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/"/>
     <id>http://yoursite.com/2017/01/12/Android-BroadcastReceiver/</id>
     <published>2017-01-12T03:14:49.000Z</published>
-    <updated>2017-02-21T07:09:01.440Z</updated>
+    <updated>2017-03-10T04:55:30.052Z</updated>
     
     <content type="html"><![CDATA[<p>广播的应用场景：</p>
 <ul>
@@ -921,6 +968,7 @@ Hi, I&#39;m product B!</code></p>
 </ul>
 </li>
 </ul>
+<a id="more"></a>
 <p>广播的使用，需要继承BroadcastReceiver并实现抽象方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcast</span>  <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span></span>&#123;</div><div class="line">        Toast.makeText(context, <span class="string">"收到广播，执行onReceiver()方法"</span>, Toast.LENGTH_LONG).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>当BroadcastReceiver作为Android的四大组件之一，在使用时，必须对BroadcastReceiver进行注册<br>注册方式分为两种：</p>
 <ul>
@@ -953,7 +1001,20 @@ Hi, I&#39;m product B!</code></p>
 &lt;li&gt;同一app内部的同一组件内的消息通信（单个或多个线程之间）&lt;/li&gt;
 &lt;li&gt;同一app内部的不同组件之间的消息通信&lt;/li&gt;
 &lt;li&gt;同一app具有多个线程的不同组件之间的消息通信&lt;/li&gt;
-&lt;li&gt;不同app之间的组建之间消息
+&lt;li&gt;不同app之间的组建之间消息通信&lt;/li&gt;
+&lt;li&gt;Android系统在特定情况下与App之间的消息通信&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;广播分为两种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;有序广播&lt;ul&gt;
+&lt;li&gt;类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游戏者。若某一个游戏者的花掉了，这就是广播截断，广播就不能继续传下去&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;无序广播&lt;ul&gt;
+&lt;li&gt;类似于老师宣布下课，学生就是广播接收者，基本都是按照同一时间执行某些操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -969,13 +1030,14 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/01/11/Android-ContentProvider/"/>
     <id>http://yoursite.com/2017/01/11/Android-ContentProvider/</id>
     <published>2017-01-11T07:36:06.000Z</published>
-    <updated>2017-02-21T07:08:59.197Z</updated>
+    <updated>2017-03-10T04:56:02.000Z</updated>
     
     <content type="html"><![CDATA[<p>ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享</p>
 <p>ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据</p>
 <p>ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表，然后把数据组织成表格</p>
 <p>ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），<br>getType（的到数据类型），onCreate（创建数据时调用的回调函数）</p>
 <p>每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据</p>
+<a id="more"></a>
 <p>Uri：为系统的每一个资源给其一个名字，它由权限和路径组成，为了避免冲突，权限通常使用应用包名</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 通常使用应用包名为权限</span></div><div class="line"><span class="comment">// 使用Uri.parse方法将字符串解析成Uri对象</span></div><div class="line">Uri uri = Uri.parse(<span class="string">"content://io.innofang.app.provider/table"</span>);</div></pre></td></tr></table></figure>
 <p>Android 所提供的ContentProvider都存放在android.provider包中，将其分为A，B，C，D四个部分，例如:<br><code>content://com.example.transportationprovider/trains/122</code></p>
@@ -992,7 +1054,10 @@ Hi, I&#39;m product B!</code></p>
     <summary type="html">
     
       &lt;p&gt;ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享&lt;/p&gt;
-&lt;p&gt;ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去
+&lt;p&gt;ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据&lt;/p&gt;
+&lt;p&gt;ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表，然后把数据组织成表格&lt;/p&gt;
+&lt;p&gt;ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），&lt;br&gt;getType（的到数据类型），onCreate（创建数据时调用的回调函数）&lt;/p&gt;
+&lt;p&gt;每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据&lt;/p&gt;
     
     </summary>
     

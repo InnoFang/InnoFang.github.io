@@ -101,7 +101,7 @@
 其实建造者模式在项目中进场能够看到，比如在Android中我们使用AlertDialog的时候
 12345678AlertDialog.Builder builder =      new AlertDialog.Builder(context)                     .se">
 <meta property="og:image" content="http://img.my.csdn.net/uploads/201204/02/1333347984_5022.jpg">
-<meta property="og:updated_time" content="2017-02-22T05:02:18.096Z">
+<meta property="og:updated_time" content="2017-03-10T04:54:10.691Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式(二):建造者模式">
 <meta name="twitter:description" content="Builder（建造者模式）
@@ -392,6 +392,7 @@
 <p>其实建造者模式在项目中进场能够看到，比如在Android中我们使用AlertDialog的时候</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">AlertDialog.Builder builder =</div><div class="line">      <span class="keyword">new</span> AlertDialog.Builder(context)</div><div class="line">                     .setIcon(R.mipmap.ic_launcher)</div><div class="line">                     .setTitle(<span class="string">"This is title"</span>)</div><div class="line">                     .setMessage(<span class="string">"This is Message"</span>)</div><div class="line">                     .setPositiveButton(<span class="string">"ok"</span>, <span class="keyword">null</span>)</div><div class="line">                     .create();</div><div class="line">builder.show();</div></pre></td></tr></table></figure>
 <p>类似的还有很多的库都使用了这种建造者模式，可以见的学习这种模式的必要性了</p>
+<a id="more"></a>
 <h2 id="Builder（建造者模式）的UML类图"><a href="#Builder（建造者模式）的UML类图" class="headerlink" title="Builder（建造者模式）的UML类图"></a>Builder（建造者模式）的UML类图</h2><p><img src="http://img.my.csdn.net/uploads/201204/02/1333347984_5022.jpg"></p>
 <p>其中：</p>
 <ul>

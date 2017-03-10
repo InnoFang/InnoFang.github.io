@@ -93,8 +93,7 @@
 构造函数不对外开放，一般设为private
 通过一个静态方法或者枚举返回一个单例类对象
 确保单例类的对象有且只有一个，尤其是在多线程环境下
-确保单例类对象在反序列化时不会重新构建对象
-实现方式汇总饿汉式1234567891011publi">
+确保单例类对象在反序列化时不会重新构建对象">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式(一)：单例模式">
 <meta property="og:url" content="http://yoursite.com/2017/02/18/设计模式-一-：单例模式/index.html">
@@ -106,9 +105,8 @@
 构造函数不对外开放，一般设为private
 通过一个静态方法或者枚举返回一个单例类对象
 确保单例类的对象有且只有一个，尤其是在多线程环境下
-确保单例类对象在反序列化时不会重新构建对象
-实现方式汇总饿汉式1234567891011publi">
-<meta property="og:updated_time" content="2017-02-21T07:09:04.519Z">
+确保单例类对象在反序列化时不会重新构建对象">
+<meta property="og:updated_time" content="2017-03-10T04:55:07.736Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式(一)：单例模式">
 <meta name="twitter:description" content="Singleton (单例模式)
@@ -118,8 +116,7 @@
 构造函数不对外开放，一般设为private
 通过一个静态方法或者枚举返回一个单例类对象
 确保单例类的对象有且只有一个，尤其是在多线程环境下
-确保单例类对象在反序列化时不会重新构建对象
-实现方式汇总饿汉式1234567891011publi">
+确保单例类对象在反序列化时不会重新构建对象">
 
 
 
@@ -403,10 +400,10 @@
 <li>构造函数不对外开放，一般设为private</li>
 <li>通过一个静态方法或者枚举返回一个单例类对象</li>
 <li>确保单例类的对象有且只有一个，尤其是在多线程环境下</li>
-<li><p>确保单例类对象在反序列化时不会重新构建对象</p>
-<h2 id="实现方式汇总"><a href="#实现方式汇总" class="headerlink" title="实现方式汇总"></a>实现方式汇总</h2><h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
+<li>确保单例类对象在反序列化时不会重新构建对象</li>
 </ol>
+<a id="more"></a>
+<h2 id="实现方式汇总"><a href="#实现方式汇总" class="headerlink" title="实现方式汇总"></a>实现方式汇总</h2><h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3> <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            instance = <span class="keyword">new</span> Singleton();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>优点：</strong> 只有在使用时才会实例化，在一定程度上节约资源</p>
 <p><strong>缺点：</strong> 第一次加载时需要及时进行实例化，反应稍慢</p>
