@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%8C-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-03-11T02:18:37.609Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(二):建造者模式</title>
+        <pubTime>2017-02-22T05:00:50.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B9%9D-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2017-03-11T01:51:17.941Z</lastmod>
     <data>
@@ -236,26 +256,6 @@
         <display>
         <title>设计模式(六):策略模式</title>
         <pubTime>2017-03-04T04:03:54.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%8C-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-03-10T04:54:10.691Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(二):建造者模式</title>
-        <pubTime>2017-02-22T05:00:50.000Z</pubTime>
         
         <tag>设计模式</tag>
          
