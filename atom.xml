@@ -652,7 +652,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%8C-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/22/设计模式-二-建造者模式/</id>
     <published>2017-02-22T05:00:50.000Z</published>
-    <updated>2017-03-11T02:18:37.609Z</updated>
+    <updated>2017-03-11T02:25:16.127Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Builder（建造者模式）"><a href="#Builder（建造者模式）" class="headerlink" title="Builder（建造者模式）"></a>Builder（建造者模式）</h1><blockquote>
 <p>对一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示</p>
@@ -690,6 +690,7 @@ Hi, I&#39;m product B!</code></p>
 <p>在这里没有在Builder内部调用外部的setter方法，而是直接在内部类中初始化数据，然后在build之后再传递给私有构造函数，但是这里要注意，因为已经显示的写了一个构造函数，那么系统就不会为我们创建无参的共有构造函数，但是好处就是强制使用了构建者模式构建实例对象</p>
 <p>同时，这种写法也是在《Effective Java》 中提倡的写法</p>
 <p>使用方法跟之前的一样，输出结果也没有什么区别，读者可以自行尝试</p>
+<p>具体使用哪一种写法，视实际情况而定</p>
 <hr>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>关于构建者模式：</p>
 <p><strong>优点</strong> 具有良好的封装性，容易扩展<br><br><strong>缺点</strong> 会产生多余的Builder对象，消耗内存</p>
