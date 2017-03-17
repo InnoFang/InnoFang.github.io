@@ -1,0 +1,755 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Inno's Bolg" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://i1.piimg.com/567571/2940be93a688853d.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Memento（备忘录模式）备忘录模式，在日常开发中就是起到一种”备忘”的作用，即在不破坏封闭的前提下，用于保存对象当前状态，并且在之后可以再次恢复到此状态">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式(十):备忘录模式">
+<meta property="og:url" content="http://yoursite.com/2017/03/17/设计模式-十-备忘录模式/index.html">
+<meta property="og:site_name" content="Inno's Bolg">
+<meta property="og:description" content="Memento（备忘录模式）备忘录模式，在日常开发中就是起到一种”备忘”的作用，即在不破坏封闭的前提下，用于保存对象当前状态，并且在之后可以再次恢复到此状态">
+<meta property="og:image" content="http://my.csdn.net/uploads/201204/02/1333348164_3637.jpg">
+<meta property="og:updated_time" content="2017-03-17T05:00:40.057Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式(十):备忘录模式">
+<meta name="twitter:description" content="Memento（备忘录模式）备忘录模式，在日常开发中就是起到一种”备忘”的作用，即在不破坏封闭的前提下，用于保存对象当前状态，并且在之后可以再次恢复到此状态">
+<meta name="twitter:image" content="http://my.csdn.net/uploads/201204/02/1333348164_3637.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/17/设计模式-十-备忘录模式/"/>
+
+
+
+
+
+  <title> 设计模式(十):备忘录模式 | Inno's Bolg </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Inno's Bolg</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Inno的技术小窝</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+
+    
+
+  
+  
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/设计模式-十-备忘录模式/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Inno Fang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Inno's Bolg">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                设计模式(十):备忘录模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-17T12:59:13+08:00">
+                2017-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Memento（备忘录模式）"><a href="#Memento（备忘录模式）" class="headerlink" title="Memento（备忘录模式）"></a>Memento（备忘录模式）</h1><p>备忘录模式，在日常开发中就是起到一种”备忘”的作用，即在不破坏封闭的前提下，用于保存对象当前状态，并且在之后可以再次恢复到此状态</p>
+<a id="more"></a>
+<p>这种模式很好理解，所以下面直接看UML类图</p>
+<h2 id="Memento（备忘录模式）的UML类图"><a href="#Memento（备忘录模式）的UML类图" class="headerlink" title="Memento（备忘录模式）的UML类图"></a>Memento（备忘录模式）的UML类图</h2><p><img src="http://my.csdn.net/uploads/201204/02/1333348164_3637.jpg" alt="Memento"></p>
+<ul>
+<li>Originator : 创建备忘录，可用于记录，恢复自身状态</li>
+<li>Memento : 备忘录实体类，用于存储Originator的内部状态，防止Originator以外的类访问</li>
+<li>Caretaker : 用于存储和获取备忘录，不能对备忘录的内容进行访问和修改</li>
+</ul>
+<p>如果将Originator比作一张记有备忘细节的便签的话，Caretaker就好比是一个便签本，而Memento就相当于你这个备忘录要记录的要点</p>
+<p>通俗的说，你在一张便签(Originator)上记录东西，你在记录东西时是按照记录要点(Memento)来记录的，那么便签自然是存在便签本(Caretaker)上的</p>
+<p>这三者的关系就是如上所述，下面来看看备忘录模式的简单实现吧</p>
+<h2 id="备忘录模式的简单实现"><a href="#备忘录模式的简单实现" class="headerlink" title="备忘录模式的简单实现"></a>备忘录模式的简单实现</h2><p>既然是备忘录模式，那么要举例的话，还是实现一个备忘录便签本更直观一点</p>
+<p>首先是要实现的是备忘录的要点(Memento)，因为只有将细节都规定好了，记录时才能不遗漏<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Memento &#123;</div><div class="line">    private String mDate;</div><div class="line">    private String mTodo;</div><div class="line">    private boolean mIsFinish;</div><div class="line"></div><div class="line">    // 省略 getter 和 setter 方法</div><div class="line"></div><div class="line">    // 省略 toString 方法</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>从上面的代码可以看出，在备忘录将要简单的记录日期，要做的事，以及是否完成这些细节</p>
+<p>下面就是记录备忘细节，将该类命名为ToDo，即将要做的事<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ToDo</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String mDate;</div><div class="line">    <span class="keyword">private</span> String mTodo;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mIsFinish;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ToDo</span><span class="params">()</span> </span>&#123;</div><div class="line">        mDate = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy/MM/dd EE HH:mm:ss"</span>).format(<span class="keyword">new</span> Date());</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 设置 todo 细节 以及是否完成</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setToDoDetail</span><span class="params">(String todo, <span class="keyword">boolean</span> isFinish)</span> </span>&#123;</div><div class="line">        mTodo = todo;</div><div class="line">        mIsFinish = isFinish;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 创建备忘录</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Memento <span class="title">createMemoto</span><span class="params">()</span> </span>&#123;</div><div class="line">        Memento memento = <span class="keyword">new</span> Memento();</div><div class="line">        memento.setDate(mDate);</div><div class="line">        memento.setTodo(mTodo);</div><div class="line">        memento.setIsFinish(mIsFinish);</div><div class="line">        <span class="keyword">return</span> memento;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 从备忘录中恢复数据</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">restore</span><span class="params">(Memento memento)</span> </span>&#123;</div><div class="line">        mDate = memento.getDate();</div><div class="line">        mTodo = memento.getTodo();</div><div class="line">        mIsFinish = memento.isFinish();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 省略 getter 和 setter 方法</span></div><div class="line"></div><div class="line">    <span class="comment">// 省略 toString 方法</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>从上面代码中看出，ToDo的属性是包含memento的属性的，然后在内部完成创建备忘录和恢复备忘录的细节实现</p>
+<p>下面就是定义一个备忘录本子，用于存储备忘录<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Caretaker</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Memento mMemoto;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">archive</span><span class="params">(Memento memoto)</span> </span>&#123;</div><div class="line">        mMemoto = memoto;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Memento <span class="title">getMemoto</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mMemoto;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>正如之前所说，备忘录本子不对备忘录的内容有任何访问和修改，所以这里只需要对备忘录进行存储和获得就可以了</p>
+<p>简单实现过后，那么就来测试一下，这里会先创建一份备忘录，然后记录备忘细节，然后再取出一份备忘录，恢复备份细节，然后修改备忘细节<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 创建备忘录</span></div><div class="line">ToDo toDo = <span class="keyword">new</span> ToDo();</div><div class="line"><span class="comment">// 下午两点写Java，未完成</span></div><div class="line">toDo.setToDoDetail(<span class="string">"Write Java at 2 pm"</span>, <span class="keyword">false</span>);</div><div class="line"><span class="comment">// 创建备忘录本子，用于存储备忘录</span></div><div class="line">Caretaker caretaker = <span class="keyword">new</span> Caretaker();</div><div class="line">caretaker.archive(toDo.createMemoto());</div><div class="line"><span class="comment">// 查看备忘细节</span></div><div class="line">System.out.println(toDo.toString());</div><div class="line"><span class="comment">// 重新拿一份备忘录，并恢复之前的备忘细节，并标注任务已完成</span></div><div class="line">ToDo newToDo = <span class="keyword">new</span> ToDo();</div><div class="line">newToDo.restore(caretaker.getMemoto());</div><div class="line">newToDo.setIsFinish(<span class="keyword">true</span>);</div><div class="line"><span class="comment">// 查看备忘细节</span></div><div class="line">System.out.println(newToDo.toString());</div></pre></td></tr></table></figure></p>
+<p>看一下输出结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ToDo&#123;Date=<span class="string">'2017/03/15 星期三 15:18:05'</span>, Todo=<span class="string">'Write Java at 2 pm'</span>, IsFinish=<span class="keyword">false</span>&#125;</div><div class="line">ToDo&#123;Date=<span class="string">'2017/03/15 星期三 15:18:05'</span>, Todo=<span class="string">'Write Java at 2 pm'</span>, IsFinish=<span class="keyword">true</span>&#125;</div></pre></td></tr></table></figure></p>
+<p>END.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/11/设计模式-九-观察者模式/" rel="next" title="设计模式(九):观察者模式">
+                <i class="fa fa-chevron-left"></i> 设计模式(九):观察者模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://i1.piimg.com/567571/2940be93a688853d.jpg"
+               alt="Inno Fang" />
+          <p class="site-author-name" itemprop="name">Inno Fang</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap, show me the code.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/InnoFang" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Memento（备忘录模式）"><span class="nav-number">1.</span> <span class="nav-text">Memento（备忘录模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Memento（备忘录模式）的UML类图"><span class="nav-number">1.1.</span> <span class="nav-text">Memento（备忘录模式）的UML类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备忘录模式的简单实现"><span class="nav-number">1.2.</span> <span class="nav-text">备忘录模式的简单实现</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Inno Fang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
