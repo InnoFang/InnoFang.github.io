@@ -4,29 +4,8 @@
 
     
   <url>
-    <loc>http://yoursite.com/2017/03/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-03-17T05:00:40.057Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(十):备忘录模式</title>
-        <pubTime>2017-03-17T04:59:13.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-    
-  <url>
     <loc>http://yoursite.com/2017/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%8C-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-03-11T02:25:16.127Z</lastmod>
+    <lastmod>2017-03-19T04:58:52.616Z</lastmod>
     <data>
         <display>
         <title>设计模式(二):建造者模式</title>
@@ -46,7 +25,7 @@
     
   <url>
     <loc>http://yoursite.com/2017/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B9%9D-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-03-11T01:51:17.941Z</lastmod>
+    <lastmod>2017-03-19T04:58:17.569Z</lastmod>
     <data>
         <display>
         <title>设计模式(九):观察者模式</title>
@@ -63,6 +42,27 @@
     </data>
     </url>
 
+    
+  <url>
+    <loc>http://yoursite.com/2017/03/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-03-17T05:00:40.057Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(十):备忘录模式</title>
+        <pubTime>2017-03-17T04:59:13.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://yoursite.com/2017/01/11/Android-ContentProvider/</loc>

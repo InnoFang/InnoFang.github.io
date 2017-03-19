@@ -86,23 +86,17 @@
 
 
 
-<meta name="description" content="Observer（观察者模式）如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性
-那么观察者模式可以运用到什么场景中呢？
-举个现实中典型的例子，当你订阅了一份杂志时，就使用了这种模式，你只需要订阅这份杂志，那么只要杂志更新了就会自动送到你的手上。当然，观察者模式的用途远不止这些，但是处理的事件类型，就类似这种。">
+<meta name="description" content="Observer（观察者模式）如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式(九):观察者模式">
 <meta property="og:url" content="http://yoursite.com/2017/03/11/设计模式-九-观察者模式/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="Observer（观察者模式）如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性
-那么观察者模式可以运用到什么场景中呢？
-举个现实中典型的例子，当你订阅了一份杂志时，就使用了这种模式，你只需要订阅这份杂志，那么只要杂志更新了就会自动送到你的手上。当然，观察者模式的用途远不止这些，但是处理的事件类型，就类似这种。">
+<meta property="og:description" content="Observer（观察者模式）如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性">
 <meta property="og:image" content="http://my.csdn.net/uploads/201204/02/1333348177_4158.jpg">
-<meta property="og:updated_time" content="2017-03-11T01:51:17.941Z">
+<meta property="og:updated_time" content="2017-03-19T04:58:17.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式(九):观察者模式">
-<meta name="twitter:description" content="Observer（观察者模式）如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性
-那么观察者模式可以运用到什么场景中呢？
-举个现实中典型的例子，当你订阅了一份杂志时，就使用了这种模式，你只需要订阅这份杂志，那么只要杂志更新了就会自动送到你的手上。当然，观察者模式的用途远不止这些，但是处理的事件类型，就类似这种。">
+<meta name="twitter:description" content="Observer（观察者模式）如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性">
 <meta name="twitter:image" content="http://my.csdn.net/uploads/201204/02/1333348177_4158.jpg">
 
 
@@ -381,9 +375,9 @@
 
       
         <h1 id="Observer（观察者模式）"><a href="#Observer（观察者模式）" class="headerlink" title="Observer（观察者模式）"></a>Observer（观察者模式）</h1><p>如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性</p>
+<a id="more"></a>
 <p>那么观察者模式可以运用到什么场景中呢？</p>
 <p>举个现实中典型的例子，当你订阅了一份杂志时，就使用了这种模式，你只需要订阅这份杂志，那么只要杂志更新了就会自动送到你的手上。<br>当然，观察者模式的用途远不止这些，但是处理的事件类型，就类似这种。</p>
-<a id="more"></a>
 <p>对于初学者来说，观察者模式容易混淆的就是一些英文名词了，这里先解释一下，还是拿你订阅杂志这件事来举例：</p>
 <ul>
 <li>观察者：Observer，有时候也叫Subscriber(订阅者)，相当于那个订阅杂志的”你”</li>
