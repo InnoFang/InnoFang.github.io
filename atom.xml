@@ -269,12 +269,12 @@
     <link href="http://yoursite.com/2017/03/09/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%83-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/03/09/设计模式-七-状态模式/</id>
     <published>2017-03-09T04:09:50.000Z</published>
-    <updated>2017-03-10T04:54:34.408Z</updated>
+    <updated>2017-03-22T09:54:08.167Z</updated>
     
     <content type="html"><![CDATA[<h1 id="State（状态模式）"><a href="#State（状态模式）" class="headerlink" title="State（状态模式）"></a>State（状态模式）</h1><p>什么是状态模式呢？</p>
 <p>有时候做一件事会存在很多的状态，而在不同的状态之下会有不同的行为。而状态模式就是根据不同的状态来改变不同的行为</p>
-<p>下面看一下状态模式的UML类图</p>
 <a id="more"></a>
+<p>下面看一下状态模式的UML类图</p>
 <h2 id="State（状态模式）的UML类图"><a href="#State（状态模式）的UML类图" class="headerlink" title="State（状态模式）的UML类图"></a>State（状态模式）的UML类图</h2><p><img src="http://my.csdn.net/uploads/201204/02/1333348183_3457.jpg"></p>
 <ul>
 <li>Context：上下文，维护状态的实例</li>
@@ -325,7 +325,6 @@
     
       &lt;h1 id=&quot;State（状态模式）&quot;&gt;&lt;a href=&quot;#State（状态模式）&quot; class=&quot;headerlink&quot; title=&quot;State（状态模式）&quot;&gt;&lt;/a&gt;State（状态模式）&lt;/h1&gt;&lt;p&gt;什么是状态模式呢？&lt;/p&gt;
 &lt;p&gt;有时候做一件事会存在很多的状态，而在不同的状态之下会有不同的行为。而状态模式就是根据不同的状态来改变不同的行为&lt;/p&gt;
-&lt;p&gt;下面看一下状态模式的UML类图&lt;/p&gt;
     
     </summary>
     
