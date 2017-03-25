@@ -824,7 +824,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%8C-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/22/设计模式-二-建造者模式/</id>
     <published>2017-02-22T05:00:50.000Z</published>
-    <updated>2017-03-25T03:20:29.791Z</updated>
+    <updated>2017-03-25T03:23:31.646Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Builder（建造者模式）"><a href="#Builder（建造者模式）" class="headerlink" title="Builder（建造者模式）"></a>Builder（建造者模式）</h1><blockquote>
 <p>对一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示</p>
@@ -832,7 +832,7 @@ Hi, I&#39;m product B!</code></p>
 <p>其实建造者模式在项目中进场能够看到，比如在Android中我们使用AlertDialog的时候</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">AlertDialog.Builder builder =</div><div class="line">      <span class="keyword">new</span> AlertDialog.Builder(context)</div><div class="line">                     .setIcon(R.mipmap.ic_launcher)</div><div class="line">                     .setTitle(<span class="string">"This is title"</span>)</div><div class="line">                     .setMessage(<span class="string">"This is Message"</span>)</div><div class="line">                     .setPositiveButton(<span class="string">"ok"</span>, <span class="keyword">null</span>)</div><div class="line">                     .create();</div><div class="line">builder.show();</div></pre></td></tr></table></figure>
 <p>类似的还有很多的库都使用了这种建造者模式，可以见的学习这种模式的必要性了</p>
-<h2 id="Builder（建造者模式）的UML类图"><a href="#Builder（建造者模式）的UML类图" class="headerlink" title="Builder（建造者模式）的UML类图"></a>Builder（建造者模式）的UML类图</h2><p><img src="" alt="">“<a href="http://img.my.csdn.net/uploads/201204/02/1333347984_5022.jpg" target="_blank" rel="external">http://img.my.csdn.net/uploads/201204/02/1333347984_5022.jpg</a>“)</p>
+<h2 id="Builder（建造者模式）的UML类图"><a href="#Builder（建造者模式）的UML类图" class="headerlink" title="Builder（建造者模式）的UML类图"></a>Builder（建造者模式）的UML类图</h2><p><img src="&quot;http://img.my.csdn.net/uploads/201204/02/1333347984_5022.jpg&quot;" alt=""></p>
 <p>其中：</p>
 <ul>
 <li>Builder类 : 是抽象类，用来规范子类的组建</li>
