@@ -824,7 +824,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%8C-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/22/设计模式-二-建造者模式/</id>
     <published>2017-02-22T05:00:50.000Z</published>
-    <updated>2017-03-25T03:23:31.646Z</updated>
+    <updated>2017-03-25T03:42:38.649Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Builder（建造者模式）"><a href="#Builder（建造者模式）" class="headerlink" title="Builder（建造者模式）"></a>Builder（建造者模式）</h1><blockquote>
 <p>对一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示</p>
@@ -832,7 +832,7 @@ Hi, I&#39;m product B!</code></p>
 <p>其实建造者模式在项目中进场能够看到，比如在Android中我们使用AlertDialog的时候</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">AlertDialog.Builder builder =</div><div class="line">      <span class="keyword">new</span> AlertDialog.Builder(context)</div><div class="line">                     .setIcon(R.mipmap.ic_launcher)</div><div class="line">                     .setTitle(<span class="string">"This is title"</span>)</div><div class="line">                     .setMessage(<span class="string">"This is Message"</span>)</div><div class="line">                     .setPositiveButton(<span class="string">"ok"</span>, <span class="keyword">null</span>)</div><div class="line">                     .create();</div><div class="line">builder.show();</div></pre></td></tr></table></figure>
 <p>类似的还有很多的库都使用了这种建造者模式，可以见的学习这种模式的必要性了</p>
-<h2 id="Builder（建造者模式）的UML类图"><a href="#Builder（建造者模式）的UML类图" class="headerlink" title="Builder（建造者模式）的UML类图"></a>Builder（建造者模式）的UML类图</h2><p><img src="&quot;http://img.my.csdn.net/uploads/201204/02/1333347984_5022.jpg&quot;" alt=""></p>
+<h2 id="Builder（建造者模式）的UML类图"><a href="#Builder（建造者模式）的UML类图" class="headerlink" title="Builder（建造者模式）的UML类图"></a>Builder（建造者模式）的UML类图</h2><p><img src="http://img.my.csdn.net/uploads/201204/02/1333347984_5022.jpg" alt=""></p>
 <p>其中：</p>
 <ul>
 <li>Builder类 : 是抽象类，用来规范子类的组建</li>
@@ -1130,11 +1130,12 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/18/设计模式-一-：单例模式/</id>
     <published>2017-02-18T14:20:09.000Z</published>
-    <updated>2017-03-25T03:40:38.722Z</updated>
+    <updated>2017-03-25T03:42:21.301Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Singleton-单例模式"><a href="#Singleton-单例模式" class="headerlink" title="Singleton (单例模式)"></a>Singleton (单例模式)</h1><blockquote>
 <p>确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="实现单例模式的几个注意点："><a href="#实现单例模式的几个注意点：" class="headerlink" title="实现单例模式的几个注意点："></a>实现单例模式的几个注意点：</h2><ol>
 <li>构造函数不对外开放，一般设为private</li>
 <li>通过一个静态方法或者枚举返回一个单例类对象</li>
@@ -1174,7 +1175,8 @@ Hi, I&#39;m product B!</code></p>
     <summary type="html">
     
       &lt;h1 id=&quot;Singleton-单例模式&quot;&gt;&lt;a href=&quot;#Singleton-单例模式&quot; class=&quot;headerlink&quot; title=&quot;Singleton (单例模式)&quot;&gt;&lt;/a&gt;Singleton (单例模式)&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;确保一个类
+&lt;p&gt;确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
