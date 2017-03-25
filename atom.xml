@@ -1130,7 +1130,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/18/设计模式-一-：单例模式/</id>
     <published>2017-02-18T14:20:09.000Z</published>
-    <updated>2017-03-10T04:55:07.736Z</updated>
+    <updated>2017-03-25T03:40:38.722Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Singleton-单例模式"><a href="#Singleton-单例模式" class="headerlink" title="Singleton (单例模式)"></a>Singleton (单例模式)</h1><blockquote>
 <p>确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个</p>
@@ -1141,7 +1141,6 @@ Hi, I&#39;m product B!</code></p>
 <li>确保单例类的对象有且只有一个，尤其是在多线程环境下</li>
 <li>确保单例类对象在反序列化时不会重新构建对象</li>
 </ol>
-<a id="more"></a>
 <h2 id="实现方式汇总"><a href="#实现方式汇总" class="headerlink" title="实现方式汇总"></a>实现方式汇总</h2><h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3> <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            instance = <span class="keyword">new</span> Singleton();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>优点：</strong> 只有在使用时才会实例化，在一定程度上节约资源</p>
@@ -1166,21 +1165,16 @@ Hi, I&#39;m product B!</code></p>
 <li>并且在使用可以通过统一的接口进行获取操作，降低用户成本</li>
 <li>对用户隐藏了具体实现，降低了耦合度</li>
 </ul>
-<hr>
 <p>无论采用哪种方式，都应该根据项目本身来决定</p>
+<p>参考：《Android源码设计模式解析与实战》</p>
+<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/Singleton" target="_blank" rel="external">源码地址</a></p>
+<p><a href="https://innofang.github.io" target="_blank" rel="external">更多内容</a></p>
 ]]></content>
     
     <summary type="html">
     
       &lt;h1 id=&quot;Singleton-单例模式&quot;&gt;&lt;a href=&quot;#Singleton-单例模式&quot; class=&quot;headerlink&quot; title=&quot;Singleton (单例模式)&quot;&gt;&lt;/a&gt;Singleton (单例模式)&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;实现单例模式的几个注意点：&quot;&gt;&lt;a href=&quot;#实现单例模式的几个注意点：&quot; class=&quot;headerlink&quot; title=&quot;实现单例模式的几个注意点：&quot;&gt;&lt;/a&gt;实现单例模式的几个注意点：&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;构造函数不对外开放，一般设为private&lt;/li&gt;
-&lt;li&gt;通过一个静态方法或者枚举返回一个单例类对象&lt;/li&gt;
-&lt;li&gt;确保单例类的对象有且只有一个，尤其是在多线程环境下&lt;/li&gt;
-&lt;li&gt;确保单例类对象在反序列化时不会重新构建对象&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;确保一个类
     
     </summary>
     
