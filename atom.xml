@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-22T09:53:49.040Z</updated>
+  <updated>2017-03-25T03:01:28.124Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>设计模式(十二):模板方法模式</title>
+    <link href="http://yoursite.com/2017/03/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%BA%8C-%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2017/03/25/设计模式-十二-模板方法模式/</id>
+    <published>2017-03-25T03:00:14.000Z</published>
+    <updated>2017-03-25T03:01:28.124Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Template-Method（模板方法）"><a href="#Template-Method（模板方法）" class="headerlink" title="Template Method（模板方法）"></a>Template Method（模板方法）</h1><p>在日常的开发中，模板方法是一种用于流程封装的设计模式</p>
+<p>比如，类似的功能或许具体的实现细节不一样，但是功能的执行流程是一样的，这时通过将执行流程封装起来，那么在使用这种模式的时候，只需要去关注如何实现功能细节就可以了。这样将公共代码提取出来，便于维护。<br><a id="more"></a></p>
+<h2 id="Template-Method（模板方法）的UML类图"><a href="#Template-Method（模板方法）的UML类图" class="headerlink" title="Template Method（模板方法）的UML类图"></a>Template Method（模板方法）的UML类图</h2><p><img src="http://my.csdn.net/uploads/201204/02/1333348131_8870.jpg" alt=""></p>
+<ul>
+<li>AbstractClass : 抽象模板，定义了模板方法的执行流程</li>
+<li>ConcreteClass : 具体实现类</li>
+</ul>
+<h2 id="模板方法的简单实现"><a href="#模板方法的简单实现" class="headerlink" title="模板方法的简单实现"></a>模板方法的简单实现</h2><p>如果非要说一个现实中的案例的话，我觉可以例举工厂中的流水线 (Assembly Line)</p>
+<p>因为一条流水线的分工是明确的，流水线的头部是加工元器件，中部是元器件装配，尾部就是将电子产品打包装箱，这是流水线作业的流程，但是具体是装配什么电子产品，需要在那个流程上注意什么细节，每一条流水线都是不一样的，如果开发者需要开发类似的功能，利用模板方法模式是再合适不过的了</p>
+<p>经过上面的介绍，下面就来实现以下这个案例</p>
+<p>首先就是对流水线作业流程进行抽象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AssemblyLine</span> </span>&#123;</div><div class="line">    <span class="comment">/* 生产产品外壳 */</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceShell</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Produce Shell"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 生产元器件 */</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceComponents</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Produce some components"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 元器件装配 */</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onAssemblyComponents</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Assembly Components"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 产品测试 */</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onTestProducts</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"Test Products"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 产品装箱 */</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProductPacking</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Product Packing"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 流水线产品制作流程封装 */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">product</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"+------Start Product------+"</span>);</div><div class="line">        onProduceShell();</div><div class="line">        onProduceComponents();</div><div class="line">        onAssemblyComponents();</div><div class="line">        onTestProducts();</div><div class="line">        onProduceComponents();</div><div class="line">        onProductPacking();</div><div class="line">        System.out.println(<span class="string">"+------Finish Product------+"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在流水线作业中，我将具体流程分成了上面五个部分：</p>
+<ul>
+<li>生产产品外壳</li>
+<li>生产元器件</li>
+<li>元器件装配</li>
+<li>产品测试</li>
+<li>产品装箱</li>
+</ul>
+<p>并且对于流水线的执行流程的代码使用了 final 修饰，这样子类就不可以重写这个方法</p>
+<p>为了简单起见，内部方法的实现用一句输出代替，但是具体实现细节应该根据具体情况而定，因为这种流程式的功能设计，或多说少都会有共有的实现，那么就可以将共有代码写在抽象类的对应方法内部</p>
+<p>如果这是一家电子产品生产厂的流水线，那么就会各种各样的电子产品，那么这里例举生产收音机的流水线和生产电脑的流水线，其他情况可以自行拓展</p>
+<p>生产收音机的流水线<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RadioAssemblyLine</span> <span class="keyword">extends</span> <span class="title">AssemblyLine</span> </span>&#123;</div><div class="line">    <span class="comment">/* 生产收音机元器件和天线 */</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceComponents</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Product Radio Components and Antennas"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在这里，只重写了一个生产元器件的方法</p>
+<p>再来看一下生产电脑的流水线，为了区分与生产收音机的流水线，这里多重写几个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ComputerAssemblyLine</span> <span class="keyword">extends</span> <span class="title">AssemblyLine</span> </span>&#123;</div><div class="line">    <span class="comment">/* 生产铝合金外壳和液晶显示屏 */</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceShell</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Product Aluminum housing and Liquid Crystal Display"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 生产元器件和键盘 */</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceComponents</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Product Components and keyboard"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 将产品打包并标上苹果标签 */</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProductPacking</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Pack and Mark the Apple trademark"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里多重写了产品装配方法和产品打包方法</p>
+<p>可以看到的是，在这两个具体的流水线中，都只写了区别于其他流水线的代码，代码更加的简洁了</p>
+<p>因为，流水线的工作流程都已经封装好了，那么在接下来的测试中，只需要直接调用就可以了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">AssemblyLine assemblyLine = <span class="keyword">new</span> RadioAssemblyLine();</div><div class="line">assemblyLine.product();</div><div class="line"></div><div class="line">System.out.println();</div><div class="line"></div><div class="line">assemblyLine = <span class="keyword">new</span> ComputerAssemblyLine();</div><div class="line">assemblyLine.product();</div></pre></td></tr></table></figure></p>
+<p>看一下输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">+------Start Product------+</div><div class="line">Produce Shell</div><div class="line">Product Radio Components and Antennas</div><div class="line">Assembly Components</div><div class="line">Test Products</div><div class="line">Product Radio Components and Antennas</div><div class="line">Product Packing</div><div class="line">+------Finish Product------+</div><div class="line"></div><div class="line">+------Start Product------+</div><div class="line">Product Aluminum housing and Liquid Crystal Display</div><div class="line">Product Components and keyboard</div><div class="line">Assembly Components</div><div class="line">Test Products</div><div class="line">Product Components and keyboard</div><div class="line">Pack and Mark the Apple trademark</div><div class="line">+------Finish Product------+</div></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在上面的编码过程中，模板方法最明显的优势就是将不变的地方进行封装，扩展可变的部分，这样操作更有利于维护。</p>
+<p>模板方法是一种十分常用的设计模式，如果你是一名 Android Developer ，那么你应该知道 AsyncTask 这个用于异步加载的工具，那么 AsyncTask 就是一个在 Android 中一个模板方法的使用案例，当然不只有 AsyncTask，Android 的生命周期函数也使用了模板方法这个设计模式，有兴趣的同学可以去查看一下源码。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Template-Method（模板方法）&quot;&gt;&lt;a href=&quot;#Template-Method（模板方法）&quot; class=&quot;headerlink&quot; title=&quot;Template Method（模板方法）&quot;&gt;&lt;/a&gt;Template Method（模板方法）&lt;/h1&gt;&lt;p&gt;在日常的开发中，模板方法是一种用于流程封装的设计模式&lt;/p&gt;
+&lt;p&gt;比如，类似的功能或许具体的实现细节不一样，但是功能的执行流程是一样的，这时通过将执行流程封装起来，那么在使用这种模式的时候，只需要去关注如何实现功能细节就可以了。这样将公共代码提取出来，便于维护。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>设计模式(十一):迭代器模式</title>
