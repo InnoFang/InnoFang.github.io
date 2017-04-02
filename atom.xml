@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-25T03:01:28.124Z</updated>
+  <updated>2017-04-02T07:08:05.932Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,102 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>计算机网络之绪论</title>
+    <link href="http://yoursite.com/2017/04/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B9%8B%E7%BB%AA%E8%AE%BA/"/>
+    <id>http://yoursite.com/2017/04/02/计算机网络之绪论/</id>
+    <published>2017-04-02T06:55:35.000Z</published>
+    <updated>2017-04-02T07:08:05.932Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h2><ul>
+<li><strong>强调信息传输</strong>  以计算机之间<em>传输信息</em>为主要目的而连接起来以<em>实现远程信息处理</em>和进一步<em>实现资源共享</em>的计算机系统、</li>
+<li><strong>强调共享资源</strong>  以共享资源为主要目的把具有独立功能的计算机连接起来的计算机系统的集合</li>
+<li><strong>强调用户透明性</strong>  计算机网络就是一个巨大的计算机系统，用户不会察觉多个计算机系统的存在，不用熟悉资源的分布情况就可以调用计算机各系统的资源。</li>
+</ul>
+<p>凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。</p>
+<h2 id="现代计算机网络的基本特征"><a href="#现代计算机网络的基本特征" class="headerlink" title="现代计算机网络的基本特征"></a>现代计算机网络的基本特征</h2><p>现代计算机网络最基本的特征包括：</p>
+<ul>
+<li><strong>主机</strong> ( Computer/Host )</li>
+<li><strong>通信子网</strong> ( Connected with media )</li>
+<li><strong>通信协议</strong> ( Communication protocal and Share information )</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/%E6%97%A9%E6%9C%9F%E7%BD%91%E7%BB%9C.png" width="375"> <img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/%E7%8E%B0%E4%BB%A3%E7%BD%91%E7%BB%9C.png" width="375"></p>
+<p>早期网络&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现代网路</p>
+<h2 id="计算机网络的主要功能"><a href="#计算机网络的主要功能" class="headerlink" title="计算机网络的主要功能"></a>计算机网络的主要功能</h2><p>计算机网络的主要功能为：</p>
+<ul>
+<li><strong>数据通信</strong>  以文件传输和电子邮件服务为代表的数据通信是计算机网络最基本的功能之一，通过计算机网络可以快速的传递文件和消息，为人们提供一种无纸化办公的环境</li>
+<li><strong>资源共享</strong>  指网上用户能够使用全部或部分网络资源，从而大幅度提高各种硬件，软件和数据资源的利用率和使用效果。资源共享包括硬件、软件和数据资源的共享。</li>
+</ul>
+<p>除以上两点之外，计算机网络可以实现系统冗余，有效提高计算机系统的可靠性和可用性，同时易于进行分布处理，实现协同式的网络计算</p>
+<h2 id="计算机网络的分类"><a href="#计算机网络的分类" class="headerlink" title="计算机网络的分类"></a>计算机网络的分类</h2><table>
+<thead>
+<tr>
+<th>依据</th>
+<th>分类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>传输介质</td>
+<td>有线网络、无线网络</td>
+</tr>
+<tr>
+<td>经营方式</td>
+<td>专用网络、公用网络</td>
+</tr>
+<tr>
+<td>服务类型</td>
+<td>电信网络、有线电视网络、计算机网络</td>
+</tr>
+<tr>
+<td>信道方式</td>
+<td>点-点、 广播</td>
+</tr>
+<tr>
+<td>地理范围</td>
+<td>局域网、广域网、城域网</td>
+</tr>
+<tr>
+<td>拓扑结构</td>
+<td>总线、星型、环型、树型、网状</td>
+</tr>
+<tr>
+<td>资源管理</td>
+<td>对等网络、客户/服务器网络</td>
+</tr>
+</tbody>
+</table>
+<h2 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a>网络协议</h2><p>计算机网络是有多个互联的结点组成的，结点之间要不断地交换数据和控制信息。要做到有条不紊地交换数据，每个结点都必须遵守一些事先约定好的的规则。</p>
+<p>将这种<strong>由通信双方共同遵守的通信语义和通信规则的集合</strong>称为网络协议。</p>
+<p>从功能角度来讲由以下三要素构成：</p>
+<ul>
+<li><strong>语法</strong>：用户数据与控制信息的结构和格式 （什么结构）</li>
+<li><strong>语义</strong>：需要发出何种控制信息，以及完成的动作与要做出的响应 （要干什么）</li>
+<li><strong>时序</strong>：对事件实现顺序的详细说明和速度匹配</li>
+</ul>
+<h2 id="网络互联标准"><a href="#网络互联标准" class="headerlink" title="网络互联标准"></a>网络互联标准</h2><ul>
+<li><strong>OSI</strong>  开放式系统互联模型</li>
+<li><p><strong>TCP/IP</strong>  传输控制协议/网际互连协议</p>
+<p><img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/OSI_TCP-IP.png" alt="OSI&amp;TCP/IP"></p>
+</li>
+</ul>
+<h2 id="IEEE802系列标准"><a href="#IEEE802系列标准" class="headerlink" title="IEEE802系列标准"></a>IEEE802系列标准</h2><p> <img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/IEEE802%E7%B3%BB%E5%88%97%E6%A0%87%E5%87%86.png" alt="IEEE802系列标准"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;计算机网络的定义&quot;&gt;&lt;a href=&quot;#计算机网络的定义&quot; class=&quot;headerlink&quot; title=&quot;计算机网络的定义&quot;&gt;&lt;/a&gt;计算机网络的定义&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;强调信息传输&lt;/strong&gt;  以计算机之间&lt;em&gt;传输信息&lt;
+    
+    </summary>
+    
+      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>设计模式(十二):模板方法模式</title>
@@ -1132,7 +1228,7 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%EF%BC%9A%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/18/设计模式-一-：单例模式/</id>
     <published>2017-02-18T14:20:09.000Z</published>
-    <updated>2017-03-25T03:42:21.301Z</updated>
+    <updated>2017-03-25T03:44:35.881Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Singleton-单例模式"><a href="#Singleton-单例模式" class="headerlink" title="Singleton (单例模式)"></a>Singleton (单例模式)</h1><blockquote>
 <p>确保一个类有且只有一个实例，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个</p>
