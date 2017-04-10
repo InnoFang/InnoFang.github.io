@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-02T07:08:05.932Z</updated>
+  <updated>2017-04-10T07:45:48.939Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>设计模式(十三)：单例模式</title>
+    <link href="http://yoursite.com/2017/04/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%B8%89-%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2017/04/10/设计模式-十三-：代理模式/</id>
+    <published>2017-04-10T07:45:48.000Z</published>
+    <updated>2017-04-10T07:45:48.939Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>计算机网络之绪论</title>
