@@ -109,7 +109,7 @@ RealSubject  : 被代理类或者叫真实类
 Client : 代理类使用者
 之所以需要代理类">
 <meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/proxy.png">
-<meta property="og:updated_time" content="2017-04-10T07:47:15.370Z">
+<meta property="og:updated_time" content="2017-04-10T07:52:09.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式(十三)：单例模式">
 <meta name="twitter:description" content="Proxy（代理）代理模式一种十分常用的模式。日常生活中，我们也经常使用代理，比如有时候你会叫你的朋友代取快递等
@@ -448,7 +448,7 @@ Client : 代理类使用者
 <p>可以看到，在<code>invoke</code>方法的内部，还调用了 method 对象的 invoke 方法</p>
 <p>下面就来试用一下动态代理<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">IPicker iPicker = <span class="keyword">new</span> RealPicker();</div><div class="line">DynamicProxy proxy = <span class="keyword">new</span> DynamicProxy(iPicker);</div><div class="line">ClassLoader loader = iPicker.getClass().getClassLoader();</div><div class="line">IPicker dynamicPicker = (IPicker) Proxy.newProxyInstance(</div><div class="line">     loader, <span class="keyword">new</span> Class[]&#123;IPicker.class&#125;, proxy);</div><div class="line"></div><div class="line">dynamicPicker.receiveMessage();</div><div class="line">dynamicPicker.takeCourier();</div><div class="line">dynamicPicker.signatureAcceptance();</div></pre></td></tr></table></figure></p>
 <p>执行结果如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Receive text message</div><div class="line">Take the courier</div><div class="line">Signature Acceptance</div></pre></td></tr></table></figure></p>
-<p>结果更之前的一样</p>
+<p>结果跟之前的一样</p>
 <p>END.</p>
 
       
