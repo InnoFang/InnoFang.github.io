@@ -326,6 +326,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -355,7 +377,59 @@
       
         
           
-            
+            <h1 id="Proxy（代理）"><a href="#Proxy（代理）" class="headerlink" title="Proxy（代理）"></a>Proxy（代理）</h1><p>代理模式一种十分常用的模式。日常生活中，我们也经常使用代理，比如有时候你会叫你的朋友代取快递等</p>
+<p>总之，代理模式就是将一些自己不想或无法处理的事，交给代理者去做。</p>
+<h2 id="Proxy（代理）的UML类图"><a href="#Proxy（代理）的UML类图" class="headerlink" title="Proxy（代理）的UML类图"></a>Proxy（代理）的UML类图</h2><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/proxy.png" alt=""></p>
+<ul>
+<li>Subject : 代理者和被代理者的共同主题</li>
+<li>ProxySubject : 代理类</li>
+<li>RealSubject  : 被代理类或者叫真实类</li>
+<li><p>Client : 代理类使用者</p>
+<p>之所以需要代理类和被代理类都实现统一的接口，是为了保证客户类的透明性，在使用代理类时可以执行被代理类的操作</p>
+</li>
+</ul>
+<h2 id="代理模式的简单实现"><a href="#代理模式的简单实现" class="headerlink" title="代理模式的简单实现"></a>代理模式的简单实现</h2><p>刚才例举了叫朋友带去快递的例子，那么现在就以这个案例为原型，来实现以下代理模式</p>
+<p>为了更好的体现代理模式的优势，这里将整个取快递的流程分为：</p>
+<ol>
+<li>接收快递短信通知</li>
+<li>取快递</li>
+<li>签字验收三个步骤</li>
+</ol>
+<p>那么首先实现抽象主题类</p>
+<p>IPicker<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IPicker</span> </span>&#123;</div><div class="line">    <span class="comment">/*接收快递短信通知*/</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">receiveMessage</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/*取快递*/</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">takeCourier</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/*签字验收三个步骤*/</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">signatureAcceptance</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>具体的取快递的人<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealPicker</span> <span class="keyword">implements</span> <span class="title">IPicker</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receiveMessage</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Receive text message"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeCourier</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Take the courier"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">signatureAcceptance</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Signature Acceptance"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代理去快递的人<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyPicker</span> <span class="keyword">implements</span> <span class="title">IPicker</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> IPicker picker;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProxyPicker</span><span class="params">(IPicker picker)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.picker = picker;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receiveMessage</span><span class="params">()</span> </span>&#123;</div><div class="line">        picker.receiveMessage();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeCourier</span><span class="params">()</span> </span>&#123;</div><div class="line">        picker.takeCourier();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">signatureAcceptance</span><span class="params">()</span> </span>&#123;</div><div class="line">        picker.signatureAcceptance();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>OK, 下面就可以叫自己的代理者去取快递了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">IPicker picker = <span class="keyword">new</span> RealPicker();</div><div class="line">ProxyPicker proxyPicker = <span class="keyword">new</span> ProxyPicker(picker);</div><div class="line"></div><div class="line">proxyPicker.receiveMessage();</div><div class="line">proxyPicker.takeCourier();</div><div class="line">proxyPicker.signatureAcceptance();</div></pre></td></tr></table></figure></p>
+<p>执行结果如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Receive text message</div><div class="line">Take the courier</div><div class="line">Signature Acceptance</div></pre></td></tr></table></figure></p>
+<p>上面介绍了 <code>静态代理</code> 的实现，那么下面来介绍一下 <code>动态代理</code></p>
+<p>首先先明白一点为什么要使用 <code>动态代理</code> ？</p>
+<p>如果只是代理一个类似乎并没有什么问题，但是如果有很多类怎么办？为每一个类都创建一个代理类吗？<br>如果是那样的话，那么类的数量可能会成爆炸式增长，而且，如果有一个真是类新增了多个方法，那么对应的代理类也要修改，那么这就很有可能出错</p>
+<p>那么如何解决这个问题呢？</p>
+<p>答案就是使用 <code>动态代理</code> 。动态代理需要借助Java的动态代理机制，其原理就是Java的反射机制</p>
+<p>为了实现动态代理，这里需要两个类</p>
+<ul>
+<li><p><code>java.lang.reflect.InvocationHandler</code> 这是一个接口，代理类需要实现这个接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></div><div class="line">        <span class="keyword">throws</span> Throwable;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个接口内部的 <code>invoke</code> 方法，这个方法就是用来调用具体的被代理方法的</p>
+</li>
+<li><p><code>java.lang.reflect.Proxy</code> 这个类内部有一个静态方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader,</span></span></div><div class="line">                                          Class&lt;?&gt;[] interfaces,</div><div class="line">                                          InvocationHandler h)</div><div class="line">        <span class="keyword">throws</span> IllegalArgumentException&#123;</div><div class="line">         ...</div><div class="line">         <span class="comment">// 省略具体实现</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 使用这个静态方法来为一组接口动态的生成代理类对象，它含有三个参数：</p>
+<ul>
+<li><code>ClassLoader loader</code> : 用于加载动态代理</li>
+<li><code>Class&lt;?&gt;[] interfaces</code> : 接口数组</li>
+<li><code>InvocationHandler h</code> : 动态代理实现类</li>
+</ul>
+</li>
+</ul>
+<p>讲了那么多，那么来具体实现这个动态代理</p>
+<p>首先是实现<code>InvocationHandler</code> 接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Object object;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicProxy</span><span class="params">(Object object)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.object = object;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">        <span class="keyword">return</span> method.invoke(object, args);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，在<code>invoke</code>方法的内部，还调用了 method 对象的 invoke 方法</p>
+<p>下面就来试用一下动态代理<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">IPicker iPicker = <span class="keyword">new</span> RealPicker();</div><div class="line">DynamicProxy proxy = <span class="keyword">new</span> DynamicProxy(iPicker);</div><div class="line">ClassLoader loader = iPicker.getClass().getClassLoader();</div><div class="line">IPicker dynamicPicker = (IPicker) Proxy.newProxyInstance(</div><div class="line">     loader, <span class="keyword">new</span> Class[]&#123;IPicker.class&#125;, proxy);</div><div class="line"></div><div class="line">dynamicPicker.receiveMessage();</div><div class="line">dynamicPicker.takeCourier();</div><div class="line">dynamicPicker.signatureAcceptance();</div></pre></td></tr></table></figure></p>
+<p>执行结果如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Receive text message</div><div class="line">Take the courier</div><div class="line">Signature Acceptance</div></pre></td></tr></table></figure></p>
+<p>结果更之前的一样</p>
+<p>END.</p>
+
           
         
       
