@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-10T07:52:09.927Z</updated>
+  <updated>2017-04-10T07:53:22.160Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,10 +20,11 @@
     <link href="http://yoursite.com/2017/04/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%B8%89-%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/04/10/设计模式-十三-：代理模式/</id>
     <published>2017-04-10T07:45:48.000Z</published>
-    <updated>2017-04-10T07:52:09.927Z</updated>
+    <updated>2017-04-10T07:53:22.160Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Proxy（代理）"><a href="#Proxy（代理）" class="headerlink" title="Proxy（代理）"></a>Proxy（代理）</h1><p>代理模式一种十分常用的模式。日常生活中，我们也经常使用代理，比如有时候你会叫你的朋友代取快递等</p>
 <p>总之，代理模式就是将一些自己不想或无法处理的事，交给代理者去做。</p>
+<a id="more"></a>
 <h2 id="Proxy（代理）的UML类图"><a href="#Proxy（代理）的UML类图" class="headerlink" title="Proxy（代理）的UML类图"></a>Proxy（代理）的UML类图</h2><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/proxy.png" alt=""></p>
 <ul>
 <li>Subject : 代理者和被代理者的共同主题</li>
@@ -78,7 +79,8 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Proxy（代理）&quot;&gt;&lt;a href=&quot;#Proxy（代理）&quot; class=&quot;headerlink&quot; title=&quot;Proxy（代理）&quot;&gt;&lt;/a&gt;Proxy（代理）&lt;/h1&gt;&lt;p&gt;代理模式一种十分常用的模式。日常生活中，我们也经常使用代理，比如有时候你会叫你的朋友
+      &lt;h1 id=&quot;Proxy（代理）&quot;&gt;&lt;a href=&quot;#Proxy（代理）&quot; class=&quot;headerlink&quot; title=&quot;Proxy（代理）&quot;&gt;&lt;/a&gt;Proxy（代理）&lt;/h1&gt;&lt;p&gt;代理模式一种十分常用的模式。日常生活中，我们也经常使用代理，比如有时候你会叫你的朋友代取快递等&lt;/p&gt;
+&lt;p&gt;总之，代理模式就是将一些自己不想或无法处理的事，交给代理者去做。&lt;/p&gt;
     
     </summary>
     
@@ -94,14 +96,15 @@
     <link href="http://yoursite.com/2017/04/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B9%8B%E7%BB%AA%E8%AE%BA/"/>
     <id>http://yoursite.com/2017/04/02/计算机网络之绪论/</id>
     <published>2017-04-02T06:55:35.000Z</published>
-    <updated>2017-04-02T07:08:05.932Z</updated>
+    <updated>2017-04-10T07:54:02.582Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h2><ul>
+    <content type="html"><![CDATA[<h2 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h2><p>凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。</p>
+<a id="more"></a>
+<ul>
 <li><strong>强调信息传输</strong>  以计算机之间<em>传输信息</em>为主要目的而连接起来以<em>实现远程信息处理</em>和进一步<em>实现资源共享</em>的计算机系统、</li>
 <li><strong>强调共享资源</strong>  以共享资源为主要目的把具有独立功能的计算机连接起来的计算机系统的集合</li>
 <li><strong>强调用户透明性</strong>  计算机网络就是一个巨大的计算机系统，用户不会察觉多个计算机系统的存在，不用熟悉资源的分布情况就可以调用计算机各系统的资源。</li>
 </ul>
-<p>凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。</p>
 <h2 id="现代计算机网络的基本特征"><a href="#现代计算机网络的基本特征" class="headerlink" title="现代计算机网络的基本特征"></a>现代计算机网络的基本特征</h2><p>现代计算机网络最基本的特征包括：</p>
 <ul>
 <li><strong>主机</strong> ( Computer/Host )</li>
@@ -173,8 +176,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;计算机网络的定义&quot;&gt;&lt;a href=&quot;#计算机网络的定义&quot; class=&quot;headerlink&quot; title=&quot;计算机网络的定义&quot;&gt;&lt;/a&gt;计算机网络的定义&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;强调信息传输&lt;/strong&gt;  以计算机之间&lt;em&gt;传输信息&lt;
+      &lt;h2 id=&quot;计算机网络的定义&quot;&gt;&lt;a href=&quot;#计算机网络的定义&quot; class=&quot;headerlink&quot; title=&quot;计算机网络的定义&quot;&gt;&lt;/a&gt;计算机网络的定义&lt;/h2&gt;&lt;p&gt;凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。&lt;/p&gt;
     
     </summary>
     

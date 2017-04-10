@@ -376,61 +376,15 @@
 
       
         
-          
-            <h1 id="Proxy（代理）"><a href="#Proxy（代理）" class="headerlink" title="Proxy（代理）"></a>Proxy（代理）</h1><p>代理模式一种十分常用的模式。日常生活中，我们也经常使用代理，比如有时候你会叫你的朋友代取快递等</p>
+          <h1 id="Proxy（代理）"><a href="#Proxy（代理）" class="headerlink" title="Proxy（代理）"></a>Proxy（代理）</h1><p>代理模式一种十分常用的模式。日常生活中，我们也经常使用代理，比如有时候你会叫你的朋友代取快递等</p>
 <p>总之，代理模式就是将一些自己不想或无法处理的事，交给代理者去做。</p>
-<h2 id="Proxy（代理）的UML类图"><a href="#Proxy（代理）的UML类图" class="headerlink" title="Proxy（代理）的UML类图"></a>Proxy（代理）的UML类图</h2><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/proxy.png" alt=""></p>
-<ul>
-<li>Subject : 代理者和被代理者的共同主题</li>
-<li>ProxySubject : 代理类</li>
-<li>RealSubject  : 被代理类或者叫真实类</li>
-<li><p>Client : 代理类使用者</p>
-<p>之所以需要代理类和被代理类都实现统一的接口，是为了保证客户类的透明性，在使用代理类时可以执行被代理类的操作</p>
-</li>
-</ul>
-<h2 id="代理模式的简单实现"><a href="#代理模式的简单实现" class="headerlink" title="代理模式的简单实现"></a>代理模式的简单实现</h2><p>刚才例举了叫朋友带去快递的例子，那么现在就以这个案例为原型，来实现以下代理模式</p>
-<p>为了更好的体现代理模式的优势，这里将整个取快递的流程分为：</p>
-<ol>
-<li>接收快递短信通知</li>
-<li>取快递</li>
-<li>签字验收三个步骤</li>
-</ol>
-<p>那么首先实现抽象主题类</p>
-<p>IPicker<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IPicker</span> </span>&#123;</div><div class="line">    <span class="comment">/*接收快递短信通知*/</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">receiveMessage</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/*取快递*/</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">takeCourier</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/*签字验收三个步骤*/</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">signatureAcceptance</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>具体的取快递的人<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealPicker</span> <span class="keyword">implements</span> <span class="title">IPicker</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receiveMessage</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Receive text message"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeCourier</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Take the courier"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">signatureAcceptance</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Signature Acceptance"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>代理去快递的人<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyPicker</span> <span class="keyword">implements</span> <span class="title">IPicker</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> IPicker picker;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProxyPicker</span><span class="params">(IPicker picker)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.picker = picker;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receiveMessage</span><span class="params">()</span> </span>&#123;</div><div class="line">        picker.receiveMessage();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeCourier</span><span class="params">()</span> </span>&#123;</div><div class="line">        picker.takeCourier();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">signatureAcceptance</span><span class="params">()</span> </span>&#123;</div><div class="line">        picker.signatureAcceptance();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>OK, 下面就可以叫自己的代理者去取快递了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">IPicker picker = <span class="keyword">new</span> RealPicker();</div><div class="line">ProxyPicker proxyPicker = <span class="keyword">new</span> ProxyPicker(picker);</div><div class="line"></div><div class="line">proxyPicker.receiveMessage();</div><div class="line">proxyPicker.takeCourier();</div><div class="line">proxyPicker.signatureAcceptance();</div></pre></td></tr></table></figure></p>
-<p>执行结果如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Receive text message</div><div class="line">Take the courier</div><div class="line">Signature Acceptance</div></pre></td></tr></table></figure></p>
-<p>上面介绍了 <code>静态代理</code> 的实现，那么下面来介绍一下 <code>动态代理</code></p>
-<p>首先先明白一点为什么要使用 <code>动态代理</code> ？</p>
-<p>如果只是代理一个类似乎并没有什么问题，但是如果有很多类怎么办？为每一个类都创建一个代理类吗？<br>如果是那样的话，那么类的数量可能会成爆炸式增长，而且，如果有一个真是类新增了多个方法，那么对应的代理类也要修改，那么这就很有可能出错</p>
-<p>那么如何解决这个问题呢？</p>
-<p>答案就是使用 <code>动态代理</code> 。动态代理需要借助Java的动态代理机制，其原理就是Java的反射机制</p>
-<p>为了实现动态代理，这里需要两个类</p>
-<ul>
-<li><p><code>java.lang.reflect.InvocationHandler</code> 这是一个接口，代理类需要实现这个接口</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></div><div class="line">        <span class="keyword">throws</span> Throwable;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个接口内部的 <code>invoke</code> 方法，这个方法就是用来调用具体的被代理方法的</p>
-</li>
-<li><p><code>java.lang.reflect.Proxy</code> 这个类内部有一个静态方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader,</span></span></div><div class="line">                                          Class&lt;?&gt;[] interfaces,</div><div class="line">                                          InvocationHandler h)</div><div class="line">        <span class="keyword">throws</span> IllegalArgumentException&#123;</div><div class="line">         ...</div><div class="line">         <span class="comment">// 省略具体实现</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p> 使用这个静态方法来为一组接口动态的生成代理类对象，它含有三个参数：</p>
-<ul>
-<li><code>ClassLoader loader</code> : 用于加载动态代理</li>
-<li><code>Class&lt;?&gt;[] interfaces</code> : 接口数组</li>
-<li><code>InvocationHandler h</code> : 动态代理实现类</li>
-</ul>
-</li>
-</ul>
-<p>讲了那么多，那么来具体实现这个动态代理</p>
-<p>首先是实现<code>InvocationHandler</code> 接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Object object;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicProxy</span><span class="params">(Object object)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.object = object;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">        <span class="keyword">return</span> method.invoke(object, args);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>可以看到，在<code>invoke</code>方法的内部，还调用了 method 对象的 invoke 方法</p>
-<p>下面就来试用一下动态代理<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">IPicker iPicker = <span class="keyword">new</span> RealPicker();</div><div class="line">DynamicProxy proxy = <span class="keyword">new</span> DynamicProxy(iPicker);</div><div class="line">ClassLoader loader = iPicker.getClass().getClassLoader();</div><div class="line">IPicker dynamicPicker = (IPicker) Proxy.newProxyInstance(</div><div class="line">     loader, <span class="keyword">new</span> Class[]&#123;IPicker.class&#125;, proxy);</div><div class="line"></div><div class="line">dynamicPicker.receiveMessage();</div><div class="line">dynamicPicker.takeCourier();</div><div class="line">dynamicPicker.signatureAcceptance();</div></pre></td></tr></table></figure></p>
-<p>执行结果如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Receive text message</div><div class="line">Take the courier</div><div class="line">Signature Acceptance</div></pre></td></tr></table></figure></p>
-<p>结果跟之前的一样</p>
-<p>END.</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/10/设计模式-十三-：代理模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -570,82 +524,14 @@
 
       
         
-          
-            <h2 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h2><ul>
-<li><strong>强调信息传输</strong>  以计算机之间<em>传输信息</em>为主要目的而连接起来以<em>实现远程信息处理</em>和进一步<em>实现资源共享</em>的计算机系统、</li>
-<li><strong>强调共享资源</strong>  以共享资源为主要目的把具有独立功能的计算机连接起来的计算机系统的集合</li>
-<li><strong>强调用户透明性</strong>  计算机网络就是一个巨大的计算机系统，用户不会察觉多个计算机系统的存在，不用熟悉资源的分布情况就可以调用计算机各系统的资源。</li>
-</ul>
-<p>凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。</p>
-<h2 id="现代计算机网络的基本特征"><a href="#现代计算机网络的基本特征" class="headerlink" title="现代计算机网络的基本特征"></a>现代计算机网络的基本特征</h2><p>现代计算机网络最基本的特征包括：</p>
-<ul>
-<li><strong>主机</strong> ( Computer/Host )</li>
-<li><strong>通信子网</strong> ( Connected with media )</li>
-<li><strong>通信协议</strong> ( Communication protocal and Share information )</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/%E6%97%A9%E6%9C%9F%E7%BD%91%E7%BB%9C.png" width="375"> <img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/%E7%8E%B0%E4%BB%A3%E7%BD%91%E7%BB%9C.png" width="375"></p>
-<p>早期网络&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现代网路</p>
-<h2 id="计算机网络的主要功能"><a href="#计算机网络的主要功能" class="headerlink" title="计算机网络的主要功能"></a>计算机网络的主要功能</h2><p>计算机网络的主要功能为：</p>
-<ul>
-<li><strong>数据通信</strong>  以文件传输和电子邮件服务为代表的数据通信是计算机网络最基本的功能之一，通过计算机网络可以快速的传递文件和消息，为人们提供一种无纸化办公的环境</li>
-<li><strong>资源共享</strong>  指网上用户能够使用全部或部分网络资源，从而大幅度提高各种硬件，软件和数据资源的利用率和使用效果。资源共享包括硬件、软件和数据资源的共享。</li>
-</ul>
-<p>除以上两点之外，计算机网络可以实现系统冗余，有效提高计算机系统的可靠性和可用性，同时易于进行分布处理，实现协同式的网络计算</p>
-<h2 id="计算机网络的分类"><a href="#计算机网络的分类" class="headerlink" title="计算机网络的分类"></a>计算机网络的分类</h2><table>
-<thead>
-<tr>
-<th>依据</th>
-<th>分类</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>传输介质</td>
-<td>有线网络、无线网络</td>
-</tr>
-<tr>
-<td>经营方式</td>
-<td>专用网络、公用网络</td>
-</tr>
-<tr>
-<td>服务类型</td>
-<td>电信网络、有线电视网络、计算机网络</td>
-</tr>
-<tr>
-<td>信道方式</td>
-<td>点-点、 广播</td>
-</tr>
-<tr>
-<td>地理范围</td>
-<td>局域网、广域网、城域网</td>
-</tr>
-<tr>
-<td>拓扑结构</td>
-<td>总线、星型、环型、树型、网状</td>
-</tr>
-<tr>
-<td>资源管理</td>
-<td>对等网络、客户/服务器网络</td>
-</tr>
-</tbody>
-</table>
-<h2 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a>网络协议</h2><p>计算机网络是有多个互联的结点组成的，结点之间要不断地交换数据和控制信息。要做到有条不紊地交换数据，每个结点都必须遵守一些事先约定好的的规则。</p>
-<p>将这种<strong>由通信双方共同遵守的通信语义和通信规则的集合</strong>称为网络协议。</p>
-<p>从功能角度来讲由以下三要素构成：</p>
-<ul>
-<li><strong>语法</strong>：用户数据与控制信息的结构和格式 （什么结构）</li>
-<li><strong>语义</strong>：需要发出何种控制信息，以及完成的动作与要做出的响应 （要干什么）</li>
-<li><strong>时序</strong>：对事件实现顺序的详细说明和速度匹配</li>
-</ul>
-<h2 id="网络互联标准"><a href="#网络互联标准" class="headerlink" title="网络互联标准"></a>网络互联标准</h2><ul>
-<li><strong>OSI</strong>  开放式系统互联模型</li>
-<li><p><strong>TCP/IP</strong>  传输控制协议/网际互连协议</p>
-<p><img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/OSI_TCP-IP.png" alt="OSI&amp;TCP/IP"></p>
-</li>
-</ul>
-<h2 id="IEEE802系列标准"><a href="#IEEE802系列标准" class="headerlink" title="IEEE802系列标准"></a>IEEE802系列标准</h2><p> <img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/IEEE802%E7%B3%BB%E5%88%97%E6%A0%87%E5%87%86.png" alt="IEEE802系列标准"></p>
-
-          
+          <h2 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h2><p>凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/02/计算机网络之绪论/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
