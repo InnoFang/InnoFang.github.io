@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-16T14:23:08.596Z</updated>
+  <updated>2017-04-16T14:40:07.895Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/04/16/Android-NDK%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01/"/>
     <id>http://yoursite.com/2017/04/16/Android-NDK开发从0到1/</id>
     <published>2017-04-16T14:13:57.000Z</published>
-    <updated>2017-04-16T14:23:08.596Z</updated>
+    <updated>2017-04-16T14:40:07.895Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Android-NDK开发从0到1"><a href="#Android-NDK开发从0到1" class="headerlink" title="Android NDK开发从0到1"></a>Android NDK开发从0到1</h1><p>最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来</p>
 <p>废话不多说，下面开始吧~</p>
@@ -69,7 +69,17 @@
 <p><code>javah -classpath app\build\intermediates\classes\debug -d ./app/src/main/jni com.innofang.ndkdemo.JniUtil</code></p>
 <p>这里只需要将上面括号类的内容替换为自己的就可以了</p>
 <p>但是，难道每次都要自己手动生成头文件吗？</p>
-<p>在这里可以利用一个小技巧，就是利用 Android Studio 的 External Tools</p>
+<p>在这里可以利用一个小技巧，就是利用 Android Studio 的 External Tools 工具，一件生成头文件，听着很神奇吧~</p>
+<p>下面就来瞧一瞧吧</p>
+<p>File -&gt; Settings 或者 <code>Ctrl+Alt+S</code> 打开设置界面，接着点击 Tools ，点击 <code>+</code>新建一个 Exteranl Tools</p>
+<p>输入如下信息</p>
+<p><img src="http://i4.buimg.com/567571/4d703ed81cf4caf2.png" alt=""></p>
+<p>在 Name ： 区域输入 Generate Header File </p>
+<p>Program : <code>$JDKPath$\bin\javah</code></p>
+<p>Parameters : <code>-classpath $OutputPath$ -d ./app/src/main/jni $FileClass$</code></p>
+<p>Working directory : <code>$ProjectFileDir$</code></p>
+<p>其余的勾选项对照上图即可</p>
+<p>然后点击 OK 即完成了</p>
 <p><code>错误: 找不到 &#39;com.innofang.ndkdemo.jnituil&#39; 的类文件。</code></p>
 ]]></content>
     
