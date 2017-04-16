@@ -124,7 +124,7 @@
 <meta property="og:image" content="http://i2.muimg.com/567571/3cb4fd84194b5043.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/1b9bda7f8f2bacb2.png">
 <meta property="og:image" content="http://i2.muimg.com/567571/dcc3b330d535af16.png">
-<meta property="og:updated_time" content="2017-04-16T14:14:50.676Z">
+<meta property="og:updated_time" content="2017-04-16T14:23:08.596Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android NDK开发从0到1">
 <meta name="twitter:description" content="Android NDK开发从0到1最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来
@@ -462,7 +462,12 @@
 <p>那么接下来就利用 <code>javah</code> 生成自己的头文件，命令格式如下</p>
 <p><code>javah -classpath (搜索类目录) -d (输出目录) (类名)</code></p>
 <p>这里需要强调一下的是这里的搜索类目录，搜索的是这个 Java 类的 <code>.class</code> 文件，所以在在执行生成头文件的命令时，需要使用快捷键 <code>ctrl+F9</code> 或者 Android  Studio 顶部菜单栏 build -&gt; Make Project，<strong>手动生成这个类的 class 文件</strong> </p>
-<p>生</p>
+<p>生成完 class 文件过后，就可以利用头文件生成对应的头文件了</p>
+<p><code>javah -classpath app\build\intermediates\classes\debug -d ./app/src/main/jni com.innofang.ndkdemo.JniUtil</code></p>
+<p>这里只需要将上面括号类的内容替换为自己的就可以了</p>
+<p>但是，难道每次都要自己手动生成头文件吗？</p>
+<p>在这里可以利用一个小技巧，就是利用 Android Studio 的 External Tools</p>
+<p><code>错误: 找不到 &#39;com.innofang.ndkdemo.jnituil&#39; 的类文件。</code></p>
 
       
     </div>
