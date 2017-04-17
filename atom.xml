@@ -106,11 +106,11 @@
   </entry>
   
   <entry>
-    <title>设计模式(十三)：单例模式</title>
+    <title>设计模式(十三)：代理模式</title>
     <link href="http://yoursite.com/2017/04/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%B8%89-%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/04/10/设计模式-十三-：代理模式/</id>
     <published>2017-04-10T07:45:48.000Z</published>
-    <updated>2017-04-10T07:55:48.155Z</updated>
+    <updated>2017-04-17T08:53:52.985Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Proxy（代理）"><a href="#Proxy（代理）" class="headerlink" title="Proxy（代理）"></a>Proxy（代理）</h1><p>代理模式一种十分常用的模式。日常生活中，我们也经常使用代理，比如有时候你会叫你的朋友代取快递等</p>
 <p>总之，代理模式就是将一些自己不想或无法处理的事，交给代理者去做。</p>
@@ -146,11 +146,11 @@
 <ul>
 <li><p><code>java.lang.reflect.InvocationHandler</code> 这是一个接口，代理类需要实现这个接口</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></div><div class="line">        <span class="keyword">throws</span> Throwable;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个接口内部的 <code>invoke</code> 方法，这个方法就是用来调用具体的被代理方法的</p>
+<p> 这个接口内部的 <code>invoke</code> 方法，这个方法就是用来调用具体的被代理方法的</p>
 </li>
 <li><p><code>java.lang.reflect.Proxy</code> 这个类内部有一个静态方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader,</span></span></div><div class="line">                                          Class&lt;?&gt;[] interfaces,</div><div class="line">                                          InvocationHandler h)</div><div class="line">        <span class="keyword">throws</span> IllegalArgumentException&#123;</div><div class="line">         ...</div><div class="line">         <span class="comment">// 省略具体实现</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p> 使用这个静态方法来为一组接口动态的生成代理类对象，它含有三个参数：</p>
+<p>  使用这个静态方法来为一组接口动态的生成代理类对象，它含有三个参数：</p>
 <ul>
 <li><code>ClassLoader loader</code> : 用于加载动态代理</li>
 <li><code>Class&lt;?&gt;[] interfaces</code> : 接口数组</li>
