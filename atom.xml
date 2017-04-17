@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-17T09:51:55.870Z</updated>
+  <updated>2017-04-17T10:04:45.445Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/04/16/Android-NDK%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01/"/>
     <id>http://yoursite.com/2017/04/16/Android-NDK开发从0到1/</id>
     <published>2017-04-16T14:13:57.000Z</published>
-    <updated>2017-04-17T09:51:55.870Z</updated>
+    <updated>2017-04-17T10:04:45.445Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Android-NDK开发从0到1"><a href="#Android-NDK开发从0到1" class="headerlink" title="Android NDK开发从0到1"></a>Android NDK开发从0到1</h1><p>最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来</p>
 <p>废话不多说，下面开始吧~</p>
@@ -133,7 +133,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ndk-build</div></pre></td></tr></table></figure>
 <p>如果，终端信息出现如下内容则说明 <code>.so</code> 文件生成成功，否则<strong>请检查上面的步骤是否正确操作</strong></p>
 <p><img src="http://i1.piimg.com/567571/77330721a15e9af3.png" alt=""></p>
-<p>经过上面一系列步骤，生成 <code>.so</code> 文件这个任务就算完成了，但是发现每次生成 <code>.so</code> 文件时都要手动切换路径然后生成文件，虽然说没有之前生成头文件那么复杂，但是这种重复的操作还是有点麻烦，那么为了简化这个步骤，下面就要利用到上面提到过的 External Tool 了</p>
+<p>经过上面一系列步骤，你会发现 main 目录下多了两个文件夹 libs 和 obj，这两个文件下存的都是 so 文件生成 <code>.so</code> 文件这个任务就算完成了。</p>
+<p>但是发现每次生成 <code>.so</code> 文件时都要手动切换路径然后生成文件，虽然说没有之前生成头文件那么复杂，但是这种重复的操作还是有点麻烦，那么为了简化这个步骤，下面就要利用到上面提到过的 External Tool 了</p>
 <p>还是打开设置界面，找到 Tools 这个目录，找到 External Tool，点击 <code>+</code> 新建一个 External Tool</p>
 <p><img src="http://i4.buimg.com/567571/75ee3608dbeab9fa.png" alt=""></p>
 <p>在 Name ： 区域输入 Generate SO </p>
@@ -146,6 +147,9 @@
 <h2 id="使用-so-文件"><a href="#使用-so-文件" class="headerlink" title="使用 .so 文件"></a>使用 .so 文件</h2><p>上面进行了很多操作，都是为了使用生成的 <code>.so</code> 文件</p>
 <p>要使用 <code>.so</code> 文件，首先就是先修改 <code>JniUtil.java</code> 文件，添加一个静态块</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JniUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        System.loadLibrary(<span class="string">"app"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">add</span> <span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后在 main 目录下新建一个文件夹，取名为 <code>jniLibs</code> ，<strong>将刚才生成的 libs 目录下的所有文件拷贝到这个 jniLibs 目录下</strong>，如果缺失这一步骤将会出现找不到 so 文件的错误</p>
+<p>确定经过上面这步后，就可以正式使用 <code>.so</code> 文件了</p>
+<p>回到我们熟悉的 MainActivity 中</p>
 ]]></content>
     
     <summary type="html">
