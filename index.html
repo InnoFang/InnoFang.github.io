@@ -383,9 +383,9 @@
 <p>首先先大致明确NDK开发从0到1的几个步骤：</p>
 <ul>
 <li>环境变量配置</li>
+<li>在 Java 类中编写 native 代码</li>
 </ul>
 <ul>
-<li>在 Java 类中编写 native 代码</li>
 <li>生成与 native 方法对应的头文件</li>
 <li>利用生成的头文件，编写对应的 C/C++ 代码</li>
 <li>生成 .so 文件</li>
@@ -407,9 +407,13 @@
 <p>因为我是用的第二种方式，所以 NDK 直接下在了 android-sdk 中，具体情况请根据自己的文件位置而定</p>
 </blockquote>
 <p><img src="http://i4.buimg.com/567571/1b9bda7f8f2bacb2.png" alt=""></p>
+<p>然后添加到 path 中 <code>%NDK_HOME%\</code> ，如果是添加在最后要记得在前面加个分号</p>
+<p><img src="http://i1.piimg.com/567571/16989f6013cd8e63.png" alt=""></p>
 <p>配置完成过后，在命令窗口输入 <code>ndk-build</code> </p>
 <p><img src="http://i2.muimg.com/567571/dcc3b330d535af16.png" alt=""></p>
 <p>若能出现如上信息，则说明配置成功</p>
+<p>最后就是对Android Studio 进行环境配置，路径根据自己的情况而定</p>
+<p><img src="http://i4.buimg.com/567571/f0e2fa3025a52ab4.png" alt=""> </p>
 <h2 id="在-Java-类中编写-native-代码"><a href="#在-Java-类中编写-native-代码" class="headerlink" title="在 Java 类中编写 native 代码"></a>在 Java 类中编写 native 代码</h2><p>新建 Android 项目，现在先见一个 <code>JniUtil</code> 类，专门用来存放 native 方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JniUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这里将利用 NDK 计算两数之和</p>
@@ -434,8 +438,13 @@
 <p>Parameters : <code>-classpath $OutputPath$ -d ./app/src/main/jni $FileClass$</code></p>
 <p>Working directory : <code>$ProjectFileDir$</code></p>
 <p>其余的勾选项对照上图即可</p>
-<p>然后点击 OK 即完成了</p>
-<p><code>错误: 找不到 &#39;com.innofang.ndkdemo.jnituil&#39; 的类文件。</code></p>
+<p>然后点击 OK 就完成了</p>
+<p>使用时，只需要右击java文件，找到 External Tool 即可</p>
+<p><img src="http://i4.buimg.com/567571/4bc79d5a0148989c.png" alt=""></p>
+<p>切换到 Project 视图，就可以看到在 main 包下多了一个 jni 的文件，里面就是刚刚生成的头文件</p>
+<p><strong>Q: 出现<code>错误: 找不到 &#39;com.innofang.ndkdemo.jnituil&#39; 的类文件。</code>的情况</strong> </p>
+<p><strong>A：在生成头文件之前要先生成类文件，使用快捷键 <code>ctrl+F9</code> 或者 Android  Studio 顶部菜单栏 build -&gt; Make Project</strong></p>
+<h2 id="利用生成的头文件，编写对应的-C-C-代码"><a href="#利用生成的头文件，编写对应的-C-C-代码" class="headerlink" title="利用生成的头文件，编写对应的 C/C++ 代码"></a>利用生成的头文件，编写对应的 C/C++ 代码</h2><p>在使用头文件</p>
 
           
         
