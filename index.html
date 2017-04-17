@@ -384,8 +384,6 @@
 <ul>
 <li>环境变量配置</li>
 <li>在 Java 类中编写 native 代码</li>
-</ul>
-<ul>
 <li>生成与 native 方法对应的头文件</li>
 <li>利用生成的头文件，编写对应的 C/C++ 代码</li>
 <li>生成 .so 文件</li>
@@ -490,7 +488,19 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ndk-build</div></pre></td></tr></table></figure>
 <p>如果，终端信息出现如下内容则说明 <code>.so</code> 文件生成成功，否则<strong>请检查上面的步骤是否正确操作</strong></p>
 <p><img src="http://i1.piimg.com/567571/77330721a15e9af3.png" alt=""></p>
-<p>可以看到这里每次都要手动切换路径，然后生成文件，虽然说没有之前生成头文件那么复杂</p>
+<p>经过上面一系列步骤，生成 <code>.so</code> 文件这个任务就算完成了，但是发现每次生成 <code>.so</code> 文件时都要手动切换路径然后生成文件，虽然说没有之前生成头文件那么复杂，但是这种重复的操作还是有点麻烦，那么为了简化这个步骤，下面就要利用到上面提到过的 External Tool 了</p>
+<p>还是打开设置界面，找到 Tools 这个目录，找到 External Tool，点击 <code>+</code> 新建一个 External Tool</p>
+<p><img src="http://i4.buimg.com/567571/75ee3608dbeab9fa.png" alt=""></p>
+<p>在 Name ： 区域输入 Generate SO </p>
+<p>Program : <code>F:\android-sdk\ndk-bundle\ndk-build.cmd</code>  ( <em>这里请改成自己的 NDK 目录下的 ndd-build.cmd 的位置</em> )</p>
+<p>Parameters : <code>-C ./app/src/main/jni</code>        ( <em>-C 后面接 project 路径</em> )</p>
+<p>Working directory : <code>$ProjectFileDir$</code></p>
+<p>最后点击 OK 就完成了。使用时，<strong>右击 jni 文件</strong>  找到并点击 External Tool 下的 Generate SO 即可</p>
+<p><img src="http://i4.buimg.com/567571/82ea56d1983d62b6.png" alt=""></p>
+<p>结果跟手动生成一样</p>
+<h2 id="使用-so-文件"><a href="#使用-so-文件" class="headerlink" title="使用 .so 文件"></a>使用 .so 文件</h2><p>上面进行了很多操作，都是为了使用生成的 <code>.so</code> 文件</p>
+<p>要使用 <code>.so</code> 文件，首先就是先修改 <code>JniUtil.java</code> 文件，添加一个静态块</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JniUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        System.loadLibrary(<span class="string">"app"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">add</span> <span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
