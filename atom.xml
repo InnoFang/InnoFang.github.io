@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-17T13:53:23.651Z</updated>
+  <updated>2017-04-19T12:21:52.276Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/04/16/Android-NDK%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01/"/>
     <id>http://yoursite.com/2017/04/16/Android-NDK开发从0到1/</id>
     <published>2017-04-16T14:13:57.000Z</published>
-    <updated>2017-04-17T13:53:23.651Z</updated>
+    <updated>2017-04-19T12:21:52.276Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Android-NDK开发从0到1"><a href="#Android-NDK开发从0到1" class="headerlink" title="Android NDK开发从0到1"></a>Android NDK开发从0到1</h1><p>最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来</p>
 <p>废话不多说，下面开始吧~</p>
@@ -97,6 +97,12 @@
 </blockquote>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"com_innofang_ndkdemo_JniUtil.h"</span></span></div><div class="line"></div><div class="line"><span class="function">JNIEXPORT jint JNICALL <span class="title">Java_com_innofang_ndkdemo_JniUtil_add</span></span></div><div class="line">  <span class="params">(JNIEnv *env, jobject obj, jint a, jint b)</span> &#123;</div><div class="line">    <span class="keyword">return</span> a + b;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>因为函数功能是两数相加求和，所以这里直接返回两数之和即可，这一步还是比较简单的</p>
+<p>简单介绍一下上面出现的几个陌生的东西，JNIEXPORT, JNICALL, JNIEnv 和 jobject，这些都是 JNI 标准中所定义的类型或者宏，含义如下：</p>
+<ul>
+<li>JNIEnv * : 表示一个指向 JNI 环境的指针，可以通过它来访问 JNI 提供的接口方法</li>
+<li>jobject : 表示 Java 对象中的 this</li>
+<li>JNIEXPORT 和 JNICALL ： 都是 JNI 中所定义的宏，可以在 jni.h 这个头文件中查找到 ( 上面的代码中虽然没有包含这个头文件，但是如果你细心的话会发现在之前生成的头文件中已经包含这个头文件了，所以这里就只包含自己生成的头文件。当然还需要哪些头文件需要根据具体情况而定)</li>
+</ul>
 <blockquote>
 <p>这里涉及到 JNI 的知识，暂时不是本文章范围内，以后有时间再详细介绍</p>
 </blockquote>
