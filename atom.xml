@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-19T13:21:57.877Z</updated>
+  <updated>2017-04-19T13:48:07.013Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,11 +20,22 @@
     <link href="http://yoursite.com/2017/04/16/Android-NDK%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01/"/>
     <id>http://yoursite.com/2017/04/16/Android-NDK开发从0到1/</id>
     <published>2017-04-16T14:13:57.000Z</published>
-    <updated>2017-04-19T13:21:57.877Z</updated>
+    <updated>2017-04-19T13:48:07.013Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Android-NDK开发从0到1"><a href="#Android-NDK开发从0到1" class="headerlink" title="Android NDK开发从0到1"></a>Android NDK开发从0到1</h1><p>最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来</p>
-<p>废话不多说，下面开始吧~</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p>首先先大致明确NDK开发从0到1的几个步骤：</p>
+    <content type="html"><![CDATA[<h1 id="Android-NDK-开发从0到1"><a href="#Android-NDK-开发从0到1" class="headerlink" title="Android NDK 开发从0到1"></a>Android NDK 开发从0到1</h1><blockquote>
+<p>本文的开发环境为 Windows，其他平台操作类似</p>
+</blockquote>
+<p>其实说到 NDK 就不得不提 JNI ( Java Native Interface ) ，JNI 是专门用来与本地代码进行交互而提供的一个接口。通过 JNI 就可以调用 C/C++ 所编写的本地代码。</p>
+<p>而 NDK 是 Android 锁提供的一个工具集合，通过 NDK 就可以很方便的在 Android 中通过 JNI 来访问本地代码。</p>
+<p>那么使用 NDK 有什么好处呢？简单总结几点如下，更多的欢迎补充 </p>
+<ul>
+<li>可以使用 C/C++ 的开源库 ( 比如 OpenCV 等)</li>
+<li>安全性。因为 so 库很难进行反编译，所以在安全性上有一定的保证</li>
+<li>可移植。通过编译生成的 so 库可以在其他平台上使用</li>
+<li>…</li>
+</ul>
+<p>那么废话不多说，下面开始吧~</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h2 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h2><p>首先先大致明确NDK开发从0到1的几个步骤：</p>
 <ul>
 <li>环境变量配置</li>
 <li>在 Java 类中编写 native 代码</li>
@@ -202,8 +213,19 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Android-NDK开发从0到1&quot;&gt;&lt;a href=&quot;#Android-NDK开发从0到1&quot; class=&quot;headerlink&quot; title=&quot;Android NDK开发从0到1&quot;&gt;&lt;/a&gt;Android NDK开发从0到1&lt;/h1&gt;&lt;p&gt;最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来&lt;/p&gt;
-&lt;p&gt;废话不多说，下面开始吧~&lt;/p&gt;
+      &lt;h1 id=&quot;Android-NDK-开发从0到1&quot;&gt;&lt;a href=&quot;#Android-NDK-开发从0到1&quot; class=&quot;headerlink&quot; title=&quot;Android NDK 开发从0到1&quot;&gt;&lt;/a&gt;Android NDK 开发从0到1&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;本文的开发环境为 Windows，其他平台操作类似&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;其实说到 NDK 就不得不提 JNI ( Java Native Interface ) ，JNI 是专门用来与本地代码进行交互而提供的一个接口。通过 JNI 就可以调用 C/C++ 所编写的本地代码。&lt;/p&gt;
+&lt;p&gt;而 NDK 是 Android 锁提供的一个工具集合，通过 NDK 就可以很方便的在 Android 中通过 JNI 来访问本地代码。&lt;/p&gt;
+&lt;p&gt;那么使用 NDK 有什么好处呢？简单总结几点如下，更多的欢迎补充 &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可以使用 C/C++ 的开源库 ( 比如 OpenCV 等)&lt;/li&gt;
+&lt;li&gt;安全性。因为 so 库很难进行反编译，所以在安全性上有一定的保证&lt;/li&gt;
+&lt;li&gt;可移植。通过编译生成的 so 库可以在其他平台上使用&lt;/li&gt;
+&lt;li&gt;…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;那么废话不多说，下面开始吧~&lt;/p&gt;
 &lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
     
     </summary>

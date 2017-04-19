@@ -86,14 +86,20 @@
 
 
 
-<meta name="description" content="Android NDK开发从0到1最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来
-废话不多说，下面开始吧~">
+<meta name="description" content="Android NDK 开发从0到1
+本文的开发环境为 Windows，其他平台操作类似
+
+其实说到 NDK 就不得不提 JNI ( Java Native Interface ) ，JNI 是专门用来与本地代码进行交互而提供的一个接口。通过 JNI 就可以调用 C/C++ 所编写的本地代码。
+而 NDK 是 Android 锁提供的一个工具集合，通过 NDK 就可以很方便的在 Android 中">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android NDK开发从0到1">
 <meta property="og:url" content="http://yoursite.com/2017/04/16/Android-NDK开发从0到1/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="Android NDK开发从0到1最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来
-废话不多说，下面开始吧~">
+<meta property="og:description" content="Android NDK 开发从0到1
+本文的开发环境为 Windows，其他平台操作类似
+
+其实说到 NDK 就不得不提 JNI ( Java Native Interface ) ，JNI 是专门用来与本地代码进行交互而提供的一个接口。通过 JNI 就可以调用 C/C++ 所编写的本地代码。
+而 NDK 是 Android 锁提供的一个工具集合，通过 NDK 就可以很方便的在 Android 中">
 <meta property="og:image" content="http://i4.buimg.com/567571/b534838d60dca185.png">
 <meta property="og:image" content="http://i2.muimg.com/567571/3cb4fd84194b5043.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/1b9bda7f8f2bacb2.png">
@@ -108,11 +114,14 @@
 <meta property="og:image" content="http://i4.buimg.com/567571/75ee3608dbeab9fa.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/82ea56d1983d62b6.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/758174b00ca0dab6.png">
-<meta property="og:updated_time" content="2017-04-19T13:21:57.877Z">
+<meta property="og:updated_time" content="2017-04-19T13:48:07.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android NDK开发从0到1">
-<meta name="twitter:description" content="Android NDK开发从0到1最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来
-废话不多说，下面开始吧~">
+<meta name="twitter:description" content="Android NDK 开发从0到1
+本文的开发环境为 Windows，其他平台操作类似
+
+其实说到 NDK 就不得不提 JNI ( Java Native Interface ) ，JNI 是专门用来与本地代码进行交互而提供的一个接口。通过 JNI 就可以调用 C/C++ 所编写的本地代码。
+而 NDK 是 Android 锁提供的一个工具集合，通过 NDK 就可以很方便的在 Android 中">
 <meta name="twitter:image" content="http://i4.buimg.com/567571/b534838d60dca185.png">
 
 
@@ -390,9 +399,20 @@
       
 
       
-        <h1 id="Android-NDK开发从0到1"><a href="#Android-NDK开发从0到1" class="headerlink" title="Android NDK开发从0到1"></a>Android NDK开发从0到1</h1><p>最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来</p>
-<p>废话不多说，下面开始吧~</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p>首先先大致明确NDK开发从0到1的几个步骤：</p>
+        <h1 id="Android-NDK-开发从0到1"><a href="#Android-NDK-开发从0到1" class="headerlink" title="Android NDK 开发从0到1"></a>Android NDK 开发从0到1</h1><blockquote>
+<p>本文的开发环境为 Windows，其他平台操作类似</p>
+</blockquote>
+<p>其实说到 NDK 就不得不提 JNI ( Java Native Interface ) ，JNI 是专门用来与本地代码进行交互而提供的一个接口。通过 JNI 就可以调用 C/C++ 所编写的本地代码。</p>
+<p>而 NDK 是 Android 锁提供的一个工具集合，通过 NDK 就可以很方便的在 Android 中通过 JNI 来访问本地代码。</p>
+<p>那么使用 NDK 有什么好处呢？简单总结几点如下，更多的欢迎补充 </p>
+<ul>
+<li>可以使用 C/C++ 的开源库 ( 比如 OpenCV 等)</li>
+<li>安全性。因为 so 库很难进行反编译，所以在安全性上有一定的保证</li>
+<li>可移植。通过编译生成的 so 库可以在其他平台上使用</li>
+<li>…</li>
+</ul>
+<p>那么废话不多说，下面开始吧~</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h2 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h2><p>首先先大致明确NDK开发从0到1的几个步骤：</p>
 <ul>
 <li>环境变量配置</li>
 <li>在 Java 类中编写 native 代码</li>
@@ -747,7 +767,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-NDK开发从0到1"><span class="nav-number">1.</span> <span class="nav-text">Android NDK开发从0到1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境变量配置"><span class="nav-number">1.2.</span> <span class="nav-text">环境变量配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Java-类中编写-native-代码"><span class="nav-number">1.3.</span> <span class="nav-text">在 Java 类中编写 native 代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成与-native-方法对应的头文件"><span class="nav-number">1.4.</span> <span class="nav-text">生成与 native 方法对应的头文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用生成的头文件，编写对应的-C-C-代码"><span class="nav-number">1.5.</span> <span class="nav-text">利用生成的头文件，编写对应的 C/C++ 代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成-so-文件"><span class="nav-number">1.6.</span> <span class="nav-text">生成 .so 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-Gradle"><span class="nav-number">1.6.1.</span> <span class="nav-text">配置 Gradle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写-Android-mk-文件"><span class="nav-number">1.6.2.</span> <span class="nav-text">编写 Android.mk 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写-Application-mk-文件"><span class="nav-number">1.6.3.</span> <span class="nav-text">编写 Application.mk 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-so-文件"><span class="nav-number">1.7.</span> <span class="nav-text">使用 .so 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.8.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-NDK-开发从0到1"><span class="nav-number">1.</span> <span class="nav-text">Android NDK 开发从0到1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发流程"><span class="nav-number">1.2.</span> <span class="nav-text">开发流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境变量配置"><span class="nav-number">1.3.</span> <span class="nav-text">环境变量配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Java-类中编写-native-代码"><span class="nav-number">1.4.</span> <span class="nav-text">在 Java 类中编写 native 代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成与-native-方法对应的头文件"><span class="nav-number">1.5.</span> <span class="nav-text">生成与 native 方法对应的头文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用生成的头文件，编写对应的-C-C-代码"><span class="nav-number">1.6.</span> <span class="nav-text">利用生成的头文件，编写对应的 C/C++ 代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成-so-文件"><span class="nav-number">1.7.</span> <span class="nav-text">生成 .so 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-Gradle"><span class="nav-number">1.7.1.</span> <span class="nav-text">配置 Gradle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写-Android-mk-文件"><span class="nav-number">1.7.2.</span> <span class="nav-text">编写 Android.mk 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写-Application-mk-文件"><span class="nav-number">1.7.3.</span> <span class="nav-text">编写 Application.mk 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-so-文件"><span class="nav-number">1.8.</span> <span class="nav-text">使用 .so 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.9.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
             
 
           </div>
