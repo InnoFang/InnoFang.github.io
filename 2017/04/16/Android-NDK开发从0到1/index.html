@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://i4.buimg.com/567571/75ee3608dbeab9fa.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/82ea56d1983d62b6.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/758174b00ca0dab6.png">
-<meta property="og:updated_time" content="2017-04-19T12:21:52.276Z">
+<meta property="og:updated_time" content="2017-04-19T13:20:31.720Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android NDK开发从0到1">
 <meta name="twitter:description" content="Android NDK开发从0到1最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来
@@ -498,16 +498,24 @@
 <p>编辑内容如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">LOCAL_PATH := $(call my-dir)</div><div class="line">include $(CLEAR_VARS)</div><div class="line"></div><div class="line">LOCAL_MODULE := app</div><div class="line">LOCAL_SRC_FILES := jniutil.c</div><div class="line"></div><div class="line">include $(BUILD_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
 <p>这里要关注的是 <code>LOCAL_MODULE</code>  和 <code>LOCAL_SRC_FILES</code> 这两个东西</p>
-<p><code>LOCAL_MODULE</code>   后面的 app 就是上一部配置的 moduleName</p>
-<p><code>LOCAL_SRC_FILES</code>  后面的文件就是刚才编写的 C/C++ 代码的文件</p>
-<p><strong>这两个必须对应正确</strong> </p>
+<ul>
+<li><code>LOCAL_MODULE</code>   表示模块的名称。后面的 app 就是上一步骤配置的 moduleName</li>
+<li><code>LOCAL_SRC_FILES</code>  表示需要参与编译的原文件。后面的文件名就是刚才编写的 C/C++ 代码的文件</li>
+</ul>
+<p><strong>请根据具体情况来更改，这两项必须对应正确</strong> </p>
 <h3 id="编写-Application-mk-文件"><a href="#编写-Application-mk-文件" class="headerlink" title="编写 Application.mk 文件"></a>编写 <code>Application.mk</code> 文件</h3><p>同样 <strong>在 jni 文件下 </strong>，新建一个文件取名为 <code>Application.mk</code> </p>
 <p>编辑内容如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">APP_ABI := all</div></pre></td></tr></table></figure>
+<ul>
+<li>APP_ABI : 表示 CPU 的架构平台的类型。all 表示编译所有 CPU 平台的  so 库。</li>
+</ul>
+<p>目前常见的平台有 armeabi、x86 和 mips ，其中在移动设备中占据主要地位的是 armeabi ，所以有很多 apk 只包含 armeabi 类型的 so 库的原因。默认情况下 NDK 会编译产生各个 CPU 平台的 so 库，通过 APP_ABI 选项即可指定 so 库的 CPU 平台的类型。像上面写 all 表示编译所有 CPU 平台的 so 库， 若改成 armeabi 则只会编译 armeabi 平台下的 so 库。</p>
+<p><strong>请根据实际情况来修改，若编译所有 CPU 平台的 so 库，不可避免 apk 的体积也会随之变大</strong>  </p>
 <p>上面的三个步骤都仅仅只是生成 <code>.so</code> 文件的准备工作，下面才开始真正生成 <code>.so</code> 文件</p>
 <p>找到 Android Studio 底部操作栏的 <code>Terminal</code> 并点击，在 <code>Terminal</code>  内分别输入如下命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd app/src/main/jni     # 将位置切换到 jni目录下</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ndk-build</div></pre></td></tr></table></figure>
+<p>这里需要强调一点的是，<strong>如果目录名字不是 jni，那么 ndk-build 则无法编译成功</strong>。因为在上一步生成头文件的时候已经通过命令行自动生成了一个 jni 文件夹并在里面生成了头文件，所以这一步没有强调让创建 jni 文件夹。</p>
 <p>如果终端信息出现如下内容则说明 <code>.so</code> 文件生成成功，否则<strong>请检查上面的步骤是否正确操作</strong></p>
 <p><img src="http://i1.piimg.com/567571/77330721a15e9af3.png" alt=""></p>
 <p>经过上面一系列步骤，你会发现 main 目录下多了两个文件夹 libs 和 obj，这两个文件下存的都是新生成的 so 文件。至此，生成 <code>.so</code> 文件这个任务就算完成了。</p>
