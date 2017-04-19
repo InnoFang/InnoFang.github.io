@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://i4.buimg.com/567571/75ee3608dbeab9fa.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/82ea56d1983d62b6.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/758174b00ca0dab6.png">
-<meta property="og:updated_time" content="2017-04-19T13:20:31.720Z">
+<meta property="og:updated_time" content="2017-04-19T13:21:57.877Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android NDK开发从0到1">
 <meta name="twitter:description" content="Android NDK开发从0到1最近在学习NDK开发，遇到了很多坑，所以打算写一篇文章来记录下来
@@ -513,8 +513,7 @@
 <p><strong>请根据实际情况来修改，若编译所有 CPU 平台的 so 库，不可避免 apk 的体积也会随之变大</strong>  </p>
 <p>上面的三个步骤都仅仅只是生成 <code>.so</code> 文件的准备工作，下面才开始真正生成 <code>.so</code> 文件</p>
 <p>找到 Android Studio 底部操作栏的 <code>Terminal</code> 并点击，在 <code>Terminal</code>  内分别输入如下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd app/src/main/jni     # 将位置切换到 jni目录下</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ndk-build</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd app/src/main/jni     # 将位置切换到 jni目录下</div><div class="line">ndk-build</div></pre></td></tr></table></figure>
 <p>这里需要强调一点的是，<strong>如果目录名字不是 jni，那么 ndk-build 则无法编译成功</strong>。因为在上一步生成头文件的时候已经通过命令行自动生成了一个 jni 文件夹并在里面生成了头文件，所以这一步没有强调让创建 jni 文件夹。</p>
 <p>如果终端信息出现如下内容则说明 <code>.so</code> 文件生成成功，否则<strong>请检查上面的步骤是否正确操作</strong></p>
 <p><img src="http://i1.piimg.com/567571/77330721a15e9af3.png" alt=""></p>
