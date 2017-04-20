@@ -114,7 +114,7 @@
 <meta property="og:image" content="http://i4.buimg.com/567571/75ee3608dbeab9fa.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/82ea56d1983d62b6.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/758174b00ca0dab6.png">
-<meta property="og:updated_time" content="2017-04-20T00:59:02.726Z">
+<meta property="og:updated_time" content="2017-04-20T01:03:20.285Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android NDK开发从0到1">
 <meta name="twitter:description" content="Android NDK 开发从0到1
@@ -485,7 +485,7 @@
 <p>这里的宏定义指定了 <code>extern &quot;C&quot;</code> 内部的函数将采用 C 语言的命名风格来编译。如果你想使用 C++ 那么这里最好改成 <code>extern &quot;C++&quot; {</code>。否则当采用 C++ 时，可能会因为 C 和 C++ 比编译过程中对函数的命名风格不同，导致编译错误。</p>
 <p>接下来就是编写 C 代码 就将整个声明复制下来，<strong>在 jni 目录下</strong>，新建一个 C 文件并取名为取名为 <code>jnituil.c</code> ，这个名字可以随意，可以不和头文件名相同</p>
 <blockquote>
-<p>建议根据头文件中规定的是采用 C 还是 C++ 来决定新建什么类型的文件( .c 或 .cpp )，虽然有时候不会报错，但是规范一点总没错</p>
+<p>建议根据头文件中规定的是采用 C 还是 C++ 来决定新建什么类型的文件( .c 或 .cpp )，虽然不会报错，但是牵扯到语言风格，规范一点总没错</p>
 </blockquote>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"com_innofang_ndkdemo_JniUtil.h"</span></span></div><div class="line"></div><div class="line"><span class="function">JNIEXPORT jint JNICALL <span class="title">Java_com_innofang_ndkdemo_JniUtil_add</span></span></div><div class="line">  <span class="params">(JNIEnv *env, jobject obj, jint a, jint b)</span> &#123;</div><div class="line">    <span class="keyword">return</span> a + b;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>因为函数功能是两数相加求和，所以这里直接返回两数之和即可，这一步还是比较简单的</p>
