@@ -1,17 +1,92 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
   
-  <title>设计模式(七):状态模式 | Inno&#39;s Bolg</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="设计模式" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
   
   
   
   
-  <meta name="description" content="State（状态模式）什么是状态模式呢？
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Inno's Bolg" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://i1.piimg.com/567571/2940be93a688853d.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="State（状态模式）什么是状态模式呢？
 有时候做一件事会存在很多的状态，而在不同的状态之下会有不同的行为。而状态模式就是根据不同的状态来改变不同的行为">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式(七):状态模式">
@@ -26,160 +101,281 @@
 <meta name="twitter:description" content="State（状态模式）什么是状态模式呢？
 有时候做一件事会存在很多的状态，而在不同的状态之下会有不同的行为。而状态模式就是根据不同的状态来改变不同的行为">
 <meta name="twitter:image" content="http://my.csdn.net/uploads/201204/02/1333348183_3457.jpg">
-  
-    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/mylogo.jpg">
-  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css" >
 
-  
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
 
-  
-    <link rel="stylesheet" href="/css/header-post.css" >
-  
 
-  
 
+  <link rel="canonical" href="http://yoursite.com/2017/03/09/设计模式-七-状态模式/"/>
+
+
+
+
+
+  <title> 设计模式(七):状态模式 | Inno's Bolg </title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+
+
+
+
 
 
   
-  <div id="container">
-    <div id="wrap">
-      
-        <header>
+  
+    
+  
 
-    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="navbar-inner">
-          
-          <div class="container"> 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
 
-            
-              <a class="brand" style="
-                 margin-top: 0px;"  
-                href="#" data-toggle="modal" data-target="#myModal" >
-                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
-              </a>
-            
-            
-            <div class="navbar-collapse collapse">
-              <ul class="hnav navbar-nav">
-                
-                  <li> <a class="main-nav-link" href="/">Home</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/categories">Categorías</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/about">About</a> </li>
-                
-                  <li><div id="search-form-wrap">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Inno's Bolg</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Inno's world, not just the code, but also the life</p>
+    
 </div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
 
-</div></li>
-            </div>
-          </div>
-                
-      </div>
-    </div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
 
-</header>
+<nav class="site-nav">
+  
 
-
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
 
       
-            
-      <div id="content" class="outer">
-        
-          <section id="main" style="float:none;"><article id="post-设计模式-七-状态模式" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" class="article-title" itemprop="name">
-      设计模式(七):状态模式
-    </h1>
+    </ul>
   
 
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+
+    
+
+  
+  
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/09/设计模式-七-状态模式/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Inno Fang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Inno's Bolg">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                设计模式(七):状态模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T12:09:50+08:00">
+                2017-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-meta">
-      
-	<a href="/2017/03/09/设计模式-七-状态模式/" class="article-date">
-	  <time datetime="2017-03-09T04:09:50.000Z" itemprop="datePublished">2017-03-09</time>
-	</a>
+
+
+    <div class="post-body" itemprop="articleBody">
 
       
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+      
 
-    </div>
-    <div class="article-entry" itemprop="articleBody">
       
         <h1 id="State（状态模式）"><a href="#State（状态模式）" class="headerlink" title="State（状态模式）"></a>State（状态模式）</h1><p>什么是状态模式呢？</p>
 <p>有时候做一件事会存在很多的状态，而在不同的状态之下会有不同的行为。而状态模式就是根据不同的状态来改变不同的行为</p>
@@ -232,249 +428,353 @@
 
       
     </div>
-    <footer class="article-footer">
+
+    <div>
       
         
-	<div id="comment">
-	
-	<!-- 多说评论框 start -->
-	 <div class="ds-thread" data-thread-key="/2017/03/09/设计模式-七-状态模式/" data-title="设计模式(七):状态模式" data-url="http://yoursite.com/2017/03/09/设计模式-七-状态模式/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"iTimeTraveler"};
-	  (function() {
-	    var ds = document.createElement('script');
-	    ds.type = 'text/javascript';ds.async = true;
-	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-	    ds.charset = 'UTF-8';
-	    (document.getElementsByTagName('head')[0] 
-	     || document.getElementsByTagName('body')[0]).appendChild(ds);
-	  })();
-	  </script>
-	<!-- 多说公共JS代码 end -->
-	
-	</div>
 
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/08/从零开始的回调/" rel="next" title="从零开始的回调">
+                <i class="fa fa-chevron-left"></i> 从零开始的回调
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/10/设计模式-八-责任链模式/" rel="prev" title="设计模式(八):责任链模式">
+                设计模式(八):责任链模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
 
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
     </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
-  
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
     
-<nav id="article-nav">
-  
-    <a href="/2017/03/10/设计模式-八-责任链模式/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Nuevo</strong>
-      <div class="article-nav-title">
+  </div>
+
+
+        </div>
         
-          设计模式(八):责任链模式
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://i1.piimg.com/567571/2940be93a688853d.jpg"
+               alt="Inno Fang" />
+          <p class="site-author-name" itemprop="name">Inno Fang</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap, show me the code.</p>
+        </div>
+        <nav class="site-state motion-element">
         
-      </div>
-    </a>
-  
-  
-    <a href="/2017/03/08/从零开始的回调/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Viejo</strong>
-      <div class="article-nav-title">从零开始的回调</div>
-    </a>
-  
-</nav>
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
 
-  
-</article>
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
-<!-- Table of Contents -->
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
 
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#State（状态模式）"><span class="nav-number">1.</span> <span class="nav-text">State（状态模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#State（状态模式）的UML类图"><span class="nav-number">1.1.</span> <span class="nav-text">State（状态模式）的UML类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态模式的简单实现"><span class="nav-number">1.2.</span> <span class="nav-text">状态模式的简单实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol>
-    
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/InnoFang" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#State（状态模式）"><span class="nav-number">1.</span> <span class="nav-text">State（状态模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#State（状态模式）的UML类图"><span class="nav-number">1.1.</span> <span class="nav-text">State（状态模式）的UML类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态模式的简单实现"><span class="nav-number">1.2.</span> <span class="nav-text">状态模式的简单实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
     </div>
   </aside>
-</section>
+
+
         
       </div>
-      
-      <footer id="footer">
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-
-  <div class="container">
-      	<div class="row">
-	      <p> Construido por <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2017 Inno&#39;s Bolg All Rights Reserved.</p>
-	      
-	      
-    		<p class="busuanzi_uv">
-				<span id="busuanzi_container_site_uv"> UV : <span id="busuanzi_value_site_uv"></span></span> |  
-				<span id="busuanzi_container_site_pv"> PV : <span id="busuanzi_value_site_pv"></span></span>
-		    </p>
-  		   
-		</div>
-
-		
-  </div>
-</footer>
-
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-    var allheader = document.getElementById("allheader");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
-    if (allheader != null) {
-      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    } else {
-      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    }
-</script>
-    </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/categories" class="mobile-nav-link">Categories</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    
-
-
-  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
-
-
-
-
-  <script src="/js/dialog.js"></script>
-
-
-
-
-
-
-  </div>
-
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="myModalLabel">设置</h2>
-      </div>
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-
-
-      <div class="modal-body">
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
-              正文字号大小
-            </a>
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-          <div class="panel-body">
-            您已调整页面字体大小
-          </div>
-        </div>
-      
-
-
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
-              夜间护眼模式
-            </a>
-        </div>
-          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-          <div class="panel-body">
-            夜间模式已经开启，再次单击按钮即可关闭 
-          </div>
-        </div>
-
-        <div>
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-        </div>
-         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-          <div class="panel-body">
-            Inno&#39;s Bolg
-          </div>
-          <div class="panel-body">
-            Copyright © 2017 Inno Fang All Rights Reserved.
-          </div>
-        </div>
-      </div>
-
-
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <div class="modal-footer">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-      </div>
-    </div>
-  </div>
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Inno Fang</span>
 </div>
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
   
 
-	<div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
 
 
 </body>
