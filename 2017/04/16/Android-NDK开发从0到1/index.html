@@ -114,7 +114,7 @@
 <meta property="og:image" content="http://i4.buimg.com/567571/75ee3608dbeab9fa.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/82ea56d1983d62b6.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/758174b00ca0dab6.png">
-<meta property="og:updated_time" content="2017-04-20T01:24:15.296Z">
+<meta property="og:updated_time" content="2017-04-21T02:07:18.600Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android NDK开发从0到1">
 <meta name="twitter:description" content="Android NDK 开发从0到1
@@ -426,7 +426,7 @@
 <h2 id="环境变量配置"><a href="#环境变量配置" class="headerlink" title="环境变量配置"></a>环境变量配置</h2><p>首先就是下载 NDK，那么这里有几个方法</p>
 <ul>
 <li><a href="https://developer.android.com/ndk/downloads/index.html" target="_blank" rel="external">直接从官网下载</a>  (需要翻墙)</li>
-<li>从 Android Studio 中下载 (需要翻墙，或者挂<a href="http://tools.android-studio.org/index.php/proxy" target="_blank" rel="external">镜像</a>)<img src="http://i4.buimg.com/567571/b534838d60dca185.png" alt=""> </li>
+<li>从 Android Studio 中下载 (最好可以挂载 <a href="http://tools.android-studio.org/index.php/proxy" target="_blank" rel="external">镜像代理</a> )<img src="http://i4.buimg.com/567571/b534838d60dca185.png" alt=""> </li>
 </ul>
 <ul>
 <li><a href="http://www.androiddevtools.cn/" target="_blank" rel="external">在 AndroidDevTools 中下载</a> </li>
@@ -511,8 +511,8 @@
 <p>这个 <code>app</code> 就是等会生成的 so 库的名字，也就是等会要使用的 so 库的名字   </p>
 </li>
 <li><p>然后再在 <code>android</code> 标签下，添加如下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sourceSets.main &#123;</div><div class="line">   jni.srcDirs = [&apos;libs&apos;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>表示生成的 so 库会在 src/main/libs 目录下</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sourceSets.main &#123;</div><div class="line">   jni.srcDirs = [&apos;libs&apos;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 表示生成的 so 库会在 src/main/libs 目录下</p>
 </li>
 </ol>
 <p><strong>这两个步骤缺一不可</strong></p>
