@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-27T01:58:32.541Z</updated>
+  <updated>2017-04-27T02:21:35.743Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%9B%9B-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/04/27/设计模式-十四-适配器模式/</id>
     <published>2017-04-27T01:52:21.000Z</published>
-    <updated>2017-04-27T01:58:32.541Z</updated>
+    <updated>2017-04-27T02:21:35.743Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Adapter-Class-Object（适配器）"><a href="#Adapter-Class-Object（适配器）" class="headerlink" title="Adapter Class/Object（适配器）"></a>Adapter Class/Object（适配器）</h1><p>在平常开发当中，适配器 ( Adapter ) 是十分常用的模式，比如常用的 RecyclerView 的 Adapter，ListView 的 Adapter 等。但是在经常使用，但是并不知道适配器模式的具体实现原理是什么？那么下面就将结合具体案例分析一下这个适配器模式。</p>
 <a id="more"></a>
@@ -64,6 +64,17 @@
 <p>因为使用了组合的方式，所以这里需要给构造函数传入一个被适配对象实例，而具体如何实现转换方式，就需要在 <code>provideVoltFive()</code> 中进行操作，因为这次的示例比较简单，所以这里的操作仅供参考</p>
 <p>测试<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Volt220 volt220 = <span class="keyword">new</span> Volt220();</div><div class="line">VoltAdapter adapter = <span class="keyword">new</span> VoltAdapter(volt220);</div><div class="line"><span class="keyword">int</span> volt = adapter.provideVoltFive();</div><div class="line">System.out.println(<span class="string">"After adapted, the volt is :"</span> + volt);</div></pre></td></tr></table></figure></p>
 <p>测试结果同上</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>优点<ul>
+<li>复用性：通过使用适配器让不符合系统需求的接口得到更好的复用</li>
+<li>扩展性：通过使用适配器模式，可以在原有的功能上扩展自己实现的功能</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>过多的使用适配器模式，会使系统变得凌乱，不易整体把握。若非必要可以直接对功能进行重构</li>
+</ul>
+</li>
+</ul>
 <p>END.</p>
 ]]></content>
     
