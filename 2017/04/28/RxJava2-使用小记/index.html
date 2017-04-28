@@ -86,19 +86,16 @@
 
 
 
-<meta name="description" content="RxJava 的基本使用创建 Observable 对象
-使用 create() 方法创建 Observable 对象12345678Observable&amp;lt;String&amp;gt; observable = Observable.create(new ObservableOnSubscribe&amp;lt;String&amp;gt;() &amp;#123;    @Override    public void">
+<meta name="description" content="RxJava2 的基本使用RxJava2 的基本使用小记，持续更新 （结合 RxAndroid 在 Android 上的使用）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RxJava2 使用小记">
 <meta property="og:url" content="http://yoursite.com/2017/04/28/RxJava2-使用小记/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="RxJava 的基本使用创建 Observable 对象
-使用 create() 方法创建 Observable 对象12345678Observable&amp;lt;String&amp;gt; observable = Observable.create(new ObservableOnSubscribe&amp;lt;String&amp;gt;() &amp;#123;    @Override    public void">
-<meta property="og:updated_time" content="2017-04-28T02:15:53.505Z">
+<meta property="og:description" content="RxJava2 的基本使用RxJava2 的基本使用小记，持续更新 （结合 RxAndroid 在 Android 上的使用）">
+<meta property="og:updated_time" content="2017-04-28T02:18:06.105Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava2 使用小记">
-<meta name="twitter:description" content="RxJava 的基本使用创建 Observable 对象
-使用 create() 方法创建 Observable 对象12345678Observable&amp;lt;String&amp;gt; observable = Observable.create(new ObservableOnSubscribe&amp;lt;String&amp;gt;() &amp;#123;    @Override    public void">
+<meta name="twitter:description" content="RxJava2 的基本使用RxJava2 的基本使用小记，持续更新 （结合 RxAndroid 在 Android 上的使用）">
 
 
 
@@ -365,7 +362,9 @@
       
 
       
-        <h1 id="RxJava-的基本使用"><a href="#RxJava-的基本使用" class="headerlink" title="RxJava 的基本使用"></a>RxJava 的基本使用</h1><h2 id="创建-Observable-对象"><a href="#创建-Observable-对象" class="headerlink" title="创建 Observable 对象"></a>创建 Observable 对象</h2><ul>
+        <h1 id="RxJava2-的基本使用"><a href="#RxJava2-的基本使用" class="headerlink" title="RxJava2 的基本使用"></a>RxJava2 的基本使用</h1><p>RxJava2 的基本使用小记，持续更新 （结合 RxAndroid 在 Android 上的使用）</p>
+<a id="more"></a>
+<h2 id="创建-Observable-对象"><a href="#创建-Observable-对象" class="headerlink" title="创建 Observable 对象"></a>创建 Observable 对象</h2><ul>
 <li>使用 <code>create()</code> 方法创建 <code>Observable</code> 对象<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Observable&lt;String&gt; observable = Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;String&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        e.onNext(<span class="string">"Today's news update"</span>);</div><div class="line">        e.onNext(<span class="string">"Today's topic is Study"</span>);</div><div class="line">        e.onComplete();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -392,11 +391,9 @@
 <li><p><code>AndroidSchedulers.mainThread()</code> 在 Android 主线程 ( 即 UI 线程 )中执行</p>
 <h2 id="线程切换"><a href="#线程切换" class="headerlink" title="线程切换"></a>线程切换</h2><p>上面提到了线程控制，并且我们都知道耗时操作要在子线程中执行，更新 UI 的操作要在主线程中执行，那么我们怎样才能实现这种在两种线程内执行功能的操作呢？</p>
 <p>答案就是使用线程切换，RxJava 提供了两种方法</p>
-<ul>
+</li>
 <li><code>subscribeOn()</code> 指定 Observable 对象所执行操作的线程</li>
 <li><code>observeOn()</code> 指定 Observer 对象所执行操作的线程</li>
-</ul>
-</li>
 </ul>
 <p><strong>注意</strong> 如果指定了 <code>subscribeOn()</code> 但是没有指定 <code>observeOn()</code> 方法，那么对应的 Observer 对象的操作线程就是跟 Observable 一样的了</p>
 <p>有了上面两个方法，那么就可以在创建 Observable 对象的时候进行网络请求，并用 <code>subscribeOn()</code>  指定在 <code>Schedulers.io()</code>  中执行，然后再利用 <code>observeOn()</code> 指定 Observer 的操作是在 <code>AndroidSchedulers.mainThread()</code> 中，那么我们就可以在 Observer 对象的 <code>onNext()</code> 方法中，将获得资源添加给对应的 View。参考操作如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Bitmap&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Bitmap&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="comment">// 网络请求</span></div><div class="line">        <span class="comment">// 将请求资源转化为 Bitmap</span></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != bitmap) &#123;</div><div class="line">            e.onNext(bitmap);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;).subscribeOn(Schedulers.io())                     <span class="comment">/* 在子线程中进行网络请求 */</span></div><div class="line">        .observeOn(AndroidSchedulers.mainThread())  <span class="comment">/* 在主线程给 View 添加请求的资源 */</span></div><div class="line">        .subscribe(<span class="keyword">new</span> Observer&lt;Bitmap&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(Bitmap value)</span> </span>&#123;</div><div class="line">                imageView.setImageBitmap(value);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure></p>
@@ -581,7 +578,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RxJava-的基本使用"><span class="nav-number">1.</span> <span class="nav-text">RxJava 的基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Observable-对象"><span class="nav-number">1.1.</span> <span class="nav-text">创建 Observable 对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Observer-对象"><span class="nav-number">1.2.</span> <span class="nav-text">创建 Observer 对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#让-Observable-对象与-Observer-对象实现订阅关系"><span class="nav-number">1.3.</span> <span class="nav-text">让 Observable 对象与 Observer 对象实现订阅关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Scheduler-线程控制"><span class="nav-number">2.</span> <span class="nav-text">Scheduler 线程控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程切换"><span class="nav-number">2.1.</span> <span class="nav-text">线程切换</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RxJava2-的基本使用"><span class="nav-number">1.</span> <span class="nav-text">RxJava2 的基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Observable-对象"><span class="nav-number">1.1.</span> <span class="nav-text">创建 Observable 对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Observer-对象"><span class="nav-number">1.2.</span> <span class="nav-text">创建 Observer 对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#让-Observable-对象与-Observer-对象实现订阅关系"><span class="nav-number">1.3.</span> <span class="nav-text">让 Observable 对象与 Observer 对象实现订阅关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Scheduler-线程控制"><span class="nav-number">2.</span> <span class="nav-text">Scheduler 线程控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程切换"><span class="nav-number">2.1.</span> <span class="nav-text">线程切换</span></a></li></ol></li></ol></div>
             
 
           </div>
