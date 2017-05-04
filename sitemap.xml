@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/02/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%9B%9B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
+    
+    <lastmod>2017-05-04T09:12:26.627Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2017-05-03T06:25:08.402Z</lastmod>
@@ -103,13 +110,6 @@
     <loc>http://yoursite.com/2017/01/12/Android-BroadcastReceiver/</loc>
     
     <lastmod>2017-03-10T05:00:07.231Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/02/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%9B%9B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
-    
-    <lastmod>2017-03-10T04:59:35.908Z</lastmod>
     
   </url>
   

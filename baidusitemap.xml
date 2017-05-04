@@ -3,6 +3,26 @@
 
 
     
+  <url>
+    <loc>http://yoursite.com/2017/02/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%9B%9B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-05-04T09:12:26.627Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(四):抽象工厂模式</title>
+        <pubTime>2017-02-25T07:13:37.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://yoursite.com/2017/04/28/RxJava2-%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</loc>
@@ -278,26 +298,6 @@
            
              
               <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/02/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%9B%9B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-03-10T04:59:35.908Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(四):抽象工厂模式</title>
-        <pubTime>2017-02-25T07:13:37.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
           
         </display>
     </data>

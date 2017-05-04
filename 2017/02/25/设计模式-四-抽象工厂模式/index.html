@@ -94,13 +94,13 @@
 <meta property="og:site_name" content="Inno's Bolg">
 <meta property="og:description" content="Abstract Factory（抽象工厂）在此之前，已经学习过了Factory Method（工厂方法），抽象工厂和工厂方法这两个模式都属于创建型设计模式，那么根据[工厂]这个词，大概也能猜出这两个模式都是用来“生产”的
 那么这两种用来“生产”的模式 ——— 抽象工厂和工厂方法，这两个设计模式有什么区别呢？或者说也两个模式“生产”的东西有什么不同的吗？">
-<meta property="og:image" content="http://img.my.csdn.net/uploads/201301/25/1359118637_4907.jpg">
-<meta property="og:updated_time" content="2017-03-10T04:59:35.908Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/abstract_factory.png">
+<meta property="og:updated_time" content="2017-05-04T09:12:26.627Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式(四):抽象工厂模式">
 <meta name="twitter:description" content="Abstract Factory（抽象工厂）在此之前，已经学习过了Factory Method（工厂方法），抽象工厂和工厂方法这两个模式都属于创建型设计模式，那么根据[工厂]这个词，大概也能猜出这两个模式都是用来“生产”的
 那么这两种用来“生产”的模式 ——— 抽象工厂和工厂方法，这两个设计模式有什么区别呢？或者说也两个模式“生产”的东西有什么不同的吗？">
-<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201301/25/1359118637_4907.jpg">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/abstract_factory.png">
 
 
 
@@ -379,7 +379,7 @@
 <li>如果是用来生产具体细节抽象的产品，产品的内部元素可变，选择<strong>抽象工厂</strong></li>
 </ul>
 <p>说了这么多，但是还没有见到抽象模式的真身，下面先介绍一下抽象工厂模式，然后，再重新打造我们的工厂，让其能够生产更多类型的蛋糕</p>
-<h2 id="Abstract-Factory（抽象工厂）的UML类图"><a href="#Abstract-Factory（抽象工厂）的UML类图" class="headerlink" title="Abstract Factory（抽象工厂）的UML类图"></a>Abstract Factory（抽象工厂）的UML类图</h2><p><img src="http://img.my.csdn.net/uploads/201301/25/1359118637_4907.jpg"></p>
+<h2 id="Abstract-Factory（抽象工厂）的UML类图"><a href="#Abstract-Factory（抽象工厂）的UML类图" class="headerlink" title="Abstract Factory（抽象工厂）的UML类图"></a>Abstract Factory（抽象工厂）的UML类图</h2><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/abstract_factory.png" alt=""></p>
 <ul>
 <li>AbstractProductA：抽象产品A<ul>
 <li>ProductA1：具体产品A1</li>
@@ -410,7 +410,7 @@
 <p>ConcreteFactory2：生产产品细节A2和产品细节B1<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactory2</span> <span class="keyword">extends</span> <span class="title">AbstractFactory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> AbstractProductA <span class="title">createProductA</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductA2();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> AbstractProductB <span class="title">createProductB</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductB1();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>好了，现在我们只需要通过这两个工厂，就能得到一个具有A和B两种不同细节的产品</p>
 <p>还是挺简单的，那么，接下来，借助上面的经验，是时候将蛋糕店好好装修一番了，让蛋糕店可以生产各种各样的产品</p>
-<h2 id="抽象工厂的简单实现"><a href="#抽象工厂的简单实现" class="headerlink" title="抽象工厂的简单实现"></a>抽象工厂的简单实现</h2><p>首先，分析一下，对于蛋糕</p>
+<p>首先，分析一下，对于蛋糕</p>
 <ul>
 <li>按照造型分，我们有爱心型的和方形的，</li>
 <li>按照奶油分，我们有红色的草莓味和黄色的芒果味</li>
@@ -437,7 +437,7 @@
 <p>那么我们只需要一个工厂就可以做 到了，而不需要再去重头开始制作奶油和模板</p>
 <p>爱心型芒果味蛋糕<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MangoHeartCake</span> <span class="keyword">extends</span> <span class="title">CakeFactory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> CakeCream <span class="title">cream</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MangoCream();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> CakeStyle <span class="title">style</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HeartStyle();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>还是挺简单的嘛~</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好了，来总结一下抽象工厂的优缺点吧</p>
+<p>好了，来总结一下抽象工厂的优缺点吧</p>
 <ul>
 <li>优点：最明显的分离了抽象和实现，基于产品的抽象和实现的分离，是抽象工厂在切换产品类时更加灵活和容易</li>
 <li>缺点：就像我们上面看到的，一个产品就需要一个工厂，那么根据产品的越来越多，具体工厂类就越来越多；另一个就是不容易扩展，比如现在有了新的需求，比如蛋糕现在生产时有了磅数(重量)的要求，那么我们就必须去修改抽象工厂类，从而导致所有的具体工厂类都必须修改</li>
@@ -627,7 +627,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract-Factory（抽象工厂）"><span class="nav-number">1.</span> <span class="nav-text">Abstract Factory（抽象工厂）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract-Factory（抽象工厂）的UML类图"><span class="nav-number">1.1.</span> <span class="nav-text">Abstract Factory（抽象工厂）的UML类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象工厂的简单实现"><span class="nav-number">1.2.</span> <span class="nav-text">抽象工厂的简单实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract-Factory（抽象工厂）"><span class="nav-number">1.</span> <span class="nav-text">Abstract Factory（抽象工厂）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract-Factory（抽象工厂）的UML类图"><span class="nav-number">1.1.</span> <span class="nav-text">Abstract Factory（抽象工厂）的UML类图</span></a></li></ol></li></ol></div>
             
 
           </div>
