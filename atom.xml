@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-06T02:20:20.125Z</updated>
+  <updated>2017-05-06T02:23:21.709Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,9 +20,10 @@
     <link href="http://yoursite.com/2017/05/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%BA%94-%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/05/05/设计模式-十五-装饰模式/</id>
     <published>2017-05-05T07:18:30.000Z</published>
-    <updated>2017-05-06T02:20:20.125Z</updated>
+    <updated>2017-05-06T02:23:21.709Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Decorator（装饰）"><a href="#Decorator（装饰）" class="headerlink" title="Decorator（装饰）"></a>Decorator（装饰）</h1><p>装饰模式 ( Decorator Pattern )，或者说叫包装模式 ( Wrapper Pattern )，作为结构型模式，其主要功能通俗的说就是在原有对象的基础上添加新的东西</p>
+<a id="more"></a>
 <p>装饰模式在平常生活中也是很常见的，这里就以蛋糕店做蛋糕为例吧</p>
 <blockquote>
 <p>当我们经过一系列手工操作制作出一个基本的蛋糕胚时，蛋糕店想要将这个蛋糕卖出去，那么就需要在这个蛋糕胚上做一些装饰，比如涂上一层奶油，加一些巧克力或者水果之类的。</p>
@@ -69,7 +70,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Decorator（装饰）&quot;&gt;&lt;a href=&quot;#Decorator（装饰）&quot; class=&quot;headerlink&quot; title=&quot;Decorator（装饰）&quot;&gt;&lt;/a&gt;Decorator（装饰）&lt;/h1&gt;&lt;p&gt;装饰模式 ( Decorator Pattern )
+      &lt;h1 id=&quot;Decorator（装饰）&quot;&gt;&lt;a href=&quot;#Decorator（装饰）&quot; class=&quot;headerlink&quot; title=&quot;Decorator（装饰）&quot;&gt;&lt;/a&gt;Decorator（装饰）&lt;/h1&gt;&lt;p&gt;装饰模式 ( Decorator Pattern )，或者说叫包装模式 ( Wrapper Pattern )，作为结构型模式，其主要功能通俗的说就是在原有对象的基础上添加新的东西&lt;/p&gt;
     
     </summary>
     
@@ -146,7 +147,7 @@
     <link href="http://yoursite.com/2017/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%9B%9B-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/04/27/设计模式-十四-适配器模式/</id>
     <published>2017-04-27T01:52:21.000Z</published>
-    <updated>2017-04-27T02:21:35.743Z</updated>
+    <updated>2017-05-06T02:22:17.727Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Adapter-Class-Object（适配器）"><a href="#Adapter-Class-Object（适配器）" class="headerlink" title="Adapter Class/Object（适配器）"></a>Adapter Class/Object（适配器）</h1><p>在平常开发当中，适配器 ( Adapter ) 是十分常用的模式，比如常用的 RecyclerView 的 Adapter，ListView 的 Adapter 等。但是在经常使用，但是并不知道适配器模式的具体实现原理是什么？那么下面就将结合具体案例分析一下这个适配器模式。</p>
 <a id="more"></a>
@@ -160,13 +161,13 @@
 <blockquote>
 <p>类适配器</p>
 </blockquote>
-<p><img src="https://github.com/innofang/designpatterns/blob/master/uml/class_adapter.png?raw=true" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/class_adapter.png" alt=""></p>
 <ul>
 <li>Target : 适配器接口</li>
 <li>Adaptee : 需要适配的角色</li>
 <li>Adapter : 适配器，将需要适配的角色的对应操作进行适配</li>
 </ul>
-<p><img src="https://github.com/InnoFang/DesignPatterns/blob/master/uml/object_adapter.png?raw=true" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/object_adapter.png" alt=""></p>
 <p> 这里的三个角色同上，但是这里使用了组合的方式</p>
 <p>那么这里这两种实现方式有什么不同的呢？</p>
 <ul>
@@ -186,7 +187,7 @@
 <p>测试<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">VoltAdapter adapter = <span class="keyword">new</span> VoltAdapter();</div><div class="line"><span class="keyword">int</span> volt = adapter.provideVoltFive();</div><div class="line">System.out.println(<span class="string">"After adapted, the volt is :"</span> + volt);</div></pre></td></tr></table></figure></p>
 <p>测试结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">After adapted, the volt is :5</div></pre></td></tr></table></figure></p>
 <p>同时根据上面的分析可以知道，因为继承了被适配对象，所以这里的适配还可以输出 220 V 电压，具体操作可以自己尝试</p>
-<h3 id="对象适配器模式的简单实现"><a href="#对象适配器模式的简单实现" class="headerlink" title="对象适配器模式的简单实现"></a>对象适配器模式的简单实现</h3><p>因为目标接口和被适配对象与上面相同，所以这里不再贴出，具体的可以参考上面。下面来看一下对象适配器模式的具体实现<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public class VoltAdapter implements VoltFive &#123;</div><div class="line"></div><div class="line">    private Volt220 volt220;</div><div class="line"></div><div class="line">    public VoltAdapter(Volt220 volt220) &#123;</div><div class="line">        this.volt220 = volt220;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public int provideVoltFive() &#123;</div><div class="line">        int volt = volt220.provideVolt220();</div><div class="line">        /* convert the 220V to 5V */</div><div class="line">        volt = 5;</div><div class="line">        return volt;</div><div class="line">    &#125;方ze'p</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="对象适配器模式的简单实现"><a href="#对象适配器模式的简单实现" class="headerlink" title="对象适配器模式的简单实现"></a>对象适配器模式的简单实现</h3><p>因为目标接口和被适配对象与上面相同，所以这里不再贴出，具体的可以参考上面。下面来看一下对象适配器模式的具体实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VoltAdapter</span> <span class="keyword">implements</span> <span class="title">VoltFive</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Volt220 volt220;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">VoltAdapter</span><span class="params">(Volt220 volt220)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.volt220 = volt220;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> volt = volt220.provideVolt220();</div><div class="line">        <span class="comment">/* convert the 220V to 5V */</span></div><div class="line">        volt = <span class="number">5</span>;</div><div class="line">        <span class="keyword">return</span> volt;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>因为使用了组合的方式，所以这里需要给构造函数传入一个被适配对象实例，而具体如何实现转换方式，就需要在 <code>provideVoltFive()</code> 中进行操作，因为这次的示例比较简单，所以这里的操作仅供参考</p>
 <p>测试<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Volt220 volt220 = <span class="keyword">new</span> Volt220();</div><div class="line">VoltAdapter adapter = <span class="keyword">new</span> VoltAdapter(volt220);</div><div class="line"><span class="keyword">int</span> volt = adapter.provideVoltFive();</div><div class="line">System.out.println(<span class="string">"After adapted, the volt is :"</span> + volt);</div></pre></td></tr></table></figure></p>
 <p>测试结果同上</p>
@@ -202,6 +203,8 @@
 </li>
 </ul>
 <p>END.</p>
+<hr>
+<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/adapter" target="_blank" rel="external">源码地址</a></p>
 ]]></content>
     
     <summary type="html">
@@ -860,9 +863,10 @@
     <link href="http://yoursite.com/2017/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%85%AB-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/03/10/设计模式-八-责任链模式/</id>
     <published>2017-03-10T04:45:53.000Z</published>
-    <updated>2017-05-06T02:15:44.987Z</updated>
+    <updated>2017-05-06T02:22:52.438Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Chain-of-Responsibility（责任链模式）"><a href="#Chain-of-Responsibility（责任链模式）" class="headerlink" title="Chain of Responsibility（责任链模式）"></a>Chain of Responsibility（责任链模式）</h1><p>责任链模式作为结构型模式之一，根据”链”这个字，也大概能猜到这是一种链式结构，链式结构具有很好的灵活型，而在<br>责任链模式中也很好的体现了这一点。在责任链中，若在其中一端发出了请求，那么该请求就会沿着这个”链”<br>，一直寻找到可以接收并处理的该请求的”结点”，直到找到该结点或者一直到链的另一端结束</p>
+<a id="more"></a>
 <h2 id="Chain-of-Responsibility（责任链模式）的UML类图"><a href="#Chain-of-Responsibility（责任链模式）的UML类图" class="headerlink" title="Chain of Responsibility（责任链模式）的UML类图"></a>Chain of Responsibility（责任链模式）的UML类图</h2><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/chain_of_responsibility.png" alt=""></p>
 <ul>
 <li>Handler：抽象的请求处理类，</li>
@@ -899,7 +903,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Chain-of-Responsibility（责任链模式）&quot;&gt;&lt;a href=&quot;#Chain-of-Responsibility（责任链模式）&quot; class=&quot;headerlink&quot; title=&quot;Chain of Responsibility（责任链模式）&quot;&gt;
+      &lt;h1 id=&quot;Chain-of-Responsibility（责任链模式）&quot;&gt;&lt;a href=&quot;#Chain-of-Responsibility（责任链模式）&quot; class=&quot;headerlink&quot; title=&quot;Chain of Responsibility（责任链模式）&quot;&gt;&lt;/a&gt;Chain of Responsibility（责任链模式）&lt;/h1&gt;&lt;p&gt;责任链模式作为结构型模式之一，根据”链”这个字，也大概能猜到这是一种链式结构，链式结构具有很好的灵活型，而在&lt;br&gt;责任链模式中也很好的体现了这一点。在责任链中，若在其中一端发出了请求，那么该请求就会沿着这个”链”&lt;br&gt;，一直寻找到可以接收并处理的该请求的”结点”，直到找到该结点或者一直到链的另一端结束&lt;/p&gt;
     
     </summary>
     
@@ -1416,11 +1420,12 @@ Hi, I&#39;m product B!</code></p>
     <link href="http://yoursite.com/2017/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%8C-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/02/22/设计模式-二-建造者模式/</id>
     <published>2017-02-22T05:00:50.000Z</published>
-    <updated>2017-05-05T07:50:00.400Z</updated>
+    <updated>2017-05-06T02:22:43.030Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Builder（建造者模式）"><a href="#Builder（建造者模式）" class="headerlink" title="Builder（建造者模式）"></a>Builder（建造者模式）</h1><blockquote>
 <p>对一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示</p>
 </blockquote>
+<a id="more"></a>
 <p>其实建造者模式在项目中进场能够看到，比如在Android中我们使用AlertDialog的时候</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">AlertDialog.Builder builder =</div><div class="line">      <span class="keyword">new</span> AlertDialog.Builder(context)</div><div class="line">                     .setIcon(R.mipmap.ic_launcher)</div><div class="line">                     .setTitle(<span class="string">"This is title"</span>)</div><div class="line">                     .setMessage(<span class="string">"This is Message"</span>)</div><div class="line">                     .setPositiveButton(<span class="string">"ok"</span>, <span class="keyword">null</span>)</div><div class="line">                     .create();</div><div class="line">builder.show();</div></pre></td></tr></table></figure>
 <p>类似的还有很多的库都使用了这种建造者模式，可以见的学习这种模式的必要性了</p>
@@ -1469,7 +1474,8 @@ Hi, I&#39;m product B!</code></p>
     <summary type="html">
     
       &lt;h1 id=&quot;Builder（建造者模式）&quot;&gt;&lt;a href=&quot;#Builder（建造者模式）&quot; class=&quot;headerlink&quot; title=&quot;Builder（建造者模式）&quot;&gt;&lt;/a&gt;Builder（建造者模式）&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;对一个复杂对象的构
+&lt;p&gt;对一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     

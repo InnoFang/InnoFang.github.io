@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://yoursite.com/2017/05/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%BA%94-%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-05-06T02:20:20.125Z</lastmod>
+    <lastmod>2017-05-06T02:23:21.709Z</lastmod>
     <data>
         <display>
         <title>设计模式(十五):装饰模式</title>
@@ -25,7 +25,7 @@
     
   <url>
     <loc>http://yoursite.com/2017/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%85%AB-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-05-06T02:15:44.987Z</lastmod>
+    <lastmod>2017-05-06T02:22:52.438Z</lastmod>
     <data>
         <display>
         <title>设计模式(八):责任链模式</title>
@@ -45,11 +45,31 @@
     
   <url>
     <loc>http://yoursite.com/2017/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%8C-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-05-05T07:50:00.400Z</lastmod>
+    <lastmod>2017-05-06T02:22:43.030Z</lastmod>
     <data>
         <display>
         <title>设计模式(二):建造者模式</title>
         <pubTime>2017-02-22T05:00:50.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%9B%9B-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-05-06T02:22:17.727Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(十四):适配器模式</title>
+        <pubTime>2017-04-27T01:52:21.000Z</pubTime>
         
         <tag>设计模式</tag>
          
@@ -98,26 +118,6 @@
            
              
               <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%9B%9B-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-04-27T02:21:35.743Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(十四):适配器模式</title>
-        <pubTime>2017-04-27T01:52:21.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
           
         </display>
     </data>
