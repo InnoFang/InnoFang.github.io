@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-05T07:21:37.429Z</updated>
+  <updated>2017-05-06T02:20:20.125Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,16 +20,15 @@
     <link href="http://yoursite.com/2017/05/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%BA%94-%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/05/05/设计模式-十五-装饰模式/</id>
     <published>2017-05-05T07:18:30.000Z</published>
-    <updated>2017-05-05T07:21:37.429Z</updated>
+    <updated>2017-05-06T02:20:20.125Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Decorator（装饰）"><a href="#Decorator（装饰）" class="headerlink" title="Decorator（装饰）"></a>Decorator（装饰）</h1><p>装饰模式 ( Decorator Pattern )，或者说叫包装模式 ( Wrapper Pattern )，作为结构型模式，其主要功能通俗的说就是在原有对象的基础上添加新的东西</p>
-<a id="more"></a>
 <p>装饰模式在平常生活中也是很常见的，这里就以蛋糕店做蛋糕为例吧</p>
 <blockquote>
 <p>当我们经过一系列手工操作制作出一个基本的蛋糕胚时，蛋糕店想要将这个蛋糕卖出去，那么就需要在这个蛋糕胚上做一些装饰，比如涂上一层奶油，加一些巧克力或者水果之类的。</p>
 </blockquote>
 <p>这样想来装饰模式也是很好理解的。当我们需要透明且动态地扩展类的功能时，我们就可以使用装饰模式</p>
-<h1 id="Decorator（装饰）模式的-UML-类图"><a href="#Decorator（装饰）模式的-UML-类图" class="headerlink" title="Decorator（装饰）模式的 UML 类图"></a>Decorator（装饰）模式的 UML 类图</h1><p><img src="https://github.com/InnoFang/DesignPatterns/blob/master/uml/decorator.png" alt=""></p>
+<h1 id="Decorator（装饰）模式的-UML-类图"><a href="#Decorator（装饰）模式的-UML-类图" class="headerlink" title="Decorator（装饰）模式的 UML 类图"></a>Decorator（装饰）模式的 UML 类图</h1><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/decorator.png" alt=""></p>
 <ul>
 <li>Component : 组件接口，被装饰的原始对象</li>
 <li>ConcreteComponent : 具体组件，组件接口的实现类，被装饰的具体对象</li>
@@ -63,11 +62,14 @@
 <li>装饰模式 : 是以对客户端透明的方式扩展对象的功能，是继承方式的一种替代方案。装饰模式应该为所装饰的对象的增强功能</li>
 <li>代理模式 : 给一个对象提供一个代理对象，并由代理对象来控制对原有对象的引用。代理模式对代理的对象施加控制，但不对对象本身的功能进行增强</li>
 </ul>
+<p>END.</p>
+<hr>
+<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/decorator" target="_blank" rel="external">源码地址</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Decorator（装饰）&quot;&gt;&lt;a href=&quot;#Decorator（装饰）&quot; class=&quot;headerlink&quot; title=&quot;Decorator（装饰）&quot;&gt;&lt;/a&gt;Decorator（装饰）&lt;/h1&gt;&lt;p&gt;装饰模式 ( Decorator Pattern )，或者说叫包装模式 ( Wrapper Pattern )，作为结构型模式，其主要功能通俗的说就是在原有对象的基础上添加新的东西&lt;/p&gt;
+      &lt;h1 id=&quot;Decorator（装饰）&quot;&gt;&lt;a href=&quot;#Decorator（装饰）&quot; class=&quot;headerlink&quot; title=&quot;Decorator（装饰）&quot;&gt;&lt;/a&gt;Decorator（装饰）&lt;/h1&gt;&lt;p&gt;装饰模式 ( Decorator Pattern )
     
     </summary>
     
