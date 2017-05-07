@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/03/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-05-07T02:40:41.739Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(十):备忘录模式</title>
+        <pubTime>2017-03-17T04:59:13.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/03/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%B8%80-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2017-05-06T03:12:26.035Z</lastmod>
     <data>
@@ -291,26 +311,6 @@
         <display>
         <title>设计模式(九):观察者模式</title>
         <pubTime>2017-03-11T01:50:05.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/03/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81-%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-03-17T05:00:40.057Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(十):备忘录模式</title>
-        <pubTime>2017-03-17T04:59:13.000Z</pubTime>
         
         <tag>设计模式</tag>
          
