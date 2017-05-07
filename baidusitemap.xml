@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/04/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%B8%89-%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-05-07T03:22:49.558Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(十三)：代理模式</title>
+        <pubTime>2017-04-10T07:45:48.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/03/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%94-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2017-05-07T03:15:23.270Z</lastmod>
     <data>
@@ -238,26 +258,6 @@
            
              
               <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/04/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%B8%89-%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-04-17T08:53:52.985Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(十三)：代理模式</title>
-        <pubTime>2017-04-10T07:45:48.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
           
         </display>
     </data>
