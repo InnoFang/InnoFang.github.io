@@ -806,28 +806,33 @@
     <link href="http://yoursite.com/2017/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B9%9D-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/03/11/设计模式-九-观察者模式/</id>
     <published>2017-03-11T01:50:05.000Z</published>
-    <updated>2017-03-19T04:58:17.569Z</updated>
+    <updated>2017-05-07T03:03:18.736Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Observer（观察者模式）"><a href="#Observer（观察者模式）" class="headerlink" title="Observer（观察者模式）"></a>Observer（观察者模式）</h1><p>如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性</p>
-<a id="more"></a>
 <p>那么观察者模式可以运用到什么场景中呢？</p>
 <p>举个现实中典型的例子，当你订阅了一份杂志时，就使用了这种模式，你只需要订阅这份杂志，那么只要杂志更新了就会自动送到你的手上。<br>当然，观察者模式的用途远不止这些，但是处理的事件类型，就类似这种。</p>
+<a id="more"></a>
 <p>对于初学者来说，观察者模式容易混淆的就是一些英文名词了，这里先解释一下，还是拿你订阅杂志这件事来举例：</p>
 <ul>
 <li>观察者：Observer，有时候也叫Subscriber(订阅者)，相当于那个订阅杂志的”你”</li>
 <li>被观察者：Observable这个单词的意思是可观察的，也就是说可观察的对象被称为被观察者，有时候也叫Subject(主题)，相当于被订阅的杂志</li>
 </ul>
 <p>能否理解观察者模式，这两个名词的理解至关重要!</p>
-<h2 id="Observer（观察者模式）的UML类图"><a href="#Observer（观察者模式）的UML类图" class="headerlink" title="Observer（观察者模式）的UML类图"></a>Observer（观察者模式）的UML类图</h2><p><img src="http://my.csdn.net/uploads/201204/02/1333348177_4158.jpg" alt="观察者模式"></p>
+<h2 id="Observer（观察者模式）的UML类图"><a href="#Observer（观察者模式）的UML类图" class="headerlink" title="Observer（观察者模式）的UML类图"></a>Observer（观察者模式）的UML类图</h2><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/observer.png" alt="观察者模式"></p>
 <ul>
 <li>Subject：主题，被观察者</li>
 <li>ConcreteSubject：具体的被观察者</li>
 <li>Observer：观察者</li>
 <li>ConcreteObserver：具体的观察者</li>
 </ul>
-<p>在上面的UML类图中，可以看到Subject对Observer有一个notifies的操作，而ConcreteObserver对ConcreteSubject有一个observers的操作</p>
-<p>也就是是说在观察者模式中，观察者只需要实现一个订阅操作，当主题或者被观察者有了什么变化，只需要通过一个修改操作就可以使所有的观察者得到相应，颇有一种”牵一发而动全身”的意思</p>
-<p>基本概念介绍完了，就要开始实现一个自己的观察者模式了</p>
+<p>在上面的 UML 类图中，可以看到 Subject 与 Observer 有一个相互操作的过程。在观察者模式中，观察者只需要实现一个订阅操作，当主题或者被观察者有了什么变化，只需要通过一个修改操作就可以使所有的观察者得到相应，颇有一种”牵一发而动全身”的意思。</p>
+<p>下面看一下类图的实现细节<br>首先是 Subject 主题接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">attach</span><span class="params">(Observer observer)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">detach</span><span class="params">(Observer observer)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">notifyObservers</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在主题内部有增、删、改三个方法，下面看一下 Observer 观察者接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Observer</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>观察者只需要提供一个 <code>update()</code> 方法即可，用于当被观察者有更新时可以给被观察者提供一个对观察者的更新操作</p>
+<p>下面就是具体的观察者和具体的主题实现了</p>
+<p>观察者实现具体的更新操作<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteObserver</span> <span class="keyword">implements</span> <span class="title">Observer</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO : update Observer</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>被观察者实现对观察者的增、删、改过程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span> </span>&#123;</div><div class="line"></div><div class="line">    List&lt;Observer&gt; observers;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Observer observer)</span> </span>&#123;</div><div class="line">        observers.add(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detach</span><span class="params">(Observer observer)</span> </span>&#123;</div><div class="line">        observers.remove(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObservers</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Observer observer : observers) &#123;</div><div class="line">            observer.update();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>以上，基本概念介绍完了。下面就要开始实现一个自己的观察者模式了</p>
 <h2 id="观察者模式的简单实现"><a href="#观察者模式的简单实现" class="headerlink" title="观察者模式的简单实现"></a>观察者模式的简单实现</h2><p>这里就拿 “订阅杂志” 的例子来实现吧</p>
 <p>其中：</p>
 <ul>
@@ -860,11 +865,15 @@
 <p>和之前的相比，要注意这里的观察者是需要自己手动添加到被观察中的</p>
 <p>测试结果跟之前的是一样的，如果要实现多种观察者的实现(如书店等)，原理是一样的</p>
 <p>END.</p>
+<hr>
+<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/observer" target="_blank" rel="external">源码地址</a></p>
 ]]></content>
     
     <summary type="html">
     
       &lt;h1 id=&quot;Observer（观察者模式）&quot;&gt;&lt;a href=&quot;#Observer（观察者模式）&quot; class=&quot;headerlink&quot; title=&quot;Observer（观察者模式）&quot;&gt;&lt;/a&gt;Observer（观察者模式）&lt;/h1&gt;&lt;p&gt;如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性&lt;/p&gt;
+&lt;p&gt;那么观察者模式可以运用到什么场景中呢？&lt;/p&gt;
+&lt;p&gt;举个现实中典型的例子，当你订阅了一份杂志时，就使用了这种模式，你只需要订阅这份杂志，那么只要杂志更新了就会自动送到你的手上。&lt;br&gt;当然，观察者模式的用途远不止这些，但是处理的事件类型，就类似这种。&lt;/p&gt;
     
     </summary>
     
