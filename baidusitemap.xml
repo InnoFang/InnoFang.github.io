@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/03/09/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%83-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-05-08T05:02:00.926Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(七):状态模式</title>
+        <pubTime>2017-03-09T04:09:50.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/04/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%B8%89-%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2017-05-07T03:22:49.558Z</lastmod>
     <data>
@@ -311,26 +331,6 @@
         <display>
         <title>设计模式(十二):模板方法模式</title>
         <pubTime>2017-03-25T03:00:14.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/03/09/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%83-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-03-22T09:54:08.167Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(七):状态模式</title>
-        <pubTime>2017-03-09T04:09:50.000Z</pubTime>
         
         <tag>设计模式</tag>
          
