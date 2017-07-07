@@ -3,6 +3,26 @@
 
 
     
+  <url>
+    <loc>http://yoursite.com/2017/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%9B%9B-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-07-07T06:35:21.709Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(十四):适配器模式</title>
+        <pubTime>2017-04-27T01:52:21.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://yoursite.com/2017/03/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%BA%8C-%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/</loc>
@@ -251,26 +271,6 @@
         <display>
         <title>设计模式(二):建造者模式</title>
         <pubTime>2017-02-22T05:00:50.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%9B%9B-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-05-06T02:22:17.727Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(十四):适配器模式</title>
-        <pubTime>2017-04-27T01:52:21.000Z</pubTime>
         
         <tag>设计模式</tag>
          
