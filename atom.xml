@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-10T10:18:19.992Z</updated>
+  <updated>2017-07-10T10:19:53.782Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,10 +20,11 @@
     <link href="http://yoursite.com/2017/07/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%B8%83-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2017/07/10/设计模式-十七-享元模式/</id>
     <published>2017-07-10T10:16:57.000Z</published>
-    <updated>2017-07-10T10:18:19.992Z</updated>
+    <updated>2017-07-10T10:19:53.782Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Flyweight-享元-模式"><a href="#Flyweight-享元-模式" class="headerlink" title="Flyweight (享元) 模式"></a>Flyweight (享元) 模式</h1><p>享元模式，作用于会产生大量对象的场景，其实现原理是使用缓存，避免创建过多的、重复的对象并提升程序性能。</p>
 <p>简单来说，当我们需要一个对象时，一般都是使用 new 来创建一个对象。但是实际情况却是，如果在一段时间内有大量的请求的话，就会产生大量的对象，可是这些对象的内容都大同小异，如果反复的创建、销毁对象，必将影响程序的性能。而享元模式的作用就是用来解决这个问题的。</p>
+<a id="more"></a>
 <p>其实在这里关于缓存的实现可以理解为对“池”的实现，我们都知道，在 String 类中有常量池，在线程中有线程池，它们的作用都是避免创建过多的对象以达到提升性能的目的。所以，在享元模式中，我们将实现一个对象池。一个经典的实现就是使用键值对（ Map ）。我们以对象之间相同的部分（内在状态）作为键，以不同的部分（外在状态）作为值，当我们从持有缓存的享元工厂中获取享元对象的时候，先判断时候存在我们需要的键，若没有则创建一个新的对象放入缓存中，若存在则使用缓存的对象，以此来达到避免创建过多对象的目的。</p>
 <h1 id="Flyweight-享元-模式的-UML-类图"><a href="#Flyweight-享元-模式的-UML-类图" class="headerlink" title="Flyweight (享元) 模式的 UML 类图"></a>Flyweight (享元) 模式的 UML 类图</h1><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/flyweight.png" alt="flyweight pattern"></p>
 <ul>
@@ -62,7 +63,8 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Flyweight-享元-模式&quot;&gt;&lt;a href=&quot;#Flyweight-享元-模式&quot; class=&quot;headerlink&quot; title=&quot;Flyweight (享元) 模式&quot;&gt;&lt;/a&gt;Flyweight (享元) 模式&lt;/h1&gt;&lt;p&gt;享元模式，作用于会产生大量对
+      &lt;h1 id=&quot;Flyweight-享元-模式&quot;&gt;&lt;a href=&quot;#Flyweight-享元-模式&quot; class=&quot;headerlink&quot; title=&quot;Flyweight (享元) 模式&quot;&gt;&lt;/a&gt;Flyweight (享元) 模式&lt;/h1&gt;&lt;p&gt;享元模式，作用于会产生大量对象的场景，其实现原理是使用缓存，避免创建过多的、重复的对象并提升程序性能。&lt;/p&gt;
+&lt;p&gt;简单来说，当我们需要一个对象时，一般都是使用 new 来创建一个对象。但是实际情况却是，如果在一段时间内有大量的请求的话，就会产生大量的对象，可是这些对象的内容都大同小异，如果反复的创建、销毁对象，必将影响程序的性能。而享元模式的作用就是用来解决这个问题的。&lt;/p&gt;
     
     </summary>
     
