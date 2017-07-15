@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/03/04/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%85%AD-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-07-15T08:55:07.789Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(六):策略模式</title>
+        <pubTime>2017-03-04T04:03:54.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/07/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E4%B8%83-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2017-07-10T10:19:53.782Z</lastmod>
     <data>
@@ -71,26 +91,6 @@
         <display>
         <title>设计模式(十二):模板方法模式</title>
         <pubTime>2017-03-25T03:00:14.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/03/04/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%85%AD-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-05-08T05:32:58.423Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式(六):策略模式</title>
-        <pubTime>2017-03-04T04:03:54.000Z</pubTime>
         
         <tag>设计模式</tag>
          
