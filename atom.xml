@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-17T05:45:50.831Z</updated>
+  <updated>2017-07-17T05:50:52.930Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,118 +16,14 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>MySQL 学习之初识</title>
-    <link href="http://yoursite.com/2017/07/16/MySQL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%88%9D%E8%AF%86/"/>
-    <id>http://yoursite.com/2017/07/16/MySQL学习之初识/</id>
-    <published>2017-07-16T12:42:33.000Z</published>
-    <updated>2017-07-17T05:45:50.831Z</updated>
+    <title>MySQL 学习之数据类型与操作数据表</title>
+    <link href="http://yoursite.com/2017/07/17/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E8%A1%A8/"/>
+    <id>http://yoursite.com/2017/07/17/MySQL-学习之数据类型与操作数据表/</id>
+    <published>2017-07-17T05:48:30.000Z</published>
+    <updated>2017-07-17T05:50:52.930Z</updated>
     
-    <content type="html"><![CDATA[<p>MySQL 的基本知识</p>
+    <content type="html"><![CDATA[<p>简要介绍 MySQL 的数据类型和数据表的基本操作（创建，添加，查找等）</p>
 <a id="more"></a>
-<h1 id="MySQL-语句的规范"><a href="#MySQL-语句的规范" class="headerlink" title="MySQL 语句的规范"></a>MySQL 语句的规范</h1><ul>
-<li>关键字与函数名称全部大写</li>
-<li>数据库名称、表名称、字段名称全部小写</li>
-<li>SQL 语句必须以分号结尾</li>
-</ul>
-<p><strong>PS</strong> MySQL 对大小写不敏感</p>
-<h1 id="MySQL-参数"><a href="#MySQL-参数" class="headerlink" title="MySQL 参数"></a>MySQL 参数</h1><table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-D, –database=name</td>
-<td>打开指定数据库</td>
-</tr>
-<tr>
-<td>–delimiter = name</td>
-<td>指定分隔符</td>
-</tr>
-<tr>
-<td>-h, –host=name</td>
-<td>服务器名称</td>
-</tr>
-<tr>
-<td>-p, –password[=name]</td>
-<td>密码   (p小写)</td>
-</tr>
-<tr>
-<td>-P, –port=#</td>
-<td>端口号 (P小写)</td>
-</tr>
-<tr>
-<td>–prompt=name</td>
-<td>设置提示符</td>
-</tr>
-<tr>
-<td>-u, –user=name</td>
-<td>用户名</td>
-</tr>
-<tr>
-<td>-V, –version</td>
-<td>输出版本信息并且退出</td>
-</tr>
-</tbody>
-</table>
-<p>e.g. 登录 MySQL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -p[密码] [-P3306] [-h127.0.0.1]</div></pre></td></tr></table></figure></p>
-<p>P.S. </p>
-<ul>
-<li>如果默认端口号为 3306，没有修改过的话，那么 <code>-P3306</code> 可以不写</li>
-<li>如果连接的是本地服务器，那么 <code>[-h127.0.0.1]</code> 可以不写 (127.0.0.1为本地回环地址)</li>
-<li>若不想密码被看到，那么 <code>-p</code> 后的密码可以不加，回车后会再次让你输入</li>
-</ul>
-<p>退出 MySQL 时有以下三个命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; \q;</div><div class="line">mysql&gt; exit;</div><div class="line">mysql&gt; quit;</div></pre></td></tr></table></figure></p>
-<h1 id="MySQL-提示符"><a href="#MySQL-提示符" class="headerlink" title="MySQL 提示符"></a>MySQL 提示符</h1><table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>\D</td>
-<td>完整日期</td>
-</tr>
-<tr>
-<td>\d</td>
-<td>当前数据库</td>
-</tr>
-<tr>
-<td>\h</td>
-<td>服务器名称</td>
-</tr>
-<tr>
-<td>\u</td>
-<td>当前用户</td>
-</tr>
-</tbody>
-</table>
-<p>e.g. 修改提示符为 “当前用户@服务器 数据库名&gt;”<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; PROMPT \u@\h \d&gt;</div><div class="line">PROMPT set to '\u@\h \d&gt;'</div><div class="line">root@localhost (none)&gt;</div></pre></td></tr></table></figure></p>
-<h1 id="MySQL-常用命令"><a href="#MySQL-常用命令" class="headerlink" title="MySQL 常用命令"></a>MySQL 常用命令</h1><ul>
-<li>显示当前版本号：<code>SELECT VERSION();</code></li>
-<li>显示当前日期时间：<code>SELECT NOW();</code></li>
-<li>显示当前用户：<code>SELECT USER();</code></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT VERSION();</div><div class="line">+------------+</div><div class="line">| VERSION()  |</div><div class="line">+------------+</div><div class="line">| 5.7.18-log |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT NOW();</div><div class="line">+---------------------+</div><div class="line">| NOW()               |</div><div class="line">+---------------------+</div><div class="line">| 2017-07-12 21:53:25 |</div><div class="line">+---------------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT USER();</div><div class="line">+----------------+</div><div class="line">| USER()         |</div><div class="line">+----------------+</div><div class="line">| root@localhost |</div><div class="line">+----------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
-<h1 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库"></a>操作数据库</h1><h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE &#123;DATABASE | SCHEMA&#125; [IF NOT EXISTS] db_name [DEFAULT] CHARACTER SET [=] chartset_name;</div></pre></td></tr></table></figure>
-<p>e.g. 创建一个学生表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE DATABASE IF NOT EXISTS student CHARACTER SET utf8;</div><div class="line">Query OK, 1 row affected (0.00 sec)</div></pre></td></tr></table></figure>
-<h2 id="查看当前服务器下的数据表列表"><a href="#查看当前服务器下的数据表列表" class="headerlink" title="查看当前服务器下的数据表列表"></a>查看当前服务器下的数据表列表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW &#123;DATABASES | SCHEMAS&#125; [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
-<p>e.g. 查看 MySQL 自带的数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW DATABASES;</div><div class="line">+--------------------+</div><div class="line">| Database           |</div><div class="line">+--------------------+</div><div class="line">| information_schema |</div><div class="line">| mysql              |</div><div class="line">| performance_schema |</div><div class="line">| sakila             |</div><div class="line">| sys                |</div><div class="line">| world              |</div><div class="line">+--------------------+</div><div class="line">6 rows in set (0.15 sec)</div></pre></td></tr></table></figure>
-<h2 id="显示已创建的数据库"><a href="#显示已创建的数据库" class="headerlink" title="显示已创建的数据库"></a>显示已创建的数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW CREATE DATABASE db_name;</div></pre></td></tr></table></figure>
-<p>e.g. 显示已创建的学生表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW CREATE DATABASE student;</div><div class="line">+----------+------------------------------------------------------------------+</div><div class="line">| Database | Create Database                                                  |</div><div class="line">+----------+------------------------------------------------------------------+</div><div class="line">| student  | CREATE DATABASE `student` /*!40100 DEFAULT CHARACTER SET utf8 */ |</div><div class="line">+----------+------------------------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
-<h2 id="修改数据库"><a href="#修改数据库" class="headerlink" title="修改数据库"></a>修改数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER &#123;DATABASE | SCHEMA&#125; [db_name] [DEFAULT] CHARACTER SET [=] charset_name;</div></pre></td></tr></table></figure>
-<p>e.g. 修改已创建 student 数据库的字符集为 gbk</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; ALTER DATABASE student CHARACTER SET = gbk;</div><div class="line">Query OK, 1 row affected (0.00 sec)</div></pre></td></tr></table></figure>
-<h2 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DROP &#123;DATABASE | SCHEMA&#125; [IF EXISTS] db_name;</div></pre></td></tr></table></figure>
-<p>e.g. 删除已创建的 student 数据库 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; DROP DATABASE IF EXISTS student;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div></pre></td></tr></table></figure>
 <h1 id="数据类型与创建数据表"><a href="#数据类型与创建数据表" class="headerlink" title="数据类型与创建数据表"></a>数据类型与创建数据表</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><blockquote>
 <p>数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。</p>
 </blockquote>
@@ -402,6 +298,133 @@
 <h3 id="从数据表中查找记录"><a href="#从数据表中查找记录" class="headerlink" title="从数据表中查找记录"></a>从数据表中查找记录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT expr, ... FROM tbl_name;</div></pre></td></tr></table></figure>
 <p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
 ]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;简要介绍 MySQL 的数据类型和数据表的基本操作（创建，添加，查找等）&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 学习之初识</title>
+    <link href="http://yoursite.com/2017/07/16/MySQL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%88%9D%E8%AF%86/"/>
+    <id>http://yoursite.com/2017/07/16/MySQL学习之初识/</id>
+    <published>2017-07-16T12:42:33.000Z</published>
+    <updated>2017-07-17T05:51:16.385Z</updated>
+    
+    <content type="html"><![CDATA[<p>MySQL 的基本知识</p>
+<a id="more"></a>
+<h1 id="MySQL-语句的规范"><a href="#MySQL-语句的规范" class="headerlink" title="MySQL 语句的规范"></a>MySQL 语句的规范</h1><ul>
+<li>关键字与函数名称全部大写</li>
+<li>数据库名称、表名称、字段名称全部小写</li>
+<li>SQL 语句必须以分号结尾</li>
+</ul>
+<p><strong>PS</strong> MySQL 对大小写不敏感</p>
+<h1 id="MySQL-参数"><a href="#MySQL-参数" class="headerlink" title="MySQL 参数"></a>MySQL 参数</h1><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-D, –database=name</td>
+<td>打开指定数据库</td>
+</tr>
+<tr>
+<td>–delimiter = name</td>
+<td>指定分隔符</td>
+</tr>
+<tr>
+<td>-h, –host=name</td>
+<td>服务器名称</td>
+</tr>
+<tr>
+<td>-p, –password[=name]</td>
+<td>密码   (p小写)</td>
+</tr>
+<tr>
+<td>-P, –port=#</td>
+<td>端口号 (P小写)</td>
+</tr>
+<tr>
+<td>–prompt=name</td>
+<td>设置提示符</td>
+</tr>
+<tr>
+<td>-u, –user=name</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>-V, –version</td>
+<td>输出版本信息并且退出</td>
+</tr>
+</tbody>
+</table>
+<p>e.g. 登录 MySQL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -p[密码] [-P3306] [-h127.0.0.1]</div></pre></td></tr></table></figure></p>
+<p>P.S. </p>
+<ul>
+<li>如果默认端口号为 3306，没有修改过的话，那么 <code>-P3306</code> 可以不写</li>
+<li>如果连接的是本地服务器，那么 <code>[-h127.0.0.1]</code> 可以不写 (127.0.0.1为本地回环地址)</li>
+<li>若不想密码被看到，那么 <code>-p</code> 后的密码可以不加，回车后会再次让你输入</li>
+</ul>
+<p>退出 MySQL 时有以下三个命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; \q;</div><div class="line">mysql&gt; exit;</div><div class="line">mysql&gt; quit;</div></pre></td></tr></table></figure></p>
+<h1 id="MySQL-提示符"><a href="#MySQL-提示符" class="headerlink" title="MySQL 提示符"></a>MySQL 提示符</h1><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\D</td>
+<td>完整日期</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>当前数据库</td>
+</tr>
+<tr>
+<td>\h</td>
+<td>服务器名称</td>
+</tr>
+<tr>
+<td>\u</td>
+<td>当前用户</td>
+</tr>
+</tbody>
+</table>
+<p>e.g. 修改提示符为 “当前用户@服务器 数据库名&gt;”<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; PROMPT \u@\h \d&gt;</div><div class="line">PROMPT set to '\u@\h \d&gt;'</div><div class="line">root@localhost (none)&gt;</div></pre></td></tr></table></figure></p>
+<h1 id="MySQL-常用命令"><a href="#MySQL-常用命令" class="headerlink" title="MySQL 常用命令"></a>MySQL 常用命令</h1><ul>
+<li>显示当前版本号：<code>SELECT VERSION();</code></li>
+<li>显示当前日期时间：<code>SELECT NOW();</code></li>
+<li>显示当前用户：<code>SELECT USER();</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT VERSION();</div><div class="line">+------------+</div><div class="line">| VERSION()  |</div><div class="line">+------------+</div><div class="line">| 5.7.18-log |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT NOW();</div><div class="line">+---------------------+</div><div class="line">| NOW()               |</div><div class="line">+---------------------+</div><div class="line">| 2017-07-12 21:53:25 |</div><div class="line">+---------------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT USER();</div><div class="line">+----------------+</div><div class="line">| USER()         |</div><div class="line">+----------------+</div><div class="line">| root@localhost |</div><div class="line">+----------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
+<h1 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库"></a>操作数据库</h1><h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE &#123;DATABASE | SCHEMA&#125; [IF NOT EXISTS] db_name [DEFAULT] CHARACTER SET [=] chartset_name;</div></pre></td></tr></table></figure>
+<p>e.g. 创建一个学生表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE DATABASE IF NOT EXISTS student CHARACTER SET utf8;</div><div class="line">Query OK, 1 row affected (0.00 sec)</div></pre></td></tr></table></figure>
+<h2 id="查看当前服务器下的数据表列表"><a href="#查看当前服务器下的数据表列表" class="headerlink" title="查看当前服务器下的数据表列表"></a>查看当前服务器下的数据表列表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW &#123;DATABASES | SCHEMAS&#125; [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
+<p>e.g. 查看 MySQL 自带的数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW DATABASES;</div><div class="line">+--------------------+</div><div class="line">| Database           |</div><div class="line">+--------------------+</div><div class="line">| information_schema |</div><div class="line">| mysql              |</div><div class="line">| performance_schema |</div><div class="line">| sakila             |</div><div class="line">| sys                |</div><div class="line">| world              |</div><div class="line">+--------------------+</div><div class="line">6 rows in set (0.15 sec)</div></pre></td></tr></table></figure>
+<h2 id="显示已创建的数据库"><a href="#显示已创建的数据库" class="headerlink" title="显示已创建的数据库"></a>显示已创建的数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW CREATE DATABASE db_name;</div></pre></td></tr></table></figure>
+<p>e.g. 显示已创建的学生表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW CREATE DATABASE student;</div><div class="line">+----------+------------------------------------------------------------------+</div><div class="line">| Database | Create Database                                                  |</div><div class="line">+----------+------------------------------------------------------------------+</div><div class="line">| student  | CREATE DATABASE `student` /*!40100 DEFAULT CHARACTER SET utf8 */ |</div><div class="line">+----------+------------------------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
+<h2 id="修改数据库"><a href="#修改数据库" class="headerlink" title="修改数据库"></a>修改数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER &#123;DATABASE | SCHEMA&#125; [db_name] [DEFAULT] CHARACTER SET [=] charset_name;</div></pre></td></tr></table></figure>
+<p>e.g. 修改已创建 student 数据库的字符集为 gbk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; ALTER DATABASE student CHARACTER SET = gbk;</div><div class="line">Query OK, 1 row affected (0.00 sec)</div></pre></td></tr></table></figure>
+<h2 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DROP &#123;DATABASE | SCHEMA&#125; [IF EXISTS] db_name;</div></pre></td></tr></table></figure>
+<p>e.g. 删除已创建的 student 数据库 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; DROP DATABASE IF EXISTS student;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
@@ -1887,77 +1910,6 @@
     <summary type="html">
     
       &lt;h1 id=&quot;Abstract-Factory（抽象工厂）&quot;&gt;&lt;a href=&quot;#Abstract-Factory（抽象工厂）&quot; class=&quot;headerlink&quot; title=&quot;Abstract Factory（抽象工厂）&quot;&gt;&lt;/a&gt;Abstract Factory（抽象工厂）&lt;/h1&gt;&lt;p&gt;在此之前，已经学习过了&lt;a href=&quot;https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/factory_method&quot;&gt;Factory Method（工厂方法）&lt;/a&gt;，抽象工厂和工厂方法这两个模式都属于创建型设计模式，那么根据[工厂]这个词，大概也能猜出这两个模式都是用来“生产”的&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>设计模式(三):工厂方法模式</title>
-    <link href="http://yoursite.com/2017/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%89-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2017/02/24/设计模式-三-工厂方法模式/</id>
-    <published>2017-02-24T04:56:35.000Z</published>
-    <updated>2017-05-06T02:42:37.665Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Factory-Method（工厂方法）"><a href="#Factory-Method（工厂方法）" class="headerlink" title="Factory Method（工厂方法）"></a>Factory Method（工厂方法）</h1><p>工厂，顾名思义是用来生产东西的，那么在平常Coding的过程中，能用在什么地方呢？</p>
-<p>在任何需要生成复杂对象的地方都可以使用工厂模式，当然，如果只是用new就可以创建的对象就没必要使用工厂模式了</p>
-<a id="more"></a>
-<h2 id="Factory-Method（工厂方法）的UML类图"><a href="#Factory-Method（工厂方法）的UML类图" class="headerlink" title="Factory Method（工厂方法）的UML类图"></a>Factory Method（工厂方法）的UML类图</h2><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/factory_method.png" alt=""></p>
-<p>如上图</p>
-<ul>
-<li>Product：产品类接口，用于规范产品类</li>
-<li>ConcreteProduct：具体的产品类</li>
-<li>Creator：抽象的工厂方法</li>
-<li><p>ConcreteCreator：工厂方法的具体实现类，用于生产具体的产品</p>
-<p>Talk is cheap, show you my code.</p>
-</li>
-</ul>
-<p>首先先定义产品类接口</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Product</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后，接着定义具体产品类</p>
-<p>Concrete Product<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteProduct</span> <span class="keyword">implements</span> <span class="title">Product</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"This is product"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>那么对于具体产品就要有对应的工厂，在此之前先定义一个抽象的工厂类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Product <span class="title">createProduct</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>具体工厂<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactory</span> <span class="keyword">extends</span> <span class="title">Factory</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Product <span class="title">createProduct</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProduct(); <span class="comment">// create the product</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>OK，我们来测试一下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Factory factory = <span class="keyword">new</span> ConcreteFactory();</div><div class="line">Product product = factory.createProduct();</div><div class="line">product.method();</div></pre></td></tr></table></figure></p>
-<p>Result：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">This is product</div></pre></td></tr></table></figure></p>
-<p>但是，难道我们们每一个产品都要创建一个对应的产品工厂吗？一两个产品还好，但是如果是10个呢？50个呢？这样一来，都会多出很多的类，使得工程更加的冗余</p>
-<p>所以在这里，我们完全可以利用反射来减少代码量</p>
-<p>为了达成目的，我们首先就需要对抽象工厂做出修改，具体实现如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> &lt;T extends Product&gt; <span class="function">T <span class="title">createProduct</span><span class="params">(Class&lt;T&gt; clz)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>从上面的代码中可以看出，我们需要让传入一个类，然后经过操作返回一个具体的产品。所以核心就是如何实现这个具体工厂，接着往下看。现在修改具体工厂实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactory</span> <span class="keyword">extends</span> <span class="title">Factory</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> &lt;T extends Product&gt; <span class="function">T <span class="title">createProduct</span><span class="params">(Class&lt;T&gt; clz)</span> </span>&#123;</div><div class="line">        Product product = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            product = (Product) Class.forName(clz.getName()).newInstance();</div><div class="line">        &#125; <span class="keyword">catch</span>(Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (T) product;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里我们通过利用了反射机制，通过传入具体产品类名来获得对应产品类实例，从而我们只需要这一个具体工厂实例，大大减少了代码量</p>
-<p>现在我们再来测试一下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Factory factory = <span class="keyword">new</span> ConcreteFactory();</div><div class="line">Product product = factory.createProduct(ConcreteProduct.class);</div><div class="line">product.method();</div></pre></td></tr></table></figure></p>
-<p>测试结果同上面一样</p>
-<p>经过上面的编码，可以发现工厂方法模式大大降低了对象之间的耦合度，这种依赖抽象的架构具有非常好的可扩展性</p>
-<h1 id="工厂方法模式的简单实现"><a href="#工厂方法模式的简单实现" class="headerlink" title="工厂方法模式的简单实现"></a>工厂方法模式的简单实现</h1><p>好，上面只是简单讲解，下面来一个工厂方法的简单实现</p>
-<p>这里我们以制作蛋糕为例</p>
-<p>现在蛋糕店需要生产两种类型的蛋糕，分别是红色的草莓蛋糕和黄色的芒果蛋糕</p>
-<p>因为蛋糕有着不同的制作材料和烘焙时间，所以在制作的过程中就需要区别对待了</p>
-<p>那么了解了需求过后我们利用刚学的工厂方法模式来完成需求吧~</p>
-<p>首先我们就可以定义一个蛋糕接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Cake</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 准备蛋糕的材料</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">prepareMaterials</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 烘焙蛋糕</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">baking</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>好，现在该规划我们需要什么材料和烘焙的时间了的，对于草莓蛋糕，根据需求，我们的是草莓奶油并且需要烘焙15分钟</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Strawberry</span> <span class="keyword">implements</span> <span class="title">Cake</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 草莓蛋糕需要准备草莓奶油</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">prepareMaterials</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"prepare Strawberry Cream"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 草莓蛋糕需要烘焙15分钟</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">baking</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Baking fifteen minutes"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>那么对于芒果蛋糕呢，我们需要的是芒果奶油的，需要烘焙10分钟<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MangoCake</span> <span class="keyword">implements</span> <span class="title">Cake</span> </span>&#123;</div><div class="line">   <span class="comment">/**</span></div><div class="line">    * 芒果蛋糕需要准备芒果奶油</div><div class="line">    */</div><div class="line">   <span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">prepareMaterials</span><span class="params">()</span> </span>&#123;</div><div class="line">       System.out.println(<span class="string">"prepare Mango Cream"</span>);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="comment">/**</span></div><div class="line">    * 芒果蛋糕需要烘焙10分钟</div><div class="line">    */</div><div class="line">   <span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">baking</span><span class="params">()</span> </span>&#123;</div><div class="line">       System.out.println(<span class="string">"Baking ten minutes"</span>);</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>好了，具体的蛋糕制作流程都规划好了，下面是时候生产蛋糕了</p>
-<p>要生产蛋糕，就需要工厂或者说作坊，那么为了规范我们的工厂该做什么，我们先定义一个抽象的工厂类，这里我们还是采用反射的方式，当然，如果你不喜欢用反射，那么你也可以定义普通的抽象方法，这些都是可以根据实际情况来决定的，没有硬性规定<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> &lt;T extends Cake&gt; <span class="function">T <span class="title">createProduct</span><span class="params">(Class&lt;T&gt; clz)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>实现具体的工厂操作，让我们的工厂能够生产我们要的蛋糕<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CakeFactory</span> <span class="keyword">extends</span> <span class="title">Factory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> &lt;T extends Cake&gt; <span class="function">T <span class="title">createProduct</span><span class="params">(Class&lt;T&gt; clz)</span> </span>&#123;</div><div class="line">        Cake cake = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            cake = (Cake) Class.forName(clz.getName()).newInstance();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (T) cake;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>OK，蛋糕已经规划好了，工厂也造好了，万事俱备只欠东风，我们来测试一下(做蛋糕)~<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">/*创建蛋糕工厂*/</span></div><div class="line">        Factory factory = <span class="keyword">new</span> CakeFactory();</div><div class="line">        <span class="comment">/*制作草莓蛋糕*/</span></div><div class="line">        StrawberryCake strawberryCake = factory.createProduct(StrawberryCake.class);</div><div class="line">        strawberryCake.prepareMaterials();</div><div class="line">        strawberryCake.baking();</div><div class="line"></div><div class="line">        System.out.println();</div><div class="line"></div><div class="line">        <span class="comment">/*制作芒果蛋糕*/</span></div><div class="line">        MangoCake mangoCake = factory.createProduct(MangoCake.class);</div><div class="line">        mangoCake.prepareMaterials();</div><div class="line">        mangoCake.baking();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>Result：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">prepare Strawberry Cream</div><div class="line">Baking fifteen minutes</div><div class="line"></div><div class="line">prepare Mango Cream</div><div class="line">Baking ten minutes</div></pre></td></tr></table></figure></p>
-<p>大功告成~</p>
-<p>END.</p>
-<hr>
-<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/factory_method" target="_blank" rel="external">源码地址</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Factory-Method（工厂方法）&quot;&gt;&lt;a href=&quot;#Factory-Method（工厂方法）&quot; class=&quot;headerlink&quot; title=&quot;Factory Method（工厂方法）&quot;&gt;&lt;/a&gt;Factory Method（工厂方法）&lt;/h1&gt;&lt;p&gt;工厂，顾名思义是用来生产东西的，那么在平常Coding的过程中，能用在什么地方呢？&lt;/p&gt;
-&lt;p&gt;在任何需要生成复杂对象的地方都可以使用工厂模式，当然，如果只是用new就可以创建的对象就没必要使用工厂模式了&lt;/p&gt;
     
     </summary>
     
