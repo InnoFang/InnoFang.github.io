@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-16T12:47:38.362Z</updated>
+  <updated>2017-07-17T05:45:50.831Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,13 +16,13 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>MySQL 学习笔记</title>
-    <link href="http://yoursite.com/2017/07/16/MySQL-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    <id>http://yoursite.com/2017/07/16/MySQL-学习笔记/</id>
+    <title>MySQL 学习之初识</title>
+    <link href="http://yoursite.com/2017/07/16/MySQL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%88%9D%E8%AF%86/"/>
+    <id>http://yoursite.com/2017/07/16/MySQL学习之初识/</id>
     <published>2017-07-16T12:42:33.000Z</published>
-    <updated>2017-07-16T12:47:38.362Z</updated>
+    <updated>2017-07-17T05:45:50.831Z</updated>
     
-    <content type="html"><![CDATA[<p>MySQL 学习笔记，常用知识点记录</p>
+    <content type="html"><![CDATA[<p>MySQL 的基本知识</p>
 <a id="more"></a>
 <h1 id="MySQL-语句的规范"><a href="#MySQL-语句的规范" class="headerlink" title="MySQL 语句的规范"></a>MySQL 语句的规范</h1><ul>
 <li>关键字与函数名称全部大写</li>
@@ -405,7 +405,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;MySQL 学习笔记，常用知识点记录&lt;/p&gt;
+      &lt;p&gt;MySQL 的基本知识&lt;/p&gt;
     
     </summary>
     
