@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="计算机网络," />
+  <meta name="keywords" content="MySQL," />
 
 
 
@@ -86,21 +86,16 @@
 
 
 
-<meta name="description" content="计算机网络的定义凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。">
+<meta name="description" content="MySQL 中关于约束的知识点介绍">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机网络之绪论">
-<meta property="og:url" content="http://yoursite.com/2017/04/02/计算机网络之绪论/index.html">
+<meta property="og:title" content="MySQL 学习之约束">
+<meta property="og:url" content="http://yoursite.com/2017/07/17/MySQL-学习之约束/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="计算机网络的定义凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。">
-<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/%E6%97%A9%E6%9C%9F%E7%BD%91%E7%BB%9C.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/%E7%8E%B0%E4%BB%A3%E7%BD%91%E7%BB%9C.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/OSI_TCP-IP.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/IEEE802%E7%B3%BB%E5%88%97%E6%A0%87%E5%87%86.png">
-<meta property="og:updated_time" content="2017-04-10T07:55:42.928Z">
+<meta property="og:description" content="MySQL 中关于约束的知识点介绍">
+<meta property="og:updated_time" content="2017-07-17T07:13:38.771Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机网络之绪论">
-<meta name="twitter:description" content="计算机网络的定义凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/%E6%97%A9%E6%9C%9F%E7%BD%91%E7%BB%9C.png">
+<meta name="twitter:title" content="MySQL 学习之约束">
+<meta name="twitter:description" content="MySQL 中关于约束的知识点介绍">
 
 
 
@@ -128,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/02/计算机网络之绪论/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/17/MySQL-学习之约束/"/>
 
 
 
 
 
-  <title> 计算机网络之绪论 | Inno's Bolg </title>
+  <title> MySQL 学习之约束 | Inno's Bolg </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -268,7 +263,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/02/计算机网络之绪论/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/17/MySQL-学习之约束/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Inno Fang">
@@ -292,7 +287,7 @@
             
             
               
-                计算机网络之绪论
+                MySQL 学习之约束
               
             
           </h1>
@@ -307,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-02T14:55:35+08:00">
-                2017-04-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-17T13:54:17+08:00">
+                2017-07-17
               </time>
             
 
@@ -330,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机网络</span>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
                   </a>
                 </span>
 
@@ -367,80 +362,51 @@
       
 
       
-        <h2 id="计算机网络的定义"><a href="#计算机网络的定义" class="headerlink" title="计算机网络的定义"></a>计算机网络的定义</h2><p>凡是将分布在不同地理位置上的具有独立工作能力的计算机、终端及其附属设备，用通信设备和通信线路连接起来，并配置网路软件和通信歇息，以实现数据传输和资源共享的系统叫做计算机网络。</p>
+        <p>MySQL 中关于约束的知识点介绍</p>
 <a id="more"></a>
+<h1 id="约束的目的"><a href="#约束的目的" class="headerlink" title="约束的目的"></a>约束的目的</h1><p>约束保证数据的<strong>完整性</strong>和<strong>一致性</strong>。</p>
+<h1 id="约束的类型"><a href="#约束的类型" class="headerlink" title="约束的类型"></a>约束的类型</h1><p>根据约束所针对的字段的数目的多少来划分，可以划分为：</p>
 <ul>
-<li><strong>强调信息传输</strong>  以计算机之间<em>传输信息</em>为主要目的而连接起来以<em>实现远程信息处理</em>和进一步<em>实现资源共享</em>的计算机系统、</li>
-<li><strong>强调共享资源</strong>  以共享资源为主要目的把具有独立功能的计算机连接起来的计算机系统的集合</li>
-<li><strong>强调用户透明性</strong>  计算机网络就是一个巨大的计算机系统，用户不会察觉多个计算机系统的存在，不用熟悉资源的分布情况就可以调用计算机各系统的资源。</li>
+<li>列级约束 (针对某一个字段来使用)</li>
+<li>表级约束 (针对两个或两个以上的字段来使用)</li>
 </ul>
-<h2 id="现代计算机网络的基本特征"><a href="#现代计算机网络的基本特征" class="headerlink" title="现代计算机网络的基本特征"></a>现代计算机网络的基本特征</h2><p>现代计算机网络最基本的特征包括：</p>
+<p>根据功能来划分，可以划分为：</p>
 <ul>
-<li><strong>主机</strong> ( Computer/Host )</li>
-<li><strong>通信子网</strong> ( Connected with media )</li>
-<li><strong>通信协议</strong> ( Communication protocal and Share information )</li>
+<li>NOT NULL (非空约束)</li>
+<li>PRIMARY KEY (主键约束)</li>
+<li>UNIQUE KEY (唯一约束)</li>
+<li>DEFAULT (默认约束)</li>
+<li>FOREIGN KEY (外键约束)</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/%E6%97%A9%E6%9C%9F%E7%BD%91%E7%BB%9C.png" width="375"> <img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/%E7%8E%B0%E4%BB%A3%E7%BD%91%E7%BB%9C.png" width="375"></p>
-<p>早期网络&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现代网路</p>
-<h2 id="计算机网络的主要功能"><a href="#计算机网络的主要功能" class="headerlink" title="计算机网络的主要功能"></a>计算机网络的主要功能</h2><p>计算机网络的主要功能为：</p>
+<h1 id="约束的介绍"><a href="#约束的介绍" class="headerlink" title="约束的介绍"></a>约束的介绍</h1><h2 id="NOT-NULL-非空约束"><a href="#NOT-NULL-非空约束" class="headerlink" title="NOT NULL (非空约束)"></a>NOT NULL (非空约束)</h2><h2 id="PRIMARY-KEY-主键约束"><a href="#PRIMARY-KEY-主键约束" class="headerlink" title="PRIMARY KEY (主键约束)"></a>PRIMARY KEY (主键约束)</h2><h2 id="UNIQUE-KEY-唯一约束"><a href="#UNIQUE-KEY-唯一约束" class="headerlink" title="UNIQUE KEY (唯一约束)"></a>UNIQUE KEY (唯一约束)</h2><h2 id="DEFAULT-默认约束"><a href="#DEFAULT-默认约束" class="headerlink" title="DEFAULT (默认约束)"></a>DEFAULT (默认约束)</h2><h2 id="FOREIGN-KEY-外键约束"><a href="#FOREIGN-KEY-外键约束" class="headerlink" title="FOREIGN KEY (外键约束)"></a>FOREIGN KEY (外键约束)</h2><p><strong>目的</strong>  保证数据的一致性，完整性，是一对一或一对多关系</p>
+<p><strong>要求</strong></p>
 <ul>
-<li><strong>数据通信</strong>  以文件传输和电子邮件服务为代表的数据通信是计算机网络最基本的功能之一，通过计算机网络可以快速的传递文件和消息，为人们提供一种无纸化办公的环境</li>
-<li><strong>资源共享</strong>  指网上用户能够使用全部或部分网络资源，从而大幅度提高各种硬件，软件和数据资源的利用率和使用效果。资源共享包括硬件、软件和数据资源的共享。</li>
+<li>子表（具有外键列的表）和父表（子表所参照的表）必须使用相同的存储引擎（只能为 InnoDB，MySQL 默认），且禁止使用临时表</li>
+<li>外键列（含有 FOREIGN 关键字的列）和参照列（外键列所参照的列）必须具有相似的数据类型<ul>
+<li>数字的长度 或 是否有符号位必须相同</li>
+<li>字符的长度则可以不同</li>
 </ul>
-<p>除以上两点之外，计算机网络可以实现系统冗余，有效提高计算机系统的可靠性和可用性，同时易于进行分布处理，实现协同式的网络计算</p>
-<h2 id="计算机网络的分类"><a href="#计算机网络的分类" class="headerlink" title="计算机网络的分类"></a>计算机网络的分类</h2><table>
-<thead>
-<tr>
-<th>依据</th>
-<th>分类</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>传输介质</td>
-<td>有线网络、无线网络</td>
-</tr>
-<tr>
-<td>经营方式</td>
-<td>专用网络、公用网络</td>
-</tr>
-<tr>
-<td>服务类型</td>
-<td>电信网络、有线电视网络、计算机网络</td>
-</tr>
-<tr>
-<td>信道方式</td>
-<td>点-点、 广播</td>
-</tr>
-<tr>
-<td>地理范围</td>
-<td>局域网、广域网、城域网</td>
-</tr>
-<tr>
-<td>拓扑结构</td>
-<td>总线、星型、环型、树型、网状</td>
-</tr>
-<tr>
-<td>资源管理</td>
-<td>对等网络、客户/服务器网络</td>
-</tr>
-</tbody>
-</table>
-<h2 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a>网络协议</h2><p>计算机网络是有多个互联的结点组成的，结点之间要不断地交换数据和控制信息。要做到有条不紊地交换数据，每个结点都必须遵守一些事先约定好的的规则。</p>
-<p>将这种<strong>由通信双方共同遵守的通信语义和通信规则的集合</strong>称为网络协议。</p>
-<p>从功能角度来讲由以下三要素构成：</p>
-<ul>
-<li><strong>语法</strong>：用户数据与控制信息的结构和格式 （什么结构）</li>
-<li><strong>语义</strong>：需要发出何种控制信息，以及完成的动作与要做出的响应 （要干什么）</li>
-<li><strong>时序</strong>：对事件实现顺序的详细说明和速度匹配</li>
-</ul>
-<h2 id="网络互联标准"><a href="#网络互联标准" class="headerlink" title="网络互联标准"></a>网络互联标准</h2><ul>
-<li><strong>OSI</strong>  开放式系统互联模型</li>
-<li><p><strong>TCP/IP</strong>  传输控制协议/网际互连协议</p>
-<p><img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/OSI_TCP-IP.png" alt="OSI&amp;TCP/IP"></p>
 </li>
+<li>外键列和参照列必须创建索引。如果外键列不存在索引的话，MySQL 将自动创建索引</li>
 </ul>
-<h2 id="IEEE802系列标准"><a href="#IEEE802系列标准" class="headerlink" title="IEEE802系列标准"></a>IEEE802系列标准</h2><p> <img src="https://raw.githubusercontent.com/InnoFang/StudyNotes/master/image/IEEE802%E7%B3%BB%E5%88%97%E6%A0%87%E5%87%86.png" alt="IEEE802系列标准"></p>
+<p><strong>使用场景</strong></p>
+<p>举例来说，就是当一个表中出现了冗余字段时，就可以使用外键约束。比如现在有一个学生表，其中含有一个班级字段，那么一个班的学生的这个字段值都是相同的，这就出现了冗余。那么解决这个问题，就可以使用外键约束，即再创建一个班级表，然后学生表中的班级字段就可以关联到班级表的 id 即可。</p>
+<p> e.g. 创建一个班级表和一个学生表，并使用外键约束</p>
+<p>创建班级表<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS classes(</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; class VARCHAR(20)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.27 sec)</div></pre></td></tr></table></figure></p>
+<p>创建学生表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS student(</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; cid SMALLINT UNSIGNED,</div><div class="line">    -&gt; FOREIGN KEY (cid) REFERENCES classes (id)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.64 sec)</div></pre></td></tr></table></figure></p>
+<p>这里需要注意的是</p>
+<ul>
+<li>student 表为子表，classes 表为父表</li>
+<li>外键列为 student 表中的 cid 字段，参照类为 classes 表中的 id 字段。因为是数字，所以这两者必须具有相同的数据类型和有无符号（因为有符号类型，当参照类指定了无符号类型时，外键列也必须指定为无符号类型）</li>
+<li><p>外键列和参照列必须创建索引</p>
+<p><strong>外键约束的参照操作</strong></p>
+</li>
+<li><p>CASCADE：从父表删除或更新且自动删除或更新子表中匹配行</p>
+</li>
+<li>SET NULL：从父表删除或更新行，并设置子表中的外键列为 NULL。如果使用该选项，必须保证子表列没有指定 NOT NULL</li>
+<li>RESTRICT：拒绝对父表的删除或更新操作</li>
+<li>NO ACTION：标准 SQL 关键字，在 MySQL 中与 RESTRICT 相同</li>
+</ul>
 
       
     </div>
@@ -464,7 +430,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
         </div>
       
@@ -473,8 +439,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/25/设计模式-十二-模板方法模式/" rel="next" title="设计模式(十二):模板方法模式">
-                <i class="fa fa-chevron-left"></i> 设计模式(十二):模板方法模式
+              <a href="/2017/07/17/MySQL-学习之数据类型/" rel="next" title="MySQL 学习之数据类型">
+                <i class="fa fa-chevron-left"></i> MySQL 学习之数据类型
               </a>
             
           </div>
@@ -482,10 +448,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/10/设计模式-十三-：代理模式/" rel="prev" title="设计模式(十三)：代理模式">
-                设计模式(十三)：代理模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -626,7 +588,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络的定义"><span class="nav-number">1.</span> <span class="nav-text">计算机网络的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现代计算机网络的基本特征"><span class="nav-number">2.</span> <span class="nav-text">现代计算机网络的基本特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络的主要功能"><span class="nav-number">3.</span> <span class="nav-text">计算机网络的主要功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络的分类"><span class="nav-number">4.</span> <span class="nav-text">计算机网络的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络协议"><span class="nav-number">5.</span> <span class="nav-text">网络协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络互联标准"><span class="nav-number">6.</span> <span class="nav-text">网络互联标准</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IEEE802系列标准"><span class="nav-number">7.</span> <span class="nav-text">IEEE802系列标准</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#约束的目的"><span class="nav-number">1.</span> <span class="nav-text">约束的目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#约束的类型"><span class="nav-number">2.</span> <span class="nav-text">约束的类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#约束的介绍"><span class="nav-number">3.</span> <span class="nav-text">约束的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NOT-NULL-非空约束"><span class="nav-number">3.1.</span> <span class="nav-text">NOT NULL (非空约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PRIMARY-KEY-主键约束"><span class="nav-number">3.2.</span> <span class="nav-text">PRIMARY KEY (主键约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNIQUE-KEY-唯一约束"><span class="nav-number">3.3.</span> <span class="nav-text">UNIQUE KEY (唯一约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DEFAULT-默认约束"><span class="nav-number">3.4.</span> <span class="nav-text">DEFAULT (默认约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FOREIGN-KEY-外键约束"><span class="nav-number">3.5.</span> <span class="nav-text">FOREIGN KEY (外键约束)</span></a></li></ol></li></ol></div>
             
 
           </div>

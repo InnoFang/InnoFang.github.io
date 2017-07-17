@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-17T05:50:52.930Z</updated>
+  <updated>2017-07-17T07:13:38.771Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,13 +16,80 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>MySQL 学习之数据类型与操作数据表</title>
-    <link href="http://yoursite.com/2017/07/17/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E8%A1%A8/"/>
-    <id>http://yoursite.com/2017/07/17/MySQL-学习之数据类型与操作数据表/</id>
-    <published>2017-07-17T05:48:30.000Z</published>
-    <updated>2017-07-17T05:50:52.930Z</updated>
+    <title>MySQL 学习之约束</title>
+    <link href="http://yoursite.com/2017/07/17/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%BA%A6%E6%9D%9F/"/>
+    <id>http://yoursite.com/2017/07/17/MySQL-学习之约束/</id>
+    <published>2017-07-17T05:54:17.000Z</published>
+    <updated>2017-07-17T07:13:38.771Z</updated>
     
-    <content type="html"><![CDATA[<p>简要介绍 MySQL 的数据类型和数据表的基本操作（创建，添加，查找等）</p>
+    <content type="html"><![CDATA[<p>MySQL 中关于约束的知识点介绍</p>
+<a id="more"></a>
+<h1 id="约束的目的"><a href="#约束的目的" class="headerlink" title="约束的目的"></a>约束的目的</h1><p>约束保证数据的<strong>完整性</strong>和<strong>一致性</strong>。</p>
+<h1 id="约束的类型"><a href="#约束的类型" class="headerlink" title="约束的类型"></a>约束的类型</h1><p>根据约束所针对的字段的数目的多少来划分，可以划分为：</p>
+<ul>
+<li>列级约束 (针对某一个字段来使用)</li>
+<li>表级约束 (针对两个或两个以上的字段来使用)</li>
+</ul>
+<p>根据功能来划分，可以划分为：</p>
+<ul>
+<li>NOT NULL (非空约束)</li>
+<li>PRIMARY KEY (主键约束)</li>
+<li>UNIQUE KEY (唯一约束)</li>
+<li>DEFAULT (默认约束)</li>
+<li>FOREIGN KEY (外键约束)</li>
+</ul>
+<h1 id="约束的介绍"><a href="#约束的介绍" class="headerlink" title="约束的介绍"></a>约束的介绍</h1><h2 id="NOT-NULL-非空约束"><a href="#NOT-NULL-非空约束" class="headerlink" title="NOT NULL (非空约束)"></a>NOT NULL (非空约束)</h2><h2 id="PRIMARY-KEY-主键约束"><a href="#PRIMARY-KEY-主键约束" class="headerlink" title="PRIMARY KEY (主键约束)"></a>PRIMARY KEY (主键约束)</h2><h2 id="UNIQUE-KEY-唯一约束"><a href="#UNIQUE-KEY-唯一约束" class="headerlink" title="UNIQUE KEY (唯一约束)"></a>UNIQUE KEY (唯一约束)</h2><h2 id="DEFAULT-默认约束"><a href="#DEFAULT-默认约束" class="headerlink" title="DEFAULT (默认约束)"></a>DEFAULT (默认约束)</h2><h2 id="FOREIGN-KEY-外键约束"><a href="#FOREIGN-KEY-外键约束" class="headerlink" title="FOREIGN KEY (外键约束)"></a>FOREIGN KEY (外键约束)</h2><p><strong>目的</strong>  保证数据的一致性，完整性，是一对一或一对多关系</p>
+<p><strong>要求</strong></p>
+<ul>
+<li>子表（具有外键列的表）和父表（子表所参照的表）必须使用相同的存储引擎（只能为 InnoDB，MySQL 默认），且禁止使用临时表</li>
+<li>外键列（含有 FOREIGN 关键字的列）和参照列（外键列所参照的列）必须具有相似的数据类型<ul>
+<li>数字的长度 或 是否有符号位必须相同</li>
+<li>字符的长度则可以不同</li>
+</ul>
+</li>
+<li>外键列和参照列必须创建索引。如果外键列不存在索引的话，MySQL 将自动创建索引</li>
+</ul>
+<p><strong>使用场景</strong></p>
+<p>举例来说，就是当一个表中出现了冗余字段时，就可以使用外键约束。比如现在有一个学生表，其中含有一个班级字段，那么一个班的学生的这个字段值都是相同的，这就出现了冗余。那么解决这个问题，就可以使用外键约束，即再创建一个班级表，然后学生表中的班级字段就可以关联到班级表的 id 即可。</p>
+<p> e.g. 创建一个班级表和一个学生表，并使用外键约束</p>
+<p>创建班级表<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS classes(</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; class VARCHAR(20)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.27 sec)</div></pre></td></tr></table></figure></p>
+<p>创建学生表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS student(</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; cid SMALLINT UNSIGNED,</div><div class="line">    -&gt; FOREIGN KEY (cid) REFERENCES classes (id)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.64 sec)</div></pre></td></tr></table></figure></p>
+<p>这里需要注意的是</p>
+<ul>
+<li>student 表为子表，classes 表为父表</li>
+<li>外键列为 student 表中的 cid 字段，参照类为 classes 表中的 id 字段。因为是数字，所以这两者必须具有相同的数据类型和有无符号（因为有符号类型，当参照类指定了无符号类型时，外键列也必须指定为无符号类型）</li>
+<li><p>外键列和参照列必须创建索引</p>
+<p><strong>外键约束的参照操作</strong></p>
+</li>
+<li><p>CASCADE：从父表删除或更新且自动删除或更新子表中匹配行</p>
+</li>
+<li>SET NULL：从父表删除或更新行，并设置子表中的外键列为 NULL。如果使用该选项，必须保证子表列没有指定 NOT NULL</li>
+<li>RESTRICT：拒绝对父表的删除或更新操作</li>
+<li>NO ACTION：标准 SQL 关键字，在 MySQL 中与 RESTRICT 相同</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MySQL 中关于约束的知识点介绍&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 学习之数据类型</title>
+    <link href="http://yoursite.com/2017/07/17/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    <id>http://yoursite.com/2017/07/17/MySQL-学习之数据类型/</id>
+    <published>2017-07-17T05:48:30.000Z</published>
+    <updated>2017-07-17T05:54:50.252Z</updated>
+    
+    <content type="html"><![CDATA[<p>简要介绍 MySQL 的数据类型</p>
 <a id="more"></a>
 <h1 id="数据类型与创建数据表"><a href="#数据类型与创建数据表" class="headerlink" title="数据类型与创建数据表"></a>数据类型与创建数据表</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><blockquote>
 <p>数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。</p>
@@ -301,7 +368,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;简要介绍 MySQL 的数据类型和数据表的基本操作（创建，添加，查找等）&lt;/p&gt;
+      &lt;p&gt;简要介绍 MySQL 的数据类型&lt;/p&gt;
     
     </summary>
     
@@ -1809,107 +1876,6 @@
     <summary type="html">
     
       &lt;h1 id=&quot;Prototype（原型）&quot;&gt;&lt;a href=&quot;#Prototype（原型）&quot; class=&quot;headerlink&quot; title=&quot;Prototype（原型）&quot;&gt;&lt;/a&gt;Prototype（原型）&lt;/h1&gt;&lt;p&gt;原型模式，是利用已有的实例对象通过克隆的方式，复制出一个具有相同属性的对象，起作用在于&lt;br&gt;当在面临创建一个复杂对象或实例时，通过克隆可以是程序更高效的运行，保证了程序的效率，因此&lt;br&gt;原型模式也是一种创建型模式&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>设计模式(四):抽象工厂模式</title>
-    <link href="http://yoursite.com/2017/02/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%9B%9B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2017/02/25/设计模式-四-抽象工厂模式/</id>
-    <published>2017-02-25T07:13:37.000Z</published>
-    <updated>2017-05-06T02:47:17.743Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Abstract-Factory（抽象工厂）"><a href="#Abstract-Factory（抽象工厂）" class="headerlink" title="Abstract Factory（抽象工厂）"></a>Abstract Factory（抽象工厂）</h1><p>在此之前，已经学习过了<a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/factory_method" target="_blank" rel="external">Factory Method（工厂方法）</a>，抽象工厂和工厂方法这两个模式都属于创建型设计模式，那么根据[工厂]这个词，大概也能猜出这两个模式都是用来“生产”的</p>
-<a id="more"></a>
-<p>那么这两种用来“生产”的模式 ——— 抽象工厂和工厂方法，这两个设计模式有什么区别呢？或者说也两个模式“生产”的东西有什么不同的吗？</p>
-<p>在之前工厂方法的简单实现中，举了个工厂制作蛋糕的例子，那么现在我们的蛋糕店需要生产两种蛋糕，分别为草莓口味的红色的爱心型蛋糕和芒果口味的黄色的方形蛋糕，这两个都是具体的产品，换句话说，对于草莓味心型蛋糕，心型模具和草莓味奶油都是只用来生产这类蛋糕的，那如果我们想做一个爱心型的芒果蛋糕呢？难道还有做一个只属于芒果蛋糕的模具吗？</p>
-<p>不，当然不是，在日常生活中，对于这种情况，应该是拿一个爱心模具来做一类爱心型蛋糕，而不会说一种蛋糕做一个模具</p>
-<p>到这里，或许对于抽象工厂和工厂方法的区别还是有点模糊</p>
-<p>那么，现在来总结一下，</p>
-<ul>
-<li>如果是用来生成一个复杂的对象，他的内部元素无法抽象出来时，选择<strong>工厂方法模式</strong></li>
-<li>如果是用来生产具体细节抽象的产品，产品的内部元素可变，选择<strong>抽象工厂</strong></li>
-</ul>
-<p>说了这么多，但是还没有见到抽象模式的真身，下面先介绍一下抽象工厂模式，然后，再重新打造我们的工厂，让其能够生产更多类型的蛋糕</p>
-<h1 id="Abstract-Factory（抽象工厂）的UML类图"><a href="#Abstract-Factory（抽象工厂）的UML类图" class="headerlink" title="Abstract Factory（抽象工厂）的UML类图"></a>Abstract Factory（抽象工厂）的UML类图</h1><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/abstract_factory.png" alt=""></p>
-<ul>
-<li>AbstractProductA：抽象产品A<ul>
-<li>ProductA1：具体产品A1</li>
-<li>ProductA2：具体产品A2</li>
-</ul>
-</li>
-<li>AbstractProductB：抽象产品B<ul>
-<li>ProductB1：具体产品B1</li>
-<li>ProductB2：具体产品B2</li>
-</ul>
-</li>
-<li>AbstractFactory：抽象工厂，内部有两个方法，分别用来生产不同的产品，最后成一个整体<ul>
-<li>ConcreteFactory1：具体工厂1</li>
-<li>ConcreteFactory2：具体工厂2</li>
-</ul>
-</li>
-</ul>
-<p>先创建产品的抽象类<br>AbstractProductA<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractProductA</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">doA</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>AbstractProductB<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractProductB</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">doB</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后再来打造具体的产品细节<br>ConcreteProductA1<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteProductA1</span> <span class="keyword">extends</span> <span class="title">AbstractProductA</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doA</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Concrete Product A 1"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>ConcreteProductA2<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteProductA2</span> <span class="keyword">extends</span> <span class="title">AbstractProductA</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doA</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Concrete Product A 2"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>ConcreteProductB1<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteProductB1</span> <span class="keyword">extends</span> <span class="title">AbstractProductB</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doB</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Concrete Product B 1"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>ConcreteProductB2<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteProductB2</span> <span class="keyword">extends</span> <span class="title">AbstractProductB</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doB</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Concrete Product B 2"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>OK，关于具体的产品细节已经做好了，现在最关键的就是通过工厂，来将这些细节组装成一个具体的产品</p>
-<p>首先，在打造一个抽象工厂</p>
-<p>AbstractFactory<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractFactory</span> </span>&#123;</div><div class="line">    <span class="comment">// 生产产品细节A</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> AbstractProductA <span class="title">createProductA</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">// 生产产品细节B</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> AbstractProductB <span class="title">createProductB</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>好了，接下来就是根据需要打造具体的工厂了<br>ConcreteFactory1：生产产品细节A1和产品细节B2<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactory1</span> <span class="keyword">extends</span> <span class="title">AbstractFactory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> AbstractProductA <span class="title">createProductA</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductA1();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> AbstractProductB <span class="title">createProductB</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductB2();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>ConcreteFactory2：生产产品细节A2和产品细节B1<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactory2</span> <span class="keyword">extends</span> <span class="title">AbstractFactory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> AbstractProductA <span class="title">createProductA</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductA2();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> AbstractProductB <span class="title">createProductB</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductB1();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>好了，现在我们只需要通过这两个工厂，就能得到一个具有A和B两种不同细节的产品</p>
-<h1 id="抽象工厂模式的简单实现"><a href="#抽象工厂模式的简单实现" class="headerlink" title="抽象工厂模式的简单实现"></a>抽象工厂模式的简单实现</h1><p>还是挺简单的，那么，接下来，借助上面的经验，是时候将蛋糕店好好装修一番了，让蛋糕店可以生产各种各样的产品</p>
-<p>首先，分析一下，对于蛋糕</p>
-<ul>
-<li>按照造型分，我们有爱心型的和方形的，</li>
-<li>按照奶油分，我们有红色的草莓味和黄色的芒果味</li>
-</ul>
-<p>那么根据调查发现(是我瞎说的~)，现在爱心型的草莓味蛋糕和芒果味的方形蛋糕是卖的最火的，所以，蛋糕店也需要与时俱进，将要生产这种两种蛋糕</p>
-<p>好了，分析完了，我们先根据造型，打造一个抽象造型产品(或者说是蛋糕模板也可以啦~)</p>
-<p>抽象造型产品<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CakeStyle</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">style</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>再根据奶油，打造一个抽象奶油产品</p>
-<p>抽象奶油产品<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CakeCream</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">cream</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>OK，下面分别开始制作爱心型模板，方形模板，草莓味奶油，芒果味奶油</p>
-<p>爱心型模板<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HeartStyle</span> <span class="keyword">extends</span> <span class="title">CakeStyle</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">style</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Heart Style"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>方形模板<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SquareStyle</span> <span class="keyword">extends</span> <span class="title">CakeStyle</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">style</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Square Style"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>草莓味奶油<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StrawberryCream</span> <span class="keyword">extends</span> <span class="title">CakeCream</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cream</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Strawberry Cream"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>芒果味奶油<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MangoCream</span> <span class="keyword">extends</span> <span class="title">CakeCream</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cream</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Mango Cream"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>现在，无论是材料还是工具都做好了，只要根据需要，通过具体的工厂生产就行了</p>
-<p>首先，还是来一个抽象工厂<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CakeFactory</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> CakeCream <span class="title">cream</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> CakeStyle <span class="title">style</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后，就分别是爱心型草莓味蛋糕工厂和方形芒果味蛋糕工厂</p>
-<p>爱心型草莓味蛋糕工厂<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StrawberryHeartCake</span> <span class="keyword">extends</span> <span class="title">CakeFactory</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> CakeCream <span class="title">cream</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> StrawberryCream();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> CakeStyle <span class="title">style</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HeartStyle();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>方形芒果味蛋糕工厂<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MangoSquareCake</span> <span class="keyword">extends</span> <span class="title">CakeFactory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> CakeCream <span class="title">cream</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MangoCream();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> CakeStyle <span class="title">style</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SquareStyle();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>大功告成，让我们来看看蛋糕做得怎么样<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">       CakeFactory strawberryHeartCake = <span class="keyword">new</span> StrawberryHeartCake();</div><div class="line">       strawberryHeartCake.cream().cream();</div><div class="line">       strawberryHeartCake.style().style();</div><div class="line"></div><div class="line">       System.out.println();</div><div class="line"></div><div class="line">       CakeFactory mangoSquareCake = <span class="keyword">new</span> MangoSquareCake();</div><div class="line">       mangoSquareCake.cream().cream();</div><div class="line">       mangoSquareCake.style().style();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>result:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Strawberry Cream</div><div class="line">Heart Style</div><div class="line"></div><div class="line">Mango Cream</div><div class="line">Square Style</div></pre></td></tr></table></figure></p>
-<p>还不赖嘛~</p>
-<p>如果，这时需求变更了，比如，现在更流行吃爱心型芒果味蛋糕</p>
-<p>那么我们只需要一个工厂就可以做 到了，而不需要再去重头开始制作奶油和模板</p>
-<p>爱心型芒果味蛋糕<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MangoHeartCake</span> <span class="keyword">extends</span> <span class="title">CakeFactory</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> CakeCream <span class="title">cream</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MangoCream();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> CakeStyle <span class="title">style</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HeartStyle();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>还是挺简单的嘛~</p>
-<p>好了，来总结一下抽象工厂的优缺点吧</p>
-<ul>
-<li>优点：最明显的分离了抽象和实现，基于产品的抽象和实现的分离，是抽象工厂在切换产品类时更加灵活和容易</li>
-<li><p>缺点：就像我们上面看到的，一个产品就需要一个工厂，那么根据产品的越来越多，具体工厂类就越来越多；另一个就是不容易扩展，比如现在有了新的需求，比如蛋糕现在生产时有了磅数(重量)的要求，那么我们就必须去修改抽象工厂类，从而导致所有的具体工厂类都必须修改</p>
-<p>END.</p>
-</li>
-</ul>
-<hr>
-<p> <a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/abstract_factory" target="_blank" rel="external">源码地址</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Abstract-Factory（抽象工厂）&quot;&gt;&lt;a href=&quot;#Abstract-Factory（抽象工厂）&quot; class=&quot;headerlink&quot; title=&quot;Abstract Factory（抽象工厂）&quot;&gt;&lt;/a&gt;Abstract Factory（抽象工厂）&lt;/h1&gt;&lt;p&gt;在此之前，已经学习过了&lt;a href=&quot;https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/factory_method&quot;&gt;Factory Method（工厂方法）&lt;/a&gt;，抽象工厂和工厂方法这两个模式都属于创建型设计模式，那么根据[工厂]这个词，大概也能猜出这两个模式都是用来“生产”的&lt;/p&gt;
     
     </summary>
     
