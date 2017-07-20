@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-20T13:37:26.505Z</updated>
+  <updated>2017-07-20T14:05:04.725Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/07/17/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%BA%A6%E6%9D%9F/"/>
     <id>http://yoursite.com/2017/07/17/MySQL-学习之约束/</id>
     <published>2017-07-17T05:54:17.000Z</published>
-    <updated>2017-07-20T13:37:26.505Z</updated>
+    <updated>2017-07-20T14:05:04.725Z</updated>
     
     <content type="html"><![CDATA[<h1 id="约束的目的"><a href="#约束的目的" class="headerlink" title="约束的目的"></a>约束的目的</h1><blockquote>
 <p>约束保证了数据的<strong>完整性</strong>和<strong>一致性</strong>。</p>
@@ -55,8 +55,23 @@
 </blockquote>
 <p>比如现在新建一张表 User ，并给其中的 username 和 password 字段设置为 <code>NOT NULL</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS user (</div><div class="line">    -&gt; id INT PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; username VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; password VARCHAR(20) NOT NULL</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.43 sec)</div></pre></td></tr></table></figure></p>
 <p>现在插入数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO user(username, password) VALUES(&apos;hello&apos;, &quot;111&quot;);</div><div class="line">Query OK, 1 row affected (0.08 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT INTO user(username, password) VALUES(&apos;Jack&apos;, NULL);</div><div class="line">ERROR 1048 (23000): Column &apos;password&apos; cannot be null</div></pre></td></tr></table></figure></p>
-<p>简单的演示了一下，可见当向非空约束的字段插入空值是会报错</p>
-<h2 id="UNIQUE-KEY-唯一约束"><a href="#UNIQUE-KEY-唯一约束" class="headerlink" title="UNIQUE KEY (唯一约束)"></a>UNIQUE KEY (唯一约束)</h2><h2 id="DEFAULT-默认约束"><a href="#DEFAULT-默认约束" class="headerlink" title="DEFAULT (默认约束)"></a>DEFAULT (默认约束)</h2><h2 id="FOREIGN-KEY-外键约束"><a href="#FOREIGN-KEY-外键约束" class="headerlink" title="FOREIGN KEY (外键约束)"></a>FOREIGN KEY (外键约束)</h2><blockquote>
+<p>简单的演示了一下，可见当向非空约束的字段插入空值时会报错</p>
+<h2 id="UNIQUE-KEY-唯一约束"><a href="#UNIQUE-KEY-唯一约束" class="headerlink" title="UNIQUE KEY (唯一约束)"></a>UNIQUE KEY (唯一约束)</h2><p>前面讲到主键约束一张表只能有有一个，但是如果还有字段需要保证唯一性的话，就可以使用这个唯一约束</p>
+<blockquote>
+<p>唯一约束保证记录的唯一性，字段可以为空值 (NULL)，因此唯一约束的字段只能有一个空值。同时每张数据表可以存在多个唯一约束</p>
+</blockquote>
+<p>现在新建一张表 player ，除了将 id 设置为主键约束外，在将 name 设置为唯一约束<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS player(</div><div class="line">    -&gt; id INT PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL UNIQUE KEY</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.39 sec)</div></pre></td></tr></table></figure></p>
+<p>查看一下当我们尝试添加重复字段时，会出现什么状况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO player(name) VALUES(&apos;Tom&apos;);</div><div class="line">Query OK, 1 row affected (0.09 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT INTO player(name) VALUES(&apos;Tom&apos;);</div><div class="line">ERROR 1062 (23000): Duplicate entry &apos;Tom&apos; for key &apos;name&apos;</div></pre></td></tr></table></figure></p>
+<p>同样无法添加具有重复字段值的记录。</p>
+<p>而与主键约束的区别是，逐渐约束每张表只能有一个，但是唯一约束每张表可以有多个</p>
+<h2 id="DEFAULT-默认约束"><a href="#DEFAULT-默认约束" class="headerlink" title="DEFAULT (默认约束)"></a>DEFAULT (默认约束)</h2><blockquote>
+<p>当插入记录时，如果没有明确为字段赋值，则自动赋予默认值</p>
+</blockquote>
+<p>现在新建一张表 member，指定字段 gender(性别) 默认值为 ‘unknow’<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS member(</div><div class="line">    -&gt; id INT PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; gender ENUM(&apos;female&apos;, &apos;male&apos;, &apos;unknow&apos;) DEFAULT &apos;unknow&apos;</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.33 sec)</div></pre></td></tr></table></figure></p>
+<p>这里使用了枚举 <code>ENUM</code>，所以添加值时，只能选择枚举中的值。</p>
+<p>现在添加一条记录，但是不指定性别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO member(name) VALUES(&apos;Torry&apos;);</div><div class="line">Query OK, 1 row affected (0.07 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM member;</div><div class="line">+----+-------+--------+</div><div class="line">| id | name  | gender |</div><div class="line">+----+-------+--------+</div><div class="line">|  1 | Torry | unknow |</div><div class="line">+----+-------+--------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>虽然没有指定具体的值，但是 gender 字段仍然被赋予了默认值</p>
+<h2 id="FOREIGN-KEY-外键约束"><a href="#FOREIGN-KEY-外键约束" class="headerlink" title="FOREIGN KEY (外键约束)"></a>FOREIGN KEY (外键约束)</h2><blockquote>
 <p>保证数据的一致性，完整性，是一对一或一对多关系</p>
 </blockquote>
 <h3 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h3><ul>
