@@ -87,14 +87,13 @@
     <link href="http://yoursite.com/2017/07/17/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
     <id>http://yoursite.com/2017/07/17/MySQL-学习之数据类型/</id>
     <published>2017-07-17T05:48:30.000Z</published>
-    <updated>2017-07-17T05:54:50.252Z</updated>
+    <updated>2017-07-20T12:13:24.330Z</updated>
     
-    <content type="html"><![CDATA[<p>简要介绍 MySQL 的数据类型</p>
-<a id="more"></a>
-<h1 id="数据类型与创建数据表"><a href="#数据类型与创建数据表" class="headerlink" title="数据类型与创建数据表"></a>数据类型与创建数据表</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><blockquote>
+    <content type="html"><![CDATA[<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><blockquote>
 <p>数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。</p>
 </blockquote>
-<h3 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h3><table>
+<a id="more"></a>
+<h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><table>
 <thead>
 <tr>
 <th>数据类型</th>
@@ -142,7 +141,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h3><table>
+<h2 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h2><table>
 <thead>
 <tr>
 <th>数据类型</th>
@@ -170,7 +169,7 @@
 </tbody>
 </table>
 <p><strong>PS</strong>   M 是数字总位数，D 是小数点后后面的位数，如果 M 和 D 被省略，根据硬件允许的限制来保存值</p>
-<h3 id="日期和时间类型"><a href="#日期和时间类型" class="headerlink" title="日期和时间类型"></a>日期和时间类型</h3><table>
+<h2 id="日期和时间类型"><a href="#日期和时间类型" class="headerlink" title="日期和时间类型"></a>日期和时间类型</h2><table>
 <thead>
 <tr>
 <th>类型</th>
@@ -218,7 +217,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h3><table>
+<h2 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h2><table>
 <thead>
 <tr>
 <th>类型</th>
@@ -277,6 +276,16 @@
 <td>0-4 294 967 295</td>
 <td>极大文本数据</td>
 </tr>
+<tr>
+<td>ENUM(‘value1’, ‘value2’)</td>
+<td>1 或 2 个字节，取决于枚举类型的个数（最多 65 535 个值）</td>
+<td>枚举</td>
+</tr>
+<tr>
+<td>SET(‘value1’, ‘value2’)</td>
+<td>1、2、3、4 或者 8 个字节，取决于 set 成员的数目（最多 64 个成员）</td>
+<td>集合</td>
+</tr>
 </tbody>
 </table>
 <p><strong>PS</strong> CHAR 和 VARCHAR   </p>
@@ -285,25 +294,7 @@
 <li>CHAR(n) 固定长度，CHAR(4) 不管是存入几个字符，都将占用 4 个字节，VARCHAR 是存入的实际字符数 +1 个字节（n&lt;=255）或 2 个字节 (n&gt;255)，所以 VARCHAR(4),存入3个字符将占用4个字节。 </li>
 <li>CHAR 类型的字符串检索速度要比 VARCHAR 类型的快。</li>
 </ol>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>存储需求</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> ENUM(‘value1’, ‘value2’)</td>
-<td>1 或 2 个字节，取决于枚举类型的个数（最多 65 535 个值）</td>
-</tr>
-<tr>
-<td> SET(‘value1’, ‘value2’)</td>
-<td>1、2、3、4 或者 8 个字节，取决于 set 成员的数目（最多 64 个成员）</td>
-</tr>
-</tbody>
-</table>
-<h3 id="数据类型的属性"><a href="#数据类型的属性" class="headerlink" title="数据类型的属性"></a>数据类型的属性</h3><table>
+<h2 id="数据类型的属性"><a href="#数据类型的属性" class="headerlink" title="数据类型的属性"></a>数据类型的属性</h2><table>
 <thead>
 <tr>
 <th>关键字</th>
@@ -345,30 +336,13 @@
 </tr>
 </tbody>
 </table>
-<h2 id="数据表"><a href="#数据表" class="headerlink" title="数据表"></a>数据表</h2><blockquote>
-<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
-</blockquote>
-<p>在数据表中，行称为记录，列称为字段</p>
-<h3 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h3><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
-<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
-<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
-<h3 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
-<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h4 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
-<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
-<h3 id="向数据表中插入记录"><a href="#向数据表中插入记录" class="headerlink" title="向数据表中插入记录"></a>向数据表中插入记录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] VALUES(val, ...)</div></pre></td></tr></table></figure>
-<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
-<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
-<h3 id="从数据表中查找记录"><a href="#从数据表中查找记录" class="headerlink" title="从数据表中查找记录"></a>从数据表中查找记录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT expr, ... FROM tbl_name;</div></pre></td></tr></table></figure>
-<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;简要介绍 MySQL 的数据类型&lt;/p&gt;
+      &lt;h1 id=&quot;数据类型&quot;&gt;&lt;a href=&quot;#数据类型&quot; class=&quot;headerlink&quot; title=&quot;数据类型&quot;&gt;&lt;/a&gt;数据类型&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
