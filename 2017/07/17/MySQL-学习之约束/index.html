@@ -86,16 +86,19 @@
 
 
 
-<meta name="description" content="MySQL 中关于约束的知识点介绍">
+<meta name="description" content="约束的目的
+约束保证了数据的完整性和一致性。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL 学习之约束">
 <meta property="og:url" content="http://yoursite.com/2017/07/17/MySQL-学习之约束/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="MySQL 中关于约束的知识点介绍">
-<meta property="og:updated_time" content="2017-07-17T07:13:38.771Z">
+<meta property="og:description" content="约束的目的
+约束保证了数据的完整性和一致性。">
+<meta property="og:updated_time" content="2017-07-20T13:36:25.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 学习之约束">
-<meta name="twitter:description" content="MySQL 中关于约束的知识点介绍">
+<meta name="twitter:description" content="约束的目的
+约束保证了数据的完整性和一致性。">
 
 
 
@@ -362,25 +365,44 @@
       
 
       
-        <p>MySQL 中关于约束的知识点介绍</p>
+        <h1 id="约束的目的"><a href="#约束的目的" class="headerlink" title="约束的目的"></a>约束的目的</h1><blockquote>
+<p>约束保证了数据的<strong>完整性</strong>和<strong>一致性</strong>。</p>
+</blockquote>
 <a id="more"></a>
-<h1 id="约束的目的"><a href="#约束的目的" class="headerlink" title="约束的目的"></a>约束的目的</h1><p>约束保证数据的<strong>完整性</strong>和<strong>一致性</strong>。</p>
 <h1 id="约束的类型"><a href="#约束的类型" class="headerlink" title="约束的类型"></a>约束的类型</h1><p>根据约束所针对的字段的数目的多少来划分，可以划分为：</p>
 <ul>
 <li>列级约束 (针对某一个字段来使用)</li>
 <li>表级约束 (针对两个或两个以上的字段来使用)</li>
 </ul>
+<p>列级约束既可以在列定义时声明，也可以在列定义后声明。表级约束只能在列定义后声明</p>
 <p>根据功能来划分，可以划分为：</p>
 <ul>
-<li>NOT NULL (非空约束)</li>
+<li>NOT NULL (非空约束) </li>
 <li>PRIMARY KEY (主键约束)</li>
 <li>UNIQUE KEY (唯一约束)</li>
 <li>DEFAULT (默认约束)</li>
 <li>FOREIGN KEY (外键约束)</li>
 </ul>
-<h1 id="约束的介绍"><a href="#约束的介绍" class="headerlink" title="约束的介绍"></a>约束的介绍</h1><h2 id="NOT-NULL-非空约束"><a href="#NOT-NULL-非空约束" class="headerlink" title="NOT NULL (非空约束)"></a>NOT NULL (非空约束)</h2><h2 id="PRIMARY-KEY-主键约束"><a href="#PRIMARY-KEY-主键约束" class="headerlink" title="PRIMARY KEY (主键约束)"></a>PRIMARY KEY (主键约束)</h2><h2 id="UNIQUE-KEY-唯一约束"><a href="#UNIQUE-KEY-唯一约束" class="headerlink" title="UNIQUE KEY (唯一约束)"></a>UNIQUE KEY (唯一约束)</h2><h2 id="DEFAULT-默认约束"><a href="#DEFAULT-默认约束" class="headerlink" title="DEFAULT (默认约束)"></a>DEFAULT (默认约束)</h2><h2 id="FOREIGN-KEY-外键约束"><a href="#FOREIGN-KEY-外键约束" class="headerlink" title="FOREIGN KEY (外键约束)"></a>FOREIGN KEY (外键约束)</h2><p><strong>目的</strong>  保证数据的一致性，完整性，是一对一或一对多关系</p>
-<p><strong>要求</strong></p>
-<ul>
+<p>其中 <code>NOT NULL</code> 和 <code>DEFAULT</code> 不存在表级约束，只有列级约束</p>
+<h1 id="约束的介绍"><a href="#约束的介绍" class="headerlink" title="约束的介绍"></a>约束的介绍</h1><h2 id="PRIMARY-KEY-主键约束"><a href="#PRIMARY-KEY-主键约束" class="headerlink" title="PRIMARY KEY (主键约束)"></a>PRIMARY KEY (主键约束)</h2><blockquote>
+<p>保证记录的完整性，每张表只能存在一个主键，且主键自动为 <code>NOT NULL</code></p>
+</blockquote>
+<p>这里还要提一下自动编号 <code>AUTO_INCREMENT</code>。自动编号必须与主键结合使用，一般作用于整型，默认情况下起始值为 1，每次增量为 1</p>
+<p>现在建立一张 person 表，并把字段 id 设置为主键自增长<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS person(</div><div class="line">    -&gt; id INT PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name varchar(20)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.29 sec)</div></pre></td></tr></table></figure></p>
+<p>现在插入几条数据，并显示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO person(name) VALUES(&apos;Jack&apos;);</div><div class="line">Query OK, 1 row affected (0.09 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT INTO person(name) VALUES(&apos;Mary&apos;);</div><div class="line">Query OK, 1 row affected (0.09 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT INTO person(name) VALUES(&apos;Bob&apos;);</div><div class="line">Query OK, 1 row affected (0.08 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM person;</div><div class="line">+----+------+</div><div class="line">| id | name |</div><div class="line">+----+------+</div><div class="line">|  1 | Jack |</div><div class="line">|  2 | Mary |</div><div class="line">|  3 | Bob  |</div><div class="line">+----+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>因为有自动编号的存在，虽然没有指定 id 的值，但是它仍然有一个不重复的值</p>
+<p>现在尝试向表中插入一条重复的数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO person(id, name) VALUES(1, &apos;Ben&apos;);</div><div class="line">ERROR 1062 (23000): Duplicate entry &apos;1&apos; for key &apos;PRIMARY&apos;</div></pre></td></tr></table></figure></p>
+<p>我尝试向其中添加 id 为 1 的记录，但是出现了错误，可见主键约束过后，就又不能出现重复的值</p>
+<h2 id="NOT-NULL-非空约束"><a href="#NOT-NULL-非空约束" class="headerlink" title="NOT NULL (非空约束)"></a>NOT NULL (非空约束)</h2><blockquote>
+<p>字段值禁止为空，即在插入数据时，该字段必须赋值，否则会出现错误。与之对应的是 <code>NULL</code> ，表示字段值可以为空</p>
+</blockquote>
+<p>比如现在新建一张表 User ，并给其中的 username 和 password 字段设置为 <code>NOT NULL</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS user (</div><div class="line">    -&gt; id INT PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; username VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; password VARCHAR(20) NOT NULL</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.43 sec)</div></pre></td></tr></table></figure></p>
+<p>现在插入数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO user(username, password) VALUES(&apos;hello&apos;, &quot;111&quot;);</div><div class="line">Query OK, 1 row affected (0.08 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT INTO user(username, password) VALUES(&apos;Jack&apos;, NULL);</div><div class="line">ERROR 1048 (23000): Column &apos;password&apos; cannot be null</div></pre></td></tr></table></figure></p>
+<p>简单的演示了一下，可见当向非空约束的字段插入空值是会报错</p>
+<h2 id="UNIQUE-KEY-唯一约束"><a href="#UNIQUE-KEY-唯一约束" class="headerlink" title="UNIQUE KEY (唯一约束)"></a>UNIQUE KEY (唯一约束)</h2><h2 id="DEFAULT-默认约束"><a href="#DEFAULT-默认约束" class="headerlink" title="DEFAULT (默认约束)"></a>DEFAULT (默认约束)</h2><h2 id="FOREIGN-KEY-外键约束"><a href="#FOREIGN-KEY-外键约束" class="headerlink" title="FOREIGN KEY (外键约束)"></a>FOREIGN KEY (外键约束)</h2><blockquote>
+<p>保证数据的一致性，完整性，是一对一或一对多关系</p>
+</blockquote>
+<h3 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h3><ul>
 <li>子表（具有外键列的表）和父表（子表所参照的表）必须使用相同的存储引擎（只能为 InnoDB，MySQL 默认），且禁止使用临时表</li>
 <li>外键列（含有 FOREIGN 关键字的列）和参照列（外键列所参照的列）必须具有相似的数据类型<ul>
 <li>数字的长度 或 是否有符号位必须相同</li>
@@ -389,8 +411,7 @@
 </li>
 <li>外键列和参照列必须创建索引。如果外键列不存在索引的话，MySQL 将自动创建索引</li>
 </ul>
-<p><strong>使用场景</strong></p>
-<p>举例来说，就是当一个表中出现了冗余字段时，就可以使用外键约束。比如现在有一个学生表，其中含有一个班级字段，那么一个班的学生的这个字段值都是相同的，这就出现了冗余。那么解决这个问题，就可以使用外键约束，即再创建一个班级表，然后学生表中的班级字段就可以关联到班级表的 id 即可。</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>举例来说，就是当一个表中出现了冗余字段时，就可以使用外键约束。比如现在有一个学生表，其中含有一个班级字段，那么一个班的学生的这个字段值都是相同的，这就出现了冗余。那么解决这个问题，就可以使用外键约束，即再创建一个班级表，然后学生表中的班级字段就可以关联到班级表的 id 即可。</p>
 <p> e.g. 创建一个班级表和一个学生表，并使用外键约束</p>
 <p>创建班级表<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS classes(</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; class VARCHAR(20)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.27 sec)</div></pre></td></tr></table></figure></p>
 <p>创建学生表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS student(</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; cid SMALLINT UNSIGNED,</div><div class="line">    -&gt; FOREIGN KEY (cid) REFERENCES classes (id)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.64 sec)</div></pre></td></tr></table></figure></p>
@@ -398,14 +419,28 @@
 <ul>
 <li>student 表为子表，classes 表为父表</li>
 <li>外键列为 student 表中的 cid 字段，参照类为 classes 表中的 id 字段。因为是数字，所以这两者必须具有相同的数据类型和有无符号（因为有符号类型，当参照类指定了无符号类型时，外键列也必须指定为无符号类型）</li>
-<li><p>外键列和参照列必须创建索引</p>
-<p><strong>外键约束的参照操作</strong></p>
-</li>
-<li><p>CASCADE：从父表删除或更新且自动删除或更新子表中匹配行</p>
-</li>
+<li>外键列和参照列必须创建索引</li>
+</ul>
+<h3 id="外键约束的参照操作"><a href="#外键约束的参照操作" class="headerlink" title="外键约束的参照操作"></a>外键约束的参照操作</h3><blockquote>
+<p>在进行外键约束的创建以后，在更新表的时候，子表是否也进行相应的操作</p>
+</blockquote>
+<ul>
+<li>CASCADE：从父表删除或更新且自动删除或更新子表中匹配行</li>
 <li>SET NULL：从父表删除或更新行，并设置子表中的外键列为 NULL。如果使用该选项，必须保证子表列没有指定 NOT NULL</li>
 <li>RESTRICT：拒绝对父表的删除或更新操作</li>
 <li>NO ACTION：标准 SQL 关键字，在 MySQL 中与 RESTRICT 相同</li>
+</ul>
+<p>比如我们可以修改创建学生表的语句，字段保持不变，但是需要修改一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE IF NOT EXISTS student(</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; cid SMALLINT UNSIGNED,</div><div class="line">    -&gt; FOREIGN KEY (cid) REFERENCES classes (id) ON DELETE CASCADE</div><div class="line">    -&gt; );</div></pre></td></tr></table></figure>
+<p>相比之前多了 <code>ON DELETE CASCADE</code>，这表示当父表中的记录被删除时，那么与父表记录匹配的子表的记录也会被删除</p>
+<p><strong>注意</strong><br>当使用外键约束之后，对数据表的操作顺序需要注意：   </p>
+<ul>
+<li>插入数据：先插入父表数据，后插入子表数据</li>
+<li>修改数据：先修改父表数据，后修改子表数据</li>
+</ul>
+<p>因为，子表是参照父表进行设计的，所以在进行插入和修改操作时，要优先修改父表数据</p>
+<ul>
+<li>删除数据：先删除子表数据，后删除父表数据。这里如果使用了 <code>CASCADE</code> 或 <code>SET NULL</code> 的参照操作的话，比如使用了上面的 <code>ON DELETE CASCADE</code> ，那么倒是可以先删除父表数据。但是删除了父表的记录后，与之匹配的子表的记录也会被删除。</li>
 </ul>
 
       
@@ -588,7 +623,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#约束的目的"><span class="nav-number">1.</span> <span class="nav-text">约束的目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#约束的类型"><span class="nav-number">2.</span> <span class="nav-text">约束的类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#约束的介绍"><span class="nav-number">3.</span> <span class="nav-text">约束的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NOT-NULL-非空约束"><span class="nav-number">3.1.</span> <span class="nav-text">NOT NULL (非空约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PRIMARY-KEY-主键约束"><span class="nav-number">3.2.</span> <span class="nav-text">PRIMARY KEY (主键约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNIQUE-KEY-唯一约束"><span class="nav-number">3.3.</span> <span class="nav-text">UNIQUE KEY (唯一约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DEFAULT-默认约束"><span class="nav-number">3.4.</span> <span class="nav-text">DEFAULT (默认约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FOREIGN-KEY-外键约束"><span class="nav-number">3.5.</span> <span class="nav-text">FOREIGN KEY (外键约束)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#约束的目的"><span class="nav-number">1.</span> <span class="nav-text">约束的目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#约束的类型"><span class="nav-number">2.</span> <span class="nav-text">约束的类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#约束的介绍"><span class="nav-number">3.</span> <span class="nav-text">约束的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PRIMARY-KEY-主键约束"><span class="nav-number">3.1.</span> <span class="nav-text">PRIMARY KEY (主键约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NOT-NULL-非空约束"><span class="nav-number">3.2.</span> <span class="nav-text">NOT NULL (非空约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNIQUE-KEY-唯一约束"><span class="nav-number">3.3.</span> <span class="nav-text">UNIQUE KEY (唯一约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DEFAULT-默认约束"><span class="nav-number">3.4.</span> <span class="nav-text">DEFAULT (默认约束)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FOREIGN-KEY-外键约束"><span class="nav-number">3.5.</span> <span class="nav-text">FOREIGN KEY (外键约束)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#要求"><span class="nav-number">3.5.1.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">3.5.2.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外键约束的参照操作"><span class="nav-number">3.5.3.</span> <span class="nav-text">外键约束的参照操作</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
