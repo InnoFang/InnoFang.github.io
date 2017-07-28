@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-28T13:40:04.045Z</updated>
+  <updated>2017-07-28T14:18:51.659Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8/"/>
     <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表/</id>
     <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-07-28T13:40:04.045Z</updated>
+    <updated>2017-07-28T14:18:51.659Z</updated>
     
     <content type="html"><![CDATA[<p><strong>数据表</strong></p>
 <blockquote>
@@ -111,6 +111,29 @@
 <p>这里删除默认约束就比较简单了，只需要知道列的名字就可以了。最后再来删除掉 age 字段的默认约束</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">mysql&gt; ALTER TABLE user ALTER age DROP DEFAULT;</div><div class="line">Query OK, 0 rows affected (0.07 sec)</div><div class="line">Records: 0  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SHOW COLUMNS FROM user;</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                 | Null | Key | Default | Extra |</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">| id    | smallint(5) unsigned | NO   | PRI | NULL    |       |</div><div class="line">| name  | varchar(20)          | NO   | UNI | NULL    |       |</div><div class="line">| uid   | int(10) unsigned     | YES  | MUL | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned  | NO   |     | NULL    |       |</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">4 rows in set (0.00 sec)</div></pre></td></tr></table></figure>
 <p>此时，age 字段就没有默认值了。</p>
+<h2 id="修改数据表"><a href="#修改数据表" class="headerlink" title="修改数据表"></a>修改数据表</h2><h3 id="修改列定义"><a href="#修改列定义" class="headerlink" title="修改列定义"></a>修改列定义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE tbl_name MODIFY [COLUMN] col_name column_definition [FIRST | AFTER col_name];</div></pre></td></tr></table></figure>
+<p>有时候在定义完数据列之后，发现在定义上出现了问题，那么就可以通过修改列定义去更正</p>
+<p>比如现在我们通过查看 user 数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM user;</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                 | Null | Key | Default | Extra |</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">| id    | smallint(5) unsigned | NO   |     | NULL    |       |</div><div class="line">| name  | varchar(20)          | NO   |     | NULL    |       |</div><div class="line">| uid   | int(10) unsigned     | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned  | NO   |     | NULL    |       |</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">4 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>我们发现 age 这个字段没有默认值，并且现在我想让该字段位于 name 这个字段之后，那么我们就可以进行如下操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">mysql&gt; ALTER TABLE user MODIFY age TINYINT UNSIGNED DEFAULT 10 AFTER name;</div><div class="line">Query OK, 0 rows affected (0.45 sec)</div><div class="line">Records: 0  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SHOW COLUMNS FROM user;</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                 | Null | Key | Default | Extra |</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">| id    | smallint(5) unsigned | NO   |     | NULL    |       |</div><div class="line">| name  | varchar(20)          | NO   |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned  | YES  |     | 10      |       |</div><div class="line">| uid   | int(10) unsigned     | YES  |     | NULL    |       |</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">4 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>如果不想修改 age 字段的列定义，只是想移动 age 字段的位置的话，那么就需要把 age 字段原来的定义重新写一遍即可。</p>
+<p>这里需要十分注意的就是，如果将字段的类型从大类型改到小类型的话，有可能造成数据的丢失，所以在修改之前一定要注意这个问题。</p>
+<h3 id="修改列名称"><a href="#修改列名称" class="headerlink" title="修改列名称"></a>修改列名称</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE tbl_name CHANGE [COLUMN] old_col_name new_col_name column_definition [FIRST | AFTER col_name];</div></pre></td></tr></table></figure>
+<p>这里的 <code>CHANGE</code> 关键字除了可以修改列的名称，还可以修改列的定义，所以它的功能要大于 <code>MODIFY</code></p>
+<p>那么现在如果我们想把 uid 字段的名字更改为 u_id 并且把数据类型修改为 SMALLINT(无符号) ，那么就可以进行如下操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">mysql&gt; ALTER TABLE user CHANGE uid u_id SMALLINT UNSIGNED;</div><div class="line">Query OK, 0 rows affected (0.55 sec)</div><div class="line">Records: 0  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SHOW COLUMNS FROM user;</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                 | Null | Key | Default | Extra |</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">| id    | smallint(5) unsigned | NO   |     | NULL    |       |</div><div class="line">| name  | varchar(20)          | NO   |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned  | YES  |     | 10      |       |</div><div class="line">| u_id  | smallint(5) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+----------------------+------+-----+---------+-------+</div><div class="line">4 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>这里原先的 uid 字段已经更名为了 u_id 且数据类型也由原来的 INT 变为了 SMALLINT </p>
+<h3 id="修改数据表名"><a href="#修改数据表名" class="headerlink" title="修改数据表名"></a>修改数据表名</h3><p>修改数据表名字一共有两个方法，分别是使用 <code>ALTER</code> 和使用 ‘RENAME’ 来实现</p>
+<ul>
+<li><p>方法一</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE tbl_name RENAME [TO | AS] new_tbl_name;</div></pre></td></tr></table></figure>
+</li>
+<li><p>方法二</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RENAME TABLE tbl_name TO new_tbl_name [, tbl_name2 TO new_tbl_name2...];</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这里通过比较可以发现，方法一一次只能修改一张数据表的名字，但是方法二可以修改多张数据表的名字</p>
+<p>这里使用第一种方法修改 user 表的名字，将 user 更改为 users<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; ALTER TABLE user RENAME TO users;</div><div class="line">Query OK, 0 rows affected (0.14 sec)</div></pre></td></tr></table></figure></p>
+<p>这里，数据表的更名已经完成，如果要查看数据表的话，可以使用 <code>SHOW TABLES;</code> 进行查看。</p>
+<p>最后需要强调的是，<strong>在平常的开发过程中，应该尽量少的使用数据表的更名和数据列的更名，原因是如果我们曾经创建过索引等这些表明或列名被引用的操作的话，如果修改了列明或表明，可能会导致某些存储过程无法正常工作，所以这里建议不要随意更改数据表或数据列的名字</strong></p>
 ]]></content>
     
     <summary type="html">
