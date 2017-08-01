@@ -86,28 +86,25 @@
 
 
 
-<meta name="description" content="数据表
+<meta name="description" content="数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础
 
-数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础
-
-在数据表中，行称为记录，列称为字段">
+在数据表中，行称为记录，列称为字段
+打开数据库在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL 学习之数据表(一)">
 <meta property="og:url" content="http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="数据表
+<meta property="og:description" content="数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础
 
-数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础
-
-在数据表中，行称为记录，列称为字段">
-<meta property="og:updated_time" content="2017-08-01T07:10:18.982Z">
+在数据表中，行称为记录，列称为字段
+打开数据库在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义">
+<meta property="og:updated_time" content="2017-08-01T07:12:58.279Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 学习之数据表(一)">
-<meta name="twitter:description" content="数据表
+<meta name="twitter:description" content="数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础
 
-数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础
-
-在数据表中，行称为记录，列称为字段">
+在数据表中，行称为记录，列称为字段
+打开数据库在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义">
 
 
 
@@ -374,13 +371,12 @@
       
 
       
-        <p><strong>数据表</strong></p>
-<blockquote>
+        <blockquote>
 <p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
 </blockquote>
 <p>在数据表中，行称为记录，列称为字段</p>
-<a id="more"></a>
 <h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
 <p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
 <p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-01T07:10:17.279Z</updated>
+  <updated>2017-08-01T07:12:06.839Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,14 +20,13 @@
     <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%BA%8C)/"/>
     <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(二)/</id>
     <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-08-01T07:10:17.279Z</updated>
+    <updated>2017-08-01T07:12:06.839Z</updated>
     
-    <content type="html"><![CDATA[<p>本章主要涉及数据表的修改</p>
-<blockquote>
+    <content type="html"><![CDATA[<h1 id="数据表的修改"><a href="#数据表的修改" class="headerlink" title="数据表的修改"></a>数据表的修改</h1><blockquote>
 <p>数据表的修改操作无非就是列的增加、删除，约束的增加、删除</p>
 </blockquote>
 <a id="more"></a>
-<h1 id="数据表的修改"><a href="#数据表的修改" class="headerlink" title="数据表的修改"></a>数据表的修改</h1><h2 id="列的增加"><a href="#列的增加" class="headerlink" title="列的增加"></a>列的增加</h2><h3 id="添加单列"><a href="#添加单列" class="headerlink" title="添加单列"></a>添加单列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE tbl_name ADD [COLUMN] col_name column_definition [FIRST | AFTER col_name]</div></pre></td></tr></table></figure>
+<h2 id="列的增加"><a href="#列的增加" class="headerlink" title="列的增加"></a>列的增加</h2><h3 id="添加单列"><a href="#添加单列" class="headerlink" title="添加单列"></a>添加单列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE tbl_name ADD [COLUMN] col_name column_definition [FIRST | AFTER col_name]</div></pre></td></tr></table></figure>
 <p>e.g. 现在假设数据库内有一张表 person，person 的字段信息如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM person;</div><div class="line">+-------+-------------+------+-----+---------+----------------+</div><div class="line">| Field | Type        | Null | Key | Default | Extra          |</div><div class="line">+-------+-------------+------+-----+---------+----------------+</div><div class="line">| id    | int(11)     | NO   | PRI | NULL    | auto_increment |</div><div class="line">| name  | varchar(20) | YES  |     | NULL    |                |</div><div class="line">+-------+-------------+------+-----+---------+----------------+</div><div class="line">2 rows in set (0.33 sec)</div></pre></td></tr></table></figure></p>
 <p>现在需要在此基础上添加一个字段 age ，类型为 TINYINT(无符号)， 不为空且默认值为 10，操作如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt;  ALTER TABLE person ADD COLUMN age TINYINT UNSIGNED NOT NULL DEFAULT 10;</div><div class="line">Query OK, 0 rows affected (0.52 sec)</div><div class="line">Records: 0  Duplicates: 0  Warnings: 0`</div></pre></td></tr></table></figure></p>
 <p>现在再次查看 person 表的字段信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM person;</div><div class="line">+-------+---------------------+------+-----+---------+----------------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra          |</div><div class="line">+-------+---------------------+------+-----+---------+----------------+</div><div class="line">| id    | int(11)             | NO   | PRI | NULL    | auto_increment |</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |                |</div><div class="line">| age   | tinyint(3) unsigned | NO   |     | 10      |                |</div><div class="line">+-------+---------------------+------+-----+---------+----------------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
@@ -121,8 +120,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;本章主要涉及数据表的修改&lt;/p&gt;
-&lt;blockquote&gt;
+      &lt;h1 id=&quot;数据表的修改&quot;&gt;&lt;a href=&quot;#数据表的修改&quot; class=&quot;headerlink&quot; title=&quot;数据表的修改&quot;&gt;&lt;/a&gt;数据表的修改&lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;数据表的修改操作无非就是列的增加、删除，约束的增加、删除&lt;/p&gt;
 &lt;/blockquote&gt;
     
@@ -140,15 +138,14 @@
     <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
     <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
     <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-08-01T07:10:18.982Z</updated>
+    <updated>2017-08-01T07:12:58.279Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>数据表</strong></p>
-<blockquote>
+    <content type="html"><![CDATA[<blockquote>
 <p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
 </blockquote>
 <p>在数据表中，行称为记录，列称为字段</p>
-<a id="more"></a>
 <h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
 <p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
 <p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
@@ -172,11 +169,11 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;strong&gt;数据表&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
+      &lt;blockquote&gt;
 &lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
+&lt;h1 id=&quot;打开数据库&quot;&gt;&lt;a href=&quot;#打开数据库&quot; class=&quot;headerlink&quot; title=&quot;打开数据库&quot;&gt;&lt;/a&gt;打开数据库&lt;/h1&gt;&lt;p&gt;在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义&lt;/p&gt;
     
     </summary>
     

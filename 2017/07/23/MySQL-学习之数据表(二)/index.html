@@ -86,21 +86,18 @@
 
 
 
-<meta name="description" content="本章主要涉及数据表的修改
-
+<meta name="description" content="数据表的修改
 数据表的修改操作无非就是列的增加、删除，约束的增加、删除">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL 学习之数据表(二)">
 <meta property="og:url" content="http://yoursite.com/2017/07/23/MySQL-学习之数据表(二)/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
-<meta property="og:description" content="本章主要涉及数据表的修改
-
+<meta property="og:description" content="数据表的修改
 数据表的修改操作无非就是列的增加、删除，约束的增加、删除">
-<meta property="og:updated_time" content="2017-08-01T07:10:17.279Z">
+<meta property="og:updated_time" content="2017-08-01T07:12:06.839Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 学习之数据表(二)">
-<meta name="twitter:description" content="本章主要涉及数据表的修改
-
+<meta name="twitter:description" content="数据表的修改
 数据表的修改操作无非就是列的增加、删除，约束的增加、删除">
 
 
@@ -368,12 +365,11 @@
       
 
       
-        <p>本章主要涉及数据表的修改</p>
-<blockquote>
+        <h1 id="数据表的修改"><a href="#数据表的修改" class="headerlink" title="数据表的修改"></a>数据表的修改</h1><blockquote>
 <p>数据表的修改操作无非就是列的增加、删除，约束的增加、删除</p>
 </blockquote>
 <a id="more"></a>
-<h1 id="数据表的修改"><a href="#数据表的修改" class="headerlink" title="数据表的修改"></a>数据表的修改</h1><h2 id="列的增加"><a href="#列的增加" class="headerlink" title="列的增加"></a>列的增加</h2><h3 id="添加单列"><a href="#添加单列" class="headerlink" title="添加单列"></a>添加单列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE tbl_name ADD [COLUMN] col_name column_definition [FIRST | AFTER col_name]</div></pre></td></tr></table></figure>
+<h2 id="列的增加"><a href="#列的增加" class="headerlink" title="列的增加"></a>列的增加</h2><h3 id="添加单列"><a href="#添加单列" class="headerlink" title="添加单列"></a>添加单列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE tbl_name ADD [COLUMN] col_name column_definition [FIRST | AFTER col_name]</div></pre></td></tr></table></figure>
 <p>e.g. 现在假设数据库内有一张表 person，person 的字段信息如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM person;</div><div class="line">+-------+-------------+------+-----+---------+----------------+</div><div class="line">| Field | Type        | Null | Key | Default | Extra          |</div><div class="line">+-------+-------------+------+-----+---------+----------------+</div><div class="line">| id    | int(11)     | NO   | PRI | NULL    | auto_increment |</div><div class="line">| name  | varchar(20) | YES  |     | NULL    |                |</div><div class="line">+-------+-------------+------+-----+---------+----------------+</div><div class="line">2 rows in set (0.33 sec)</div></pre></td></tr></table></figure></p>
 <p>现在需要在此基础上添加一个字段 age ，类型为 TINYINT(无符号)， 不为空且默认值为 10，操作如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt;  ALTER TABLE person ADD COLUMN age TINYINT UNSIGNED NOT NULL DEFAULT 10;</div><div class="line">Query OK, 0 rows affected (0.52 sec)</div><div class="line">Records: 0  Duplicates: 0  Warnings: 0`</div></pre></td></tr></table></figure></p>
 <p>现在再次查看 person 表的字段信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM person;</div><div class="line">+-------+---------------------+------+-----+---------+----------------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra          |</div><div class="line">+-------+---------------------+------+-----+---------+----------------+</div><div class="line">| id    | int(11)             | NO   | PRI | NULL    | auto_increment |</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |                |</div><div class="line">| age   | tinyint(3) unsigned | NO   |     | 10      |                |</div><div class="line">+-------+---------------------+------+-----+---------+----------------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
