@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-01T07:07:35.898Z</updated>
+  <updated>2017-08-01T07:10:17.279Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,63 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>MySQL 学习之数据表(一)</title>
-    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)/"/>
-    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一)/</id>
-    <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-08-01T07:07:35.898Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>数据表</strong></p>
-<blockquote>
-<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
-</blockquote>
-<p>在数据表中，行称为记录，列称为字段</p>
-<a id="more"></a>
-<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
-<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
-<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
-<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
-<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="向数据表中插入记录"><a href="#向数据表中插入记录" class="headerlink" title="向数据表中插入记录"></a>向数据表中插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;val | expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
-<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
-<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
-<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
-<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
-<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
-<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="从数据表中查找记录"><a href="#从数据表中查找记录" class="headerlink" title="从数据表中查找记录"></a>从数据表中查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT expr, ... FROM tbl_name;</div></pre></td></tr></table></figure>
-<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;数据表&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
     <title>MySQL 学习之数据表(二)</title>
-    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%BA%8C)%20/"/>
-    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(二) /</id>
+    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%BA%8C)/"/>
+    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(二)/</id>
     <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-08-01T07:07:34.690Z</updated>
+    <updated>2017-08-01T07:10:17.279Z</updated>
     
     <content type="html"><![CDATA[<p>本章主要涉及数据表的修改</p>
 <blockquote>
@@ -177,6 +125,58 @@
 &lt;blockquote&gt;
 &lt;p&gt;数据表的修改操作无非就是列的增加、删除，约束的增加、删除&lt;/p&gt;
 &lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 学习之数据表(一)</title>
+    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
+    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
+    <published>2017-07-23T07:05:27.000Z</published>
+    <updated>2017-08-01T07:10:18.982Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>数据表</strong></p>
+<blockquote>
+<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
+</blockquote>
+<p>在数据表中，行称为记录，列称为字段</p>
+<a id="more"></a>
+<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
+<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
+<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
+<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
+<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="向数据表中插入记录"><a href="#向数据表中插入记录" class="headerlink" title="向数据表中插入记录"></a>向数据表中插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;val | expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
+<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
+<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
+<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
+<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
+<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
+<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="从数据表中查找记录"><a href="#从数据表中查找记录" class="headerlink" title="从数据表中查找记录"></a>从数据表中查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT expr, ... FROM tbl_name;</div></pre></td></tr></table></figure>
+<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;数据表&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
     
     </summary>
     
