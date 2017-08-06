@@ -98,7 +98,7 @@
 
 在数据表中，行称为记录，列称为字段
 打开数据库在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义">
-<meta property="og:updated_time" content="2017-08-03T14:04:01.238Z">
+<meta property="og:updated_time" content="2017-08-06T13:46:55.122Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 学习之数据表(一)">
 <meta name="twitter:description" content="数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础
@@ -407,8 +407,9 @@
 </li>
 </ul>
 <p>此方法可以将查询结果插入到指定数据表</p>
-<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
-<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT expr, ... FROM tbl_name;</div></pre></td></tr></table></figure>
+<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>单表删除 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM tbl_name [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
 <p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
 
       
