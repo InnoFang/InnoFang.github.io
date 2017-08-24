@@ -138,7 +138,7 @@
     <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
     <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
     <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-08-24T11:52:14.697Z</updated>
+    <updated>2017-08-24T12:04:37.811Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
@@ -180,7 +180,7 @@
 <h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
 <h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
 <p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-]]></content>
+<h2 id="WHERE-语句进行条件查询"><a href="#WHERE-语句进行条件查询" class="headerlink" title="WHERE 语句进行条件查询"></a>WHERE 语句进行条件查询</h2><h2 id="GROUP-BY-语句对结果进行分组"><a href="#GROUP-BY-语句对结果进行分组" class="headerlink" title="GROUP BY 语句对结果进行分组"></a>GROUP BY 语句对结果进行分组</h2><h2 id="HAVING-语句设置分组条件"><a href="#HAVING-语句设置分组条件" class="headerlink" title="HAVING 语句设置分组条件"></a>HAVING 语句设置分组条件</h2><h2 id="ORDER-BY-语句对查询结果进行排序"><a href="#ORDER-BY-语句对查询结果进行排序" class="headerlink" title="ORDER BY 语句对查询结果进行排序"></a>ORDER BY 语句对查询结果进行排序</h2><h2 id="LIMIT-语句限制查询数量"><a href="#LIMIT-语句限制查询数量" class="headerlink" title="LIMIT 语句限制查询数量"></a>LIMIT 语句限制查询数量</h2>]]></content>
     
     <summary type="html">
     
