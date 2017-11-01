@@ -3,6 +3,28 @@
 
 
     
+  <url>
+    <loc>http://yoursite.com/2017/03/08/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9B%9E%E8%B0%83/</loc>
+    <lastmod>2017-11-01T09:19:14.704Z</lastmod>
+    <data>
+        <display>
+        <title>从零开始的回调</title>
+        <pubTime>2017-03-08T07:30:45.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>回调</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://yoursite.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://yoursite.com/2017/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%85%AB-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</loc>
@@ -538,28 +560,6 @@
            
              
               <breadCrumb title="Android" url="http://yoursite.com/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/03/08/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9B%9E%E8%B0%83/</loc>
-    <lastmod>2017-03-10T04:57:44.000Z</lastmod>
-    <data>
-        <display>
-        <title>从零开始的回调</title>
-        <pubTime>2017-03-08T07:30:45.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-        <tag>回调</tag>
-         
-         
-           
-             
-              <breadCrumb title="Java" url="http://yoursite.com/categories/Java/"/>
           
         </display>
     </data>
