@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-01T07:12:06.839Z</updated>
+  <updated>2017-11-17T14:30:29.858Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,199 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>汇编语言学些笔记（一）：基础知识</title>
+    <link href="http://yoursite.com/2017/11/17/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%BA%9B%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>http://yoursite.com/2017/11/17/汇编语言学些笔记（一）：基础知识/</id>
+    <published>2017-11-17T14:28:14.000Z</published>
+    <updated>2017-11-17T14:30:29.858Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p><strong>学习参考：汇编语言（第2版）王爽</strong></p>
+</blockquote>
+<h1 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h1><blockquote>
+<p>CPU 是计算机的核心部件，控制整个计算机的运行并进行计算。<br>要让一个 CPU 工作，就必须向它提供指令和数据。指令和数据在存储器中存放，即平常所说的内存。<br>磁盘上的数据或程序要读到内存中才可以被 CPU 使用。</p>
+</blockquote>
+<h1 id="指令和数据"><a href="#指令和数据" class="headerlink" title="指令和数据"></a>指令和数据</h1><blockquote>
+<p>在内存或磁盘上，指令和数据没有任何区别，都是二进制信息。CPU 在工作时为同样的信息赋予了不同的意义。</p>
+</blockquote>
+<h1 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h1><blockquote>
+<p>存储器被划分成若干个存储单元，每个存储器单元从 0 开始顺序编号，如一个存储器有 128 个存储单元，编号从 0 到 127<br>微型机存储器的存储单元可以存储一个 Byte（1 字节 8 bit，即 8 个二进制位）。含有 128 个存储单元的存储器可以存储 128 个 Byte。</p>
+</blockquote>
+<h1 id="CPU-对存储器的读写"><a href="#CPU-对存储器的读写" class="headerlink" title="CPU 对存储器的读写"></a>CPU 对存储器的读写</h1><blockquote>
+<p>CPU 要从内存中读取数据，首先要指定存储单元的地址（即存储单元的编号）。<br>在一台微机中，不只有存储器一中起见。CPU 在读写数据时还要指明，它对哪一个器件进行操作，进行哪种操作，是从中读出数据，还是向里面写入数据</p>
+</blockquote>
+<p>CPU 要想进行数据的读写，必须和外部起见（标准说法是芯片）进行下面 3 类信息的交互</p>
+<ul>
+<li>存储单元的地址（地址信息）；</li>
+<li>起见的选择，读或写的命令（控制信息）；</li>
+<li>读或写的数据（数据信息）</li>
+</ul>
+<p> 在 CPU 中通过 <strong>总线</strong> 将地址、数据和控制信息传到存储器芯片中。</p>
+<p> 根据传送信息的不同，总线从逻辑上分为 3 类</p>
+<ul>
+<li>地址总线</li>
+<li>控制总线</li>
+<li>数据总线</li>
+</ul>
+<p>CPU 从 3 号单元中读取数据的过程</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljseen73zj30im0bnq3e.jpg" alt=""></p>
+<ol>
+<li>CPU 通过地址线将地址信息 3 发出</li>
+<li>CPU 通过控制线发出内存读命令，选中存储器芯片，并通知它，将要从中读取数据</li>
+<li>存储器将 3 号单元中的数据 8 通过数据线送入 CPU</li>
+</ol>
+<p>写操作与读操作的步骤类似。如向 3 号单元写入数据 26</p>
+<ol>
+<li>CPU 通过地址线将地址信息 3 发出</li>
+<li>CPU 通过控制线发出内存命令，选中存储器芯片，并通知它，要想其中写入数据</li>
+<li>CPU 通过数据线将数据 26 送入内存的 3 号单元中</li>
+</ol>
+<h1 id="地址总线"><a href="#地址总线" class="headerlink" title="地址总线"></a>地址总线</h1><blockquote>
+<p>CPU 通过地址总线来指定存储器单元。地址总线上能传送多少个不同的信息，CPU 就可以对多少个存储单元进行寻址。<br>一个 CPU 有 N 根地址线，则可以说这个 CPU 的地址总线的宽度为 N。这样的 CPU 最多可以寻找 2 的 N 次方个内存单元</p>
+</blockquote>
+<h1 id="数据总线"><a href="#数据总线" class="headerlink" title="数据总线"></a>数据总线</h1><blockquote>
+<p>CPU 与内存或其他器件之间的数据传送是通过数据总线来进行的。数据总线的宽度决定了 CPU 和外界的数据传送速度。8 根数据总线一次可传送一个 8 位二进制数据（即一个字节）。16 根数据总线一次可以传送两个字节。</p>
+</blockquote>
+<h1 id="控制总线"><a href="#控制总线" class="headerlink" title="控制总线"></a>控制总线</h1><blockquote>
+<p>CPU 对外部器件的控制是通过控制总线来进行的。在这里控制总线是一个总称，控制总线是一些不同控制线的集合。有多少个控制总线，就意味着 CPU 提供了对外部器件的多少种控制。所以，控制总线的宽度决定了 CPU 对外部器件的控制能力。</p>
+</blockquote>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol>
+<li>汇编指令是机器指令的助记符，同机器指令一一对应</li>
+<li>每一种 CPU 都有自己的汇编指令集</li>
+<li>CPU 可以直接使用的信息在存储器中存放</li>
+<li>在存储器中指令和数据没有任何区别，都是二进制信息</li>
+<li>存储单元从零开始顺序编号</li>
+<li>一个存储单元可以存储 8 个 bit，即 8 位二进制数，一个存储单元是一个字节</li>
+<li>1Byte = 8bit  1KB = 1024B  1MB = 1024KB  1GB = 1024MB（1GB = 2^30Byte, 1MB = 2^20Byte, 1KB = 2^10Byte）</li>
+<li>每一个 CPU 芯片都有许多管脚，这些管脚和总线相连。也可以说，这些管脚引出总线。一个 CPU 可以引出 3 种总线的宽度标志了这个 CPU 的不同方面的性能：<ul>
+<li>地址总线的宽度决定了 CPU 的寻址能力</li>
+<li>数据总线的宽度决定了 CPU 与其他器件进行数据传送时的一次数据传送量</li>
+<li>控制总线的宽度决定了 CPU 对系统中其他器件的控制能力</li>
+</ul>
+</li>
+<li>总线宽度 N 与寻址能力的关系： 寻址能力=2^N</li>
+<li>8 根数据总线一次可传送一个 8 位二进制数据（即一个字节），即宽度为 8 的数据总线读取 1024 字节的内容需要读 1024 次</li>
+</ol>
+<blockquote>
+<p>Q：一个 CPU 的寻址能力为 8 KB，那么它的地址总线的宽度为？<br>A：<br>8 KB = 1024 * 8 Byte = 8192 Byte<br>设地址总线宽度为 N，则内存单元个数为 2 的 N 次方个，即 N = log(2)(8192) = 13<br>所以宽度为 13</p>
+</blockquote>
+<h1 id="内存地址空间"><a href="#内存地址空间" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><blockquote>
+<p>举例来说，一个 CPU 的地址总线宽度为 10，那么可以寻址 1024 个内存单元，这 1024 个可寻到的内存单元就构成这个 CPU 的内存地址空间</p>
+</blockquote>
+<h1 id="主板"><a href="#主板" class="headerlink" title="主板"></a>主板</h1><blockquote>
+<p>每一台 PC 机中，都有一个主板，主板上有核心器件和一些主要器件，这些器件通过总线（地址总线、数据总线、控制总线）相连。这些器件有 CPU、存储器、外围芯片组、扩展插槽等。扩展插槽上一般插有 RAM 内存条和各类接口卡</p>
+</blockquote>
+<h1 id="接口卡"><a href="#接口卡" class="headerlink" title="接口卡"></a>接口卡</h1><blockquote>
+<p>接口卡直接控制外部设备，CPU 通过总线向接口卡发送命令，接口卡根据 CPU 的命令控制外设进行工作，从而实现 CPU 对外设的间接控制</p>
+</blockquote>
+<h1 id="各类存储器芯片"><a href="#各类存储器芯片" class="headerlink" title="各类存储器芯片"></a>各类存储器芯片</h1><p>从读写属性上看分为两类：</p>
+<ul>
+<li>随机存储器（RAM）：可读可写，但必须带电存储，关机后存储的内容丢失</li>
+<li>只读存储器（ROM）：只能读不能写入，关机后其中的内容buu’i不会丢失</li>
+</ul>
+<p>从功能和连接上可分为一下几类：</p>
+<ul>
+<li>随机存储器<ul>
+<li>存放供 CPU 使用的绝大部分程序和数据</li>
+<li>主随机存储器由装在主板上 RAM 和插在扩展插槽上的 RAM 组成</li>
+</ul>
+</li>
+<li>装有 BIOS 的 ROM</li>
+<li>接口卡上的 RAM</li>
+</ul>
+<h1 id="内存地址空间-1"><a href="#内存地址空间-1" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><p>上述的那些存储器，在物理上是独立的器件，但是在以下两点两点上相同：</p>
+<ul>
+<li>都和 CPU 的总线相连</li>
+<li>CPU 对它们进行读或写的时候都通过控制线发出内存读写命令</li>
+</ul>
+<blockquote>
+<p>对 CPU 来讲，系统中的所有存储器中的存储单元都处于一个统一的逻辑存储器中，它的容量受 CPU 寻址能力的限制。这个逻辑存储器即是我们所说的内存地址空间</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;学习参考：汇编语言（第2版）王爽&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;存储器&quot;&gt;&lt;a href=&quot;#存储器&quot; class=&quot;headerlink&quot; title=&quot;存储器&quot;&gt;&lt;/a&gt;存储器&lt;/h1&gt;&lt;
+    
+    </summary>
+    
+      <category term="汇编语言" scheme="http://yoursite.com/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+    
+      <category term="汇编语言" scheme="http://yoursite.com/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 学习之数据表(一)</title>
+    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
+    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
+    <published>2017-07-23T07:05:27.000Z</published>
+    <updated>2017-08-24T12:04:37.811Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
+</blockquote>
+<p>在数据表中，行称为记录，列称为字段</p>
+<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
+<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
+<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
+<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
+<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="插入记录"><a href="#插入记录" class="headerlink" title="插入记录"></a>插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
+<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
+<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
+<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
+<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
+<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
+<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>以上，基本就是向 MySQL 数据表中插入数据的基本操作了。</p>
+<h2 id="其他记录插入方式"><a href="#其他记录插入方式" class="headerlink" title="其他记录插入方式"></a>其他记录插入方式</h2><p>其实除了使用 INSERT 来插入数据 还可以使用 INSERT SET 或者 INSERT SELECT 来插入数据</p>
+<ul>
+<li><strong>INSERT SET</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name SET col_name=&#123;expr | DEFAULT&#125;, ...</div></pre></td></tr></table></figure>
+<p>使用这种方式与第一种方式的区别在于，此方法可以使用子查询 (SubQuery)，除此之外，第一种方式可以一次性插入多条记录，而这种方式一次只能添加一条记录</p>
+<p>e.g. 使用 INSERT SET 的方式想数据表中添加一条数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 SET name=&apos;Bob&apos;, age=&apos;24&apos;;</div><div class="line">Query OK, 1 row affected (0.08 sec)</div></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>INSERT SELECT</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] SELECT ...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此方法可以将查询结果插入到指定数据表</p>
+<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>单表删除 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM tbl_name [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
+<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="WHERE-语句进行条件查询"><a href="#WHERE-语句进行条件查询" class="headerlink" title="WHERE 语句进行条件查询"></a>WHERE 语句进行条件查询</h2><h2 id="GROUP-BY-语句对结果进行分组"><a href="#GROUP-BY-语句对结果进行分组" class="headerlink" title="GROUP BY 语句对结果进行分组"></a>GROUP BY 语句对结果进行分组</h2><h2 id="HAVING-语句设置分组条件"><a href="#HAVING-语句设置分组条件" class="headerlink" title="HAVING 语句设置分组条件"></a>HAVING 语句设置分组条件</h2><h2 id="ORDER-BY-语句对查询结果进行排序"><a href="#ORDER-BY-语句对查询结果进行排序" class="headerlink" title="ORDER BY 语句对查询结果进行排序"></a>ORDER BY 语句对查询结果进行排序</h2><h2 id="LIMIT-语句限制查询数量"><a href="#LIMIT-语句限制查询数量" class="headerlink" title="LIMIT 语句限制查询数量"></a>LIMIT 语句限制查询数量</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
+&lt;h1 id=&quot;打开数据库&quot;&gt;&lt;a href=&quot;#打开数据库&quot; class=&quot;headerlink&quot; title=&quot;打开数据库&quot;&gt;&lt;/a&gt;打开数据库&lt;/h1&gt;&lt;p&gt;在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL 学习之数据表(二)</title>
@@ -123,72 +316,6 @@
       &lt;h1 id=&quot;数据表的修改&quot;&gt;&lt;a href=&quot;#数据表的修改&quot; class=&quot;headerlink&quot; title=&quot;数据表的修改&quot;&gt;&lt;/a&gt;数据表的修改&lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;数据表的修改操作无非就是列的增加、删除，约束的增加、删除&lt;/p&gt;
 &lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL 学习之数据表(一)</title>
-    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
-    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
-    <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-08-24T12:04:37.811Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
-</blockquote>
-<p>在数据表中，行称为记录，列称为字段</p>
-<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
-<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
-<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
-<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
-<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="插入记录"><a href="#插入记录" class="headerlink" title="插入记录"></a>插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
-<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
-<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
-<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
-<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
-<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
-<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>以上，基本就是向 MySQL 数据表中插入数据的基本操作了。</p>
-<h2 id="其他记录插入方式"><a href="#其他记录插入方式" class="headerlink" title="其他记录插入方式"></a>其他记录插入方式</h2><p>其实除了使用 INSERT 来插入数据 还可以使用 INSERT SET 或者 INSERT SELECT 来插入数据</p>
-<ul>
-<li><strong>INSERT SET</strong></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name SET col_name=&#123;expr | DEFAULT&#125;, ...</div></pre></td></tr></table></figure>
-<p>使用这种方式与第一种方式的区别在于，此方法可以使用子查询 (SubQuery)，除此之外，第一种方式可以一次性插入多条记录，而这种方式一次只能添加一条记录</p>
-<p>e.g. 使用 INSERT SET 的方式想数据表中添加一条数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 SET name=&apos;Bob&apos;, age=&apos;24&apos;;</div><div class="line">Query OK, 1 row affected (0.08 sec)</div></pre></td></tr></table></figure></p>
-<ul>
-<li><strong>INSERT SELECT</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] SELECT ...</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>此方法可以将查询结果插入到指定数据表</p>
-<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>单表删除 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM tbl_name [WHERE where_condition]</div></pre></td></tr></table></figure></p>
-<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
-<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
-<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="WHERE-语句进行条件查询"><a href="#WHERE-语句进行条件查询" class="headerlink" title="WHERE 语句进行条件查询"></a>WHERE 语句进行条件查询</h2><h2 id="GROUP-BY-语句对结果进行分组"><a href="#GROUP-BY-语句对结果进行分组" class="headerlink" title="GROUP BY 语句对结果进行分组"></a>GROUP BY 语句对结果进行分组</h2><h2 id="HAVING-语句设置分组条件"><a href="#HAVING-语句设置分组条件" class="headerlink" title="HAVING 语句设置分组条件"></a>HAVING 语句设置分组条件</h2><h2 id="ORDER-BY-语句对查询结果进行排序"><a href="#ORDER-BY-语句对查询结果进行排序" class="headerlink" title="ORDER BY 语句对查询结果进行排序"></a>ORDER BY 语句对查询结果进行排序</h2><h2 id="LIMIT-语句限制查询数量"><a href="#LIMIT-语句限制查询数量" class="headerlink" title="LIMIT 语句限制查询数量"></a>LIMIT 语句限制查询数量</h2>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
-&lt;h1 id=&quot;打开数据库&quot;&gt;&lt;a href=&quot;#打开数据库&quot; class=&quot;headerlink&quot; title=&quot;打开数据库&quot;&gt;&lt;/a&gt;打开数据库&lt;/h1&gt;&lt;p&gt;在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义&lt;/p&gt;
     
     </summary>
     
@@ -1834,98 +1961,6 @@
     
     
       <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>从零开始的回调</title>
-    <link href="http://yoursite.com/2017/03/08/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9B%9E%E8%B0%83/"/>
-    <id>http://yoursite.com/2017/03/08/从零开始的回调/</id>
-    <published>2017-03-08T07:30:45.000Z</published>
-    <updated>2017-11-01T09:19:14.704Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="关于回调，先讲个例子"><a href="#关于回调，先讲个例子" class="headerlink" title="关于回调，先讲个例子"></a>关于回调，先讲个例子</h2><p>假如现在你有一家鞋店，生意十分红火，每天来买鞋的客人络绎不绝。为了照顾生意，你招聘了一名店员——小王来帮忙。那么现在，有一名客人挑中了一双鞋，但是这时货架上符合客人的鞋码没有了，所以你打算叫小王去库房去符合客人鞋码的鞋子过来，然后你继续去招呼其他客人。</p>
-<a id="more"></a>
-<p>好，例子讲完了。下面分析一下这个例子，我们有几个主体：</p>
-<ul>
-<li>主体一：老板（ 你 ）</li>
-<li>主体二：店员（小王）</li>
-</ul>
-<p>接下来分析一下这个例子的主要事件，</p>
-<ul>
-<li>老板叫店员去做事</li>
-</ul>
-<p>这个做事可以是去库房取鞋，也可以是打杂等工作，也就是说，这个老板叫店员去做的事是完全可以抽象出来</p>
-<p>那么老板，店员，叫店员做事之间就大致可以用下面的关系描述</p>
-<p><img src="http://p1.bqimg.com/567571/945a59c5558ee93f.png" alt=""></p>
-<p>上面这个例子就是一个生活中十分常见的回调过程：</p>
-<blockquote>
-<p><code>老板</code>调用<code>小王</code>的<code>工作</code>方法，<code>小王</code>再反过来调用<code>老板</code>让他<code>具体做的事</code>,其中老板叫店员具体做的事就是一个回调方法 </p>
-</blockquote>
-<p>其实这个过程更通俗的讲，就是老板叫了小王一声，小王跑过来看看老板有什么吩咐，然后根据吩咐去做事</p>
-<p>那么经过这个简单但是常见的例子过后，就可以用代码具体实现一下这个过程了</p>
-<h2 id="回调的简单实现"><a href="#回调的简单实现" class="headerlink" title="回调的简单实现"></a>回调的简单实现</h2><p>根据上面对例子的分析，首先需要将这个 叫店员去做的事  抽象出来作为一个接口，这里就直接将接口命名为<code>CallBack</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 这是一个叫店员做事的接口</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CallBack</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">call</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后创建<code>Boss</code>类，并实现该接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Boss</span> <span class="keyword">implements</span> <span class="title">CallBack</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> Wang wang;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Boss</span><span class="params">(Wang wang)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.wang = wang;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doThings</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">			System.out.println(<span class="string">"招呼客人"</span>);</div><div class="line">			<span class="keyword">if</span> (i == <span class="number">5</span>) &#123; <span class="comment">// 没鞋了，叫小王去拿鞋</span></div><div class="line">				wang.doWork(<span class="keyword">this</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">    </div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"小王去库房拿鞋"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>那么对于店员 <code>小王</code>类的实现就更简单了，只需要照着老板说的做就好了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wang</span>  </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doWork</span><span class="params">(CallBack callBack)</span> </span>&#123;</div><div class="line">	    <span class="comment">// 回调老板让做的事情</span></div><div class="line">		callBack.call();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>测试的话，只需要分别new出各自的对象，并调用老板那个招呼客人的方法就可以了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Wang wang = <span class="keyword">new</span> Wang();</div><div class="line">		Boss boss = <span class="keyword">new</span> Boss(wang);</div><div class="line">		boss.doThings();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="为什么需要回调？"><a href="#为什么需要回调？" class="headerlink" title="为什么需要回调？"></a>为什么需要回调？</h2><p>上面讲了什么是回调以及回调的简单实现，但是如果你是第一次接触这个，可能就会问为什么需要回调？不要可以吗？</p>
-<p>对于这个问题，还是拿上面鞋店的例子来解释好了，如果你不采用回调就有可能面临这样的窘境：</p>
-<p>现在来了一个客人，他挑中了一双鞋，但是现在这个鞋码的鞋在鞋架上已经没有了，这时你叫小王到库房去找这类鞋码的鞋，但是你不知道他拿到了鞋子没有，这时，你就要主动去库房问小王，你找到鞋了吗？小王回复说，还在找。然后你回去招呼其他客人，但是过了一会，你又去库房问小王有没有找到鞋，小王回复说，快了。又过了一会儿，你又去问，小王又回复：马上就找到了… …，经过几次询问小王终于找到了鞋，然后你把鞋拿来再去给客人穿。</p>
-<p>你会发现这中处理事情的过程其实是不妥的，或许当你拿到鞋的那一刻，客人都已经走了。那么回调就是用来解决这个问题的</p>
-<p>利用回调，老板只需要叫小王自己去找即可，自己继续去招呼其他客人，当小王找到鞋过后，他就会自己把鞋拿过来，完全不需要你自己去询问然后自己把鞋子拿来，你可以继续去执行你自己的逻辑，两边都不会耽误</p>
-<h2 id="回调的应用"><a href="#回调的应用" class="headerlink" title="回调的应用"></a>回调的应用</h2><p>上面讲了很多，下面就来看看在实际开发当中如何使用回调</p>
-<h3 id="案例一：给-RecyclerView-的-item-添加点击事件"><a href="#案例一：给-RecyclerView-的-item-添加点击事件" class="headerlink" title="案例一：给 RecyclerView 的 item 添加点击事件"></a>案例一：给 RecyclerView 的 item 添加点击事件</h3><blockquote>
-<p>因为本文主要是讲解如何使用回调，所以这里就不解释如何使用RecyclerView了</p>
-</blockquote>
-<p>在平常使用 RecyclerView 的时候，我们发现其实 RecyclerView 是没有给 item 设置点击事件的，但是我们肯定是需要这个功能的，那么怎么办呢？其实这个点击事件是可以利用回调实现的</p>
-<p>下面直接上代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClickAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">ClickAdapter</span>.<span class="title">ViewHolder</span>&gt;</span>&#123;</div><div class="line">    <span class="comment">// . . .</span></div><div class="line">    <span class="keyword">private</span> OnClickItemListener mOnClickItemListener;</div><div class="line">  </div><div class="line">    <span class="comment">/*设置接口实例*/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnClickItemListener</span><span class="params">(OnClickItemListener onClickItemListener)</span> </span>&#123;</div><div class="line">        mOnClickItemListener = onClickItemListener;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*加载RecyclrView的item视图*/</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123; . . . &#125;</div><div class="line">    <span class="comment">/*绑定视图*/</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(ViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123; . . . &#125;</div><div class="line">    <span class="comment">/*获得item个数*/</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123; . . . &#125;</div><div class="line">    <span class="comment">/*ViewHolder逻辑*/</span></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">// ...</span></div><div class="line">        <span class="comment">// 视图控件初始化</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ViewHolder</span><span class="params">(View itemView)</span> </span>&#123; . . . &#125;</div><div class="line">        <span class="comment">/*绑定视图方法，在Adapter的onBindViewHolder中调用*/</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindHolder</span><span class="params">(<span class="keyword">final</span> String text)</span> </span>&#123;</div><div class="line">            mTextView.setText(text);</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != mOnClickItemListener) &#123;</div><div class="line">                itemView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                        <span class="comment">/*回调方法*/</span></div><div class="line">                        mOnClickItemListener.onClick(text);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*回调接口*/</span></div><div class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">OnClickItemListener</span></span>&#123;</div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(String text)</span></span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>代码很长，但是大部分都是关于 RecyclerView 的 Adapter 和 ViewHolder 的编写，符合点击事件回调的逻辑其实并不长，所以，在上面代码中，只需要关注下面几点就可以了</p>
-<ul>
-<li><code>private OnClickItemListener mOnClickItemListener;</code> 接口实例</li>
-<li><code>setOnClickItemListener(OnClickItemListener onClickItemListener)</code> 设置接口实例</li>
-<li>ViewHolder 中的 bindHolder    (在这里接收一个从 Adapter中onBindViewHolder 中传来的 String 参数，用于设置视图内容，这一点也可以不看)</li>
-<li><code>OnClickItemListener</code> 回调接口</li>
-</ul>
-<p>可以看到，这里将接口写在 Adapter 的内部，因为大部分情况，接口点击需要参数都不一样，所以一般都会写在 Adapter 的内部</p>
-<p>所以如果除去关于 RecyclerView的Adapter 和 ViewHolder 的编写，那么剩下的逻辑无非就是：</p>
-<ul>
-<li>创建内部接口</li>
-<li>定义接口实例</li>
-<li>设置接口实例的 setter 方法</li>
-<li>在点击事件中进行回调</li>
-</ul>
-<p>如果你在疑惑为什么要在 itemView 的点击事件中进行回调，那么可以这么想，itemView 其实是一个子 item 布局加载后产生的 view，view 都是有默认点击事件的，但是这个点击事件无法传递我们想要的参数，所以我们就可以借助这个 itemView 的点击事件，在该点击事件中进行回调</p>
-<p>如果想要使用这个回调，那么就可以想之前给Button设置点击事件那样使用这个回调<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">List&lt;String&gt; strings = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"><span class="comment">/*实例化Adapter*/</span></div><div class="line">ClickAdapter adapter = <span class="keyword">new</span> ClickAdapter(<span class="keyword">this</span>, strings);</div><div class="line"><span class="comment">/*数据初始化*/</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">100</span>; i++) &#123;</div><div class="line">    strings.add(<span class="string">"Hello, I am "</span> + i);</div><div class="line">&#125;</div><div class="line"><span class="comment">/*初始化RecyclerView*/</span></div><div class="line">RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);</div><div class="line">recyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>));</div><div class="line">recyclerView.setAdapter(adapter);</div><div class="line"><span class="comment">/*为RecyclerView的item设置点击事件*/</span></div><div class="line">adapter.setOnClickItemListener(<span class="keyword">new</span> ClickAdapter.OnClickItemListener() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(String text)</span> </span>&#123;</div><div class="line">        Toast.makeText(ClickRecyclerViewActivity.<span class="keyword">this</span>, text, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>测试运行，点击第二个item，效果如下：</p>
-<p><img src="http://p1.bpimg.com/567571/95011a7b0ddcdee1.png" height="500px" width="300px"></p>
-<blockquote>
-<p><strong>PS</strong> 这里只是举个例子，其实更好的给 RecyclerView 设置点击事件的方式是实现 RecyclerView 的 OnItemTouchListener，代码可以参考<a href="https://github.com/InnoFang/Android-Code-Demos/blob/master/RecyclerViewDemo/app/src/main/java/com/innofang/recyclerviewdemo/helper/OnRecyclerItemClickListener.java" target="_blank" rel="external">这里</a></p>
-</blockquote>
-<h3 id="案例二：在子线程中加载网络图片并显示在IamgeView中"><a href="#案例二：在子线程中加载网络图片并显示在IamgeView中" class="headerlink" title="案例二：在子线程中加载网络图片并显示在IamgeView中"></a>案例二：在子线程中加载网络图片并显示在IamgeView中</h3><p>在平常的开发中，加载网络图片要在子线程中操作是常识，但是当加载完图片资源过后，返回的bitmap如何传递给主线程中的ImageView就成了一个问题。那么此时使用回调就是一个很好的解决方式。</p>
-<p>先上代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadeIamge</span><span class="params">(<span class="keyword">final</span> String url, <span class="keyword">final</span> LoadeImageListener listener)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                InputStream is = <span class="keyword">null</span>;</div><div class="line">                BufferedInputStream bis = <span class="keyword">null</span>;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    HttpURLConnection connection = (HttpURLConnection) <span class="keyword">new</span> URL(url).openConnection();</div><div class="line">                    connection.setConnectTimeout(<span class="number">5000</span>);</div><div class="line">                    connection.connect();</div><div class="line">                    is = connection.getInputStream();</div><div class="line">                    bis = <span class="keyword">new</span> BufferedInputStream(is);</div><div class="line">                    listener.onLoadeImageListener(BitmapFactory.decodeStream(bis));</div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;<span class="keyword">finally</span> &#123;</div><div class="line">                    CloseUtil.closeQuietly(is);</div><div class="line">                    CloseUtil.closeQuietly(bis);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LoadeImageListener</span> </span>&#123;</div><div class="line">         <span class="function"><span class="keyword">void</span> <span class="title">onLoadeImageListener</span><span class="params">(Bitmap bitmap)</span></span>;</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>跟案例一进行对比，可以发现这个案例的逻辑和代码相较案例一更简洁</p>
-<p>上面的代码就是一个加载网络图片的工具类，可以发现在这里，没有定义接口实例，也没有定义接口实例的 setter 方法，而是直接用调用者那里传来的接口实例进行操作</p>
-<p>通过 Android 自带的 HttpURLConnection 获取 url 的内容，然后转化为 bitmap，当这一过程完成过后，就可以将 biatmap 回调给调用者了</p>
-<p>下面来看看调用者的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> ImageView imageView = (ImageView) findViewById(R.id.image_view);</div><div class="line"></div><div class="line">       ImageUtil.loadeIamge(IMG_URL, <span class="keyword">new</span> ImageUtil.LoadeImageListener() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoadImageListener</span><span class="params">(<span class="keyword">final</span> Bitmap bitmap)</span> </span>&#123;</div><div class="line">               LoadImageActivity.<span class="keyword">this</span>.runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                   <span class="meta">@Override</span></div><div class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                       imageView.setImageBitmap(bitmap);</div><div class="line">                   &#125;</div><div class="line">               &#125;);</div><div class="line">           &#125;</div><div class="line">       &#125;);</div></pre></td></tr></table></figure></p>
-<p>IMG_URL 是一个静态字符串常量，这里直接调用了 ImageUtil的loadeImage 方法，采用了匿名内部类的方式将接口的具体是实现传递给了 loadeImage，并且利用回调过来的 bitmap 直接设置给 imageView，整个代码看起来更加的简洁。</p>
-<p>效果图就不上啦~~</p>
-<p>需要源代码请看这里 –&gt; <a href="https://github.com/InnoFang/Android-Code-Demos/tree/master/CallBackDemo" target="_blank" rel="external">CallBackDemo</a></p>
-<p>END.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;关于回调，先讲个例子&quot;&gt;&lt;a href=&quot;#关于回调，先讲个例子&quot; class=&quot;headerlink&quot; title=&quot;关于回调，先讲个例子&quot;&gt;&lt;/a&gt;关于回调，先讲个例子&lt;/h2&gt;&lt;p&gt;假如现在你有一家鞋店，生意十分红火，每天来买鞋的客人络绎不绝。为了照顾生意，你招聘了一名店员——小王来帮忙。那么现在，有一名客人挑中了一双鞋，但是这时货架上符合客人的鞋码没有了，所以你打算叫小王去库房去符合客人鞋码的鞋子过来，然后你继续去招呼其他客人。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Java" scheme="http://yoursite.com/categories/Java/"/>
-    
-    
-      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
-    
-      <category term="回调" scheme="http://yoursite.com/tags/%E5%9B%9E%E8%B0%83/"/>
     
   </entry>
   
