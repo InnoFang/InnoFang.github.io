@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-11-19T05:24:50.676Z</updated>
+  <updated>2017-11-19T05:25:44.949Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,11 +20,22 @@
     <link href="http://yoursite.com/2017/11/19/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8%EF%BC%88%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%EF%BC%89/"/>
     <id>http://yoursite.com/2017/11/19/汇编语言学习笔记（三）：寄存器（内存访问）/</id>
     <published>2017-11-19T05:23:40.000Z</published>
-    <updated>2017-11-19T05:24:50.676Z</updated>
+    <updated>2017-11-19T05:25:44.949Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>学习参考：汇编语言（第2版）王爽</p>
 </blockquote>
+<ul>
+<li>内存中字的存储</li>
+<li>DS 和 [address]</li>
+<li>mov、add、sub 指令</li>
+<li>小结</li>
+<li>CPU 提供的栈机制</li>
+<li>push、pop 指令 </li>
+<li><p>小结</p>
+<a id="more"></a>
+</li>
+</ul>
 <h1 id="内存中字的存储"><a href="#内存中字的存储" class="headerlink" title="内存中字的存储"></a>内存中字的存储</h1><blockquote>
 <p>字单元的概念：字单元，即存放一个字形数据（16 位）的内存单元，由两个地址连续的内存单元组成。高地址内存单元中存放字形数据的高位字节，低地址内存单元中存放字形数据的低位字节</p>
 <p>我们将起始地址为 N 的字单元简称为 N 地址字单元。比如一个字单元由 2、3 两个内存单元组成，则这个字单元的起始地址为 2，我们可以说这是 2 地址字单元。</p>
@@ -129,7 +140,14 @@
       &lt;blockquote&gt;
 &lt;p&gt;学习参考：汇编语言（第2版）王爽&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&quot;内存中字的存储&quot;&gt;&lt;a href=&quot;#内存中字的存储&quot; class=&quot;headerlink&quot; title=&quot;内存中字的存储&quot;&gt;&lt;/a&gt;内存中字的存储&lt;/h1&gt;&lt;b
+&lt;ul&gt;
+&lt;li&gt;内存中字的存储&lt;/li&gt;
+&lt;li&gt;DS 和 [address]&lt;/li&gt;
+&lt;li&gt;mov、add、sub 指令&lt;/li&gt;
+&lt;li&gt;小结&lt;/li&gt;
+&lt;li&gt;CPU 提供的栈机制&lt;/li&gt;
+&lt;li&gt;push、pop 指令 &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;小结&lt;/p&gt;
     
     </summary>
     
