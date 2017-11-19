@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-11-18T05:57:06.382Z</updated>
+  <updated>2017-11-19T05:24:50.676Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,131 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>汇编语言学习笔记（三）：寄存器（内存访问）</title>
+    <link href="http://yoursite.com/2017/11/19/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8%EF%BC%88%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%EF%BC%89/"/>
+    <id>http://yoursite.com/2017/11/19/汇编语言学习笔记（三）：寄存器（内存访问）/</id>
+    <published>2017-11-19T05:23:40.000Z</published>
+    <updated>2017-11-19T05:24:50.676Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>学习参考：汇编语言（第2版）王爽</p>
+</blockquote>
+<h1 id="内存中字的存储"><a href="#内存中字的存储" class="headerlink" title="内存中字的存储"></a>内存中字的存储</h1><blockquote>
+<p>字单元的概念：字单元，即存放一个字形数据（16 位）的内存单元，由两个地址连续的内存单元组成。高地址内存单元中存放字形数据的高位字节，低地址内存单元中存放字形数据的低位字节</p>
+<p>我们将起始地址为 N 的字单元简称为 N 地址字单元。比如一个字单元由 2、3 两个内存单元组成，则这个字单元的起始地址为 2，我们可以说这是 2 地址字单元。</p>
+</blockquote>
+<p>举例来说，下面有一个内存中字的存储<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">  |-----|</div><div class="line">0 | 20H |</div><div class="line">  |-----|</div><div class="line">1 | 4EH |</div><div class="line">  |-----|</div><div class="line">2 | 12H |</div><div class="line">  |-----|</div><div class="line">3 | 00H |</div><div class="line">  |-----|</div><div class="line">4 |     |</div><div class="line">  |-----|</div></pre></td></tr></table></figure></p>
+<p>对 0 地址字单元来说，0 号单元是低地址单元，1 号单元是高地址单元，则字型数据 4E20H 的低位字节存放在 0 号单元中，高位字节存放在 1 号单元中。</p>
+<ul>
+<li>0 地址单元中存放的字节型数据是 20H</li>
+<li>0 地址字单元中存放的字型数据是 4E20H</li>
+<li>…</li>
+</ul>
+<p>综上，任何两个地址连续的内存单元，N 号单元和 N+1 号单元，可以将它们看成两个内存单元，也可以看成一个地址为 N 的字单元中的高位字节单元和低位字节单元</p>
+<h1 id="DS-和-address"><a href="#DS-和-address" class="headerlink" title="DS 和 [address]"></a>DS 和 [address]</h1><blockquote>
+<p>DS 寄存器，通常用来存放要访问数据的段地址</p>
+</blockquote>
+<p>比如我们要读取 10000H 单元的内容，可以用如下的程序段进行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mov bx,1000H</div><div class="line">mov ds,bx</div><div class="line">mov al,[0]</div></pre></td></tr></table></figure>
+<p>上面三条指令将 10000H (1000:0) 中的数据读到 al 中</p>
+<p>下面详细说明指令的含义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mov al,[0]</div></pre></td></tr></table></figure></p>
+<p>使用 mov 指令讲一个内存单元的内容送入一个寄存器中。</p>
+<blockquote>
+<p>“[…]” 表示一个内存单元，“[…]” 中的 0 表示内存单元的偏移地址。但是只有偏移地址是不能定位一个内存单元的，那么内存单元的段地址是在指令执行时，8086CPU 自动取 ds 中的数据为内存单元的段地址。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mov bx,1000H</div><div class="line">mov ds,bx</div></pre></td></tr></table></figure>
+<p><strong>*如何用 mov 指令从 10000H 中读取数据？</strong><br>10000H 用段地址和偏移地址表示为 1000:0，我们先将 1000H 放入 ds，然后用 <code>mov al,[0]</code> 完成传送。若要用该指令完成数据从 1000:0 单元到 al 的传送，这条指令执行时，ds 中的内容应为段地址 1000H，所以在这条指令之前应该将 1000H 送入 ds</p>
+<p><strong>如何把一个数据送入寄存器？</strong></p>
+<p>8086CPU 不支持直接将数据送入段寄存器的操作，ds 是一个段寄存器，所以 <code>mov ds,1000H</code> 这条指令是非法的。所以，只好使用一个寄存器进行中转，即先将 1000H 送入一个一般的寄存器，如 bx，再将 bx 中的内容送入 ds。</p>
+<p>Q:写几条指令，将 al 中的数据送入内存单元 10000H 中<br>A:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mov bx,1000H</div><div class="line">mov ds,bx</div><div class="line">mov [0],al</div></pre></td></tr></table></figure></p>
+<h1 id="mov、add、sub-指令"><a href="#mov、add、sub-指令" class="headerlink" title="mov、add、sub 指令"></a>mov、add、sub 指令</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">mov 寄存器,数据          比如:mov ax,8</div><div class="line">mov 寄存器,寄存器        比如:mov ax,bx</div><div class="line">mov 寄存器,内存单元      比如:mov ax,[0]</div><div class="line">mov 内存单元,寄存器      比如:mov [0],ax</div><div class="line">mov 寄存器,内存单元      比如:mov ax,[0]</div><div class="line">mov 段寄存器,寄存器      比如:mov ds,ax</div><div class="line">mov 寄存器,段寄存器      比如:mov ax,ds</div><div class="line">mov 段寄存器,内存单元    比如:mov ds,[0]</div><div class="line"></div><div class="line"></div><div class="line">add 寄存器,数据          比如:add ax,8</div><div class="line">add 寄存器,寄存器        比如:add ax,bx</div><div class="line">add 寄存器,内存单元      比如:add ax,[0]</div><div class="line">add 内存单元,寄存器      比如:add [0],ax</div><div class="line"></div><div class="line"></div><div class="line">sub 寄存器,数据          比如:sub ax,9</div><div class="line">sub 寄存器,寄存器        比如:sub ax,bx</div><div class="line">sub 寄存器,内存单元      比如:sub ax,[0]</div><div class="line">sub 内存单元,寄存器      比如:sub [0],ax</div></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol>
+<li>字在内存中存储时，要用两个地址连续的内存单元来存放，字的低位字节存放在低地址单元中，高位字节存放在高地址单元中</li>
+<li>用 mov 指令访问内存单元，可以在 mov 指令中只给出单元的偏移地址，此时，段地址默认在 DS 寄存器中</li>
+<li>[address] 表示一个偏移地址为 address 的内存单元</li>
+<li>在内存和寄存器之间传送字形数据时，高地址单元和高 8 位寄存器、低地址单元和低 8 位寄存器相对应</li>
+<li>mov、add、sub 是具有两个操作对象的指令。jmp 是具有一个操作对象的指令</li>
+<li>可以根据自己的推测，在 Debug 中实验指令的新格式</li>
+</ol>
+<h1 id="CPU-提供的栈机制"><a href="#CPU-提供的栈机制" class="headerlink" title="CPU 提供的栈机制"></a>CPU 提供的栈机制</h1><blockquote>
+<p>在基于 8086CPU 编程的时候，可以将一段内存当作栈来使用。8086CPU 提供入栈和出栈指令，最基本的两个是 PUSH（入栈）和 POP （出栈）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">push ax     ;表示将寄存器 ax 中的数据送入栈中</div><div class="line">pop ax      ;表示从栈顶取出数据送入 ax</div></pre></td></tr></table></figure>
+<p><strong>8086CPU 的入栈和出栈操作都是以字为单位进行的</strong></p>
+<p>Q：CPU 如何知道栈顶的位置？<br>A：8086CPU 中，有两个寄存器，段寄存器 SS 和寄存器 SP，栈顶的段地址存放在 SS 中，偏移地址存放在 SP 中，<strong>任意时刻，SS:SP 指向栈顶元素</strong>。push 指令和 pop 指令执行时，CPU 从 SS 和 SP 中得到栈顶地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">push ax</div></pre></td></tr></table></figure>
+<p>该指令的执行，由一下两步完成</p>
+<ul>
+<li>SP=SP-2，SS:SP 指向当前栈顶前面的单元，以当前栈顶前面的单元为新的栈顶</li>
+<li>将 ax 中的内容送入 SS:SP 指向的内存单元处，SS:SP 此时指向新栈顶</li>
+</ul>
+<p>8086CPU 对 push 指令的执行过程如下图</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fln7yuhvj5j30fc07zwez.jpg" alt=""></p>
+<p>可见，<strong>入栈时，栈顶从高地址向低地址方向增长</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pop ax</div></pre></td></tr></table></figure>
+<p>该指令的执行过程和 <code>push ax</code> 相反，由一下两步完成</p>
+<ul>
+<li>将 SS:SP 指向的内存单元处的数据送入 ax 中</li>
+<li>SP=SP+2，SS:SP 指向当前栈顶下面的单元，以当前栈顶下面的单元为新的栈顶</li>
+</ul>
+<p>8086CPU 对 pop 指令的执行过程如下图</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fln8ag9l39j30f4077glz.jpg" alt=""></p>
+<p>注意，出栈后，SS:SP 指向新的栈顶 1000EH，pop 操作前的栈顶元素，1000CH 处的 2266H 依然存在，但已不在栈中，当再次执行 push 等入栈指令后，SS:SP 移至 1000CH，并在里面写入新的数据，将其覆盖</p>
+<p>Q：如果将 10000H ~ 1000FH 这段空间当作栈，初始状态是空的，此时，SS=1000H，SP=？<br>A：SP=0010H</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fln8f4awjkj30fa04raa8.jpg" alt=""></p>
+<p>换一个角度看，任意时刻，SS:SP 指向栈顶元素，当栈为空的时候，栈中没有元素，也就不存在栈顶元素，所以 SS:SP 只能指向栈的最底部单元下面的单元，该单元的偏移地址为栈最底部的<strong>字单元</strong>的偏移地址+2，栈最底部字单元的地址为 1000:000E，所以栈空时，SP=0010H</p>
+<h1 id="push、pop-指令"><a href="#push、pop-指令" class="headerlink" title="push、pop 指令"></a>push、pop 指令</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">push 寄存器     ; 将一个寄存器中的数据入栈</div><div class="line">pop  寄存器     ; 出栈，用一个寄存器接收出栈的数据</div><div class="line"></div><div class="line">push 段寄存器   ; 将一个段寄存器中的数据入栈</div><div class="line">pop  段寄存器   ; 出栈，用一个段寄存器接收出栈的数据</div><div class="line"></div><div class="line">push 内存单元   ; 将一个内存单元处的字入栈（注意：栈操作都是以字为单位）</div><div class="line">pop  内存单元   ; 出栈，用一个内存单元接收出栈的字</div></pre></td></tr></table></figure>
+<p>举例如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov ax,1000H</div><div class="line">mov ds,ax       ;内存单元的段地址要放在 ds 中</div><div class="line">push [0]        ;将 1000:0 处的字压入栈中</div><div class="line">pop  [2]        ;出栈，出栈的数据送入 1000:2 处</div></pre></td></tr></table></figure></p>
+<p>指令执行时，CPU 要知道内存单元的地址，可以从 push、pop 指令中给出内存单元的偏移地址，段地址在指令执行时，CPU 从 ds 中获得 </p>
+<p>Q：编程</p>
+<ul>
+<li>将 10000H ~ 1000FH 这段空间当作栈，初始状态栈是空的</li>
+<li>设置 AX=001AH，BX=001BH</li>
+<li>利用栈，交换 AX 和 BX 中的数据</li>
+</ul>
+<p>A：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mov ax,1000H</div><div class="line">mov ss,ax       ;设置栈的段地址，不能直接想段寄存器送入数据，需要使用寄存器做中转</div><div class="line">mov sp,0010H    ;设置偏移地址，栈为空，所以偏移地址应该为最低部单元的偏移地址+1</div><div class="line"></div><div class="line">mov ax,001AH</div><div class="line">mov bx,001BH</div><div class="line"></div><div class="line">push ax</div><div class="line">push bx</div><div class="line"></div><div class="line">pop ax</div><div class="line">pop bx</div></pre></td></tr></table></figure></p>
+<h1 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h1><ul>
+<li>8086CPU 提供了栈操作机制，方案如下<ol>
+<li>在 SS、SP 中存放栈顶的段地址和偏移地址</li>
+<li>提供入栈和出栈指令，它们根据 SS:SP 指示的地址，按照栈的方式访问内存单元</li>
+</ol>
+</li>
+<li>push 指令的执行步骤<ol>
+<li>SP=SP-2</li>
+<li>向 SS:SP 指向的字单元中送入数据</li>
+</ol>
+</li>
+<li>pop 指令的执行步骤<ol>
+<li>从 SS:SP 指向的字单元中送入数据</li>
+<li>SP=SP+2</li>
+</ol>
+</li>
+<li>任意时刻，SS:SP 指向栈顶元素</li>
+<li>8086CPU 只记录栈顶，栈空间的大小我们要自己管理</li>
+<li>用栈来暂存以后要恢复的寄存器的内容时，寄存器出栈的顺序要和入栈的顺序相反</li>
+<li>push、pop 实质上是一种内存传送指令，注意它们的灵活应用</li>
+</ul>
+<p>Q：一个栈段最大可以设为多少？为什么？<br>A：从栈操作指令所完成的功能上看，push、pop 等指令在执行的时候只修改 SP，所以栈顶的变化范围为 0 ~ FFFFH，从栈空时候的 SP=0，一直压栈，直到栈满时 SP=0；如果再次压栈，栈顶将环绕，覆盖原来栈中的内容。所以<strong>一个栈段的容量最大为 64KB</strong>。</p>
+<p>一段内存，可以既是代码的存储空间，又是数据的存储空间，还可以是栈空间，也可以什么也不是，关键在于CPU 中寄存器的设置，即 CS、IP、SS、SP、DS 的指向</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;学习参考：汇编语言（第2版）王爽&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;内存中字的存储&quot;&gt;&lt;a href=&quot;#内存中字的存储&quot; class=&quot;headerlink&quot; title=&quot;内存中字的存储&quot;&gt;&lt;/a&gt;内存中字的存储&lt;/h1&gt;&lt;b
+    
+    </summary>
+    
+      <category term="汇编语言" scheme="http://yoursite.com/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+    
+      <category term="汇编语言" scheme="http://yoursite.com/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
   
   <entry>
     <title>汇编语言学习笔记（二）：寄存器</title>
@@ -282,8 +407,8 @@
   
   <entry>
     <title>汇编语言学些笔记（一）：基础知识</title>
-    <link href="http://yoursite.com/2017/11/17/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%BA%9B%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>http://yoursite.com/2017/11/17/汇编语言学些笔记（一）：基础知识/</id>
+    <link href="http://yoursite.com/2017/11/17/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>http://yoursite.com/2017/11/17/汇编语言学习笔记（一）：基础知识/</id>
     <published>2017-11-17T14:28:14.000Z</published>
     <updated>2017-11-17T14:35:12.586Z</updated>
     
@@ -438,72 +563,6 @@
   </entry>
   
   <entry>
-    <title>MySQL 学习之数据表(一)</title>
-    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
-    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
-    <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-08-24T12:04:37.811Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
-</blockquote>
-<p>在数据表中，行称为记录，列称为字段</p>
-<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
-<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
-<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
-<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
-<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="插入记录"><a href="#插入记录" class="headerlink" title="插入记录"></a>插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
-<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
-<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
-<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
-<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
-<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
-<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>以上，基本就是向 MySQL 数据表中插入数据的基本操作了。</p>
-<h2 id="其他记录插入方式"><a href="#其他记录插入方式" class="headerlink" title="其他记录插入方式"></a>其他记录插入方式</h2><p>其实除了使用 INSERT 来插入数据 还可以使用 INSERT SET 或者 INSERT SELECT 来插入数据</p>
-<ul>
-<li><strong>INSERT SET</strong></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name SET col_name=&#123;expr | DEFAULT&#125;, ...</div></pre></td></tr></table></figure>
-<p>使用这种方式与第一种方式的区别在于，此方法可以使用子查询 (SubQuery)，除此之外，第一种方式可以一次性插入多条记录，而这种方式一次只能添加一条记录</p>
-<p>e.g. 使用 INSERT SET 的方式想数据表中添加一条数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 SET name=&apos;Bob&apos;, age=&apos;24&apos;;</div><div class="line">Query OK, 1 row affected (0.08 sec)</div></pre></td></tr></table></figure></p>
-<ul>
-<li><strong>INSERT SELECT</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] SELECT ...</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>此方法可以将查询结果插入到指定数据表</p>
-<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>单表删除 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM tbl_name [WHERE where_condition]</div></pre></td></tr></table></figure></p>
-<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
-<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
-<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="WHERE-语句进行条件查询"><a href="#WHERE-语句进行条件查询" class="headerlink" title="WHERE 语句进行条件查询"></a>WHERE 语句进行条件查询</h2><h2 id="GROUP-BY-语句对结果进行分组"><a href="#GROUP-BY-语句对结果进行分组" class="headerlink" title="GROUP BY 语句对结果进行分组"></a>GROUP BY 语句对结果进行分组</h2><h2 id="HAVING-语句设置分组条件"><a href="#HAVING-语句设置分组条件" class="headerlink" title="HAVING 语句设置分组条件"></a>HAVING 语句设置分组条件</h2><h2 id="ORDER-BY-语句对查询结果进行排序"><a href="#ORDER-BY-语句对查询结果进行排序" class="headerlink" title="ORDER BY 语句对查询结果进行排序"></a>ORDER BY 语句对查询结果进行排序</h2><h2 id="LIMIT-语句限制查询数量"><a href="#LIMIT-语句限制查询数量" class="headerlink" title="LIMIT 语句限制查询数量"></a>LIMIT 语句限制查询数量</h2>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
-&lt;h1 id=&quot;打开数据库&quot;&gt;&lt;a href=&quot;#打开数据库&quot; class=&quot;headerlink&quot; title=&quot;打开数据库&quot;&gt;&lt;/a&gt;打开数据库&lt;/h1&gt;&lt;p&gt;在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
     <title>MySQL 学习之数据表(二)</title>
     <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%BA%8C)/"/>
     <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(二)/</id>
@@ -611,6 +670,72 @@
       &lt;h1 id=&quot;数据表的修改&quot;&gt;&lt;a href=&quot;#数据表的修改&quot; class=&quot;headerlink&quot; title=&quot;数据表的修改&quot;&gt;&lt;/a&gt;数据表的修改&lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;数据表的修改操作无非就是列的增加、删除，约束的增加、删除&lt;/p&gt;
 &lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 学习之数据表(一)</title>
+    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
+    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
+    <published>2017-07-23T07:05:27.000Z</published>
+    <updated>2017-08-24T12:04:37.811Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
+</blockquote>
+<p>在数据表中，行称为记录，列称为字段</p>
+<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
+<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
+<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
+<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
+<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="插入记录"><a href="#插入记录" class="headerlink" title="插入记录"></a>插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
+<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
+<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
+<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
+<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
+<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
+<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>以上，基本就是向 MySQL 数据表中插入数据的基本操作了。</p>
+<h2 id="其他记录插入方式"><a href="#其他记录插入方式" class="headerlink" title="其他记录插入方式"></a>其他记录插入方式</h2><p>其实除了使用 INSERT 来插入数据 还可以使用 INSERT SET 或者 INSERT SELECT 来插入数据</p>
+<ul>
+<li><strong>INSERT SET</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name SET col_name=&#123;expr | DEFAULT&#125;, ...</div></pre></td></tr></table></figure>
+<p>使用这种方式与第一种方式的区别在于，此方法可以使用子查询 (SubQuery)，除此之外，第一种方式可以一次性插入多条记录，而这种方式一次只能添加一条记录</p>
+<p>e.g. 使用 INSERT SET 的方式想数据表中添加一条数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 SET name=&apos;Bob&apos;, age=&apos;24&apos;;</div><div class="line">Query OK, 1 row affected (0.08 sec)</div></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>INSERT SELECT</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] SELECT ...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此方法可以将查询结果插入到指定数据表</p>
+<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>单表删除 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM tbl_name [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
+<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="WHERE-语句进行条件查询"><a href="#WHERE-语句进行条件查询" class="headerlink" title="WHERE 语句进行条件查询"></a>WHERE 语句进行条件查询</h2><h2 id="GROUP-BY-语句对结果进行分组"><a href="#GROUP-BY-语句对结果进行分组" class="headerlink" title="GROUP BY 语句对结果进行分组"></a>GROUP BY 语句对结果进行分组</h2><h2 id="HAVING-语句设置分组条件"><a href="#HAVING-语句设置分组条件" class="headerlink" title="HAVING 语句设置分组条件"></a>HAVING 语句设置分组条件</h2><h2 id="ORDER-BY-语句对查询结果进行排序"><a href="#ORDER-BY-语句对查询结果进行排序" class="headerlink" title="ORDER BY 语句对查询结果进行排序"></a>ORDER BY 语句对查询结果进行排序</h2><h2 id="LIMIT-语句限制查询数量"><a href="#LIMIT-语句限制查询数量" class="headerlink" title="LIMIT 语句限制查询数量"></a>LIMIT 语句限制查询数量</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
+&lt;h1 id=&quot;打开数据库&quot;&gt;&lt;a href=&quot;#打开数据库&quot; class=&quot;headerlink&quot; title=&quot;打开数据库&quot;&gt;&lt;/a&gt;打开数据库&lt;/h1&gt;&lt;p&gt;在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义&lt;/p&gt;
     
     </summary>
     
@@ -2120,62 +2245,6 @@
       &lt;h1 id=&quot;Observer（观察者模式）&quot;&gt;&lt;a href=&quot;#Observer（观察者模式）&quot; class=&quot;headerlink&quot; title=&quot;Observer（观察者模式）&quot;&gt;&lt;/a&gt;Observer（观察者模式）&lt;/h1&gt;&lt;p&gt;如果你听说过RxJava的话，就应该听说过这种模式。这种模式最大的优点就是将被观察者和观察者解耦，增强了程序的灵活性和可扩展性&lt;/p&gt;
 &lt;p&gt;那么观察者模式可以运用到什么场景中呢？&lt;/p&gt;
 &lt;p&gt;举个现实中典型的例子，当你订阅了一份杂志时，就使用了这种模式，你只需要订阅这份杂志，那么只要杂志更新了就会自动送到你的手上。&lt;br&gt;当然，观察者模式的用途远不止这些，但是处理的事件类型，就类似这种。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>设计模式(八):责任链模式</title>
-    <link href="http://yoursite.com/2017/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%85%AB-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2017/03/10/设计模式-八-责任链模式/</id>
-    <published>2017-03-10T04:45:53.000Z</published>
-    <updated>2017-09-02T12:21:11.663Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Chain-of-Responsibility（责任链模式）"><a href="#Chain-of-Responsibility（责任链模式）" class="headerlink" title="Chain of Responsibility（责任链模式）"></a>Chain of Responsibility（责任链模式）</h1><p>责任链模式作为行为型模式之一，根据”链”这个字，也大概能猜到这是一种链式结构，链式结构具有很好的灵活型，而在<br>责任链模式中也很好的体现了这一点。在责任链中，若在其中一端发出了请求，那么该请求就会沿着这个”链”<br>，一直寻找到可以接收并处理的该请求的”结点”，直到找到该结点或者一直到链的另一端结束</p>
-<a id="more"></a>
-<h2 id="Chain-of-Responsibility（责任链模式）的UML类图"><a href="#Chain-of-Responsibility（责任链模式）的UML类图" class="headerlink" title="Chain of Responsibility（责任链模式）的UML类图"></a>Chain of Responsibility（责任链模式）的UML类图</h2><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/chain_of_responsibility.png" alt=""></p>
-<ul>
-<li>Handler：抽象的请求处理类，</li>
-<li>ConcreteHandler：具体的请求处理者</li>
-</ul>
-<p>如果你学过链表，那么这种结构的模式会很好理解，在抽象的Handler中，会持有一个指向下一个结点的引用successor<br>当当前结点无法处理发送来的请求的时候，就会将请求直接递给下一个结点</p>
-<p>如果非要举个例子的话，那么跟我们生活的最贴近的估计就是下级向上级发请求了</p>
-<p>比如，现在实验室需要申请资金用来建设，但是如果申请资金过大，那么这个请求就会一直往上递交，最后的结果要么是获得审批，要么就是被否决</p>
-<p>如果是实验室负责人发出请求，那么首先接受到这个请求的就可能是实验室指导老师，然后是学院书记，然后是学院院长，再然后就是学校校长</p>
-<p>那么就利用责任链模式，来实现以下这个例子</p>
-<h2 id="责任链模式的简单实现"><a href="#责任链模式的简单实现" class="headerlink" title="责任链模式的简单实现"></a>责任链模式的简单实现</h2><p>先分析一下要求</p>
-<ul>
-<li>请求：申请3000元</li>
-<li><p>请求处理者：实验室指导老师（100元及以下），学院书记（1000元及以下），院长（5000元及以下），校长（10000元及以下）</p>
-<p>那么首先是先抽象出一个Handler类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Handler</span> </span>&#123;</div><div class="line">    <span class="comment">/*指向下一个请求处理着*/</span></div><div class="line">    <span class="keyword">protected</span> Handler successor;</div><div class="line">    <span class="comment">/*可获批的资金*/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">capital</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/*对申请的资金进行处理*/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(<span class="keyword">int</span> money)</span></span>;</div><div class="line">    <span class="comment">/*</span></div><div class="line">    因为对于处理的请求判断，逻辑都是一样的，所以应该抽象出来，并且设置为不可覆盖</div><div class="line">    处理请求，若能处理就处理，若不能就传递给下一个处理者</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (money &lt;= capital()) &#123;</div><div class="line">            handle(money);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != successor) &#123;</div><div class="line">                successor.handleRequest(money);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">/*若没有下一个处理者则说明该请求无法传递且无法处理*/</span></div><div class="line">                System.out.println(<span class="string">"你的请求的资金无法获批"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>然后，分别构建出：实验室指导老师，学院书记，院长，校长</p>
-<p>实验室指导老师<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Tutor</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">capital</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">100</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"指导老师审批通过：获批 "</span> + money + <span class="string">"元"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>学院书记<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Secretary</span> <span class="keyword">extends</span> <span class="title">Handler</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">capital</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1000</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"书记审批通过：获批 "</span> + money + <span class="string">"元"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>院长<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dean</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">capital</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">5000</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"院长审批通过：获批 "</span> + money + <span class="string">"元"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>校长<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Principal</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">capital</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">20000</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"校长审批通过：获批 "</span> + money + <span class="string">"元"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>最后，只需要初始化并构建处理者之间的关系即可<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">// 初始化各个处理者</span></div><div class="line">Tutor tutor = <span class="keyword">new</span> Tutor();</div><div class="line">Secretary secretary = <span class="keyword">new</span> Secretary();</div><div class="line">Dean dean = <span class="keyword">new</span> Dean();</div><div class="line">Principal principal = <span class="keyword">new</span> Principal();</div><div class="line"></div><div class="line"><span class="comment">// 让各个处理者之间形成链式关系</span></div><div class="line">tutor.successor = secretary;</div><div class="line">secretary.successor = dean;</div><div class="line">dean.successor = principal;</div><div class="line">principal.successor = <span class="keyword">null</span>;</div></pre></td></tr></table></figure></p>
-<p>构建好之后，就可以发送请求了，这里先试试发送2000元的请求试一下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 发送请求</span></div><div class="line">tutor.handleRequest(<span class="number">2000</span>);</div></pre></td></tr></table></figure></p>
-<p>结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">院长审批通过：获批 2000元</div></pre></td></tr></table></figure></p>
-<p>审核通过，那如果审批的是12000元呢？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tutor.handleRequest(<span class="number">12000</span>);</div></pre></td></tr></table></figure></p>
-<p>结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">你的请求的资金无法获批</div></pre></td></tr></table></figure></p>
-<p>可以看到，如果请求都无法接受那么这个就会返回一个无法处理的结果</p>
-<p>END.</p>
-<hr>
-<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/chain_of_responsibility" target="_blank" rel="external">源码地址</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Chain-of-Responsibility（责任链模式）&quot;&gt;&lt;a href=&quot;#Chain-of-Responsibility（责任链模式）&quot; class=&quot;headerlink&quot; title=&quot;Chain of Responsibility（责任链模式）&quot;&gt;&lt;/a&gt;Chain of Responsibility（责任链模式）&lt;/h1&gt;&lt;p&gt;责任链模式作为行为型模式之一，根据”链”这个字，也大概能猜到这是一种链式结构，链式结构具有很好的灵活型，而在&lt;br&gt;责任链模式中也很好的体现了这一点。在责任链中，若在其中一端发出了请求，那么该请求就会沿着这个”链”&lt;br&gt;，一直寻找到可以接收并处理的该请求的”结点”，直到找到该结点或者一直到链的另一端结束&lt;/p&gt;
     
     </summary>
     
