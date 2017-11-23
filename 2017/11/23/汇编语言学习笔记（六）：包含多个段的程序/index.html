@@ -89,31 +89,28 @@
 <meta name="description" content="学习参考：汇编语言（第2版）王爽
 
 
-[bx]
-loop 指令
-段前缀
-一段安全的空间">
+在代码段中使用数据
+在代码段中使用栈
+将数据、代码、栈放入不同的段">
 <meta property="og:type" content="article">
-<meta property="og:title" content="汇编语言学习笔记（五）：[BX] 和 loop 指令">
-<meta property="og:url" content="http://yoursite.com/2017/11/22/汇编语言学习笔记（五）：-BX-和-loop-指令/index.html">
+<meta property="og:title" content="汇编语言学习笔记（六）：包含多个段的程序">
+<meta property="og:url" content="http://yoursite.com/2017/11/23/汇编语言学习笔记（六）：包含多个段的程序/index.html">
 <meta property="og:site_name" content="Inno's Bolg">
 <meta property="og:description" content="学习参考：汇编语言（第2版）王爽
 
 
-[bx]
-loop 指令
-段前缀
-一段安全的空间">
-<meta property="og:updated_time" content="2017-11-22T08:07:04.424Z">
+在代码段中使用数据
+在代码段中使用栈
+将数据、代码、栈放入不同的段">
+<meta property="og:updated_time" content="2017-11-23T09:08:08.551Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="汇编语言学习笔记（五）：[BX] 和 loop 指令">
+<meta name="twitter:title" content="汇编语言学习笔记（六）：包含多个段的程序">
 <meta name="twitter:description" content="学习参考：汇编语言（第2版）王爽
 
 
-[bx]
-loop 指令
-段前缀
-一段安全的空间">
+在代码段中使用数据
+在代码段中使用栈
+将数据、代码、栈放入不同的段">
 
 
 
@@ -141,13 +138,13 @@ loop 指令
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/22/汇编语言学习笔记（五）：-BX-和-loop-指令/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/23/汇编语言学习笔记（六）：包含多个段的程序/"/>
 
 
 
 
 
-  <title> 汇编语言学习笔记（五）：[BX] 和 loop 指令 | Inno's Bolg </title>
+  <title> 汇编语言学习笔记（六）：包含多个段的程序 | Inno's Bolg </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -281,7 +278,7 @@ loop 指令
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/22/汇编语言学习笔记（五）：-BX-和-loop-指令/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/23/汇编语言学习笔记（六）：包含多个段的程序/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Inno Fang">
@@ -305,7 +302,7 @@ loop 指令
             
             
               
-                汇编语言学习笔记（五）：[BX] 和 loop 指令
+                汇编语言学习笔记（六）：包含多个段的程序
               
             
           </h1>
@@ -320,8 +317,8 @@ loop 指令
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-22T16:05:50+08:00">
-                2017-11-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-23T17:07:01+08:00">
+                2017-11-23
               </time>
             
 
@@ -384,53 +381,18 @@ loop 指令
 <p>学习参考：汇编语言（第2版）王爽</p>
 </blockquote>
 <ul>
-<li>[bx]</li>
-<li>loop 指令</li>
-<li>段前缀</li>
-<li><p>一段安全的空间</p>
-<a id="more"></a>
-</li>
+<li>在代码段中使用数据</li>
+<li>在代码段中使用栈</li>
+<li>将数据、代码、栈放入不同的段</li>
 </ul>
-<h1 id="bx"><a href="#bx" class="headerlink" title="[bx]"></a>[bx]</h1><p>[bx] 表示一个内存单元，它的偏移地址在 bx 中，比如下面的指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mov ax,[bx]</div></pre></td></tr></table></figure></p>
-<p>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址 EA 在 bx 中，段地址 SA 在 ds 中。即 (ax)=((ds)*16+(bx))</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mov al,[bx]</div></pre></td></tr></table></figure>
-<p>将一个内存单元的内容送入 al，这个内存单元的长度为 1 字节（字节单元），存放一个字节，偏移地址在 bx 中，段地址在 ds 中</p>
-<h1 id="loop-指令"><a href="#loop-指令" class="headerlink" title="loop 指令"></a>loop 指令</h1><blockquote>
-<p>loop 指令的格式是：loop 标号，CPU 执行 loop 指令的时候，要进行两步操作</p>
-<ol>
-<li>(cx)=(cx)-1</li>
-<li>判断 cx 中的值，不为零则转至标号处执行程序，如果为零则向下执行</li>
-</ol>
-</blockquote>
-<p>上述中，可见 cx 中的值影响着 loop 指令的执行结果。<strong>通常</strong>  cx 中存放循环次数</p>
-<p>例如，求 2^12 的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">assume cs:code</div><div class="line">code segment</div><div class="line">    mov ax,2</div><div class="line">    </div><div class="line">    mov cx,11</div><div class="line">s:  add ax,ax</div><div class="line">    loop s</div><div class="line">    </div><div class="line">    mov ax,4c00h</div><div class="line">    int 21h</div><div class="line">code ends</div><div class="line">end</div></pre></td></tr></table></figure></p>
-<p>程序中出现了一个标号 <code>s:</code> ，这个实际上标识了一条指令:<code>add ax,ax</code></p>
-<p>根据程序，我们可以总结出用 cx 和 loop 指令相配合实现循环功能的 3 个要点：</p>
-<ol>
-<li>在 cx 中存放循环次数</li>
-<li>loop 指令中的标号所标识地址要在前面</li>
-<li>要循环执行的程序段，要写在标号和 loop 指令的中间</li>
-</ol>
-<p>用 cx 和 loop 指令相配合实现循环功能的程序框架如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">    mov cx,循环次数</div><div class="line">s:  </div><div class="line">    循环执行的程序段</div><div class="line">    loop s</div></pre></td></tr></table></figure></p>
-<p>例程2：用加法计算 123*236，结果存在 ax 中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">assume cs:code</div><div class="line"></div><div class="line">code segment</div><div class="line">    mov ax,0</div><div class="line">    </div><div class="line">    mov cx,123</div><div class="line">s:</div><div class="line">    add ax,236</div><div class="line">    loop s</div><div class="line">    </div><div class="line">    mov ax,4c00h</div><div class="line">    int 21h</div><div class="line">code ends</div><div class="line">end</div></pre></td></tr></table></figure></p>
-<h1 id="段前缀"><a href="#段前缀" class="headerlink" title="段前缀"></a>段前缀</h1><blockquote>
-<p>指令 “mov ax,[bx]” 中，内存单元的偏移地址由 bx 给出，而段地址默认在 ds 中。我们可以在访问内存的单元的指令中显示地给出内存单元的段地址所在的段寄存器。比如</p>
-</blockquote>
-<ol>
-<li><code>mov ax,ds:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 ds 中</strong>。</li>
-<li><code>mov ax,cs:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 cs 中</strong>。</li>
-<li><code>mov ax,ss:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 ss 中</strong></li>
-<li><code>mov ax,es:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 es 中</strong></li>
-</ol>
+<a id="more"></a>
+<h1 id="在代码段中使用数据"><a href="#在代码段中使用数据" class="headerlink" title="在代码段中使用数据"></a>在代码段中使用数据</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">assume cs:code</div><div class="line"></div><div class="line">code segment</div><div class="line"></div><div class="line">       数据</div><div class="line">       </div><div class="line">start:</div><div class="line">      </div><div class="line">       代码</div><div class="line">       </div><div class="line">code ends</div><div class="line">end start</div></pre></td></tr></table></figure>
 <blockquote>
-<p>这种显式地指明内存单元的段地址的 “ds:” “cs:” “ss:” “es:”，在汇编中称为<strong>段前缀</strong></p>
+<p>这里 end 的作用除了通知编译器程序结束外，还可以通知编译器程序的入口在什么地方。比如在程序中指明了程序的入口在标号 start 处，也就是说，会从 start 标号处，执行第一条指令</p>
 </blockquote>
-<h1 id="一段安全的空间"><a href="#一段安全的空间" class="headerlink" title="一段安全的空间"></a>一段安全的空间</h1><ol>
-<li>我们需要直接向一段内存中写入内容；</li>
-<li>这段内存空间不应该存放系统或其他程序的数据或代码，否则写入操作很可能引发错误；</li>
-<li>DOS 方式下，一般情况，0:200~0:2ff 空间中没有系统或其他程序的数据或代码；</li>
-<li>以后，我们需要直接向一段内存中写入内容时，就使用 0:200~0:2ff 这段空间。</li>
-</ol>
+<h1 id="在代码段中使用栈"><a href="#在代码段中使用栈" class="headerlink" title="在代码段中使用栈"></a>在代码段中使用栈</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">assume cs:codesg</div><div class="line"></div><div class="line">codesg segment</div><div class="line"></div><div class="line">    dw 0123h, 0456h,0789h,0abch,0defh,0fedh,0cbah,0987h</div><div class="line">    dw 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</div><div class="line">                    ; 用 dw 定义 16 个字形数据，在程序加载后，将取得 16 个字的</div><div class="line">                    ; 内存空间，存放这 16 个数据。在后面的程序中将这段</div><div class="line">                    ; 空间当作栈来使用</div><div class="line">    start:  mov ax,cs</div><div class="line">            mov ss,ax</div><div class="line">            mov sp,30h  ; 将设置栈顶 ss:sp 指向 cs:30</div><div class="line">            </div><div class="line">            mov bx,0</div><div class="line">            mov cx,8</div><div class="line">        s:  push sc:[bx]</div><div class="line">            add bx,2</div><div class="line">            loop s      ; 将以上代码段 0~15 单元中的 8 个字型数据依次入栈</div><div class="line">            </div><div class="line">            mov bx,0</div><div class="line">            mov cx,8</div><div class="line">        s0: pop cs:[bx]</div><div class="line">            add bx,2</div><div class="line">            loop s0     ; 以上依次出栈 8 个字型数据到代码段 0~15 单元中</div><div class="line">            </div><div class="line">            mov ax,4c00h</div><div class="line">            int 21h</div><div class="line"></div><div class="line">codesg ends</div><div class="line">end start               ； 指明程序入口在 start 处</div></pre></td></tr></table></figure>
+<pre><code>我们要将 cs:10~cs:2F （10是因为前面定义了 8 个字（2*8=10h），2F是因为 10+16*2=2Fh）的内存空间当作栈来用，初始状态下为空，所以 ss:sp 要指向栈底，则设置 ss:sp 指向 cs:30
+</code></pre><h1 id="将数据、代码、栈放入不同的段"><a href="#将数据、代码、栈放入不同的段" class="headerlink" title="将数据、代码、栈放入不同的段"></a>将数据、代码、栈放入不同的段</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">assume cs:code,ds:data,ss:stack</div><div class="line"></div><div class="line">data segment</div><div class="line">    </div><div class="line">        ;数据</div><div class="line">        </div><div class="line">data ends</div><div class="line"></div><div class="line">stack segment</div><div class="line"></div><div class="line">        ;数据</div><div class="line">        </div><div class="line">stack ends</div><div class="line"></div><div class="line">code segment</div><div class="line"></div><div class="line">start: </div><div class="line">        mov ax, stack</div><div class="line">        mov ss,ax</div><div class="line">        mov sp,20h  ; 设置栈顶 ss:sp 指向 stack:20 这里只是距离</div><div class="line">        </div><div class="line">        mov ax,data</div><div class="line">        mov ds,ax   ; ds 指向 data 段</div><div class="line">        </div><div class="line">        ; 其他代码</div><div class="line"></div><div class="line">code ends</div><div class="line">end start</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -463,8 +425,8 @@ loop 指令
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/20/汇编语言学习笔记（四）：第一个程序/" rel="next" title="汇编语言学习笔记（四）：第一个程序">
-                <i class="fa fa-chevron-left"></i> 汇编语言学习笔记（四）：第一个程序
+              <a href="/2017/11/22/汇编语言学习笔记（五）：-BX-和-loop-指令/" rel="next" title="汇编语言学习笔记（五）：[BX] 和 loop 指令">
+                <i class="fa fa-chevron-left"></i> 汇编语言学习笔记（五）：[BX] 和 loop 指令
               </a>
             
           </div>
@@ -472,10 +434,6 @@ loop 指令
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/23/汇编语言学习笔记（六）：包含多个段的程序/" rel="prev" title="汇编语言学习笔记（六）：包含多个段的程序">
-                汇编语言学习笔记（六）：包含多个段的程序 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -616,7 +574,7 @@ loop 指令
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bx"><span class="nav-number">1.</span> <span class="nav-text">[bx]</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#loop-指令"><span class="nav-number">2.</span> <span class="nav-text">loop 指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#段前缀"><span class="nav-number">3.</span> <span class="nav-text">段前缀</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一段安全的空间"><span class="nav-number">4.</span> <span class="nav-text">一段安全的空间</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在代码段中使用数据"><span class="nav-number">1.</span> <span class="nav-text">在代码段中使用数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在代码段中使用栈"><span class="nav-number">2.</span> <span class="nav-text">在代码段中使用栈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将数据、代码、栈放入不同的段"><span class="nav-number">3.</span> <span class="nav-text">将数据、代码、栈放入不同的段</span></a></li></ol></div>
             
 
           </div>
