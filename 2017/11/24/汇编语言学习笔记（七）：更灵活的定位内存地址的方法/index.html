@@ -1,0 +1,806 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="汇编语言," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Inno's Bolg" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://i1.piimg.com/567571/2940be93a688853d.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="学习参考：汇编语言（第2版）王爽
+
+
+and 和 or 指令
+SI 和 DI
+[bx+si] 和 [bx+di]
+[bx+si+idata] 和 [bx+di+idata]
+不同的寻址方式的灵活应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编语言学习笔记（七）：更灵活的定位内存地址的方法">
+<meta property="og:url" content="http://yoursite.com/2017/11/24/汇编语言学习笔记（七）：更灵活的定位内存地址的方法/index.html">
+<meta property="og:site_name" content="Inno's Bolg">
+<meta property="og:description" content="学习参考：汇编语言（第2版）王爽
+
+
+and 和 or 指令
+SI 和 DI
+[bx+si] 和 [bx+di]
+[bx+si+idata] 和 [bx+di+idata]
+不同的寻址方式的灵活应用">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/0067fiZ7ly1flqzn2fhloj30cz04mweh.jpg">
+<meta property="og:updated_time" content="2017-11-24T03:47:43.099Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="汇编语言学习笔记（七）：更灵活的定位内存地址的方法">
+<meta name="twitter:description" content="学习参考：汇编语言（第2版）王爽
+
+
+and 和 or 指令
+SI 和 DI
+[bx+si] 和 [bx+di]
+[bx+si+idata] 和 [bx+di+idata]
+不同的寻址方式的灵活应用">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/0067fiZ7ly1flqzn2fhloj30cz04mweh.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/24/汇编语言学习笔记（七）：更灵活的定位内存地址的方法/"/>
+
+
+
+
+
+  <title> 汇编语言学习笔记（七）：更灵活的定位内存地址的方法 | Inno's Bolg </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Inno's Bolg</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Inno's world, not just the code, but also the life</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+
+    
+
+  
+  
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/24/汇编语言学习笔记（七）：更灵活的定位内存地址的方法/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Inno Fang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Inno's Bolg">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                汇编语言学习笔记（七）：更灵活的定位内存地址的方法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-24T11:46:35+08:00">
+                2017-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/汇编语言/" itemprop="url" rel="index">
+                    <span itemprop="name">汇编语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>学习参考：汇编语言（第2版）王爽</p>
+</blockquote>
+<ul>
+<li>and 和 or 指令</li>
+<li>SI 和 DI</li>
+<li>[bx+si] 和 [bx+di]</li>
+<li>[bx+si+idata] 和 [bx+di+idata]</li>
+<li><p>不同的寻址方式的灵活应用</p>
+<a id="more"></a>
+</li>
+</ul>
+<h1 id="and-和-or-指令"><a href="#and-和-or-指令" class="headerlink" title="and 和 or 指令"></a>and 和 or 指令</h1><p>1.and 指令：逻辑与命令，按位进行与运算<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mov al,01100011B</div><div class="line">and al,00111011B</div></pre></td></tr></table></figure></p>
+<p>执行后：al=00100011B </p>
+<p>通过该指令可将操作对象的响应位设为 0，其他位不变<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">and al,10111111B    ; 将 al 的第 6 位设为 0 </div><div class="line">and al,01111111B    ; 将 al 的第 7 位设为 0 </div><div class="line">and al,11111110B    ; 将 al 的第 0 位设为 0</div></pre></td></tr></table></figure></p>
+<p>2.or 指令：逻辑或指令，按位进行或运算<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mov al,01100011B</div><div class="line">or  al,00111011B</div></pre></td></tr></table></figure></p>
+<p>执行后：al=01111011B</p>
+<p>通过该指令可将操作对象的响应位设为 1，其他位不变<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">or al,01000000B    ; 将 al 的第 6 位设为 1 </div><div class="line">or al,10000000B    ; 将 al 的第 7 位设为 1 </div><div class="line">or al,00000001B    ; 将 al 的第 0 位设为 1 </div><div class="line"></div><div class="line"></div><div class="line"># [bx+idata]</div><div class="line"></div><div class="line">&gt; 表示一个内存单元，它的偏移地址为 (bx)+idata （bx 中的数值加上 idata）</div><div class="line"></div><div class="line"># 用 [bx+idata] 的方式进行数组的处理</div><div class="line"></div><div class="line">举个例子：在数据段定义两个字符串，第一个字符串变大写，第二个字符串小写，数据段定义如下</div><div class="line">```asm</div><div class="line">assume cs:codesg,ds:datasg</div><div class="line"></div><div class="line">datasg segment</div><div class="line">    db &apos;BaSiC&apos;</div><div class="line">    db &apos;iNfOrMaTiOn&apos;</div><div class="line">datasg ends</div><div class="line"></div><div class="line">codesg segment</div><div class="line">    start:</div><div class="line">codesg ends</div><div class="line"></div><div class="line">end start</div></pre></td></tr></table></figure></p>
+<p>这里为了用已经学到的指令来完成任务，所以我们还需要进行一些分析，下面是 ASCII 表的一部分</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1flqzn2fhloj30cz04mweh.jpg" alt=""></p>
+<p>经过观察可以发现，大写字母与小写字母的 ASCII 码的 16 进制数差 20H，（十进制差 32）,然后再观察二进制数，除第 5 位（位数从 0 开始计算）外，大写字母和小写字母的其他各位都一样的。所以大写字母要变成小写字母，只需要让第 5 位变 1 即可，小写字母要变成大写字母，只需要让第 5 位变 0 即可。那么如何变呢？当然是用刚学过的 or 和 and 指令。</p>
+<p>完整程序如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">assume cs:codesg,ds:datasg</div><div class="line"></div><div class="line">datasg segment</div><div class="line">    db &apos;BaSiC&apos;</div><div class="line">    db &apos;MinIX&apos;</div><div class="line">datasg ends</div><div class="line"></div><div class="line">codesg segment</div><div class="line">start:</div><div class="line">        mov ax,datasg</div><div class="line">        mov ds,ax           ; 设置 ds 指向 dtasg 段</div><div class="line">        </div><div class="line">        mov bx,0            ; 设置 (bx)=0，ds:bx 指向 &apos;BaSic&apos; 的第一个字母</div><div class="line">        </div><div class="line">        mov cx,5            ; 因为有 5 个字母，所以设置循环 5 次</div><div class="line">    s:  mov al,[bx]         ; 将 ASCII 码从 ds:bx 所指向的单元中取出</div><div class="line">        and al,11011111B    ; 将 al 中的 ASCII 码的第 5 位置为 0，变为大写字母</div><div class="line">        mov [bx],al         ; 将转变后的 ASCII 码写回原单元</div><div class="line">        inc bx              ; (bx) 加 1，ds:bx 指向下一个字母</div><div class="line">        loop s</div><div class="line">        </div><div class="line">        mov bx,5            ; 设置 (bx)=5，ds:bx 指向 &apos;MinIX&apos; 的第一个字母</div><div class="line">        </div><div class="line">        mov cx,5            ; 因为有 5 个字母，所以设置循环 5 次</div><div class="line">    s0: mov al,[bx]</div><div class="line">        or  al,00100000B    ; 将 al 中的 ASCII 码的第 5 位置为 1，变为小写字母</div><div class="line">        mov [bx],al</div><div class="line">        inc bx</div><div class="line">        loop s0</div><div class="line">        </div><div class="line">        mov ax,4c00h</div><div class="line">        int 21h</div><div class="line">        </div><div class="line">codesg ends</div><div class="line"></div><div class="line">end start</div></pre></td></tr></table></figure></p>
+<p>现在，我们有了 [bx+idata] 的方式，就可以用更渐变的方法来完成上面的程序。观察datasg 段中的两个字符串，一个的起始地址为0,另一个的起始地址为5。我们可以将这两个字符串看作两个数组，一个从0地址开始存放，另一个从5 开始存放。那么我们可以用[0+bx]和[5+bx]的方式在同一个循环中定位这两个字符串中的字符。在这里，0 和5 给定了两个字符串的起始偏移地址，bx 中给出了从起始偏移地址开始的相对地址。这两个字符串在内存中的起始地址是不一样的，但是，它们中的每一个字符，从起始地址开始的相对地址的变化是相同的。改进的程序如下.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">   mov bx,0</div><div class="line">   </div><div class="line">   mov cx,5</div><div class="line">s: mov al,[bx]         ; 定位第一个字符串</div><div class="line">   and al,11011111B</div><div class="line">   mov [bx],al</div><div class="line">   mov al,[bx+5]       ; 定位第二个字符串</div><div class="line">   or al,00100000B</div><div class="line">   mov [bx+5],al</div><div class="line">   inc bx</div><div class="line">   loop s</div></pre></td></tr></table></figure>
+<p>程序也可以写成下面的样子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">   mov bx,0</div><div class="line">   </div><div class="line">   mov cx,5</div><div class="line">s: mov al,0[bx]</div><div class="line">   and al,11011111B</div><div class="line">   mov 0[bx],al</div><div class="line">   mov al,5[bx]</div><div class="line">   or  al,00100000B</div><div class="line">   mov 5[bx],al</div><div class="line">   inc bx</div><div class="line">   loop s</div></pre></td></tr></table></figure></p>
+<p>便于理解，用 C 语言来描述上面的程序，大致程序如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line"> 	<span class="keyword">char</span> a[<span class="number">6</span>] = <span class="string">"BaSiC"</span>;</div><div class="line">	<span class="keyword">char</span> b[<span class="number">6</span>] = <span class="string">"MinIX"</span>;</div><div class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">    <span class="keyword">do</span> &#123;</div><div class="line">		a[i] = a[i] &amp; <span class="number">0xDF</span>;	<span class="comment">// 0xDF = 11011111</span></div><div class="line">		b[i] = b[i] | <span class="number">0x20</span>;	<span class="comment">// 0x20 = 00100000</span></div><div class="line">	&#125; <span class="keyword">while</span> (i &lt; <span class="number">5</span>);	</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="SI-和-DI"><a href="#SI-和-DI" class="headerlink" title="SI 和 DI"></a>SI 和 DI</h1><blockquote>
+<p>si 和 di 是 8086CPU 中和 bx 功能相近的寄存器，si 和 di <strong>不能分成两个 8 位寄存器来使用</strong></p>
+</blockquote>
+<h1 id="bx-si-和-bx-di"><a href="#bx-si-和-bx-di" class="headerlink" title="[bx+si] 和 [bx+di]"></a>[bx+si] 和 [bx+di]</h1><p>[bx+si] 和 [bx+di] 的含义相似，我们以 [bx+si] 为例讲解</p>
+<p>[bx+si] 表示一个内存单元，它的偏移地址为 (bx)+(si) （即 bx 中的数值加上 si 中的数值）</p>
+<p>指令 <code>mov ax,[bx+si]</code> 的含义如下：   </p>
+<blockquote>
+<p>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址为 bx 中的数值加上 si 中的数值，段地址在 ds 中。</p>
+</blockquote>
+<p>数字化描述为：(ax)=((ds)*16+(bx)+(si))</p>
+<p>该指令也可以写成如下格式（常用）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mov ax,[bx][si]</div></pre></td></tr></table></figure>
+<h1 id="bx-si-idata-和-bx-di-idata"><a href="#bx-si-idata-和-bx-di-idata" class="headerlink" title="[bx+si+idata] 和 [bx+di+idata]"></a>[bx+si+idata] 和 [bx+di+idata]</h1><p>[bx+si+idata] 和 [bx+di+idata] 的含义相似，我们以 [bx+si] 为例讲解</p>
+<p>[bx+si+idata] 表示一个内存单元，它的偏移地址为 (bx)+(si)+idata（即 bx 中的数值加上 si 中的数值）</p>
+<p>指令 <code>mov ax,[bx+si]</code> 的含义如下：   </p>
+<blockquote>
+<p>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址为 bx 中的数值加上 si 中的数值再加上 idata，段地址在 ds 中。</p>
+</blockquote>
+<p>数字化描述为：(ax)=((ds)*16+(bx)+(si)+idata)</p>
+<p>该指令也可以写成如下格式（常用）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mov ax,[bx+200+si]</div><div class="line">mov ax,[200+bx+si]</div><div class="line">mov ax,200[bx][si]</div><div class="line">mov ax,[bx].200[si]</div><div class="line">mov ax,[bx][si].200</div></pre></td></tr></table></figure>
+<h1 id="不同的寻址方式的灵活应用"><a href="#不同的寻址方式的灵活应用" class="headerlink" title="不同的寻址方式的灵活应用"></a>不同的寻址方式的灵活应用</h1><p>通过比较前面用到的几种定位内存地址的方法（可称为寻址方式），可以发现：</p>
+<ul>
+<li>[idata] 用一个常量来表示地址，可用于直接定位一个内存单元</li>
+<li>[bx] 用一个变量来表示内存地址，可用于间接定位一个内存单元</li>
+<li>[bx+idata] 用一个变量和常量表示地址，可在一个起始地址的基础上用变量间接定位一个内存单元</li>
+<li>[bx+si] 用两个变量表示地址</li>
+<li>[bx+si+idata] 用两个变量和一个常量表示地址</li>
+</ul>
+<p>Q: 编程，将 datasg 段中每个单词改写为大写字母<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">assume cs:codesg,ds:datasg</div><div class="line"></div><div class="line">datasg segment</div><div class="line">    db &apos;ibm             &apos;</div><div class="line">    db &apos;dec             &apos;</div><div class="line">    db &apos;dos             &apos;</div><div class="line">    db &apos;vax             &apos;</div><div class="line">datasg ends</div><div class="line"></div><div class="line">codesg segment</div><div class="line">    start:</div><div class="line">codesg ends</div></pre></td></tr></table></figure></p>
+<p>A: 类似这种问题，我们最自然能想到的就是使用二重循环来实现，那么在汇编中如何实现二重循环呢？</p>
+<p>如果要使用二重循环的话，那么思路应该是这样的：</p>
+<ul>
+<li>首先定义外层循环，用来扫描每一行</li>
+<li>接着定义内存循环，用来扫描每一列</li>
+<li>将访问到的数据取出，做位与运算</li>
+</ul>
+<p>处理过程大致如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">    r=第一行地址</div><div class="line">    mov cx,4</div><div class="line">   </div><div class="line">s0: c=第一列地址</div><div class="line">    </div><div class="line">    mov cx,3</div><div class="line">s:  改变 r 行，c 列的字母为大写</div><div class="line">    c=下一列地址</div><div class="line">    loop s</div><div class="line">    </div><div class="line">    r=下一行的地址</div><div class="line">    loop s0</div></pre></td></tr></table></figure></p>
+<p>那么，再次根据这个大致过程，我们再来分析一下，我们知道，要使用 loop ，那么就需要用 cx 来保存循环次数，可是这里就有一个矛盾的地方，如果 cx 记录了外层循环的次数，那么内层循环怎么办？或者说记录内层的循环次数，外层的又怎么办？</p>
+<p>这里可以提供一个思路，我们或许可以用寄存器，来暂时保存 cx 的值，比如我是用 dx 来暂时保存外层循环的次数，当内层循环执行完过后，再将 dx 的值还给 cx。可是这样有一个问题，如果 dx 在内部被使用了怎么办？我们只有 14 个寄存器，数量有限，显然这种方式在某些情况下不合适</p>
+<p>那么再提供一个思路，我们能否在数据段内定义一个块内存单元，用来保存外层 cx 的值，比如再进行内层循环之前，执行这种操作 <code>mov ds:[40H],cx</code> ，需要使用的时候再从内存单元中恢复 `mov cx,ds:[40H]。似乎也可行，但是这种做法却很麻烦，如果你需要保存多个数据的话，那么就需要记住数据放到了哪个单元，这样程序容易混乱。</p>
+<p>综合上述分析过后，<strong>一般来说，在需要暂存数据的时候，我们都应该使用栈</strong></p>
+<p>那么，再次改进我们的程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">assume cs:codesg,ds:datasg,ss:stacksg</div><div class="line"></div><div class="line">datasg segment</div><div class="line">    db &apos;ibm             &apos;</div><div class="line">    db &apos;dec             &apos;</div><div class="line">    db &apos;dos             &apos;</div><div class="line">    db &apos;vax             &apos;</div><div class="line">datasg ends</div><div class="line"></div><div class="line">stacksg segment</div><div class="line">    dw 0,0,0,0,0,0,0,0</div><div class="line">stacksg ends</div><div class="line"></div><div class="line">codesg segment</div><div class="line">    </div><div class="line">    start: </div><div class="line">        mov ax,stacksg</div><div class="line">        mov ss,ax</div><div class="line">        mov sp,16</div><div class="line">        mov ax,datasg</div><div class="line">        mov ds,ax</div><div class="line">        mov bx,0</div><div class="line">        </div><div class="line">        mov cx,4</div><div class="line">    s0:</div><div class="line">        push cx             ; 将外层循环值压栈</div><div class="line">        mov si,0</div><div class="line">        mov cx,3            ; cx 设置为内层循环的次数</div><div class="line">        </div><div class="line">    s:  </div><div class="line">        mov al,[bx+si]</div><div class="line">        and al,11011111b</div><div class="line">        mov [bx+si],al</div><div class="line">        inc si</div><div class="line">        loop s</div><div class="line">    </div><div class="line">        add bx,16</div><div class="line">        pop cx              ; 从栈顶弹出原 cx 的值，恢复 cx</div><div class="line">        loop s0             ; 外层循环的 loop 指令将 cx 中的计数值减 1</div><div class="line">        </div><div class="line">        mov ax,4c00h</div><div class="line">        int 21h</div><div class="line"></div><div class="line">codesg ends</div><div class="line">end start</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/汇编语言/" rel="tag"># 汇编语言</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/23/汇编语言学习笔记（六）：包含多个段的程序/" rel="next" title="汇编语言学习笔记（六）：包含多个段的程序">
+                <i class="fa fa-chevron-left"></i> 汇编语言学习笔记（六）：包含多个段的程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://i1.piimg.com/567571/2940be93a688853d.jpg"
+               alt="Inno Fang" />
+          <p class="site-author-name" itemprop="name">Inno Fang</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap, show me the code.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/InnoFang" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#and-和-or-指令"><span class="nav-number">1.</span> <span class="nav-text">and 和 or 指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SI-和-DI"><span class="nav-number">2.</span> <span class="nav-text">SI 和 DI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bx-si-和-bx-di"><span class="nav-number">3.</span> <span class="nav-text">[bx+si] 和 [bx+di]</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bx-si-idata-和-bx-di-idata"><span class="nav-number">4.</span> <span class="nav-text">[bx+si+idata] 和 [bx+di+idata]</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不同的寻址方式的灵活应用"><span class="nav-number">5.</span> <span class="nav-text">不同的寻址方式的灵活应用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Inno Fang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
