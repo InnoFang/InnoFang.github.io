@@ -1,0 +1,884 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="汇编语言," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Inno's Bolg" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://i1.piimg.com/567571/2940be93a688853d.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="学习参考：汇编语言（第2版）王爽
+
+
+bx、si、di 和 bp
+机器指令处理的数据在什么地方
+汇编语言中数据位置的表达
+寻址方式
+指令要处理的数据有多长
+div 指令
+伪指令 dd
+dup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编语言学习笔记（八）：数据处理的两个基本问题">
+<meta property="og:url" content="http://yoursite.com/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/index.html">
+<meta property="og:site_name" content="Inno's Bolg">
+<meta property="og:description" content="学习参考：汇编语言（第2版）王爽
+
+
+bx、si、di 和 bp
+机器指令处理的数据在什么地方
+汇编语言中数据位置的表达
+寻址方式
+指令要处理的数据有多长
+div 指令
+伪指令 dd
+dup">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/0067fiZ7ly1flti3xgt54j30fk0eo0tn.jpg">
+<meta property="og:updated_time" content="2017-11-25T02:26:16.544Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="汇编语言学习笔记（八）：数据处理的两个基本问题">
+<meta name="twitter:description" content="学习参考：汇编语言（第2版）王爽
+
+
+bx、si、di 和 bp
+机器指令处理的数据在什么地方
+汇编语言中数据位置的表达
+寻址方式
+指令要处理的数据有多长
+div 指令
+伪指令 dd
+dup">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/0067fiZ7ly1flti3xgt54j30fk0eo0tn.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/"/>
+
+
+
+
+
+  <title> 汇编语言学习笔记（八）：数据处理的两个基本问题 | Inno's Bolg </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Inno's Bolg</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Inno's world, not just the code, but also the life</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+
+    
+
+  
+  
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Inno Fang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Inno's Bolg">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                汇编语言学习笔记（八）：数据处理的两个基本问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-25T10:24:26+08:00">
+                2017-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/汇编语言/" itemprop="url" rel="index">
+                    <span itemprop="name">汇编语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>学习参考：汇编语言（第2版）王爽</p>
+</blockquote>
+<ul>
+<li>bx、si、di 和 bp</li>
+<li>机器指令处理的数据在什么地方</li>
+<li>汇编语言中数据位置的表达</li>
+<li>寻址方式</li>
+<li>指令要处理的数据有多长</li>
+<li>div 指令</li>
+<li>伪指令 dd</li>
+<li>dup</li>
+</ul>
+<a id="more"></a>
+<p>计算机作为进行数据处理、运算的机器，那么有两个基本问题：</p>
+<ul>
+<li>处理的数据在什么地方</li>
+<li>要处理的数据有多长</li>
+</ul>
+<p>我们使用 reg 来表示一个寄存器，sreg 表示一个段寄存器</p>
+<ul>
+<li>reg 的集合包括：ax、bx、cx、dx、ah、al、bh、bl、ch、cl、dh、dl、sp、bp、si、di</li>
+<li>sreg的集合包括：ds、ss、cs、es</li>
+</ul>
+<h1 id="bx、si、di-和-bp"><a href="#bx、si、di-和-bp" class="headerlink" title="bx、si、di 和 bp"></a>bx、si、di 和 bp</h1><ul>
+<li>只有这四个寄存器可以用在 “[…]” 中来进行内存单元的寻址</li>
+<li>这四个寄存器可以单个出席那，或只能以四种组合出现：<ul>
+<li>bx 和 si</li>
+<li>bx 和 di</li>
+<li>bp 和 si</li>
+<li>bp 和 di</li>
+</ul>
+</li>
+<li>只要在 “[…]” 中使用寄存器 bp，而指令中没有显性地给出段地址，段地址就默认在 ss 中</li>
+</ul>
+<h1 id="机器指令处理的数据在什么地方"><a href="#机器指令处理的数据在什么地方" class="headerlink" title="机器指令处理的数据在什么地方"></a>机器指令处理的数据在什么地方</h1><p>进行数据处理的指令分为三类：</p>
+<ul>
+<li>读取</li>
+<li>写入</li>
+<li>运算</li>
+</ul>
+<p>在机器指令这一层来讲，并不关心数据的值是多少？而关心<strong>指令执行前一刻，它将要处理的数据所在的位置</strong>。</p>
+<p>在指令执行之前，所要处理的数据可以在 3 个地方：</p>
+<ul>
+<li>CPU 内部</li>
+<li>内存</li>
+<li>端口</li>
+</ul>
+<p>指令举例</p>
+<table>
+<thead>
+<tr>
+<th>汇编指令</th>
+<th>指令执行前数据的位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mov bx,[0]</td>
+<td>内存，ds:0 单元</td>
+</tr>
+<tr>
+<td>mov bx,ax</td>
+<td>CPU 内部，ax 寄存器</td>
+</tr>
+<tr>
+<td>mov bx,1</td>
+<td>CPU 内部，指令缓冲器</td>
+</tr>
+</tbody>
+</table>
+<h1 id="汇编语言中数据位置的表达"><a href="#汇编语言中数据位置的表达" class="headerlink" title="汇编语言中数据位置的表达"></a>汇编语言中数据位置的表达</h1><p>用 3 个概念表达数据的位置</p>
+<ul>
+<li><p>立即数（idata）：对于直接包含在机器指令中的数据（执行前在 CPU 的指令缓冲器中）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov ax,1</div><div class="line">add bx,2000h</div><div class="line">or  bx,00010000b</div><div class="line">mov al,&apos;a&apos;</div></pre></td></tr></table></figure>
+</li>
+<li><p>寄存器：指令要处理的数据在寄存器中</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov ax,bx</div><div class="line">mov ds,ax</div><div class="line">push bx</div><div class="line">mov ds:[0],bx</div></pre></td></tr></table></figure>
+</li>
+<li><p>段地址（SA）和偏移地址（EA）:指令要处理的数据在内存中，在汇编指令中可用[x]的格式给出 EA，SA 在某个段寄存器中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mov ax,[0]</div><div class="line">mov ax,[di]</div><div class="line">mov ax,[bx+di+8]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="寻址方式"><a href="#寻址方式" class="headerlink" title="寻址方式"></a>寻址方式</h1><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1flti3xgt54j30fk0eo0tn.jpg" alt=""></p>
+<h1 id="指令要处理的数据有多长"><a href="#指令要处理的数据有多长" class="headerlink" title="指令要处理的数据有多长"></a>指令要处理的数据有多长</h1><blockquote>
+<p> 8086CPU 的指令，可以处理两种尺寸的数据，byte 和 word。所以在机器指令中要指名，指令进行的是字操作还是字节操作。对于这个问题，用一下方法处理</p>
+</blockquote>
+<ul>
+<li><p>通过寄存器指明要处理的数据的尺寸</p>
+<p> 下面进行的是字操作</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mov ax,1</div><div class="line">mov bx,ds:[0]</div><div class="line">mov ds,ax</div><div class="line">mov ds:[0],ax</div><div class="line">inc ax</div><div class="line">add ax,1000</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>下面进行的是字节操作
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mov al,1</div><div class="line">mov al,bl</div><div class="line">mov al,ds:[0]</div><div class="line">mov ds:[0],al</div><div class="line">inc al</div><div class="line">add al,100</div></pre></td></tr></table></figure>
+</code></pre><ul>
+<li><p>在没有寄存器名称存在的情况下，用操作符 X ptr 指明内存单元的长度，X 在汇编指令中可以为 word 或 byte</p>
+<p>下面的指令中，用 word ptr 指明了指令访问的内存单元是一个字单元</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov word ptr ds:[0],1</div><div class="line">inc word ptr [bx]</div><div class="line">inc word ptr ds:[0]</div><div class="line">add word ptr [bx],2</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>下面的指令中，用 byte ptr 指明了指令访问的内存单元是一个字节单元
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov byte ptr ds:[0],1</div><div class="line">inc byte ptr [bx]</div><div class="line">inc byte ptr ds:[0]</div><div class="line">add byte ptr [bx],2</div></pre></td></tr></table></figure>
+</code></pre><ul>
+<li><p>其他方法</p>
+<p> 有些指令默认了访问的字单元还是字节单元，比如，push 指令只进行字操作</p>
+</li>
+</ul>
+<h1 id="div-指令"><a href="#div-指令" class="headerlink" title="div 指令"></a>div 指令</h1><blockquote>
+<p>div 是除法指令，使用 div 做除法的时候应注意一下问题</p>
+</blockquote>
+<ul>
+<li>除数：有 8 位和 16位两种，在一个 reg 或内存单元中</li>
+<li>被除数：默认凡在 AX 或 DX 和 AX 中，如果除数为 8 位，被除数则为 16 位，默认在 AX 中存放；如果除数为 16 位，被除数则为 32 位，在 DX 和 AX 中存放，DX 存放高 16 位，AX 存放低 16 位</li>
+<li>结果：如果除数为 8 位，则 AL 存储除法操作的商，AH 存储除法操作的余数；如果除数为 16 位，则 AX 存储除法操作的商，DX 存储除法操作的余数</li>
+</ul>
+<p>格式如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">div reg</div><div class="line">div 内存单元</div></pre></td></tr></table></figure></p>
+<p>现在可以有多种方法来表示一个内存单元了，比如下面的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">div byte ptr ds:[0]</div><div class="line">含义： (al)=(ax) / ((ds)*16+0) 的商</div><div class="line">       (ah)=(ax) / ((ds)*16+0) 的余数</div><div class="line">       </div><div class="line">div word ptr es:[0]</div><div class="line">含义： (ax)=[(dx)*10000H + (ax)] / ((es)*16+0) 的商</div><div class="line">       (dx)=[(dx)*10000H + (ax)] / ((es)*16+0) 的余数</div></pre></td></tr></table></figure></p>
+<p><code>dx*10000H</code> 相当于将 dx 左移了 16 位</p>
+<p><strong>编程</strong>  利用除法指令计算 100001/100</p>
+<p>分析：被除数大于 65535（2^16），不能用 ax 寄存器存放，所以只能使用 dx 和 ax 两个寄存器联合存放 100001，也就是说要进行 16 位的除法。除数 100 小于 255，可以在一个 8 位寄存器存放，但是，因为被除数是 32 位的，除数应为 16 位，所以要用一个 16 位寄存器来存放被除数 100</p>
+<p>因为要分别为 dx 和 ax 赋 10001 的高 16 位值和低 16 位值，所以应先将 100001 表示为 16 进制形式：186A1H，程序如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov dx,1</div><div class="line">mov ax,86a1     ;(dx)*10000H+(ax)=100001</div><div class="line">mov bx,100</div><div class="line">div bx</div></pre></td></tr></table></figure></p>
+<p>程序执行后，(ax)=03E8H(即 1000)，(dx)=1(余数为 1)</p>
+<p><strong>编程</strong> 利用除法指令计算 1001/100</p>
+<p>分析：被除数 1001 小于 65535 ，所以可以用 ax 寄存器存储，除数 100 小于 255，可以用 8 位寄存器存储，也就是说要进行 8 位的除法。程序如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mov ax,1001</div><div class="line">mov bl,100</div><div class="line">div bl</div></pre></td></tr></table></figure></p>
+<p>程序执行后，(al)=0AH(即 10)，(dh)=1(余数为 1)</p>
+<h1 id="伪指令-dd"><a href="#伪指令-dd" class="headerlink" title="伪指令 dd"></a>伪指令 dd</h1><blockquote>
+<p>dd 是用来定义 dword（double word，双字）型数据的。比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">data segment</div><div class="line">    db 1</div><div class="line">    dw 1</div><div class="line">    dd 1</div><div class="line">data ends</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>在 data 段中定义了 3 个数据</p>
+<p>第一个数据为 01H，在 data:0 处，占 1 个字节<br>第二个数据为 0001H，在 data:1 处，占 1 个字<br>第三个数据为 00000001H，在 data:3 处，占 2 个字</p>
+<p>用 div 计算data段中第一个数据除以第二个数据后的结果，商存在第三个数据的存储单元中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">data segment</div><div class="line">    dd 100001</div><div class="line">    dw 100</div><div class="line">    dw 0</div><div class="line">data ends</div></pre></td></tr></table></figure></p>
+<p>分析:data 段中的第一个数据是被除数，为 dword(双字)型，32 位，所以在做除法之前，用 dx 和ax 存储。应将 data:0 字单元中的低 16 位存储在ax中，data:2 字单元中的高16位存<br>储在 dx 中。程序如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mov ax,data </div><div class="line">mov ds,ax</div><div class="line">mov ax,ds:[0]       ;ds:0字单元中的低16位存储在ax中</div><div class="line">mov dx,ds:[2]       ;ds:2字单元中的高16位存储在dx中</div><div class="line">div word ptr ds:[4]  ;用dx:ax中的32位数据除以ds:4字单元中的数据</div><div class="line">mov ds:[6],ax        ;将商存储在ds:6字单元中</div></pre></td></tr></table></figure></p>
+<h1 id="dup"><a href="#dup" class="headerlink" title="dup"></a>dup</h1><blockquote>
+<p>和 db、dw、dd 等数据定义伪指令配合使用，用来表示数据的重复</p>
+</blockquote>
+<p>格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">db 重复次数 dup (重复的字节型数据)</div><div class="line">dw 重复次数 dup (重复的字型数据)</div><div class="line">dd 重复次数 dup (重复的双字节数据)</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/汇编语言/" rel="tag"># 汇编语言</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/24/汇编语言学习笔记（七）：更灵活的定位内存地址的方法/" rel="next" title="汇编语言学习笔记（七）：更灵活的定位内存地址的方法">
+                <i class="fa fa-chevron-left"></i> 汇编语言学习笔记（七）：更灵活的定位内存地址的方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://i1.piimg.com/567571/2940be93a688853d.jpg"
+               alt="Inno Fang" />
+          <p class="site-author-name" itemprop="name">Inno Fang</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap, show me the code.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/InnoFang" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bx、si、di-和-bp"><span class="nav-number">1.</span> <span class="nav-text">bx、si、di 和 bp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器指令处理的数据在什么地方"><span class="nav-number">2.</span> <span class="nav-text">机器指令处理的数据在什么地方</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#汇编语言中数据位置的表达"><span class="nav-number">3.</span> <span class="nav-text">汇编语言中数据位置的表达</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#寻址方式"><span class="nav-number">4.</span> <span class="nav-text">寻址方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#指令要处理的数据有多长"><span class="nav-number">5.</span> <span class="nav-text">指令要处理的数据有多长</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#div-指令"><span class="nav-number">6.</span> <span class="nav-text">div 指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#伪指令-dd"><span class="nav-number">7.</span> <span class="nav-text">伪指令 dd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dup"><span class="nav-number">8.</span> <span class="nav-text">dup</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Inno Fang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
