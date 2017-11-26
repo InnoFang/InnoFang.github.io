@@ -94,7 +94,7 @@
 <meta property="og:description" content="关于回调，先讲个例子假如现在你有一家鞋店，生意十分红火，每天来买鞋的客人络绎不绝。为了照顾生意，你招聘了一名店员——小王来帮忙。那么现在，有一名客人挑中了一双鞋，但是这时货架上符合客人的鞋码没有了，所以你打算叫小王去库房去符合客人鞋码的鞋子过来，然后你继续去招呼其他客人。">
 <meta property="og:image" content="http://p1.bqimg.com/567571/945a59c5558ee93f.png">
 <meta property="og:image" content="http://p1.bpimg.com/567571/95011a7b0ddcdee1.png">
-<meta property="og:updated_time" content="2017-11-01T09:19:14.704Z">
+<meta property="og:updated_time" content="2017-11-26T08:01:55.494Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始的回调">
 <meta name="twitter:description" content="关于回调，先讲个例子假如现在你有一家鞋店，生意十分红火，每天来买鞋的客人络绎不绝。为了照顾生意，你招聘了一名店员——小王来帮忙。那么现在，有一名客人挑中了一双鞋，但是这时货架上符合客人的鞋码没有了，所以你打算叫小王去库房去符合客人鞋码的鞋子过来，然后你继续去招呼其他客人。">
@@ -305,7 +305,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-08T15:30:45+08:00">
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2017-03-08T15:30:45+08:00">
                 2017-03-08
               </time>
             
@@ -393,7 +393,7 @@
 <h2 id="为什么需要回调？"><a href="#为什么需要回调？" class="headerlink" title="为什么需要回调？"></a>为什么需要回调？</h2><p>上面讲了什么是回调以及回调的简单实现，但是如果你是第一次接触这个，可能就会问为什么需要回调？不要可以吗？</p>
 <p>对于这个问题，还是拿上面鞋店的例子来解释好了，如果你不采用回调就有可能面临这样的窘境：</p>
 <p>现在来了一个客人，他挑中了一双鞋，但是现在这个鞋码的鞋在鞋架上已经没有了，这时你叫小王到库房去找这类鞋码的鞋，但是你不知道他拿到了鞋子没有，这时，你就要主动去库房问小王，你找到鞋了吗？小王回复说，还在找。然后你回去招呼其他客人，但是过了一会，你又去库房问小王有没有找到鞋，小王回复说，快了。又过了一会儿，你又去问，小王又回复：马上就找到了… …，经过几次询问小王终于找到了鞋，然后你把鞋拿来再去给客人穿。</p>
-<p>你会发现这中处理事情的过程其实是不妥的，或许当你拿到鞋的那一刻，客人都已经走了。那么回调就是用来解决这个问题的</p>
+<p>你会发现这种处理事情的过程其实是不妥的，或许当你拿到鞋的那一刻，客人都已经走了。那么回调就是用来解决这个问题的</p>
 <p>利用回调，老板只需要叫小王自己去找即可，自己继续去招呼其他客人，当小王找到鞋过后，他就会自己把鞋拿过来，完全不需要你自己去询问然后自己把鞋子拿来，你可以继续去执行你自己的逻辑，两边都不会耽误</p>
 <h2 id="回调的应用"><a href="#回调的应用" class="headerlink" title="回调的应用"></a>回调的应用</h2><p>上面讲了很多，下面就来看看在实际开发当中如何使用回调</p>
 <h3 id="案例一：给-RecyclerView-的-item-添加点击事件"><a href="#案例一：给-RecyclerView-的-item-添加点击事件" class="headerlink" title="案例一：给 RecyclerView 的 item 添加点击事件"></a>案例一：给 RecyclerView 的 item 添加点击事件</h3><blockquote>
