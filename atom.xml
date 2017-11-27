@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-11-26T01:25:36.966Z</updated>
+  <updated>2017-11-27T02:48:27.999Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,156 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>汇编语言学习笔记（十）：CALL 和 RET 指令</title>
+    <link href="http://yoursite.com/2017/11/27/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%8D%81%EF%BC%89%EF%BC%9ACALL-%E5%92%8C-RET-%E6%8C%87%E4%BB%A4/"/>
+    <id>http://yoursite.com/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/</id>
+    <published>2017-11-27T02:47:08.000Z</published>
+    <updated>2017-11-27T02:48:27.999Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>学习参考：汇编语言（第2版）王爽</p>
+</blockquote>
+<ul>
+<li>ret 和 retf</li>
+<li>call 指令</li>
+<li>依据位移进行转移的 call 指令</li>
+<li>转移的目的地址在指令中的 call 指令</li>
+<li>转移地址在内存中的 call 指令</li>
+<li>call 和 ret 的配合使用</li>
+<li>mul 指令</li>
+<li>参数和结果传递问题</li>
+<li>批量数据的传递</li>
+<li>寄存器冲突问题</li>
+</ul>
+<a id="more"></a>
+<blockquote>
+<p>call 和 ret 指令都是转移指令，它们都是修改 IP，或同时修改 CS 和 IP。它们经常被共同用来实现子程序设计</p>
+</blockquote>
+<h1 id="ret-和-retf"><a href="#ret-和-retf" class="headerlink" title="ret 和 retf"></a>ret 和 retf</h1><p> ret 指令用栈中的数据，修改 IP 的内容，从而实现近转移<br> retf 指令用栈中的数据，修改 CS 和 IP 的内容，从而实现远转移。</p>
+<p> CPU 执行 ret 指令时，进行下面两步操作</p>
+<ol>
+<li>(IP)=((ss)*16+(sp))</li>
+<li>(sp)=(sp)+2</li>
+</ol>
+<p>相当于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pop IP</div></pre></td></tr></table></figure></p>
+<p>CPU 执行 retf 指令时，进行下面 4 步操作</p>
+<ol>
+<li>(IP)=((ss)*16+(sp))</li>
+<li>(sp)=(sp)+2</li>
+<li>(CS)=((ss)*16+(sp))</li>
+<li>(sp)=(sp)+2</li>
+</ol>
+<p>相当于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pop IP</div><div class="line">pop CS</div></pre></td></tr></table></figure></p>
+<h1 id="call-指令"><a href="#call-指令" class="headerlink" title="call 指令"></a>call 指令</h1><p>CPU 执行 call 指令时，进行两步操作：</p>
+<ol>
+<li>将当前的 IP 或 CS 和 IP 压入栈中</li>
+<li>转移</li>
+</ol>
+<blockquote>
+<p>call 指令不能实现短转移，除此之外，call 指令实现转移的方法和 jmp 指令的原理相同</p>
+</blockquote>
+<h1 id="依据位移进行转移的-call-指令"><a href="#依据位移进行转移的-call-指令" class="headerlink" title="依据位移进行转移的 call 指令"></a>依据位移进行转移的 call 指令</h1><p>call 标号(将当前的IP压栈后，转到标号处执行指令)<br>CPU 执行此种格式的 call 指令时，进行如下的操作:</p>
+<ol>
+<li>(sp)=(sp)-2 ;  ((ss)*16+(sp))=(IP)</li>
+<li>(IP)=(IP)+16位位移。</li>
+</ol>
+<p>16 位位移 = 标号处的地址 - call 指令后的第一个字节的地址;<br>16 位位移的范围为 -32768-32767，用补码表示;<br>16 位位移由编译程序在编译时算出。</p>
+<p>从上面的描述中，可以看出，如果我们用汇编语法来解释此种格式的call 指令，则:<br>CPU执行 <code>call 标号</code> 时，相当于进行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">push IP</div><div class="line">jmp near ptr 标号</div></pre></td></tr></table></figure>
+<h1 id="转移的目的地址在指令中的-call-指令"><a href="#转移的目的地址在指令中的-call-指令" class="headerlink" title="转移的目的地址在指令中的 call 指令"></a>转移的目的地址在指令中的 call 指令</h1><p><code>call far ptr 标号</code> 实现的是段间转移</p>
+<ol>
+<li><p>(sp)=(sp)-2<br>((ss)<em>16+(sp))=(CS)<br>(sp)-(sp)-2<br>((ss)</em>16+(sp))=(IP)</p>
+</li>
+<li><p>(CS)=标号所在段的段地址<br>(IP)=标号在段中的偏移地址</p>
+</li>
+</ol>
+<p>从上面的描述中可以看出，如果我们用汇编语法来解释此种格式的 call 指令，则 CPU执行 <code>call far ptr 标号</code>时，相当于进行:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">push CS</div><div class="line">push IP</div><div class="line">jmp far ptr 标号</div></pre></td></tr></table></figure></p>
+<h1 id="转移地址在内存中的-call-指令"><a href="#转移地址在内存中的-call-指令" class="headerlink" title="转移地址在内存中的 call 指令"></a>转移地址在内存中的 call 指令</h1><p>转移地址在内存中的 call 指令有两种格式</p>
+<ol>
+<li><code>call word ptr 内存单元地址</code><br>CPU 执行此种格式的 call 指令，相当于进行：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">push IP</div><div class="line">jmp word ptr 内存单元地址</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><code>call dword ptr 内存单元地址</code><br>  CPU 执行此种格式的 call 指令，相当于进行： <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">push CS</div><div class="line">push IP</div><div class="line">jmp dword ptr 内存单元地址</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="call-和-ret-的配合使用"><a href="#call-和-ret-的配合使用" class="headerlink" title="call 和 ret 的配合使用"></a>call 和 ret 的配合使用</h1><blockquote>
+<p>可以写一个具有一定功能的程序段，称其为子程序，在需要的时候，用 call 指令转去执行。call 指令转去执行子程序之前，call 指令后面的指令的地址将存储在栈中，所以可在子程序的后面使用 ret 指令，用栈中的数据设置 IP 的值，从而转到 call 指令后面的代码处继续执行。</p>
+</blockquote>
+<p>用我个人的理解，不恰当的说，我感觉这一功能可以看作是调用一个函数，标号就相当于函数名，<code>call 标号</code> 就相当于调用了标号所在的子程序，当子程序的功能执行完过后，就使用 <code>ret</code> 指令回到调用的位置，<code>ret</code> 就相当于 return 一样。</p>
+<p>这样我们可以利用 call 和 ret 来实现子程序的机制。子程序的框架如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">标号:</div><div class="line">        指令</div><div class="line">        ret</div></pre></td></tr></table></figure></p>
+<p>具有子程序的源程序的框架如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">assume cs:codesg</div><div class="line">codesg segment</div><div class="line">    main:</div><div class="line">        ..</div><div class="line">        ..</div><div class="line">        call sub1       ; 调用子程序 sub1</div><div class="line">        ..</div><div class="line">        ..</div><div class="line">        mov ax,4c00h</div><div class="line">        int 21h</div><div class="line">    </div><div class="line">    sub1:               ; 子程序 sub1 开始</div><div class="line">        ..</div><div class="line">        ..</div><div class="line">        call sub2       ; 调用子程序 sub2</div><div class="line">        ..</div><div class="line">        ..</div><div class="line">        ret             ; 子程序返回</div><div class="line">        </div><div class="line">    sub2:               ; 子程序 sub2 开始</div><div class="line">        ..</div><div class="line">        ..</div><div class="line">        ret             ; 子程序返回</div></pre></td></tr></table></figure></p>
+<h1 id="mul-指令"><a href="#mul-指令" class="headerlink" title="mul 指令"></a>mul 指令</h1><p>mul 是乘法指令，使用 mul 做乘法的时候，注意一下两点</p>
+<ol>
+<li>两个相乘的数：两个相乘的数，要么都是 8 位，要么都是 16 位。如果是 8 位，一个默认在 AL 中，另一个放在 8 位 reg 或内存字节单元中；如果是 16 位，一个默认在 AX 中，另一个放在 16 位 reg 或内存字单元中</li>
+<li>结果：如果是 8 位乘法，结果默认放在 AX 中；如果是 16 位乘法，结果高位默认在 DX 中存放，低位在 AX 中放</li>
+</ol>
+<p>格式如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mul reg</div><div class="line">mul 内存单元</div></pre></td></tr></table></figure></p>
+<p>内存单元可以用不同的寻址方式给出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mul byte ptr ds:[0]</div></pre></td></tr></table></figure></p>
+<p>举例如下</p>
+<ul>
+<li>计算 100 * 10<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">; 100 和 10 小于 255，做 8 位i乘法</div><div class="line"></div><div class="line">mov al,100</div><div class="line">mov bl,10</div><div class="line">mul bl</div><div class="line"></div><div class="line">; 结果(ax)=1000（03E8H）</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>计算 100 * 10000<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">; 100 小于 255， 可 10000 大于 255，所以必须做 16 位乘法</div><div class="line"></div><div class="line">mov ax,100</div><div class="line">mov bx,10000</div><div class="line">mul bx</div><div class="line"></div><div class="line">; 结果(ax)=4240H，(dx)=000FH  （F4240H=1000000）</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="参数和结果传递问题"><a href="#参数和结果传递问题" class="headerlink" title="参数和结果传递问题"></a>参数和结果传递问题</h1><p>这个问题实际上就是在探讨，应该如何存储子程序需要的参数和产生的返回值</p>
+<p>比如，设计一个子程序，可以根据提供的N,来计算N的3次方。<br>这里面就有两个问题:</p>
+<p> (1) 将参数N存储在什么地方?<br> (2)计算得到的数值,存储在什么地方?</p>
+<p>很显然，可以用寄存器来存储，可以将参数放到 bx 中; 因为子程序中要计算<br>N<em>N</em>N,可以使用多个mul指令。为了方便。可将结果放到d和ax中。子程序如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">;说明: 计算N的3次方</div><div class="line">;参数: (bx)-N</div><div class="line">;结果: (dx:ax)=N^3</div><div class="line">cube:mov ax,bx</div><div class="line">     mul bx</div><div class="line">     mul bx</div><div class="line">     ret</div></pre></td></tr></table></figure></p>
+<h1 id="批量数据的传递"><a href="#批量数据的传递" class="headerlink" title="批量数据的传递"></a>批量数据的传递</h1><p>有时候我们需要传多个参数，那么寄存器的数量又是有限的，那么这个时候，我们将批量数据放到内存中，然后将它们所在内存空间的首地址放在寄存器中，传递给需要的子程序。对于具有批量数据的返回结果，也可用同样的方法。</p>
+<p>下面看一个例子，设计一个子程序，功能: 将一个全是字母的字符串转化为大写。</p>
+<p>这个子程序需要知道两件事，字符串的内容和字符串的长度。因为字符串中的字母可能很多，所以不便将整个字符串中的所有字母都直接传递给子程序。但是，可以将字符串在内存中的首地址放在寄存器中传递给子程序。因为子程序中要用到循环，我们可以用 loop指令，而循环的次数恰恰就是字符串的长度。出于方便的考虑，可以将字符串的长度放到 cx 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">capital: and byte ptr [si]:11011111b ; 将 ds:si 所指单元中的字母转化为大写</div><div class="line">         inc si                      ; ds:si 指向下一个单元</div><div class="line">         loop capital</div></pre></td></tr></table></figure>
+<h1 id="寄存器冲突问题"><a href="#寄存器冲突问题" class="headerlink" title="寄存器冲突问题"></a>寄存器冲突问题</h1><p>设计一个子程序，功能：将一个全是字母，以 0 结尾的字符串，转化为大写</p>
+<p>程序要处理的字符串以 0 作为结尾符，这个字符串可以如下定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db &apos;conversation&apos;,0</div></pre></td></tr></table></figure>
+<p>应用这个子程序，字符串的内容后面一定要有一个0,标记字符串的结束。子程序可以依次读取每个字符进行检测，如果不是0,就进行大写的转化；如果是0，就结束处理。由于可通过检测 0 而知道是否已经处理完整个字符串，所以子程序可以不需要字符串的长度作为参数。可以用jcxz 来检测 0 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">;说明: 将一个全是字母，以0结尾的字符串。转化为大写</div><div class="line">;参数: ds:si指向字符串的首地址</div><div class="line">;结果: 没有返回值</div><div class="line">capital:mov cl,[si]</div><div class="line">        mov ch,0                    ;如果(cx)=0,结束; 如果不是0,处理 </div><div class="line">        jcxz ok                     ;将ds:si 所指单元中的字母转化为大写</div><div class="line">        and byte ptr [si],11011111b ;ds:si 指向下一个单元</div><div class="line">        inc si</div><div class="line">        jmp short capital</div><div class="line">     ok:ret</div></pre></td></tr></table></figure>
+<p>上面的代码没有问题，但是我们要考虑一个问题，我们这个使用 cx 寄存器，那么带着其他地方就没法使用该寄存器，可是在 CPU 中寄存器的数量是有限的，那么如何解决这个寄存器冲突问题？</p>
+<p>解决这个问题的简捷方法是，在子程序的开始将子程序中所有用到的寄存器中的内容都保存起来，在子程序返回前再恢复。可以用栈来保存寄存器中的内容。</p>
+<p>以后，我们编写子程序的标准框架如下:</p>
+<pre><code>子程序开始:子程序中使用的寄存器入栈
+
+           子程序内容
+
+           子程序中使用的寄存器出栈
+
+           返回(ret.retf)
+</code></pre><p>我们改进一下子程序capital 的设计:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">capital:    push cx</div><div class="line">            push si</div><div class="line">           </div><div class="line">change :    mov cl,[si]</div><div class="line">            mov ch,0</div><div class="line">            jcxz ok</div><div class="line">            and byte ptr [si],11011111b</div><div class="line">            inc si</div><div class="line">            jmp short change</div><div class="line">            </div><div class="line">      ok:   pop si</div><div class="line">            pop cx</div><div class="line">            ret</div></pre></td></tr></table></figure></p>
+<p>要注意寄存器入栈和出栈的顺序。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;学习参考：汇编语言（第2版）王爽&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;ret 和 retf&lt;/li&gt;
+&lt;li&gt;call 指令&lt;/li&gt;
+&lt;li&gt;依据位移进行转移的 call 指令&lt;/li&gt;
+&lt;li&gt;转移的目的地址在指令中的 call 指令&lt;/li&gt;
+&lt;li&gt;转移地址在内存中的 call 指令&lt;/li&gt;
+&lt;li&gt;call 和 ret 的配合使用&lt;/li&gt;
+&lt;li&gt;mul 指令&lt;/li&gt;
+&lt;li&gt;参数和结果传递问题&lt;/li&gt;
+&lt;li&gt;批量数据的传递&lt;/li&gt;
+&lt;li&gt;寄存器冲突问题&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="汇编语言" scheme="http://yoursite.com/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+    
+      <category term="汇编语言" scheme="http://yoursite.com/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
   
   <entry>
     <title>汇编语言学习笔记（九）：转移指令的原理</title>
@@ -1174,6 +1324,72 @@
   </entry>
   
   <entry>
+    <title>MySQL 学习之数据表(一)</title>
+    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
+    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
+    <published>2017-07-23T07:05:27.000Z</published>
+    <updated>2017-08-24T12:04:37.811Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
+</blockquote>
+<p>在数据表中，行称为记录，列称为字段</p>
+<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
+<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
+<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
+<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
+<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="插入记录"><a href="#插入记录" class="headerlink" title="插入记录"></a>插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
+<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
+<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
+<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
+<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
+<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
+<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>以上，基本就是向 MySQL 数据表中插入数据的基本操作了。</p>
+<h2 id="其他记录插入方式"><a href="#其他记录插入方式" class="headerlink" title="其他记录插入方式"></a>其他记录插入方式</h2><p>其实除了使用 INSERT 来插入数据 还可以使用 INSERT SET 或者 INSERT SELECT 来插入数据</p>
+<ul>
+<li><strong>INSERT SET</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name SET col_name=&#123;expr | DEFAULT&#125;, ...</div></pre></td></tr></table></figure>
+<p>使用这种方式与第一种方式的区别在于，此方法可以使用子查询 (SubQuery)，除此之外，第一种方式可以一次性插入多条记录，而这种方式一次只能添加一条记录</p>
+<p>e.g. 使用 INSERT SET 的方式想数据表中添加一条数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 SET name=&apos;Bob&apos;, age=&apos;24&apos;;</div><div class="line">Query OK, 1 row affected (0.08 sec)</div></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>INSERT SELECT</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] SELECT ...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此方法可以将查询结果插入到指定数据表</p>
+<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>单表删除 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM tbl_name [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
+<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="WHERE-语句进行条件查询"><a href="#WHERE-语句进行条件查询" class="headerlink" title="WHERE 语句进行条件查询"></a>WHERE 语句进行条件查询</h2><h2 id="GROUP-BY-语句对结果进行分组"><a href="#GROUP-BY-语句对结果进行分组" class="headerlink" title="GROUP BY 语句对结果进行分组"></a>GROUP BY 语句对结果进行分组</h2><h2 id="HAVING-语句设置分组条件"><a href="#HAVING-语句设置分组条件" class="headerlink" title="HAVING 语句设置分组条件"></a>HAVING 语句设置分组条件</h2><h2 id="ORDER-BY-语句对查询结果进行排序"><a href="#ORDER-BY-语句对查询结果进行排序" class="headerlink" title="ORDER BY 语句对查询结果进行排序"></a>ORDER BY 语句对查询结果进行排序</h2><h2 id="LIMIT-语句限制查询数量"><a href="#LIMIT-语句限制查询数量" class="headerlink" title="LIMIT 语句限制查询数量"></a>LIMIT 语句限制查询数量</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
+&lt;h1 id=&quot;打开数据库&quot;&gt;&lt;a href=&quot;#打开数据库&quot; class=&quot;headerlink&quot; title=&quot;打开数据库&quot;&gt;&lt;/a&gt;打开数据库&lt;/h1&gt;&lt;p&gt;在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
     <title>MySQL 学习之数据表(二)</title>
     <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%BA%8C)/"/>
     <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(二)/</id>
@@ -1281,72 +1497,6 @@
       &lt;h1 id=&quot;数据表的修改&quot;&gt;&lt;a href=&quot;#数据表的修改&quot; class=&quot;headerlink&quot; title=&quot;数据表的修改&quot;&gt;&lt;/a&gt;数据表的修改&lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;数据表的修改操作无非就是列的增加、删除，约束的增加、删除&lt;/p&gt;
 &lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL 学习之数据表(一)</title>
-    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
-    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
-    <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-08-24T12:04:37.811Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
-</blockquote>
-<p>在数据表中，行称为记录，列称为字段</p>
-<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
-<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
-<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
-<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
-<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="插入记录"><a href="#插入记录" class="headerlink" title="插入记录"></a>插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
-<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
-<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
-<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
-<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
-<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
-<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>以上，基本就是向 MySQL 数据表中插入数据的基本操作了。</p>
-<h2 id="其他记录插入方式"><a href="#其他记录插入方式" class="headerlink" title="其他记录插入方式"></a>其他记录插入方式</h2><p>其实除了使用 INSERT 来插入数据 还可以使用 INSERT SET 或者 INSERT SELECT 来插入数据</p>
-<ul>
-<li><strong>INSERT SET</strong></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name SET col_name=&#123;expr | DEFAULT&#125;, ...</div></pre></td></tr></table></figure>
-<p>使用这种方式与第一种方式的区别在于，此方法可以使用子查询 (SubQuery)，除此之外，第一种方式可以一次性插入多条记录，而这种方式一次只能添加一条记录</p>
-<p>e.g. 使用 INSERT SET 的方式想数据表中添加一条数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 SET name=&apos;Bob&apos;, age=&apos;24&apos;;</div><div class="line">Query OK, 1 row affected (0.08 sec)</div></pre></td></tr></table></figure></p>
-<ul>
-<li><strong>INSERT SELECT</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] SELECT ...</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>此方法可以将查询结果插入到指定数据表</p>
-<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>单表删除 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM tbl_name [WHERE where_condition]</div></pre></td></tr></table></figure></p>
-<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
-<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
-<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="WHERE-语句进行条件查询"><a href="#WHERE-语句进行条件查询" class="headerlink" title="WHERE 语句进行条件查询"></a>WHERE 语句进行条件查询</h2><h2 id="GROUP-BY-语句对结果进行分组"><a href="#GROUP-BY-语句对结果进行分组" class="headerlink" title="GROUP BY 语句对结果进行分组"></a>GROUP BY 语句对结果进行分组</h2><h2 id="HAVING-语句设置分组条件"><a href="#HAVING-语句设置分组条件" class="headerlink" title="HAVING 语句设置分组条件"></a>HAVING 语句设置分组条件</h2><h2 id="ORDER-BY-语句对查询结果进行排序"><a href="#ORDER-BY-语句对查询结果进行排序" class="headerlink" title="ORDER BY 语句对查询结果进行排序"></a>ORDER BY 语句对查询结果进行排序</h2><h2 id="LIMIT-语句限制查询数量"><a href="#LIMIT-语句限制查询数量" class="headerlink" title="LIMIT 语句限制查询数量"></a>LIMIT 语句限制查询数量</h2>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
-&lt;h1 id=&quot;打开数据库&quot;&gt;&lt;a href=&quot;#打开数据库&quot; class=&quot;headerlink&quot; title=&quot;打开数据库&quot;&gt;&lt;/a&gt;打开数据库&lt;/h1&gt;&lt;p&gt;在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义&lt;/p&gt;
     
     </summary>
     
@@ -2195,223 +2345,6 @@
     
     
       <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android NDK开发从0到1</title>
-    <link href="http://yoursite.com/2017/04/16/Android-NDK%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01/"/>
-    <id>http://yoursite.com/2017/04/16/Android-NDK开发从0到1/</id>
-    <published>2017-04-16T14:13:57.000Z</published>
-    <updated>2017-04-21T02:07:18.600Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Android-NDK-开发从0到1"><a href="#Android-NDK-开发从0到1" class="headerlink" title="Android NDK 开发从0到1"></a>Android NDK 开发从0到1</h1><blockquote>
-<p>本文的开发环境为 Windows，其他平台操作类似</p>
-</blockquote>
-<p>其实说到 NDK 就不得不提 JNI ( Java Native Interface ) ，JNI 是专门用来与本地代码进行交互而提供的一个接口。通过 JNI 就可以调用 C/C++ 所编写的本地代码。</p>
-<p>而 NDK ( Native Development Kit) 是 Android 所提供的一个工具集合，通过 NDK 就可以很方便的在 Android 中通过 JNI 来访问本地代码。</p>
-<a id="more"></a>
-<p>那么使用 NDK 有什么好处呢？简单总结几点如下，更多的欢迎补充 </p>
-<ul>
-<li>可以使用 C/C++ 的开源库 ( 比如 OpenCV 等)</li>
-<li>安全性。因为 so 库很难进行反编译，所以在安全性上有一定的保证</li>
-<li>可移植。通过编译生成的 so 库可以在其他平台上使用</li>
-<li>…</li>
-</ul>
-<p>那么废话不多说，下面开始吧~</p>
-<h2 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h2><p>首先先大致明确NDK开发从0到1的几个步骤：</p>
-<ul>
-<li>环境变量配置</li>
-<li>在 Java 类中编写 native 代码</li>
-<li>生成与 native 方法对应的头文件</li>
-<li>利用生成的头文件，编写对应的 C/C++ 代码</li>
-<li>生成 so 库</li>
-<li>使用 so 库</li>
-</ul>
-<p>嗯，大致的步骤就是这几个，但是具体实现起来时有很多坑，那么接下来就按照这几个步骤开始讲解</p>
-<h2 id="环境变量配置"><a href="#环境变量配置" class="headerlink" title="环境变量配置"></a>环境变量配置</h2><p>首先就是下载 NDK，那么这里有几个方法</p>
-<ul>
-<li><a href="https://developer.android.com/ndk/downloads/index.html" target="_blank" rel="external">直接从官网下载</a>  (需要翻墙)</li>
-<li>从 Android Studio 中下载 (最好可以挂载 <a href="http://tools.android-studio.org/index.php/proxy" target="_blank" rel="external">镜像代理</a> )<img src="http://i4.buimg.com/567571/b534838d60dca185.png" alt=""> </li>
-</ul>
-<ul>
-<li><a href="http://www.androiddevtools.cn/" target="_blank" rel="external">在 AndroidDevTools 中下载</a> </li>
-</ul>
-<p><img src="http://i2.muimg.com/567571/3cb4fd84194b5043.png" alt=""></p>
-<p>当NDK下载完过后，经过解压等一些列操作，就可以配置环境了</p>
-<p>新建系统变量，将变量名( NDK_HOME )和变量值 (自己NDK文件路径)如下输入</p>
-<blockquote>
-<p>因为我是用的第二种方式，所以 NDK 直接下在了 android-sdk 中，具体情况请根据自己的文件位置而定</p>
-</blockquote>
-<p><img src="http://i4.buimg.com/567571/1b9bda7f8f2bacb2.png" alt=""></p>
-<p>然后添加到 path 中 <code>%NDK_HOME%\</code> ，如果是添加在最后要记得在前面加个分号</p>
-<p><img src="http://i1.piimg.com/567571/16989f6013cd8e63.png" alt=""></p>
-<p>配置完成过后，在命令窗口输入 <code>ndk-build</code> </p>
-<p><img src="http://i2.muimg.com/567571/dcc3b330d535af16.png" alt=""></p>
-<p>若能出现如上信息，则说明配置成功</p>
-<p>最后就是对Android Studio 进行环境配置，路径根据自己的情况而定</p>
-<p><img src="http://i4.buimg.com/567571/f0e2fa3025a52ab4.png" alt=""> </p>
-<h2 id="在-Java-类中编写-native-代码"><a href="#在-Java-类中编写-native-代码" class="headerlink" title="在 Java 类中编写 native 代码"></a>在 Java 类中编写 native 代码</h2><p>新建 Android 项目，现在先见一个 <code>JniUtil</code> 类，专门用来存放 native 方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JniUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里将利用 NDK 计算两数之和</p>
-<h2 id="生成与-native-方法对应的头文件"><a href="#生成与-native-方法对应的头文件" class="headerlink" title="生成与 native 方法对应的头文件"></a>生成与 native 方法对应的头文件</h2><p>在 Android NDK 开发中，C/C++ 中对应于 Java 方法的函数名应该叫什么是很有讲究的，大致是形式是</p>
-<p> <code>Java_包名_类名_方法名</code></p>
-<p>所以 C/C++ 中的函数名不能随便取，必须按照规则来。因为这个函数名很繁琐，手动书写十分容易出错，所以这里需要利用 <code>javah</code> 的命令来生成对应于函数的头文件在头文件中会有对应的 C/C++ 函数名，所以直接复制函数名就可以编写自己的逻辑了</p>
-<p>那么接下来就利用 <code>javah</code> 生成自己的头文件，命令格式如下</p>
-<p><code>javah -classpath (搜索类目录) -d (输出目录) (类名)</code></p>
-<p>这里需要强调一下的是这里的搜索类目录，<strong>搜索的是这个 Java 类的 <code>.class</code> 文件</strong> ，所以在在执行生成头文件的命令时，需要使用快捷键 <code>ctrl+F9</code> 或者 Android  Studio 顶部菜单栏 build -&gt; Make Project，<strong>手动生成这个类的 class 文件</strong> </p>
-<p>生成完 class 文件过后，就可以利用头文件生成对应的头文件了，命令如下：</p>
-<p><code>javah -classpath app\build\intermediates\classes\debug -d ./app/src/main/jni com.innofang.ndkdemo.JniUtil</code></p>
-<p>这里只需要将上面括号类的内容按照自己项目的情况进行修改就可以了。但是，这么长的命令，难道每次添加 native 方法都要自己手动输入生成头文件吗？</p>
-<p>在这里可以利用一个小技巧，就是<strong>利用 Android Studio 的 External Tools 工具</strong> ，一件生成头文件</p>
-<p>File -&gt; Settings 或者 <code>Ctrl+Alt+S</code> 打开设置界面，接着点击 Tools ，找到 External  Tool </p>
-<p><img src="http://i1.piimg.com/567571/585c17b3944b532b.png" alt=""></p>
-<p>点击 <code>+</code>新建一个 Exteranl Tools</p>
-<p>输入如下信息</p>
-<p><img src="http://i4.buimg.com/567571/4d703ed81cf4caf2.png" alt=""></p>
-<p>在 Name 区域输入 Generate Header File </p>
-<p>Program : <code>$JDKPath$\bin\javah</code></p>
-<p>Parameters : <code>-classpath $OutputPath$ -d ./app/src/main/jni $FileClass$</code></p>
-<p>Working directory : <code>$ProjectFileDir$</code></p>
-<p>其余的勾选项对照上图即可</p>
-<p>然后点击 OK 就完成了</p>
-<p>使用时，只需要右击java文件，找到 External Tool ，点击 Generate Header File 即可</p>
-<p><img src="http://i4.buimg.com/567571/4bc79d5a0148989c.png" alt=""></p>
-<p>切换到 Project 视图，就可以看到在 main 包下多了一个 jni 的文件，里面就是刚刚生成的头文件</p>
-<p><img src="http://i1.piimg.com/567571/5a69edf1cabe091b.png" alt=""></p>
-<p><strong>Q: 出现类似 <code>错误: 找不到 &#39;com.innofang.ndkdemo.jnituil&#39; 的类文件。</code> 的情况</strong> </p>
-<p><strong>A：在生成头文件之前要先生成类文件，使用快捷键 <code>ctrl+F9</code> 或者 Android  Studio 顶部菜单栏 build -&gt; Make Project</strong></p>
-<h2 id="利用生成的头文件，编写对应的-C-C-代码"><a href="#利用生成的头文件，编写对应的-C-C-代码" class="headerlink" title="利用生成的头文件，编写对应的 C/C++ 代码"></a>利用生成的头文件，编写对应的 C/C++ 代码</h2><p>点击进入头文件，查看头文件内部的内容</p>
-<blockquote>
-<p>自动生成的头文件内容</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></div><div class="line"><span class="comment">/* Header for class com_innofang_ndkdemo_JniUtil */</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _Included_com_innofang_ndkdemo_JniUtil</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _Included_com_innofang_ndkdemo_JniUtil</span></div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></div><div class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="comment">/*</span></div><div class="line"> * Class:     com_innofang_ndkdemo_JniUtil</div><div class="line"> * Method:    add</div><div class="line"> * Signature: (II)I</div><div class="line"> */</div><div class="line"><span class="function">JNIEXPORT jint JNICALL <span class="title">Java_com_innofang_ndkdemo_JniUtil_add</span></span></div><div class="line">  <span class="params">(JNIEnv *, jobject, jint, jint)</span>;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></div><div class="line">&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
-<p>可以看到，在头文件内部已经写好了对应函数的声明，这里有一点需要强调一下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#ifdef __cplusplus</div><div class="line">extern &quot;C&quot; &#123;</div><div class="line">#endif</div></pre></td></tr></table></figure>
-<p>这里的宏定义指定了 <code>extern &quot;C&quot;</code> 内部的函数将采用 C 语言的命名风格来编译。如果你想使用 C++ 那么这里最好改成 <code>extern &quot;C++&quot; {</code>。否则当采用 C++ 时，可能会因为 C 和 C++ 比编译过程中对函数的命名风格不同，导致编译错误。</p>
-<p>接下来就是编写 C 代码 就将整个声明复制下来，<strong>在 jni 目录下</strong>，新建一个 C 文件并取名为取名为 <code>jnituil.c</code> ，这个名字可以随意，可以不和头文件名相同</p>
-<blockquote>
-<p>建议根据头文件中规定的是采用 C 还是 C++ 来决定新建什么类型的文件( .c 或 .cpp )，虽然不会报错，但是牵扯到语言风格，规范一点总没错</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"com_innofang_ndkdemo_JniUtil.h"</span></span></div><div class="line"></div><div class="line"><span class="function">JNIEXPORT jint JNICALL <span class="title">Java_com_innofang_ndkdemo_JniUtil_add</span></span></div><div class="line">  <span class="params">(JNIEnv *env, jobject obj, jint a, jint b)</span> &#123;</div><div class="line">    <span class="keyword">return</span> a + b;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>因为函数功能是两数相加求和，所以这里直接返回两数之和即可，这一步还是比较简单的</p>
-<p>简单介绍一下上面出现的几个陌生的东西，JNIEXPORT, JNICALL, JNIEnv 和 jobject，这些都是 JNI 标准中所定义的类型或者宏，含义如下：</p>
-<ul>
-<li>JNIEnv * : 表示一个指向 JNI 环境的指针，可以通过它来访问 JNI 提供的接口方法</li>
-<li>jobject : 表示 Java 对象中的 this</li>
-<li>JNIEXPORT 和 JNICALL ： 都是 JNI 中所定义的宏，可以在 jni.h 这个头文件中查找到 ( 上面的代码中虽然没有包含这个头文件，但是如果你细心的话会发现在之前生成的头文件中已经包含这个头文件了，所以这里就只包含自己生成的头文件。当然还需要哪些头文件需要根据具体情况而定)</li>
-</ul>
-<blockquote>
-<p>这里涉及到 JNI 的知识，暂时不是本文章范围内，以后有时间再详细介绍</p>
-</blockquote>
-<h2 id="生成-so-库"><a href="#生成-so-库" class="headerlink" title="生成 so 库"></a>生成 so 库</h2><p>这一步很关键，操作也比较繁琐，简单罗列一下操作步骤</p>
-<ul>
-<li>配置 Gradle</li>
-<li>编写 <code>Android.mk</code> 文件</li>
-<li>编写 <code>Application.mk</code> 文件</li>
-</ul>
-<h3 id="配置-Gradle"><a href="#配置-Gradle" class="headerlink" title="配置 Gradle"></a>配置 Gradle</h3><p>打开 <code>build.gradle</code> 文件 (记住这是在 <code>Module:app</code> 下的)</p>
-<ol>
-<li><p>在 <code>defaultConfig</code> 标签下，加入如下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ndk &#123;</div><div class="line">	moduleName &quot;app&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个 <code>app</code> 就是等会生成的 so 库的名字，也就是等会要使用的 so 库的名字   </p>
-</li>
-<li><p>然后再在 <code>android</code> 标签下，添加如下内容</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sourceSets.main &#123;</div><div class="line">   jni.srcDirs = [&apos;libs&apos;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p> 表示生成的 so 库会在 src/main/libs 目录下</p>
-</li>
-</ol>
-<p><strong>这两个步骤缺一不可</strong></p>
-<p>为了便于对照查看，下面贴出这部分 Gradle 内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">    compileSdkVersion 25</div><div class="line">    buildToolsVersion &quot;25.0.2&quot;</div><div class="line">    defaultConfig &#123;</div><div class="line">        applicationId &quot;com.innofang.ndkdemo&quot;</div><div class="line">        minSdkVersion 21</div><div class="line">        targetSdkVersion 25</div><div class="line">        versionCode 1</div><div class="line">        versionName &quot;1.0&quot;</div><div class="line">        testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;</div><div class="line">        </div><div class="line">        ndk&#123;</div><div class="line">            moduleName &quot;app&quot; // 这个 app 就是等会生成的 so 库的名字</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    buildTypes &#123;</div><div class="line">        release &#123;</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    sourceSets.main &#123;</div><div class="line">        jni.srcDirs = [&apos;libs&apos;] // 表示生成的 so 库会在 src/main/libs 目录下</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line">dependencies &#123;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="编写-Android-mk-文件"><a href="#编写-Android-mk-文件" class="headerlink" title="编写 Android.mk 文件"></a>编写 <code>Android.mk</code> 文件</h3><p><strong>在 jni 文件下 </strong>，新建一个文件取名为 <code>Android.mk</code> </p>
-<p>编辑内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">LOCAL_PATH := $(call my-dir)</div><div class="line">include $(CLEAR_VARS)</div><div class="line"></div><div class="line">LOCAL_MODULE := app</div><div class="line">LOCAL_SRC_FILES := jniutil.c</div><div class="line"></div><div class="line">include $(BUILD_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
-<p>这里要关注的是 <code>LOCAL_MODULE</code>  和 <code>LOCAL_SRC_FILES</code> 这两个东西</p>
-<ul>
-<li><code>LOCAL_MODULE</code>   表示模块的名称。后面的 app 就是上一步骤配置的 moduleName</li>
-<li><code>LOCAL_SRC_FILES</code>  表示需要参与编译的原文件。后面的文件名就是刚才编写的 C/C++ 代码的文件</li>
-</ul>
-<p><strong>请根据具体情况来更改，这两项必须对应正确</strong> </p>
-<h3 id="编写-Application-mk-文件"><a href="#编写-Application-mk-文件" class="headerlink" title="编写 Application.mk 文件"></a>编写 <code>Application.mk</code> 文件</h3><p>同样 <strong>在 jni 文件下 </strong>，新建一个文件取名为 <code>Application.mk</code> </p>
-<p>编辑内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">APP_ABI := all</div></pre></td></tr></table></figure>
-<ul>
-<li>APP_ABI : 表示 CPU 的架构平台的类型。all 表示编译所有 CPU 平台的  so 库。</li>
-</ul>
-<p>目前常见的平台有 armeabi、x86 和 mips ，其中在移动设备中占据主要地位的是 armeabi ，所以有很多 apk 只包含 armeabi 类型的 so 库的原因。默认情况下 NDK 会编译产生各个 CPU 平台的 so 库，通过 APP_ABI 选项即可指定 so 库的 CPU 平台的类型。像上面写 all 表示编译所有 CPU 平台的 so 库， 若改成 armeabi 则只会编译 armeabi 平台下的 so 库，如果需要编译多个 so 库，可以用 <code>,</code> 分割，如：<code>APP_ABI := armeabi, x86</code>。</p>
-<p><strong>请根据实际情况来修改，若编译所有 CPU 平台的 so 库，不可避免 apk 的体积也会随之变大</strong>  </p>
-<p>上面的三个步骤都仅仅只是生成 so 库的准备工作，下面才开始真正生成 so 库</p>
-<p>找到 Android Studio 底部操作栏的 <code>Terminal</code> 并点击，在 <code>Terminal</code>  内分别输入如下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd app/src/main/jni     # 将位置切换到 jni目录下</div><div class="line">ndk-build</div></pre></td></tr></table></figure>
-<p>这里需要强调一点的是，<strong>如果目录名字不是 jni，那么 ndk-build 则无法编译成功</strong>。因为在上一步生成头文件的时候已经通过命令行自动生成了一个 jni 文件夹并在里面生成了头文件，所以这一步没有强调让创建 jni 文件夹。</p>
-<p>如果终端信息出现如下内容则说明 so 库生成成功，否则<strong>请检查上面的步骤是否正确操作</strong></p>
-<p><img src="http://i1.piimg.com/567571/77330721a15e9af3.png" alt=""></p>
-<p>经过上面一系列步骤，你会发现 main 目录下多了两个文件夹 libs 和 obj，这两个文件下存的都是新生成的  so 库。至此，生成 so 库这个任务就算完成了。</p>
-<p>但是发现每次生成 so 库时都要手动切换路径然后生成文件，虽然说没有之前生成头文件那么复杂，但是这种重复的操作还是有点麻烦，那么为了简化这个步骤，下面就要利用到上面提到过的 External Tool 了</p>
-<p>还是打开设置界面，找到 Tools 这个目录，找到 External Tool，点击 <code>+</code> 新建一个 External Tool</p>
-<p><img src="http://i4.buimg.com/567571/75ee3608dbeab9fa.png" alt=""></p>
-<p>在 Name ： 区域输入 Generate SO </p>
-<p>Program : <code>F:\android-sdk\ndk-bundle\ndk-build.cmd</code>  ( <em>这里请改成自己的 NDK 目录下的 ndk-build.cmd 的位置</em> )</p>
-<p>Parameters : <code>-C ./app/src/main/jni</code>        ( <em>-C 后面接 project 路径</em> )</p>
-<p>Working directory : <code>$ProjectFileDir$</code></p>
-<p>最后点击 OK 就完成了。使用时，<strong>右击 jni 文件</strong>  找到并点击 External Tool 下的 Generate SO 即可</p>
-<p><img src="http://i4.buimg.com/567571/82ea56d1983d62b6.png" alt=""></p>
-<p>结果跟手动生成的一样</p>
-<h2 id="使用-so-库"><a href="#使用-so-库" class="headerlink" title="使用 so 库"></a>使用 so 库</h2><p>上面进行了很多操作，都是为了使用生成的 so 库</p>
-<p>要使用 so 库，首先就是先修改 <code>JniUtil.java</code> 文件，<strong>添加一个静态块</strong> </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JniUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        System.loadLibrary(<span class="string">"app"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">add</span> <span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后在 main 目录下<strong>新建一个文件夹，取名为 <code>jniLibs</code> </strong> </p>
-<p><strong>将刚才生成的 libs 目录下的所有文件拷贝到这个 jniLibs 目录下!!!</strong><br><strong>将刚才生成的 libs 目录下的所有文件拷贝到这个 jniLibs 目录下!!!</strong><br><strong>将刚才生成的 libs 目录下的所有文件拷贝到这个 jniLibs 目录下!!!</strong></p>
-<p>重要的事情说三遍，如果缺失这一步骤将会出现找不到 so 库的错误</p>
-<p>确定经过上面这步后，就可以正式使用 so 库了</p>
-<p>回到我们熟悉的 MainActivity 中，为了使用 JniUtil 中的 add 方法，首先在布局文件中添加两个 EditText 和一个 Button，然后在 MainActivity 中编写如下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity_main);</div><div class="line">    <span class="comment">/* 含有本地方法的Java类 */</span></div><div class="line">    <span class="keyword">final</span> JniUtil jniUtil = <span class="keyword">new</span> JniUtil();</div><div class="line">  	<span class="comment">/* 控件初始化 */</span></div><div class="line">    <span class="keyword">final</span> EditText numberA = (EditText) findViewById(R.id.number_a);</div><div class="line">    <span class="keyword">final</span> EditText numberB = (EditText) findViewById(R.id.number_b);</div><div class="line">    <span class="comment">/* Button 点击事件 */</span></div><div class="line">    findViewById(R.id.result).setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">            String a = numberA.getText().toString();</div><div class="line">            String b = numberB.getText().toString();</div><div class="line">            <span class="comment">/* 判空 */</span></div><div class="line">            <span class="keyword">if</span> (!TextUtils.isEmpty(a) &amp;&amp; !TextUtils.isEmpty(b)) &#123;</div><div class="line">                <span class="comment">/* 使用本地方法 */</span></div><div class="line">                <span class="keyword">int</span> result = jniUtil.add(Integer.parseInt(a), Integer.parseInt(b));</div><div class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>,</div><div class="line">                        <span class="string">""</span> + result,</div><div class="line">                        Toast.LENGTH_SHORT).show();</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>,</div><div class="line">                        <span class="string">"cannot be empty"</span>,</div><div class="line">                        Toast.LENGTH_SHORT).show();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>在这里，获取两个 EditText 中的数字，然后调用 JniUtil 中的 add 方法，将返回数据 Toast 显示出来</p>
-<p><img src="http://i4.buimg.com/567571/758174b00ca0dab6.png" alt=""></p>
-<p>到此为止，Android NDK开发的第一步已经成功迈出!!!</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上面知识添加了一个 native 方法，如果根据又需要要添加多个 native 方法 ，那么步骤基本相似，这里将步骤重温一遍当作总结 </p>
-<ul>
-<li>初次使用 NDK 首先配置环境</li>
-<li>在 Java 类中添加 native 本地方法<ul>
-<li>若初次编写就新建一个 Java 类，若有则完全可以在同一个 Java 类中继续添加 native 方法</li>
-</ul>
-</li>
-<li>生成对应的头文件<ul>
-<li>手动输入 javah 命令或使用 External Tool 工具</li>
-</ul>
-</li>
-<li>利用生成的头文件编写 C/C++ 代码<ul>
-<li><strong>在jni目录下新建C/CPP文件</strong>，复制头文件中的函数名进行编写以防出错。记住要包含对应的头文件 <code>#include &quot;*.h&quot;</code></li>
-</ul>
-</li>
-<li>生成 so 库 <ul>
-<li>保证配置好了 Gradle </li>
-<li>这里必须有对应的 Android.mk 和 Application.mk ，否则无法成功</li>
-</ul>
-</li>
-<li>将生成的 so 库全部复制到 jniLibs 目录下( 若有文件就覆盖掉原来 )<ul>
-<li>使用前保证已经添加了静态代码块，其中的 <code>System.loadLibrary(&quot;&quot;);</code>中的字符串是之前定义的 moduleName 也是 so 库的名字(去掉前面的 lib 和 后面的 .so )，这里务必对应正确</li>
-</ul>
-</li>
-<li>使用 native 方法</li>
-</ul>
-<p><a href="https://github.com/InnoFang/Android-Code-Demos/tree/master/NDKDemo" target="_blank" rel="external">本文源码见此</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Android-NDK-开发从0到1&quot;&gt;&lt;a href=&quot;#Android-NDK-开发从0到1&quot; class=&quot;headerlink&quot; title=&quot;Android NDK 开发从0到1&quot;&gt;&lt;/a&gt;Android NDK 开发从0到1&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;本文的开发环境为 Windows，其他平台操作类似&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;其实说到 NDK 就不得不提 JNI ( Java Native Interface ) ，JNI 是专门用来与本地代码进行交互而提供的一个接口。通过 JNI 就可以调用 C/C++ 所编写的本地代码。&lt;/p&gt;
-&lt;p&gt;而 NDK ( Native Development Kit) 是 Android 所提供的一个工具集合，通过 NDK 就可以很方便的在 Android 中通过 JNI 来访问本地代码。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
-    
-    
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
     
   </entry>
   
