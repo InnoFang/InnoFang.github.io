@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-11-28T03:57:50.590Z</updated>
+  <updated>2017-11-28T03:59:21.871Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,10 +20,27 @@
     <link href="http://yoursite.com/2017/11/28/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89%EF%BC%9A%E6%A0%87%E5%BF%97%E5%AF%84%E5%AD%98%E5%99%A8/"/>
     <id>http://yoursite.com/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/</id>
     <published>2017-11-28T03:57:09.000Z</published>
-    <updated>2017-11-28T03:57:50.590Z</updated>
+    <updated>2017-11-28T03:59:21.871Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>学习参考：汇编语言（第2版）王爽</p>
+</blockquote>
+<ul>
+<li>ZF 标志</li>
+<li>pf 标志</li>
+<li>SF 标志</li>
+<li>CF 标志</li>
+<li>OF 标志</li>
+<li>adc 指令</li>
+<li>sbb 指令</li>
+<li>cmp 指令</li>
+<li>检测比较结果的条件转移指令</li>
+<li>DF 标志和串传送指令</li>
+<li><p>pushf 和 popf</p>
+<a id="more"></a>
+</li>
+</ul>
+<blockquote>
 <p>CPU 内部的寄存器中，有一种特殊的寄存器（对于不同的处理机，个数和结构都可能不同）具有以下 3 种作用</p>
 </blockquote>
 <ul>
@@ -181,10 +198,19 @@
     
       &lt;blockquote&gt;
 &lt;p&gt;学习参考：汇编语言（第2版）王爽&lt;/p&gt;
-&lt;p&gt;CPU 内部的寄存器中，有一种特殊的寄存器（对于不同的处理机，个数和结构都可能不同）具有以下 3 种作用&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;ul&gt;
-&lt;li&gt;用来存储相关指令的某些执行结果&lt;/li&gt;
+&lt;li&gt;ZF 标志&lt;/li&gt;
+&lt;li&gt;pf 标志&lt;/li&gt;
+&lt;li&gt;SF 标志&lt;/li&gt;
+&lt;li&gt;CF 标志&lt;/li&gt;
+&lt;li&gt;OF 标志&lt;/li&gt;
+&lt;li&gt;adc 指令&lt;/li&gt;
+&lt;li&gt;sbb 指令&lt;/li&gt;
+&lt;li&gt;cmp 指令&lt;/li&gt;
+&lt;li&gt;检测比较结果的条件转移指令&lt;/li&gt;
+&lt;li&gt;DF 标志和串传送指令&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;pushf 和 popf&lt;/p&gt;
     
     </summary>
     
