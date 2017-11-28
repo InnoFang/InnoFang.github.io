@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-11-27T02:48:27.999Z</updated>
+  <updated>2017-11-28T03:57:50.590Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,186 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>汇编语言学习笔记（十一）：标志寄存器</title>
+    <link href="http://yoursite.com/2017/11/28/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89%EF%BC%9A%E6%A0%87%E5%BF%97%E5%AF%84%E5%AD%98%E5%99%A8/"/>
+    <id>http://yoursite.com/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/</id>
+    <published>2017-11-28T03:57:09.000Z</published>
+    <updated>2017-11-28T03:57:50.590Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>学习参考：汇编语言（第2版）王爽</p>
+<p>CPU 内部的寄存器中，有一种特殊的寄存器（对于不同的处理机，个数和结构都可能不同）具有以下 3 种作用</p>
+</blockquote>
+<ul>
+<li>用来存储相关指令的某些执行结果</li>
+<li>用来为 CPU 执行相关指令提供行为依据</li>
+<li>用来控制 CPU 的相关工作方式</li>
+</ul>
+<p>这种特殊的寄存器在 8086CPU 中，被称为标志寄存器。8086CPU 的标志寄存器有 16 位，其中存储的信息通常称为程序状态字（PSW）。</p>
+<p>标志寄存器（以下简称 flag）和其他寄存器不一样，其他寄存器是用来存放数据的，都是整个寄存器具有一个含义。而 flag 寄存器是按位起作用的，也就是说，它的每一位都有专门的含义，记录特定的信息。8086CPU 的 flag 寄存器的结构如下图</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1flumvosoe5j30e201zmx2.jpg" alt=""></p>
+<p>flag 的 1、3、5、12、13、14、15 位在 8086CPU 中没有使用，不具有任何含义。而0、2、4、6、7、8、9、10、11 位都具有特殊的含义</p>
+<p><strong>注意</strong> 在8086CPU 的指令集中，有的指令的执行是影响标志寄存器的，比如，add、sub、mul、div、inc、or、and 等，它们大都是运算指令（进行逻辑或算术运算）；有的指令的执行对寄存器没有影响，比如，mov，push、pop等，它们大都是传送指令。</p>
+<p>在使用一条指令的时候，要注意这条指令的全部功能，其中包括，执行结果对标志寄存器的哪些标志位造成影响</p>
+<h1 id="ZF-标志"><a href="#ZF-标志" class="headerlink" title="ZF 标志"></a>ZF 标志</h1><blockquote>
+<p>flag 的第 6 位是 ZF( Zero Flag )，零标志位。它记录相关指令后，其结果是否为 0.如果结果为 0，zf=1；如果结果不为 0，那么 zf=0。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mov ax,1</div><div class="line">sub ax,1</div><div class="line">; 结果为 0 ，zf=1</div><div class="line"></div><div class="line">mov ax,2</div><div class="line">sub ax,1</div><div class="line">; 结果不为 0，zf=0</div></pre></td></tr></table></figure>
+<h1 id="pf-标志"><a href="#pf-标志" class="headerlink" title="pf 标志"></a>pf 标志</h1><blockquote>
+<p>flag 的第 2 位是 PF( Parity Flag )，奇偶标志位。它记录相关指令执行后，其结果的所有 bit 位中 1 的个数是否为偶数。如果 1 的个数是偶数，pf=1，如果是奇数，pf=0</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mov al,1</div><div class="line">add al,10</div><div class="line">; 结果为 00001011B，3 个 1，pf=0</div><div class="line"></div><div class="line">mov al,1</div><div class="line">or  al,2</div><div class="line">; 结果为 00000011B，2 个 1，pf=1</div><div class="line"></div><div class="line">sub al,al</div><div class="line">; 结果为 00000000B，0 个 1，pf=1</div></pre></td></tr></table></figure>
+<h1 id="SF-标志"><a href="#SF-标志" class="headerlink" title="SF 标志"></a>SF 标志</h1><blockquote>
+<p>flag 的第 7 位是 SF( Symobl Flag )，符号标志位。它记录相关指令执行后，其结果是否为负。如果为负，sf=1；如果非负，sf=0</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mov al,10000001B</div><div class="line">add al,1</div><div class="line">; 结果 10000010B，sf=1，表示：如果指令进行的是有符号数运算，那么结果为负</div><div class="line"></div><div class="line"></div><div class="line">mov al,10000001B</div><div class="line">add al,01111111B</div><div class="line">; 结果 0，sf=0，表示指令进行的是有符号数运算，那么结果为非负</div></pre></td></tr></table></figure>
+<h1 id="CF-标志"><a href="#CF-标志" class="headerlink" title="CF 标志"></a>CF 标志</h1><blockquote>
+<p>flag 的第 0 位是 CF ( Carry Flag )，进位标志位。一般情况下，在进行无符号数运算的时候，它记录了运算结果的最高有效位向更高位的进位值，或从更高位的借位值</p>
+</blockquote>
+<p>当两数相加时，有可能产生进位，CPU 在运算的时候，将这个进位值记录在一个特殊的寄存器的某一位上。8086CPU 就用 flag 的 CF 位来记录这个进位值。当两数相减时，有可能向更高位借位，而 flag 的 CF 位也可以用来记录这个借位值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mov al,98H</div><div class="line">add al,al   ; 执行后：(al)=30H,CF=1,CF记录了从最高有效位向更高位的进位值</div><div class="line">add al,al   ; 执行后：(al)=60H,CF=0,CF记录了从最高有效位向更高位的进位值</div><div class="line"></div><div class="line"></div><div class="line">mov al,97H</div><div class="line">sub al,98H   ; 执行后：(al)=FFH,CF=1,CF记录了从最高有效位向更高位的进位值</div><div class="line">sub al,al    ; 执行后：(al)=0,CF=0,CF记录了从最高有效位向更高位的进位值</div></pre></td></tr></table></figure>
+<h1 id="OF-标志"><a href="#OF-标志" class="headerlink" title="OF 标志"></a>OF 标志</h1><blockquote>
+<p>在进行有符号数运算的时候，如结果超过了机器所能表示的范围称为溢出。</p>
+</blockquote>
+<p>对 8 位有符号数据，机器所能表示的范围就是 -128~127。同理，对于 16 位有符号数据，机器所能表示的范围是 -32768~32767</p>
+<p>如果超出了及其所能表达的范围，将产生溢出</p>
+<blockquote>
+<p>flag 的第 11 位是 OF（Overflow Flag）。一般情况下，OF 记录了有符号数运算的结果是否发生了溢出。如果发生了溢出，OF=1；如果没有，OF=0</p>
+</blockquote>
+<p><strong>注意</strong> 注意 CF 和 OF 的区别：</p>
+<ul>
+<li>CF 是对无符号数运算有意义的标志位</li>
+<li>OF 是对有符号数运算有意义的标志位</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov al,98</div><div class="line">add al,99</div><div class="line"></div><div class="line">; add指令执行后：CF=0，OF=1</div></pre></td></tr></table></figure>
+<p>CPU 在执行 add 等指令的时候，就包含了两种含义：无符号数运算和有符号数运算。对于无符号数运算，CPU 用 CF 位来记录是否产生了进位；对于有符号位运算，CPU 用 OF 位来记录是否产生了溢出，当然，还要用 SF 位来记录结果的符号。对于无符号数运算，98+99 没有进位，CF=0；对于有符号数运算，则发生了溢出，OF=1。</p>
+<p>CF 和 OF 所表示的进位和溢出，是分别对无符号数和有符号数运算而言的，它们之间没有任何关系。</p>
+<h1 id="adc-指令"><a href="#adc-指令" class="headerlink" title="adc 指令"></a>adc 指令</h1><p>adc 是带进位加法指令，它利用了 CF 位上记录的进位值</p>
+<p>指令功能：adc 操作对象 1，操作对象 2<br>功能：操作对象 1 = 操作对象 1 + 操作对象 2 + CF<br>比如指令 adc ax,bx 实现的功能是：(ax)=(ax)+(bx)+CF</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mov ax,2</div><div class="line">mov bx,1</div><div class="line">sub bx,ax</div><div class="line">adc ax,1</div><div class="line"></div><div class="line">; 执行后，(ax)=4。adc 执行时，相当于计算：(ax)+1+CF=2+1+1=4</div><div class="line"></div><div class="line"></div><div class="line">mov ax,1</div><div class="line">add ax,ax</div><div class="line">adc ax,3</div><div class="line">; 执行后，(ax)=5。adc 执行时，相当于计算：(ax)+3+CF=2+3+0=5</div></pre></td></tr></table></figure>
+<p>Q：那么为什么 CPU 要提供这样一条指令？<br>A：先来看一下CF的值的含义。在执行adc指令的时候加上的 CF 的值的含义，是由adc 指令前面的指令决定的，也就是说，关键在于所加上的 CF 值是被什么指令设置的。显然，如果 CF 的值<strong>是被 sub 指令设置的，那么它的含义就是借位值</strong>; 如果是<strong>被 add 指令设置的，那么它的含义就是进位值</strong>。两个十六进制数相加时，可以分为两步来进行：1.低位相加；2.高位相加再加上低位相加产生的进位值。<strong>adc指令的目的，就是来进行加法的第二步运算的</strong>。adc 指令和 add 指令相配合就可以对更大的数据进行加法运算。</p>
+<h1 id="sbb-指令"><a href="#sbb-指令" class="headerlink" title="sbb 指令"></a>sbb 指令</h1><blockquote>
+<p>sbb 是带借位减法指令，它利用了 CF 位上记录的借位值。</p>
+</blockquote>
+<p>指令格式: sbb操作对象1,操作对象2<br>功能: 操作对象1=操作对象1 - 操作对象2 - CF<br>比如指令 <code>sbb ax,bx</code> 实现的功能是: (ax)=(ax)-(bx)-CF</p>
+<p>sbb 指令执行后，将对 CF 进行设置。利用 sbb 指令可以对任意大的数据进行减法运<br>算。比如，计算 003E1000-00202000H,结果放在 ax,bx 中，程序如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov bx,1000H</div><div class="line">mov ax,003EH</div><div class="line">sub bx,2000H</div><div class="line">sbb ax,0020H</div></pre></td></tr></table></figure></p>
+<p><strong>sbb 和 adc 是基于同样的思想设计的两条指令，在应用思路上和 adc 类似</strong></p>
+<h1 id="cmp-指令"><a href="#cmp-指令" class="headerlink" title="cmp 指令"></a>cmp 指令</h1><blockquote>
+<p>cmp 是比较指令，cmp 的功能相当于减法指令，只是不保存结果。cmp 指令执行后，将对标志寄存器产生影响。其他相关指令通过识别这些被影响的标志寄存器位来得知比较结果。</p>
+</blockquote>
+<p> cmp 指令格式：cmp 操作对象1， 操作对象2<br> 功能：计算操作对象1 - 操作对象2 但并不保存结果，仅仅根据计算结果对标志寄存器进行设置<br> 比如，指令 cmp ax,ax 做(ax)-(ax) 的运算，结果为 0，但并不保存在 ax 中，仅影响 flag 的相关各位。指令执行后：zf=1，pf=1，sf=0，cf=0，of=0</p>
+<p> 下面的指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov ax,8</div><div class="line">mov bx,3</div><div class="line">cmp ax,bx</div><div class="line">;执行后：(ax)=8, zf=0, pf=1, sf=0, cf=0, of=0</div></pre></td></tr></table></figure></p>
+<h1 id="检测比较结果的条件转移指令"><a href="#检测比较结果的条件转移指令" class="headerlink" title="检测比较结果的条件转移指令"></a>检测比较结果的条件转移指令</h1><blockquote>
+<p>“转移” 指的是它能够修改 IP，而 “条件” 指的是它可以根据某种条件，决定是否修改 IP</p>
+</blockquote>
+<p>因为cmp 指令可以同时进行两种比较，无符号数比较和有符号数比较，所以根据 cmp 指令的比较结果进行转移的指令也分为两种，即根据无符号数的比较结果进行转移的条件转移指令(它们检测 zf，cf的值)和根据有符号数的比较结果进行转移的条件转移指令(它们检测sf.of和zf的值)。</p>
+<p>下面是常用的根据无符号数的比较结果进行转移的条件转移指令</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>含义</th>
+<th>检测的相关标志位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>je</td>
+<td>等于则转移</td>
+<td>zf=1</td>
+</tr>
+<tr>
+<td>jne</td>
+<td>不等于则转移</td>
+<td>zf=0</td>
+</tr>
+<tr>
+<td>jb</td>
+<td>低于则转移</td>
+<td>cf=1</td>
+</tr>
+<tr>
+<td>jnb</td>
+<td>不低于则转移</td>
+<td>cf=0</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>高于则转移</td>
+<td>cf=0 且 zf=0</td>
+</tr>
+<tr>
+<td>jna</td>
+<td>不高于则转移</td>
+<td>cf=1 或 zf=1</td>
+</tr>
+</tbody>
+</table>
+<p>j:jump<br>e:equal<br>ne: not equal<br>b:  below<br>nb: not below<br>a:  above<br>na: not above</p>
+<p>通过结合 cmp 指令和条件转移指令就可以实现类似高级语言中 IF 的效果</p>
+<p><strong>编程</strong> 如果 (ah)=(bh) 则 (ah)=(ah)+(ah)，否则 (ah)=(ah)+(bh)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">    cmp ah,bh</div><div class="line">    je s</div><div class="line">    add ah,bh</div><div class="line">    jmp short ok</div><div class="line">s:  add ah,ah</div><div class="line">ok:</div></pre></td></tr></table></figure></p>
+<h1 id="DF-标志和串传送指令"><a href="#DF-标志和串传送指令" class="headerlink" title="DF 标志和串传送指令"></a>DF 标志和串传送指令</h1><blockquote>
+<p>flag 的第 10 位是 DF（Direction Flag），方向标志位。在串处理指令中，控制每次操作后 si、di 的增减。</p>
+</blockquote>
+<ul>
+<li>df=0  每次操作后 si、di 递增</li>
+<li>df=1  每次操作后 si、di 递减</li>
+</ul>
+<p>介绍一个串传送指令</p>
+<p>格式：movsb (MOV String Byte)<br>功能：执行 movsb 指令相当于进行下面几步操作</p>
+<ul>
+<li>((es)<em>16+(di))=((di)</em>16+(si))  把 ds:di 指向的内存单元中的字节送入 es:di 中</li>
+<li>如果 df=0，则 (si)=(si)+1 ; (di)=(di)+1</li>
+<li>如果 df=1，则 (si)=(si)-1 ; (di)=(di)-1</li>
+</ul>
+<p>当然也可以传送一个字，使用指令 movsw (MOV String Word)，不过这里 di 和 si 的递增或递减的数量是 2</p>
+<p>movsb 和 movsw 都和 rep 配合使用，格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rep movsb</div></pre></td></tr></table></figure></p>
+<p>用汇编语法来描述该功能就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">s:  movsb</div><div class="line">    loop s</div></pre></td></tr></table></figure></p>
+<p>可见，rep 的作用是根据 cx 的值，重复执行后面的串传送zh’li指令。由于每执行一次 movsb 指令 si 和 di 都会递增或递减指向后一个单元或前一个单元，则 rep movsb 就可以循环实现 (cx) 个字符的传送</p>
+<p>movsw 同理</p>
+<p>下面两条指令对 df 位进行色设置</p>
+<p> cld 指令 (CLear Direction flag)：将标志位寄存器的 df 位置 0<br> std 指令 (SeT Direction flag)：将标志位寄存器的 df 位置 1</p>
+<p> <strong>编程</strong> 用串传送指令，将 data 段中的第一个字符串复制到它后面的空间中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">data segment</div><div class="line">db &apos;welcome to masm!&apos;</div><div class="line">db 16 dup (0)</div><div class="line">data ends</div></pre></td></tr></table></figure></p>
+<p> 分析：使用串传送指令进行数据的传送，需要给它提供一些必要的信息</p>
+<ol>
+<li>传送的原始位置：ds:si</li>
+<li>传送的目的位置：es:di</li>
+<li>传送的长度：cx</li>
+<li>传送的方向：df</li>
+</ol>
+<p>在这个问题下，这些信息</p>
+<ol>
+<li>传送的原始位置：data:0</li>
+<li>传送的目的位置：data:0010</li>
+<li>传送的长度：16</li>
+<li>传送的方向：df=0</li>
+</ol>
+<p>核心代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mov ax,data</div><div class="line">mov ds,ax</div><div class="line">mov si,0    ; ds:si 指向 data:0</div><div class="line">mov es,ax</div><div class="line">mov di,16   ; es:di 指向 data:0010</div><div class="line">mov cx,16   ; 设置 df=0，rep 循环 16 次</div><div class="line">cld         ; 设置 df=0，正向传递</div><div class="line">rep movsb</div></pre></td></tr></table></figure></p>
+<h1 id="pushf-和-popf"><a href="#pushf-和-popf" class="headerlink" title="pushf 和 popf"></a>pushf 和 popf</h1><blockquote>
+<p>pushf 的功能是将标志位寄存器的值压栈，而 popf 是从栈中弹出数据，送入标志寄存器中</p>
+<p>pushf 和 popf，为直接访问标志寄存器提供了一种方法</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;学习参考：汇编语言（第2版）王爽&lt;/p&gt;
+&lt;p&gt;CPU 内部的寄存器中，有一种特殊的寄存器（对于不同的处理机，个数和结构都可能不同）具有以下 3 种作用&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;用来存储相关指令的某些执行结果&lt;/li&gt;
+    
+    </summary>
+    
+      <category term="汇编语言" scheme="http://yoursite.com/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+    
+      <category term="汇编语言" scheme="http://yoursite.com/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
   
   <entry>
     <title>汇编语言学习笔记（十）：CALL 和 RET 指令</title>
@@ -1324,72 +1504,6 @@
   </entry>
   
   <entry>
-    <title>MySQL 学习之数据表(一)</title>
-    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
-    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
-    <published>2017-07-23T07:05:27.000Z</published>
-    <updated>2017-08-24T12:04:37.811Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
-</blockquote>
-<p>在数据表中，行称为记录，列称为字段</p>
-<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
-<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
-<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
-<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
-<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
-<h1 id="插入记录"><a href="#插入记录" class="headerlink" title="插入记录"></a>插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
-<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
-<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
-<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
-<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
-<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
-<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>以上，基本就是向 MySQL 数据表中插入数据的基本操作了。</p>
-<h2 id="其他记录插入方式"><a href="#其他记录插入方式" class="headerlink" title="其他记录插入方式"></a>其他记录插入方式</h2><p>其实除了使用 INSERT 来插入数据 还可以使用 INSERT SET 或者 INSERT SELECT 来插入数据</p>
-<ul>
-<li><strong>INSERT SET</strong></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name SET col_name=&#123;expr | DEFAULT&#125;, ...</div></pre></td></tr></table></figure>
-<p>使用这种方式与第一种方式的区别在于，此方法可以使用子查询 (SubQuery)，除此之外，第一种方式可以一次性插入多条记录，而这种方式一次只能添加一条记录</p>
-<p>e.g. 使用 INSERT SET 的方式想数据表中添加一条数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 SET name=&apos;Bob&apos;, age=&apos;24&apos;;</div><div class="line">Query OK, 1 row affected (0.08 sec)</div></pre></td></tr></table></figure></p>
-<ul>
-<li><strong>INSERT SELECT</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] SELECT ...</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>此方法可以将查询结果插入到指定数据表</p>
-<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>单表删除 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM tbl_name [WHERE where_condition]</div></pre></td></tr></table></figure></p>
-<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
-<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
-<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="WHERE-语句进行条件查询"><a href="#WHERE-语句进行条件查询" class="headerlink" title="WHERE 语句进行条件查询"></a>WHERE 语句进行条件查询</h2><h2 id="GROUP-BY-语句对结果进行分组"><a href="#GROUP-BY-语句对结果进行分组" class="headerlink" title="GROUP BY 语句对结果进行分组"></a>GROUP BY 语句对结果进行分组</h2><h2 id="HAVING-语句设置分组条件"><a href="#HAVING-语句设置分组条件" class="headerlink" title="HAVING 语句设置分组条件"></a>HAVING 语句设置分组条件</h2><h2 id="ORDER-BY-语句对查询结果进行排序"><a href="#ORDER-BY-语句对查询结果进行排序" class="headerlink" title="ORDER BY 语句对查询结果进行排序"></a>ORDER BY 语句对查询结果进行排序</h2><h2 id="LIMIT-语句限制查询数量"><a href="#LIMIT-语句限制查询数量" class="headerlink" title="LIMIT 语句限制查询数量"></a>LIMIT 语句限制查询数量</h2>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
-&lt;h1 id=&quot;打开数据库&quot;&gt;&lt;a href=&quot;#打开数据库&quot; class=&quot;headerlink&quot; title=&quot;打开数据库&quot;&gt;&lt;/a&gt;打开数据库&lt;/h1&gt;&lt;p&gt;在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
     <title>MySQL 学习之数据表(二)</title>
     <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%BA%8C)/"/>
     <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(二)/</id>
@@ -1497,6 +1611,72 @@
       &lt;h1 id=&quot;数据表的修改&quot;&gt;&lt;a href=&quot;#数据表的修改&quot; class=&quot;headerlink&quot; title=&quot;数据表的修改&quot;&gt;&lt;/a&gt;数据表的修改&lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;数据表的修改操作无非就是列的增加、删除，约束的增加、删除&lt;/p&gt;
 &lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 学习之数据表(一)</title>
+    <link href="http://yoursite.com/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"/>
+    <id>http://yoursite.com/2017/07/23/MySQL-学习之数据表(一) /</id>
+    <published>2017-07-23T07:05:27.000Z</published>
+    <updated>2017-08-24T12:04:37.811Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础</p>
+</blockquote>
+<p>在数据表中，行称为记录，列称为字段</p>
+<h1 id="打开数据库"><a href="#打开数据库" class="headerlink" title="打开数据库"></a>打开数据库</h1><p>在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE db_name;</div></pre></td></tr></table></figure>
+<p>打开数据库后，要想查看当前打开的数据库，可以用以下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DATABASE();</div></pre></td></tr></table></figure></p>
+<p>e.g. 打开 student 数据库，并查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE student;</div><div class="line">Database changed</div><div class="line">mysql&gt; SELECT DATABASE();</div><div class="line">+------------+</div><div class="line">| DATABASE() |</div><div class="line">+------------+</div><div class="line">| student    |</div><div class="line">+------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE [IF NOT EXISTS] table_name (</div><div class="line">    column_name data_type,</div><div class="line">    ...</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>e.g. 创建一个班级 class 表，内含姓名、年龄和分数这三个字段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE class(</div><div class="line">    -&gt; name VARCHAR(20),</div><div class="line">    -&gt; age TINYINT UNSIGNED,</div><div class="line">    -&gt; score FLOAT(3,1) UNSIGNED</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.78 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="查看数据表"><a href="#查看数据表" class="headerlink" title="查看数据表"></a>查看数据表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW TABLES [FROM db_name] [LIKE &apos;pattern&apos; | WHERE expr];</div></pre></td></tr></table></figure>
+<p>e.g. 查看当前数据库下的数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW TABLES;</div><div class="line">+-------------------+</div><div class="line">| Tables_in_student |</div><div class="line">+-------------------+</div><div class="line">| class             |</div><div class="line">+-------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="查看数据表结构"><a href="#查看数据表结构" class="headerlink" title="查看数据表结构"></a>查看数据表结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW COLUMNS FROM tbl_name;</div></pre></td></tr></table></figure>
+<p>e.g. 查看已创建的 class 数据表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW COLUMNS FROM class;</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| Field | Type                | Null | Key | Default | Extra |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(20)         | YES  |     | NULL    |       |</div><div class="line">| age   | tinyint(3) unsigned | YES  |     | NULL    |       |</div><div class="line">| score | float(3,1) unsigned | YES  |     | NULL    |       |</div><div class="line">+-------+---------------------+------+-----+---------+-------+</div><div class="line">3 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
+<h1 id="插入记录"><a href="#插入记录" class="headerlink" title="插入记录"></a>插入记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] &#123;VALUES | VALUE&#125; (&#123;expr | DEFAULT&#125;, ...), (....)</div></pre></td></tr></table></figure>
+<p>e.g. 不指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Tom，年龄：20，成绩：90.5）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO class VALUES(&apos;Tom&apos;, 20, 90.5);</div><div class="line">Query OK, 1 row affected (0.48 sec)</div></pre></td></tr></table></figure></p>
+<p>e.g. 指定字段名，插入一条数据到 class 数据表中（插入的数据为：姓名：Mike，年龄：19，成绩：未指定）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT class(name, age) VALUES(&apos;Mike&apos;, 19);</div><div class="line">Query OK, 1 row affected (0.46 sec)</div></pre></td></tr></table></figure></p>
+<p>如果字段是自增长 (AUTO_INCREMENT) 那么在添加的时候可以用 NULL 或 DEFAULT 来代替，什么意思呢？看一下下面的操作就知道了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE table1 (</div><div class="line">    -&gt; id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,</div><div class="line">    -&gt; name VARCHAR(20) NOT NULL,</div><div class="line">    -&gt; age TINYINT UNSIGNED DEFAULT 10</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.59 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(NULL, &apos;Tom&apos;, 18);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT table1 VALUES(DEFAULT, &apos;John&apos;, 15);</div><div class="line">Query OK, 1 row affected (0.35 sec)</div></pre></td></tr></table></figure></p>
+<p>在上面的操作中，先创建了一张表 table1，其中包括一个自增长的 id 字段。那么当我们向表中添加数据时，没有指定具体字段，那么默认就需要为所有的字段都赋上值，所以，这里想说的就是，如果你的字段是自增长的，那么在这种情况下，你可以用 NULL 或 DEFAULT 代替，而不需要指定一个值。</p>
+<p>如果某字段是默认约束修饰的话，在插入记录时，也可以用 DEFAULT 来赋予默认值，当然插入时，如果不指定该字段也可以赋予默认值。</p>
+<p>除此之外，再插入数据时，是支持表达式和函数的，比如为 table1 的 age 字段赋值 2 * 10 + 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Tom&apos;, 2 * 10 + 2);</div><div class="line">Query OK, 1 row affected (0.40 sec)</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+------+------+</div><div class="line">| id | name | age  |</div><div class="line">+----+------+------+</div><div class="line">|  1 | Tom  |   18 |</div><div class="line">|  2 | John |   15 |</div><div class="line">|  3 | Tom  |   22 |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>如果想一次性添加多条记录的话，只需要用逗号隔开即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 VALUE(NULL, &apos;Barry&apos;, 12), (NULL, &apos;Harry&apos;, 19);</div><div class="line">Query OK, 2 rows affected (0.07 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; SELECT * FROM table1;</div><div class="line">+----+-------+------+</div><div class="line">| id | name  | age  |</div><div class="line">+----+-------+------+</div><div class="line">|  1 | Tom   |   18 |</div><div class="line">|  2 | John  |   15 |</div><div class="line">|  3 | Tom   |   22 |</div><div class="line">|  4 | Barry |   12 |</div><div class="line">|  5 | Harry |   19 |</div><div class="line">+----+-------+------+</div><div class="line">5 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>以上，基本就是向 MySQL 数据表中插入数据的基本操作了。</p>
+<h2 id="其他记录插入方式"><a href="#其他记录插入方式" class="headerlink" title="其他记录插入方式"></a>其他记录插入方式</h2><p>其实除了使用 INSERT 来插入数据 还可以使用 INSERT SET 或者 INSERT SELECT 来插入数据</p>
+<ul>
+<li><strong>INSERT SET</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name SET col_name=&#123;expr | DEFAULT&#125;, ...</div></pre></td></tr></table></figure>
+<p>使用这种方式与第一种方式的区别在于，此方法可以使用子查询 (SubQuery)，除此之外，第一种方式可以一次性插入多条记录，而这种方式一次只能添加一条记录</p>
+<p>e.g. 使用 INSERT SET 的方式想数据表中添加一条数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT table1 SET name=&apos;Bob&apos;, age=&apos;24&apos;;</div><div class="line">Query OK, 1 row affected (0.08 sec)</div></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>INSERT SELECT</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSERT [INTO] tbl_name [(col_name, ...)] SELECT ...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此方法可以将查询结果插入到指定数据表</p>
+<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>单表删除 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM tbl_name [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="更新记录"><a href="#更新记录" class="headerlink" title="更新记录"></a>更新记录</h1><p>单表更新 MySQL 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET col_name1=&#123;expr1 | DEFAULT&#125;[, col_name2=&#123;expr2|DEFAULT&#125;].. [WHERE where_condition]</div></pre></td></tr></table></figure></p>
+<h1 id="查找记录"><a href="#查找记录" class="headerlink" title="查找记录"></a>查找记录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SELECT select_expr[, select_expr...] FROM tbl_name </div><div class="line">                                     [WHERE where_condition] </div><div class="line">                                     [GROUP BY &#123;col_name | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [HAVING where_condition]</div><div class="line">                                     [ORDER BY &#123;col_name | expr | position&#125; [ASC | DESC], ...]</div><div class="line">                                     [LIMIT &#123;[offset,] row_count | row_count OFFSENT offset&#125;]</div></pre></td></tr></table></figure>
+<p>e.g. 查找 class 数据表中所有记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT * FROM class ;</div><div class="line">+------+------+-------+</div><div class="line">| name | age  | score |</div><div class="line">+------+------+-------+</div><div class="line">| Tom  |   20 |  90.5 |</div><div class="line">| Mike |   19 |  NULL |</div><div class="line">+------+------+-------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="WHERE-语句进行条件查询"><a href="#WHERE-语句进行条件查询" class="headerlink" title="WHERE 语句进行条件查询"></a>WHERE 语句进行条件查询</h2><h2 id="GROUP-BY-语句对结果进行分组"><a href="#GROUP-BY-语句对结果进行分组" class="headerlink" title="GROUP BY 语句对结果进行分组"></a>GROUP BY 语句对结果进行分组</h2><h2 id="HAVING-语句设置分组条件"><a href="#HAVING-语句设置分组条件" class="headerlink" title="HAVING 语句设置分组条件"></a>HAVING 语句设置分组条件</h2><h2 id="ORDER-BY-语句对查询结果进行排序"><a href="#ORDER-BY-语句对查询结果进行排序" class="headerlink" title="ORDER BY 语句对查询结果进行排序"></a>ORDER BY 语句对查询结果进行排序</h2><h2 id="LIMIT-语句限制查询数量"><a href="#LIMIT-语句限制查询数量" class="headerlink" title="LIMIT 语句限制查询数量"></a>LIMIT 语句限制查询数量</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;数据表（或称表）是数据库最重要的组成部分之一，是其他对象的基础&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在数据表中，行称为记录，列称为字段&lt;/p&gt;
+&lt;h1 id=&quot;打开数据库&quot;&gt;&lt;a href=&quot;#打开数据库&quot; class=&quot;headerlink&quot; title=&quot;打开数据库&quot;&gt;&lt;/a&gt;打开数据库&lt;/h1&gt;&lt;p&gt;在对数据表进行操作前都需要先打开数据库，没有数据表的数据库就相当于一个空架子，没有任何意义&lt;/p&gt;
     
     </summary>
     
@@ -2267,84 +2447,6 @@
     
     
       <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>设计模式(十四):适配器模式</title>
-    <link href="http://yoursite.com/2017/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%9B%9B-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2017/04/27/设计模式-十四-适配器模式/</id>
-    <published>2017-04-27T01:52:21.000Z</published>
-    <updated>2017-07-07T06:35:21.709Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Adapter-Class-Object（适配器）"><a href="#Adapter-Class-Object（适配器）" class="headerlink" title="Adapter Class/Object（适配器）"></a>Adapter Class/Object（适配器）</h1><p>在平常开发当中，适配器 ( Adapter ) 是十分常用的模式，比如常用的 RecyclerView 的 Adapter，ListView 的 Adapter 等。但是在经常使用，但是并不知道适配器模式的具体实现原理是什么？那么下面就将结合具体案例分析一下这个适配器模式。</p>
-<a id="more"></a>
-<p>首先先理解什么是适配器？平常在手机充电或者给笔记本电脑充电时，都会使用到充电器。因为我们知道插板上的电压是 220 V ，如果直接连接上设备，则会将给烧坏，那么适配器的作用就是这样 ———— <strong>将原本因接口不匹配而无法在一起工作的两样东西能够在一起工作</strong></p>
-<h2 id="Adapter-Class-Object（适配器）的-UML-类图"><a href="#Adapter-Class-Object（适配器）的-UML-类图" class="headerlink" title="Adapter Class/Object（适配器）的 UML 类图"></a>Adapter Class/Object（适配器）的 UML 类图</h2><p>这里要说明的是，适配器按类型来分有两种：</p>
-<ul>
-<li>类适配器</li>
-<li>对象适配器</li>
-</ul>
-<p>下面是对应的 UML 类图</p>
-<blockquote>
-<p>类适配器</p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/class_adapter.png" alt=""></p>
-<ul>
-<li>Target : 适配器接口</li>
-<li>Adaptee : 需要适配的角色</li>
-<li>Adapter : 适配器，将需要适配的角色的对应操作进行适配</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/object_adapter.png" alt=""></p>
-<p> 这里的三个角色同上，但是这里使用了组合的方式</p>
-<p>那么这里这两种实现方式有什么不同的呢？</p>
-<ul>
-<li>相同点：都是将被适配的类的 API 转换成目标类的 API</li>
-<li>不同点：<ul>
-<li>类适配器使用<strong>继承</strong>的方式连接到 Adaptee 类</li>
-<li>对象适配器使用<strong>组合</strong>的方式连接到 Adaptee 类</li>
-</ul>
-</li>
-</ul>
-<p>使用组合的方式实现接口兼容的效果更为灵活，好处就是被适配对象中的方法不会暴露出来，而类适配器由于继承了被适配对象，因此也能使用被适配对象中的方法</p>
-<p>相比之下，<strong>使用对象适配器模式更加灵活、使用</strong></p>
-<h2 id="适配器模式的简单实现"><a href="#适配器模式的简单实现" class="headerlink" title="适配器模式的简单实现"></a>适配器模式的简单实现</h2><p>为了对两种方式进行比较，下面会分别实现这两中方式，以给移动设备充电为例，将 220 V 电压转换成 5 V 电压</p>
-<h3 id="类适配器模式的简单实现"><a href="#类适配器模式的简单实现" class="headerlink" title="类适配器模式的简单实现"></a>类适配器模式的简单实现</h3><p>首先就是提供目标接口，表示我们期望进行怎样的适配，这里期望将电压适配成 5 V<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">VoltFive</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>接下来就是实现被适配类，这里被适配对象为 220 V 电压<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Volt220</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVolt220</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">220</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后就可根据类适配器的实现方式实现具体的适配器了，继承 220 V 被适配对象，并实现将电压转换成 5 V 的接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VoltAdapter</span> <span class="keyword">extends</span> <span class="title">Volt220</span> <span class="keyword">implements</span> <span class="title">VoltFive</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">5</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>测试<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">VoltAdapter adapter = <span class="keyword">new</span> VoltAdapter();</div><div class="line"><span class="keyword">int</span> volt = adapter.provideVoltFive();</div><div class="line">System.out.println(<span class="string">"After adapted, the volt is :"</span> + volt);</div></pre></td></tr></table></figure></p>
-<p>测试结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">After adapted, the volt is :5</div></pre></td></tr></table></figure></p>
-<p>同时根据上面的分析可以知道，因为继承了被适配对象，所以这里的适配还可以输出 220 V 电压，具体操作可以自己尝试</p>
-<h3 id="对象适配器模式的简单实现"><a href="#对象适配器模式的简单实现" class="headerlink" title="对象适配器模式的简单实现"></a>对象适配器模式的简单实现</h3><p>因为目标接口和被适配对象与上面相同，所以这里不再贴出，具体的可以参考上面。下面来看一下对象适配器模式的具体实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VoltAdapter</span> <span class="keyword">implements</span> <span class="title">VoltFive</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Volt220 volt220;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">VoltAdapter</span><span class="params">(Volt220 volt220)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.volt220 = volt220;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> volt = volt220.provideVolt220();</div><div class="line">        <span class="comment">/* convert the 220V to 5V */</span></div><div class="line">        volt = <span class="number">5</span>;</div><div class="line">        <span class="keyword">return</span> volt;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVolt220</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> volt220.provideVolt220();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>因为使用了组合的方式，所以这里需要给构造函数传入一个被适配对象实例，而具体如何实现转换方式，就需要在 <code>provideVoltFive()</code> 中进行操作，因为这次的示例比较简单，所以这里的操作仅供参考</p>
-<p>测试<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Volt220 volt220 = <span class="keyword">new</span> Volt220();</div><div class="line">VoltAdapter adapter = <span class="keyword">new</span> VoltAdapter(volt220);</div><div class="line"><span class="keyword">int</span> volt = adapter.provideVoltFive();</div><div class="line">System.out.println(<span class="string">"After adapted, the volt is :"</span> + volt);</div></pre></td></tr></table></figure></p>
-<p>测试结果同上</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>优点<ul>
-<li>复用性：通过使用适配器让不符合系统需求的接口得到更好的复用</li>
-<li>扩展性：通过使用适配器模式，可以在原有的功能上扩展自己实现的功能</li>
-</ul>
-</li>
-<li>缺点<ul>
-<li>过多的使用适配器模式，会使系统变得凌乱，不易整体把握。若非必要可以直接对功能进行重构</li>
-</ul>
-</li>
-</ul>
-<p>END.</p>
-<hr>
-<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/adapter" target="_blank" rel="external">源码地址</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Adapter-Class-Object（适配器）&quot;&gt;&lt;a href=&quot;#Adapter-Class-Object（适配器）&quot; class=&quot;headerlink&quot; title=&quot;Adapter Class/Object（适配器）&quot;&gt;&lt;/a&gt;Adapter Class/Object（适配器）&lt;/h1&gt;&lt;p&gt;在平常开发当中，适配器 ( Adapter ) 是十分常用的模式，比如常用的 RecyclerView 的 Adapter，ListView 的 Adapter 等。但是在经常使用，但是并不知道适配器模式的具体实现原理是什么？那么下面就将结合具体案例分析一下这个适配器模式。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   

@@ -263,6 +263,301 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Inno Fang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Inno's Bolg">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/" itemprop="url">
+                  汇编语言学习笔记（十一）：标志寄存器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-28T11:57:09+08:00">
+                2017-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/汇编语言/" itemprop="url" rel="index">
+                    <span itemprop="name">汇编语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>学习参考：汇编语言（第2版）王爽</p>
+<p>CPU 内部的寄存器中，有一种特殊的寄存器（对于不同的处理机，个数和结构都可能不同）具有以下 3 种作用</p>
+</blockquote>
+<ul>
+<li>用来存储相关指令的某些执行结果</li>
+<li>用来为 CPU 执行相关指令提供行为依据</li>
+<li>用来控制 CPU 的相关工作方式</li>
+</ul>
+<p>这种特殊的寄存器在 8086CPU 中，被称为标志寄存器。8086CPU 的标志寄存器有 16 位，其中存储的信息通常称为程序状态字（PSW）。</p>
+<p>标志寄存器（以下简称 flag）和其他寄存器不一样，其他寄存器是用来存放数据的，都是整个寄存器具有一个含义。而 flag 寄存器是按位起作用的，也就是说，它的每一位都有专门的含义，记录特定的信息。8086CPU 的 flag 寄存器的结构如下图</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1flumvosoe5j30e201zmx2.jpg" alt=""></p>
+<p>flag 的 1、3、5、12、13、14、15 位在 8086CPU 中没有使用，不具有任何含义。而0、2、4、6、7、8、9、10、11 位都具有特殊的含义</p>
+<p><strong>注意</strong> 在8086CPU 的指令集中，有的指令的执行是影响标志寄存器的，比如，add、sub、mul、div、inc、or、and 等，它们大都是运算指令（进行逻辑或算术运算）；有的指令的执行对寄存器没有影响，比如，mov，push、pop等，它们大都是传送指令。</p>
+<p>在使用一条指令的时候，要注意这条指令的全部功能，其中包括，执行结果对标志寄存器的哪些标志位造成影响</p>
+<h1 id="ZF-标志"><a href="#ZF-标志" class="headerlink" title="ZF 标志"></a>ZF 标志</h1><blockquote>
+<p>flag 的第 6 位是 ZF( Zero Flag )，零标志位。它记录相关指令后，其结果是否为 0.如果结果为 0，zf=1；如果结果不为 0，那么 zf=0。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mov ax,1</div><div class="line">sub ax,1</div><div class="line">; 结果为 0 ，zf=1</div><div class="line"></div><div class="line">mov ax,2</div><div class="line">sub ax,1</div><div class="line">; 结果不为 0，zf=0</div></pre></td></tr></table></figure>
+<h1 id="pf-标志"><a href="#pf-标志" class="headerlink" title="pf 标志"></a>pf 标志</h1><blockquote>
+<p>flag 的第 2 位是 PF( Parity Flag )，奇偶标志位。它记录相关指令执行后，其结果的所有 bit 位中 1 的个数是否为偶数。如果 1 的个数是偶数，pf=1，如果是奇数，pf=0</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mov al,1</div><div class="line">add al,10</div><div class="line">; 结果为 00001011B，3 个 1，pf=0</div><div class="line"></div><div class="line">mov al,1</div><div class="line">or  al,2</div><div class="line">; 结果为 00000011B，2 个 1，pf=1</div><div class="line"></div><div class="line">sub al,al</div><div class="line">; 结果为 00000000B，0 个 1，pf=1</div></pre></td></tr></table></figure>
+<h1 id="SF-标志"><a href="#SF-标志" class="headerlink" title="SF 标志"></a>SF 标志</h1><blockquote>
+<p>flag 的第 7 位是 SF( Symobl Flag )，符号标志位。它记录相关指令执行后，其结果是否为负。如果为负，sf=1；如果非负，sf=0</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mov al,10000001B</div><div class="line">add al,1</div><div class="line">; 结果 10000010B，sf=1，表示：如果指令进行的是有符号数运算，那么结果为负</div><div class="line"></div><div class="line"></div><div class="line">mov al,10000001B</div><div class="line">add al,01111111B</div><div class="line">; 结果 0，sf=0，表示指令进行的是有符号数运算，那么结果为非负</div></pre></td></tr></table></figure>
+<h1 id="CF-标志"><a href="#CF-标志" class="headerlink" title="CF 标志"></a>CF 标志</h1><blockquote>
+<p>flag 的第 0 位是 CF ( Carry Flag )，进位标志位。一般情况下，在进行无符号数运算的时候，它记录了运算结果的最高有效位向更高位的进位值，或从更高位的借位值</p>
+</blockquote>
+<p>当两数相加时，有可能产生进位，CPU 在运算的时候，将这个进位值记录在一个特殊的寄存器的某一位上。8086CPU 就用 flag 的 CF 位来记录这个进位值。当两数相减时，有可能向更高位借位，而 flag 的 CF 位也可以用来记录这个借位值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mov al,98H</div><div class="line">add al,al   ; 执行后：(al)=30H,CF=1,CF记录了从最高有效位向更高位的进位值</div><div class="line">add al,al   ; 执行后：(al)=60H,CF=0,CF记录了从最高有效位向更高位的进位值</div><div class="line"></div><div class="line"></div><div class="line">mov al,97H</div><div class="line">sub al,98H   ; 执行后：(al)=FFH,CF=1,CF记录了从最高有效位向更高位的进位值</div><div class="line">sub al,al    ; 执行后：(al)=0,CF=0,CF记录了从最高有效位向更高位的进位值</div></pre></td></tr></table></figure>
+<h1 id="OF-标志"><a href="#OF-标志" class="headerlink" title="OF 标志"></a>OF 标志</h1><blockquote>
+<p>在进行有符号数运算的时候，如结果超过了机器所能表示的范围称为溢出。</p>
+</blockquote>
+<p>对 8 位有符号数据，机器所能表示的范围就是 -128~127。同理，对于 16 位有符号数据，机器所能表示的范围是 -32768~32767</p>
+<p>如果超出了及其所能表达的范围，将产生溢出</p>
+<blockquote>
+<p>flag 的第 11 位是 OF（Overflow Flag）。一般情况下，OF 记录了有符号数运算的结果是否发生了溢出。如果发生了溢出，OF=1；如果没有，OF=0</p>
+</blockquote>
+<p><strong>注意</strong> 注意 CF 和 OF 的区别：</p>
+<ul>
+<li>CF 是对无符号数运算有意义的标志位</li>
+<li>OF 是对有符号数运算有意义的标志位</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov al,98</div><div class="line">add al,99</div><div class="line"></div><div class="line">; add指令执行后：CF=0，OF=1</div></pre></td></tr></table></figure>
+<p>CPU 在执行 add 等指令的时候，就包含了两种含义：无符号数运算和有符号数运算。对于无符号数运算，CPU 用 CF 位来记录是否产生了进位；对于有符号位运算，CPU 用 OF 位来记录是否产生了溢出，当然，还要用 SF 位来记录结果的符号。对于无符号数运算，98+99 没有进位，CF=0；对于有符号数运算，则发生了溢出，OF=1。</p>
+<p>CF 和 OF 所表示的进位和溢出，是分别对无符号数和有符号数运算而言的，它们之间没有任何关系。</p>
+<h1 id="adc-指令"><a href="#adc-指令" class="headerlink" title="adc 指令"></a>adc 指令</h1><p>adc 是带进位加法指令，它利用了 CF 位上记录的进位值</p>
+<p>指令功能：adc 操作对象 1，操作对象 2<br>功能：操作对象 1 = 操作对象 1 + 操作对象 2 + CF<br>比如指令 adc ax,bx 实现的功能是：(ax)=(ax)+(bx)+CF</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mov ax,2</div><div class="line">mov bx,1</div><div class="line">sub bx,ax</div><div class="line">adc ax,1</div><div class="line"></div><div class="line">; 执行后，(ax)=4。adc 执行时，相当于计算：(ax)+1+CF=2+1+1=4</div><div class="line"></div><div class="line"></div><div class="line">mov ax,1</div><div class="line">add ax,ax</div><div class="line">adc ax,3</div><div class="line">; 执行后，(ax)=5。adc 执行时，相当于计算：(ax)+3+CF=2+3+0=5</div></pre></td></tr></table></figure>
+<p>Q：那么为什么 CPU 要提供这样一条指令？<br>A：先来看一下CF的值的含义。在执行adc指令的时候加上的 CF 的值的含义，是由adc 指令前面的指令决定的，也就是说，关键在于所加上的 CF 值是被什么指令设置的。显然，如果 CF 的值<strong>是被 sub 指令设置的，那么它的含义就是借位值</strong>; 如果是<strong>被 add 指令设置的，那么它的含义就是进位值</strong>。两个十六进制数相加时，可以分为两步来进行：1.低位相加；2.高位相加再加上低位相加产生的进位值。<strong>adc指令的目的，就是来进行加法的第二步运算的</strong>。adc 指令和 add 指令相配合就可以对更大的数据进行加法运算。</p>
+<h1 id="sbb-指令"><a href="#sbb-指令" class="headerlink" title="sbb 指令"></a>sbb 指令</h1><blockquote>
+<p>sbb 是带借位减法指令，它利用了 CF 位上记录的借位值。</p>
+</blockquote>
+<p>指令格式: sbb操作对象1,操作对象2<br>功能: 操作对象1=操作对象1 - 操作对象2 - CF<br>比如指令 <code>sbb ax,bx</code> 实现的功能是: (ax)=(ax)-(bx)-CF</p>
+<p>sbb 指令执行后，将对 CF 进行设置。利用 sbb 指令可以对任意大的数据进行减法运<br>算。比如，计算 003E1000-00202000H,结果放在 ax,bx 中，程序如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov bx,1000H</div><div class="line">mov ax,003EH</div><div class="line">sub bx,2000H</div><div class="line">sbb ax,0020H</div></pre></td></tr></table></figure></p>
+<p><strong>sbb 和 adc 是基于同样的思想设计的两条指令，在应用思路上和 adc 类似</strong></p>
+<h1 id="cmp-指令"><a href="#cmp-指令" class="headerlink" title="cmp 指令"></a>cmp 指令</h1><blockquote>
+<p>cmp 是比较指令，cmp 的功能相当于减法指令，只是不保存结果。cmp 指令执行后，将对标志寄存器产生影响。其他相关指令通过识别这些被影响的标志寄存器位来得知比较结果。</p>
+</blockquote>
+<p> cmp 指令格式：cmp 操作对象1， 操作对象2<br> 功能：计算操作对象1 - 操作对象2 但并不保存结果，仅仅根据计算结果对标志寄存器进行设置<br> 比如，指令 cmp ax,ax 做(ax)-(ax) 的运算，结果为 0，但并不保存在 ax 中，仅影响 flag 的相关各位。指令执行后：zf=1，pf=1，sf=0，cf=0，of=0</p>
+<p> 下面的指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov ax,8</div><div class="line">mov bx,3</div><div class="line">cmp ax,bx</div><div class="line">;执行后：(ax)=8, zf=0, pf=1, sf=0, cf=0, of=0</div></pre></td></tr></table></figure></p>
+<h1 id="检测比较结果的条件转移指令"><a href="#检测比较结果的条件转移指令" class="headerlink" title="检测比较结果的条件转移指令"></a>检测比较结果的条件转移指令</h1><blockquote>
+<p>“转移” 指的是它能够修改 IP，而 “条件” 指的是它可以根据某种条件，决定是否修改 IP</p>
+</blockquote>
+<p>因为cmp 指令可以同时进行两种比较，无符号数比较和有符号数比较，所以根据 cmp 指令的比较结果进行转移的指令也分为两种，即根据无符号数的比较结果进行转移的条件转移指令(它们检测 zf，cf的值)和根据有符号数的比较结果进行转移的条件转移指令(它们检测sf.of和zf的值)。</p>
+<p>下面是常用的根据无符号数的比较结果进行转移的条件转移指令</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>含义</th>
+<th>检测的相关标志位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>je</td>
+<td>等于则转移</td>
+<td>zf=1</td>
+</tr>
+<tr>
+<td>jne</td>
+<td>不等于则转移</td>
+<td>zf=0</td>
+</tr>
+<tr>
+<td>jb</td>
+<td>低于则转移</td>
+<td>cf=1</td>
+</tr>
+<tr>
+<td>jnb</td>
+<td>不低于则转移</td>
+<td>cf=0</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>高于则转移</td>
+<td>cf=0 且 zf=0</td>
+</tr>
+<tr>
+<td>jna</td>
+<td>不高于则转移</td>
+<td>cf=1 或 zf=1</td>
+</tr>
+</tbody>
+</table>
+<p>j:jump<br>e:equal<br>ne: not equal<br>b:  below<br>nb: not below<br>a:  above<br>na: not above</p>
+<p>通过结合 cmp 指令和条件转移指令就可以实现类似高级语言中 IF 的效果</p>
+<p><strong>编程</strong> 如果 (ah)=(bh) 则 (ah)=(ah)+(ah)，否则 (ah)=(ah)+(bh)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">    cmp ah,bh</div><div class="line">    je s</div><div class="line">    add ah,bh</div><div class="line">    jmp short ok</div><div class="line">s:  add ah,ah</div><div class="line">ok:</div></pre></td></tr></table></figure></p>
+<h1 id="DF-标志和串传送指令"><a href="#DF-标志和串传送指令" class="headerlink" title="DF 标志和串传送指令"></a>DF 标志和串传送指令</h1><blockquote>
+<p>flag 的第 10 位是 DF（Direction Flag），方向标志位。在串处理指令中，控制每次操作后 si、di 的增减。</p>
+</blockquote>
+<ul>
+<li>df=0  每次操作后 si、di 递增</li>
+<li>df=1  每次操作后 si、di 递减</li>
+</ul>
+<p>介绍一个串传送指令</p>
+<p>格式：movsb (MOV String Byte)<br>功能：执行 movsb 指令相当于进行下面几步操作</p>
+<ul>
+<li>((es)<em>16+(di))=((di)</em>16+(si))  把 ds:di 指向的内存单元中的字节送入 es:di 中</li>
+<li>如果 df=0，则 (si)=(si)+1 ; (di)=(di)+1</li>
+<li>如果 df=1，则 (si)=(si)-1 ; (di)=(di)-1</li>
+</ul>
+<p>当然也可以传送一个字，使用指令 movsw (MOV String Word)，不过这里 di 和 si 的递增或递减的数量是 2</p>
+<p>movsb 和 movsw 都和 rep 配合使用，格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rep movsb</div></pre></td></tr></table></figure></p>
+<p>用汇编语法来描述该功能就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">s:  movsb</div><div class="line">    loop s</div></pre></td></tr></table></figure></p>
+<p>可见，rep 的作用是根据 cx 的值，重复执行后面的串传送zh’li指令。由于每执行一次 movsb 指令 si 和 di 都会递增或递减指向后一个单元或前一个单元，则 rep movsb 就可以循环实现 (cx) 个字符的传送</p>
+<p>movsw 同理</p>
+<p>下面两条指令对 df 位进行色设置</p>
+<p> cld 指令 (CLear Direction flag)：将标志位寄存器的 df 位置 0<br> std 指令 (SeT Direction flag)：将标志位寄存器的 df 位置 1</p>
+<p> <strong>编程</strong> 用串传送指令，将 data 段中的第一个字符串复制到它后面的空间中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">data segment</div><div class="line">db &apos;welcome to masm!&apos;</div><div class="line">db 16 dup (0)</div><div class="line">data ends</div></pre></td></tr></table></figure></p>
+<p> 分析：使用串传送指令进行数据的传送，需要给它提供一些必要的信息</p>
+<ol>
+<li>传送的原始位置：ds:si</li>
+<li>传送的目的位置：es:di</li>
+<li>传送的长度：cx</li>
+<li>传送的方向：df</li>
+</ol>
+<p>在这个问题下，这些信息</p>
+<ol>
+<li>传送的原始位置：data:0</li>
+<li>传送的目的位置：data:0010</li>
+<li>传送的长度：16</li>
+<li>传送的方向：df=0</li>
+</ol>
+<p>核心代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mov ax,data</div><div class="line">mov ds,ax</div><div class="line">mov si,0    ; ds:si 指向 data:0</div><div class="line">mov es,ax</div><div class="line">mov di,16   ; es:di 指向 data:0010</div><div class="line">mov cx,16   ; 设置 df=0，rep 循环 16 次</div><div class="line">cld         ; 设置 df=0，正向传递</div><div class="line">rep movsb</div></pre></td></tr></table></figure></p>
+<h1 id="pushf-和-popf"><a href="#pushf-和-popf" class="headerlink" title="pushf 和 popf"></a>pushf 和 popf</h1><blockquote>
+<p>pushf 的功能是将标志位寄存器的值压栈，而 popf 是从栈中弹出数据，送入标志寄存器中</p>
+<p>pushf 和 popf，为直接访问标志寄存器提供了一种方法</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1669,175 +1964,11 @@
 
 
     
-      
-
-  
-  
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/17/汇编语言学习笔记（一）：基础知识/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Inno Fang">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Inno's Bolg">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/17/汇编语言学习笔记（一）：基础知识/" itemprop="url">
-                  汇编语言学习笔记（一）：基础知识
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-17T22:28:14+08:00">
-                2017-11-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/汇编语言/" itemprop="url" rel="index">
-                    <span itemprop="name">汇编语言</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p><strong>学习参考：汇编语言（第2版）王爽</strong></p>
-</blockquote>
-<ul>
-<li>存储器</li>
-<li>指令和数据</li>
-<li>存储单元</li>
-<li>CPU 对存储器的读写</li>
-<li>地址总线</li>
-<li>数据总线</li>
-<li>控制总线</li>
-<li>小结</li>
-<li>内存地址空间</li>
-<li>主板</li>
-<li>接口卡</li>
-<li>各类存储器芯片</li>
-<li>内存地址空间</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/17/汇编语言学习笔记（一）：基础知识/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1880,7 +2011,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
