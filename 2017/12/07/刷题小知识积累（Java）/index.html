@@ -1,0 +1,807 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="算法," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Inno's Bolg" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://i1.piimg.com/567571/2940be93a688853d.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="OJ Java 环境 ： JDK 1.6
+即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，
+
+switch 中可以使用字符串
+“&amp;lt;&amp;gt;”这个玩意儿的运用List tempList = new ArrayList&amp;lt;&amp;gt;(); 即泛型实例化类型自动推断
+ 两个 char 间的 equals
+
+务必注意第二点
+做题经验">
+<meta property="og:type" content="article">
+<meta property="og:title" content="刷题小知识积累（Java）">
+<meta property="og:url" content="http://yoursite.com/2017/12/07/刷题小知识积累（Java）/index.html">
+<meta property="og:site_name" content="Inno's Bolg">
+<meta property="og:description" content="OJ Java 环境 ： JDK 1.6
+即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，
+
+switch 中可以使用字符串
+“&amp;lt;&amp;gt;”这个玩意儿的运用List tempList = new ArrayList&amp;lt;&amp;gt;(); 即泛型实例化类型自动推断
+ 两个 char 间的 equals
+
+务必注意第二点
+做题经验">
+<meta property="og:updated_time" content="2017-12-07T14:46:19.201Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="刷题小知识积累（Java）">
+<meta name="twitter:description" content="OJ Java 环境 ： JDK 1.6
+即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，
+
+switch 中可以使用字符串
+“&amp;lt;&amp;gt;”这个玩意儿的运用List tempList = new ArrayList&amp;lt;&amp;gt;(); 即泛型实例化类型自动推断
+ 两个 char 间的 equals
+
+务必注意第二点
+做题经验">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/07/刷题小知识积累（Java）/"/>
+
+
+
+
+
+  <title> 刷题小知识积累（Java） | Inno's Bolg </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Inno's Bolg</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Inno's world, not just the code, but also the life</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+
+    
+
+  
+  
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/07/刷题小知识积累（Java）/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Inno Fang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://i1.piimg.com/567571/2940be93a688853d.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Inno's Bolg">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Inno's Bolg" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                刷题小知识积累（Java）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-07T22:44:55+08:00">
+                2017-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>OJ Java 环境 ： JDK 1.6</p>
+<p>即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，</p>
+<ul>
+<li><strong>switch 中可以使用字符串</strong></li>
+<li><strong>“&lt;&gt;”这个玩意儿的运用List<string> tempList = new ArrayList&lt;&gt;(); 即泛型实例化类型自动推断</string></strong></li>
+<li><strong> 两个 char 间的 equals</strong></li>
+</ul>
+<p><strong>务必注意第二点</strong></p>
+<h2 id="做题经验总结"><a href="#做题经验总结" class="headerlink" title="做题经验总结"></a>做题经验总结</h2><h3 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h3><p>使用输入输出时，最好带入缓冲流<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Scanner in = <span class="keyword">new</span> Scanner(<span class="keyword">new</span> BufferedInputStream(System.in));</div><div class="line">PrintWriter out = <span class="keyword">new</span> PrintWriter(<span class="keyword">new</span> BufferedOutputStream(System.out));</div></pre></td></tr></table></figure></p>
+<p><strong>注意</strong> 使用<code>out</code>输出时，记得在输出之后调用那个<code>flush()</code>函数，否则无法输出<br>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">out.println(str);</div><div class="line">out.flush();</div></pre></td></tr></table></figure></p>
+<p>若要使用<code>close()</code>方法也是可以得，但要注意题目要求，若还有多行数据需要输入，则不应该使用<code>close()</code><br>同时，好习惯是在程序结束之前将输入输出关闭 </p>
+<hr>
+<p>在使用<code>in.nextLine()</code>读入一整行时，需注意<br>如果在读入一整行之前要求输入其他的数，比如整型时，具体情况举例如下：</p>
+<pre><code>输入的第一行为一个正整数n （1&lt;=n&lt;=10）。
+　　    接下来n行... 
+</code></pre><p><code>nextLine()</code>会将上一行末尾的<code>\n</code>当作一行，即在输入时会少输一行，这里提出两种解决方式</p>
+<p>解决方式一：输入数字时使用nextLine，并用<code>Integer.parseInt()</code>进行转换<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = Integer.parseInt(in.nextLine());</div><div class="line">String str = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">    str = in.nextLine();</div><div class="line">    out.println(str);</div><div class="line">    out.flush();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>解决方式二：在输入完整数之后，加一行<code>nextLine()</code>，消除\n防止影响后面的结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = in.nextInt();</div><div class="line">in.nextLine();</div><div class="line">String str = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">    str = in.nextLine();</div><div class="line">    out.println(str);</div><div class="line">    out.flush();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h3><p><strong>对于需要大量字符串操作的题，最好使用<code>StringBuilder</code>进行操作</strong></p>
+<p>这里也可以使用StringBuffer，但是需要注意一点，StringBuffer是线程安全的，StringBuilder是线程不安全的，什么意思？</p>
+<p>换句话说，就是StringBuffer为了保证线程安全，在效率上会略低于StringBuilder</p>
+<p>而在这种程序设计中，一般是不会出现使用多线程的情况的，所以这里建议使用StringBuilder</p>
+<h3 id="关于程序超时"><a href="#关于程序超时" class="headerlink" title="关于程序超时"></a>关于程序超时</h3><ul>
+<li>如是多字符串有很多操作，最好使用StringBuilder</li>
+<li>如果采用了打表的方式检索数据，最好使用手动创建hashMap，因为hashMap检索很快（ArrayMap）</li>
+<li>对于大量数组计算，减少循环使用，采用计算公式，或者做判断，剔除不必要的数据</li>
+</ul>
+<hr>
+<h3 id="关于运行错误"><a href="#关于运行错误" class="headerlink" title="关于运行错误"></a>关于运行错误</h3><ul>
+<li>除以零</li>
+<li>数组越界</li>
+<li>指针越界</li>
+<li>使用已经释放的空间</li>
+<li>数组开得太大，超出了栈的范围，造成栈溢出</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>比较两个数组是否相等应该用 <code>Arrays.equals( , )</code></li>
+<li>数组的复制 <code>Arrays.copyOf()</code></li>
+</ul>
+<hr>
+<h3 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h3><ul>
+<li>类名务必是 <code>Main</code>，否则无法通过</li>
+<li>复制代码时，需要将除包名以外所有代码复制，即全部代码除了package语句，其他全部复制</li>
+<li>提交之前，务必多测试几组，在思考测试用例时，建议<ul>
+<li>若题目给出了输入范围，最好测试一下输入最大的情况和输入最小的情况</li>
+<li>关于数字操作的题，格外注意0，int的范围（-2^31~2^31-1，即-2,147,483,648~2,147,483,647），long的范围（-263~263-1，即-9,223,372,036,854,775,808~9,223,372,036,854,775,807）</li>
+<li>在使用浮点型计算时，注意浮点数陷阱</li>
+<li>测试时，最好注意一下每组测试时是否把上组测试用例的结果清空，不然后导致编译错误</li>
+</ul>
+</li>
+</ul>
+<h2 id="小知识收集"><a href="#小知识收集" class="headerlink" title="小知识收集"></a>小知识收集</h2><h3 id="余模定理"><a href="#余模定理" class="headerlink" title="余模定理"></a>余模定理</h3><blockquote>
+<p>(a + b) % mod = (a % mod + b % mod) % mod<br>(a <em> b) % mod = ((a % mod) </em> (b % mod)) % mod</p>
+</blockquote>
+<h3 id="浮点数判断"><a href="#浮点数判断" class="headerlink" title="浮点数判断"></a>浮点数判断</h3><p>在 Java 中存在浮点数陷阱，即<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> a = <span class="number">2.0</span> - <span class="number">1.9</span>;</div><div class="line"><span class="keyword">double</span> b = <span class="number">0.1</span>;</div><div class="line">System.out.println(a == b); <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+<p>其原因是<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">System.out.println(<span class="number">2.0</span> - <span class="number">1.9</span>);</div><div class="line"><span class="comment">// 0.10000000000000009</span></div></pre></td></tr></table></figure></p>
+<p>那么解决这个问题的方法则是做减法，当值小于一个特定的数时，则认为相等<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">System.out.println(a - b &lt; <span class="number">1e-10</span>); <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
+<p>这里差值只要小于 1^-10 则认为相等</p>
+<h3 id="使用换底公式判断一个数是否是-3-的-n-次方数"><a href="#使用换底公式判断一个数是否是-3-的-n-次方数" class="headerlink" title="使用换底公式判断一个数是否是 3 的 n 次方数"></a>使用换底公式判断一个数是否是 3 的 n 次方数</h3><blockquote>
+<p>换底公式 : log_3(num) = log10(num) / log10(3.0)</p>
+</blockquote>
+<p>举例如下，输入一个数 num，使用换底公式可以得到它是 3 的几次方<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> res = Math.log10(num) / Math.log10(<span class="number">3.0</span>)</div></pre></td></tr></table></figure></p>
+<p>这里需要判断 res 是否为整数即可，方法就是做浮点数减法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(res - (<span class="keyword">int</span>)res) &lt; <span class="number">1e-10</span></div></pre></td></tr></table></figure></p>
+<p>刚发对判断 2^n 数、4^n 数都可行</p>
+<h3 id="使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素"><a href="#使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素" class="headerlink" title="使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素"></a>使用异或找到<strong>每个元素都出现2次除了其中的一个的</strong>数组中唯一不重复的元素</h3><p>比如数组 <code>[6,4,3,3,4,4]</code>，根据要找到数组中唯一不重复的那个元素</p>
+<p>这里的小技巧是使用<strong>异或</strong></p>
+<p>原理是 <code>a ^ b = b ^ a</code>，即异或满足交换律<br>同时<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">0</span> ^ a = a</div><div class="line">a ^ a = <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>所以当重复的元素取异或时会变为 0，而 0 异或任何一个数都是他本身。方法如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> res = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</div><div class="line">    res = res ^ nums[i];</div><div class="line">&#125;</div><div class="line">System.out.println(res);</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/" rel="next" title="汇编语言学习笔记（十一）：标志寄存器">
+                <i class="fa fa-chevron-left"></i> 汇编语言学习笔记（十一）：标志寄存器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://i1.piimg.com/567571/2940be93a688853d.jpg"
+               alt="Inno Fang" />
+          <p class="site-author-name" itemprop="name">Inno Fang</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap, show me the code.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/InnoFang" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#做题经验总结"><span class="nav-number">1.</span> <span class="nav-text">做题经验总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入输出"><span class="nav-number">1.1.</span> <span class="nav-text">输入输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串操作"><span class="nav-number">1.2.</span> <span class="nav-text">字符串操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于程序超时"><span class="nav-number">1.3.</span> <span class="nav-text">关于程序超时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于运行错误"><span class="nav-number">1.4.</span> <span class="nav-text">关于运行错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">1.5.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交"><span class="nav-number">1.6.</span> <span class="nav-text">提交</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小知识收集"><span class="nav-number">2.</span> <span class="nav-text">小知识收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#余模定理"><span class="nav-number">2.1.</span> <span class="nav-text">余模定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点数判断"><span class="nav-number">2.2.</span> <span class="nav-text">浮点数判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用换底公式判断一个数是否是-3-的-n-次方数"><span class="nav-number">2.3.</span> <span class="nav-text">使用换底公式判断一个数是否是 3 的 n 次方数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素"><span class="nav-number">2.4.</span> <span class="nav-text">使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Inno Fang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>个来到的小伙伴
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

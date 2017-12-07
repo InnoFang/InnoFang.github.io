@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-11-28T03:59:21.871Z</updated>
+  <updated>2017-12-07T14:46:19.201Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,101 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>刷题小知识积累（Java）</title>
+    <link href="http://yoursite.com/2017/12/07/%E5%88%B7%E9%A2%98%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF%EF%BC%88Java%EF%BC%89/"/>
+    <id>http://yoursite.com/2017/12/07/刷题小知识积累（Java）/</id>
+    <published>2017-12-07T14:44:55.000Z</published>
+    <updated>2017-12-07T14:46:19.201Z</updated>
+    
+    <content type="html"><![CDATA[<p>OJ Java 环境 ： JDK 1.6</p>
+<p>即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，</p>
+<ul>
+<li><strong>switch 中可以使用字符串</strong></li>
+<li><strong>“&lt;&gt;”这个玩意儿的运用List<string> tempList = new ArrayList&lt;&gt;(); 即泛型实例化类型自动推断</string></strong></li>
+<li><strong> 两个 char 间的 equals</strong></li>
+</ul>
+<p><strong>务必注意第二点</strong></p>
+<h2 id="做题经验总结"><a href="#做题经验总结" class="headerlink" title="做题经验总结"></a>做题经验总结</h2><h3 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h3><p>使用输入输出时，最好带入缓冲流<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Scanner in = <span class="keyword">new</span> Scanner(<span class="keyword">new</span> BufferedInputStream(System.in));</div><div class="line">PrintWriter out = <span class="keyword">new</span> PrintWriter(<span class="keyword">new</span> BufferedOutputStream(System.out));</div></pre></td></tr></table></figure></p>
+<p><strong>注意</strong> 使用<code>out</code>输出时，记得在输出之后调用那个<code>flush()</code>函数，否则无法输出<br>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">out.println(str);</div><div class="line">out.flush();</div></pre></td></tr></table></figure></p>
+<p>若要使用<code>close()</code>方法也是可以得，但要注意题目要求，若还有多行数据需要输入，则不应该使用<code>close()</code><br>同时，好习惯是在程序结束之前将输入输出关闭 </p>
+<hr>
+<p>在使用<code>in.nextLine()</code>读入一整行时，需注意<br>如果在读入一整行之前要求输入其他的数，比如整型时，具体情况举例如下：</p>
+<pre><code>输入的第一行为一个正整数n （1&lt;=n&lt;=10）。
+　　    接下来n行... 
+</code></pre><p><code>nextLine()</code>会将上一行末尾的<code>\n</code>当作一行，即在输入时会少输一行，这里提出两种解决方式</p>
+<p>解决方式一：输入数字时使用nextLine，并用<code>Integer.parseInt()</code>进行转换<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = Integer.parseInt(in.nextLine());</div><div class="line">String str = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">    str = in.nextLine();</div><div class="line">    out.println(str);</div><div class="line">    out.flush();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>解决方式二：在输入完整数之后，加一行<code>nextLine()</code>，消除\n防止影响后面的结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = in.nextInt();</div><div class="line">in.nextLine();</div><div class="line">String str = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">    str = in.nextLine();</div><div class="line">    out.println(str);</div><div class="line">    out.flush();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h3><p><strong>对于需要大量字符串操作的题，最好使用<code>StringBuilder</code>进行操作</strong></p>
+<p>这里也可以使用StringBuffer，但是需要注意一点，StringBuffer是线程安全的，StringBuilder是线程不安全的，什么意思？</p>
+<p>换句话说，就是StringBuffer为了保证线程安全，在效率上会略低于StringBuilder</p>
+<p>而在这种程序设计中，一般是不会出现使用多线程的情况的，所以这里建议使用StringBuilder</p>
+<h3 id="关于程序超时"><a href="#关于程序超时" class="headerlink" title="关于程序超时"></a>关于程序超时</h3><ul>
+<li>如是多字符串有很多操作，最好使用StringBuilder</li>
+<li>如果采用了打表的方式检索数据，最好使用手动创建hashMap，因为hashMap检索很快（ArrayMap）</li>
+<li>对于大量数组计算，减少循环使用，采用计算公式，或者做判断，剔除不必要的数据</li>
+</ul>
+<hr>
+<h3 id="关于运行错误"><a href="#关于运行错误" class="headerlink" title="关于运行错误"></a>关于运行错误</h3><ul>
+<li>除以零</li>
+<li>数组越界</li>
+<li>指针越界</li>
+<li>使用已经释放的空间</li>
+<li>数组开得太大，超出了栈的范围，造成栈溢出</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>比较两个数组是否相等应该用 <code>Arrays.equals( , )</code></li>
+<li>数组的复制 <code>Arrays.copyOf()</code></li>
+</ul>
+<hr>
+<h3 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h3><ul>
+<li>类名务必是 <code>Main</code>，否则无法通过</li>
+<li>复制代码时，需要将除包名以外所有代码复制，即全部代码除了package语句，其他全部复制</li>
+<li>提交之前，务必多测试几组，在思考测试用例时，建议<ul>
+<li>若题目给出了输入范围，最好测试一下输入最大的情况和输入最小的情况</li>
+<li>关于数字操作的题，格外注意0，int的范围（-2^31~2^31-1，即-2,147,483,648~2,147,483,647），long的范围（-263~263-1，即-9,223,372,036,854,775,808~9,223,372,036,854,775,807）</li>
+<li>在使用浮点型计算时，注意浮点数陷阱</li>
+<li>测试时，最好注意一下每组测试时是否把上组测试用例的结果清空，不然后导致编译错误</li>
+</ul>
+</li>
+</ul>
+<h2 id="小知识收集"><a href="#小知识收集" class="headerlink" title="小知识收集"></a>小知识收集</h2><h3 id="余模定理"><a href="#余模定理" class="headerlink" title="余模定理"></a>余模定理</h3><blockquote>
+<p>(a + b) % mod = (a % mod + b % mod) % mod<br>(a <em> b) % mod = ((a % mod) </em> (b % mod)) % mod</p>
+</blockquote>
+<h3 id="浮点数判断"><a href="#浮点数判断" class="headerlink" title="浮点数判断"></a>浮点数判断</h3><p>在 Java 中存在浮点数陷阱，即<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> a = <span class="number">2.0</span> - <span class="number">1.9</span>;</div><div class="line"><span class="keyword">double</span> b = <span class="number">0.1</span>;</div><div class="line">System.out.println(a == b); <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+<p>其原因是<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">System.out.println(<span class="number">2.0</span> - <span class="number">1.9</span>);</div><div class="line"><span class="comment">// 0.10000000000000009</span></div></pre></td></tr></table></figure></p>
+<p>那么解决这个问题的方法则是做减法，当值小于一个特定的数时，则认为相等<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">System.out.println(a - b &lt; <span class="number">1e-10</span>); <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
+<p>这里差值只要小于 1^-10 则认为相等</p>
+<h3 id="使用换底公式判断一个数是否是-3-的-n-次方数"><a href="#使用换底公式判断一个数是否是-3-的-n-次方数" class="headerlink" title="使用换底公式判断一个数是否是 3 的 n 次方数"></a>使用换底公式判断一个数是否是 3 的 n 次方数</h3><blockquote>
+<p>换底公式 : log_3(num) = log10(num) / log10(3.0)</p>
+</blockquote>
+<p>举例如下，输入一个数 num，使用换底公式可以得到它是 3 的几次方<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> res = Math.log10(num) / Math.log10(<span class="number">3.0</span>)</div></pre></td></tr></table></figure></p>
+<p>这里需要判断 res 是否为整数即可，方法就是做浮点数减法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(res - (<span class="keyword">int</span>)res) &lt; <span class="number">1e-10</span></div></pre></td></tr></table></figure></p>
+<p>刚发对判断 2^n 数、4^n 数都可行</p>
+<h3 id="使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素"><a href="#使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素" class="headerlink" title="使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素"></a>使用异或找到<strong>每个元素都出现2次除了其中的一个的</strong>数组中唯一不重复的元素</h3><p>比如数组 <code>[6,4,3,3,4,4]</code>，根据要找到数组中唯一不重复的那个元素</p>
+<p>这里的小技巧是使用<strong>异或</strong></p>
+<p>原理是 <code>a ^ b = b ^ a</code>，即异或满足交换律<br>同时<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">0</span> ^ a = a</div><div class="line">a ^ a = <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>所以当重复的元素取异或时会变为 0，而 0 异或任何一个数都是他本身。方法如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> res = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</div><div class="line">    res = res ^ nums[i];</div><div class="line">&#125;</div><div class="line">System.out.println(res);</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;OJ Java 环境 ： JDK 1.6&lt;/p&gt;
+&lt;p&gt;即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;switch 中可以使用字符串&lt;/strong&gt;&lt;/li&gt;
+
+    
+    </summary>
+    
+      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>汇编语言学习笔记（十一）：标志寄存器</title>
@@ -2412,67 +2507,6 @@
     
     
       <category term="设计模式" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RxJava2 使用小记</title>
-    <link href="http://yoursite.com/2017/04/28/RxJava2-%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/"/>
-    <id>http://yoursite.com/2017/04/28/RxJava2-使用小记/</id>
-    <published>2017-04-28T02:13:35.000Z</published>
-    <updated>2017-04-28T07:20:23.817Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="RxJava2-的基本使用"><a href="#RxJava2-的基本使用" class="headerlink" title="RxJava2 的基本使用"></a>RxJava2 的基本使用</h1><p>RxJava2 的基本使用小记，持续更新 （结合 RxAndroid 在 Android 上的使用）</p>
-<a id="more"></a>
-<h2 id="创建-Observable-对象"><a href="#创建-Observable-对象" class="headerlink" title="创建 Observable 对象"></a>创建 Observable 对象</h2><ul>
-<li>使用 <code>create()</code> 方法创建 <code>Observable</code> 对象<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Observable&lt;String&gt; observable = Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;String&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        e.onNext(<span class="string">"Today's news update"</span>);</div><div class="line">        e.onNext(<span class="string">"Today's topic is Study"</span>);</div><div class="line">        e.onComplete();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><strong>注意</strong> <code>ObservableEmitter</code> 可以理解为发射器，可以调用 <code>onNext()</code>, <code>onComplete()</code>, <code>onError()</code> 等方法，<code>onNext()</code> 方法可以多次调用，<code>onComplete()</code> 方法和 <code>onError()</code> 方法是互斥的，也就是说两者只能调用其一，如果两者同时使用了，则会调用上面的那个</p>
-<ul>
-<li>使用 <code>just()</code> 方法 或 <code>fromArray()</code> 方法创建 <code>Observable</code> 对象的方式<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Observable&lt;String&gt; observable = Observable.just(<span class="string">"Topic 1"</span>, <span class="string">"Heat 1"</span>, <span class="string">"News"</span>);</div><div class="line">Observable&lt;String&gt; observable = Observable.fromArray(<span class="string">"Topic 1"</span>, <span class="string">"Heat 1"</span>, <span class="string">"News"</span>);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>上面调用的 <code>just()</code> 方法最多可以传递十个参数，而 <code>fromArray()</code> 方法可以传入不定长的参数，而在 <code>just()</code> 方法的内部也是调用的 <code>fromArray()</code> 方法</p>
-<ul>
-<li>使用 <code>fromCallable()</code> 方法创建 <code>Observable</code> 对象<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Observable&lt;String&gt; observable = Observable.fromCallable(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Topic is Study"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>可以看到使用这种方式创建 <code>Observable</code> 对象只能返回一个数据</p>
-<h2 id="创建-Observer-对象"><a href="#创建-Observer-对象" class="headerlink" title="创建 Observer 对象"></a>创建 <code>Observer</code> 对象</h2><p>创建 <code>Observer</code> 对象比较简单，直接 new 就可以了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">Observer&lt;String&gt; observer = <span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 每次接收前调用</div><div class="line">     * <span class="doctag">@param</span> d</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"onSubscribe: is called"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String value)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"onNext: is called"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"onError: is called"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"onComplete: is called"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p><strong>注意</strong> <code>onSubscribe(Disposable d)</code> 方法是在每次 Observer 接收来自 Observable 数据的时候调用，其余的 <code>onNext(String value)</code>方、<code>onError(Throwable e)</code>方法、<code>onComplete()</code>方法，对应于 Observable 中调用的方法，其中 <code>onError(Throwable e)</code>方法、<code>onComplete()</code>方法两者只能调用一个，都不会重复调用</p>
-<p>当然，如果只是用来接收发送来的数据而不会有错误或者完成的请求的话，完全可以使用 <code>Consumer</code> 对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Consumer&lt;String&gt; consumer = <span class="keyword">new</span> Consumer&lt;String&gt;()&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="comment">// do something</span></div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>这里面的 accept 方法就是用来接收 Observable 发送过来的数据的</p>
-<p><strong>注意</strong> 在 <code>subscribe()</code> 方法可以接受多个 <code>Consumer</code> 对象，具体每个 <code>Consumer</code> 对象对应的是什么请看下图<br><img src="http://i4.buimg.com/567571/7484b892fcde1e25.png" alt=""></p>
-<h2 id="让-Observable-对象与-Observer-对象实现订阅关系"><a href="#让-Observable-对象与-Observer-对象实现订阅关系" class="headerlink" title="让 Observable 对象与 Observer 对象实现订阅关系"></a>让 Observable 对象与 Observer 对象实现订阅关系</h2><p>使用的是 Observable 对象的 <code>subscribe()</code> 方法，传入 Observer 对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">observable.subscribe(observer);</div></pre></td></tr></table></figure></p>
-<p>若不想传入 Observer 对象，还可以更改为 Consumer 对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">observable.subscribe(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        System.out.println(<span class="string">"accept is called, "</span> + s);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>这里的 <code>accept()</code> 方法对应于之前的 <code>onNext()</code> 方法，也就是说若不没有 complete 或者 error 的情况下，就可以使用这种方式，使用了多少次 <code>onNext()</code> 方法，就会调用多少次 <code>accept()</code> 方法</p>
-<h1 id="Scheduler-线程控制"><a href="#Scheduler-线程控制" class="headerlink" title="Scheduler 线程控制"></a>Scheduler 线程控制</h1><ul>
-<li><code>Schedulers.immediate()</code> 在当前线程中运行（默认）</li>
-<li><code>Schedulers.io()</code> 有读写操作或者信息交互操作时使用。会启动新的线程进行操作，但是在其内部使用的是无数量上线的线程池，若有空闲线程存在会直接调用，效率上有一定优势。</li>
-<li><code>Schedulers.computation()</code> 当进行 CPU 密集型计算时（并且不会被 IO 操作限制性能）使用。相比于 <code>Schedulers.io()</code> 方法内部的实现，<code>Schedulers.computation()</code> 的内部实现使用的是有固定数量的线程池，其大小为 CPU 核数。所以若在这里面执行 IO 操作会浪费 CPU 和大量时间</li>
-<li><p><code>AndroidSchedulers.mainThread()</code> 在 Android 主线程 ( 即 UI 线程 )中执行</p>
-<h2 id="线程切换"><a href="#线程切换" class="headerlink" title="线程切换"></a>线程切换</h2><p>上面提到了线程控制，并且我们都知道耗时操作要在子线程中执行，更新 UI 的操作要在主线程中执行，那么我们怎样才能实现这种在两种线程内执行功能的操作呢？</p>
-<p>答案就是使用线程切换，RxJava 提供了两种方法</p>
-</li>
-<li><code>subscribeOn()</code> 指定 Observable 对象所执行操作的线程</li>
-<li><code>observeOn()</code> 指定 Observer 对象所执行操作的线程</li>
-</ul>
-<p><strong>注意</strong> 如果指定了 <code>subscribeOn()</code> 但是没有指定 <code>observeOn()</code> 方法，那么对应的 Observer 对象的操作线程就是跟 Observable 一样的了</p>
-<p>有了上面两个方法，那么就可以在创建 Observable 对象的时候进行网络请求，并用 <code>subscribeOn()</code>  指定在 <code>Schedulers.io()</code>  中执行，然后再利用 <code>observeOn()</code> 指定 Observer 的操作是在 <code>AndroidSchedulers.mainThread()</code> 中，那么我们就可以在 Observer 对象的 <code>onNext()</code> 方法中，将获得资源添加给对应的 View。参考操作如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Bitmap&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Bitmap&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="comment">// 网络请求</span></div><div class="line">        <span class="comment">// 将请求资源转化为 Bitmap</span></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != bitmap) &#123;</div><div class="line">            e.onNext(bitmap);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;).subscribeOn(Schedulers.io())                     <span class="comment">/* 在子线程中进行网络请求 */</span></div><div class="line">        .observeOn(AndroidSchedulers.mainThread())  <span class="comment">/* 在主线程给 View 添加请求的资源 */</span></div><div class="line">        .subscribe(<span class="keyword">new</span> Observer&lt;Bitmap&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(Bitmap value)</span> </span>&#123;</div><div class="line">                imageView.setImageBitmap(value);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;RxJava2-的基本使用&quot;&gt;&lt;a href=&quot;#RxJava2-的基本使用&quot; class=&quot;headerlink&quot; title=&quot;RxJava2 的基本使用&quot;&gt;&lt;/a&gt;RxJava2 的基本使用&lt;/h1&gt;&lt;p&gt;RxJava2 的基本使用小记，持续更新 （结合 RxAndroid 在 Android 上的使用）&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
-    
-    
-      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
     
   </entry>
   
