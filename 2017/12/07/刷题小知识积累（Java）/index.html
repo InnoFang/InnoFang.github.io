@@ -93,8 +93,7 @@ switch 中可以使用字符串
 “&amp;lt;&amp;gt;”这个玩意儿的运用List tempList = new ArrayList&amp;lt;&amp;gt;(); 即泛型实例化类型自动推断
  两个 char 间的 equals
 
-务必注意第二点
-做题经验">
+务必注意第二点">
 <meta property="og:type" content="article">
 <meta property="og:title" content="刷题小知识积累（Java）">
 <meta property="og:url" content="http://yoursite.com/2017/12/07/刷题小知识积累（Java）/index.html">
@@ -106,9 +105,8 @@ switch 中可以使用字符串
 “&amp;lt;&amp;gt;”这个玩意儿的运用List tempList = new ArrayList&amp;lt;&amp;gt;(); 即泛型实例化类型自动推断
  两个 char 间的 equals
 
-务必注意第二点
-做题经验">
-<meta property="og:updated_time" content="2017-12-07T14:46:19.201Z">
+务必注意第二点">
+<meta property="og:updated_time" content="2017-12-08T04:01:54.274Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="刷题小知识积累（Java）">
 <meta name="twitter:description" content="OJ Java 环境 ： JDK 1.6
@@ -118,8 +116,7 @@ switch 中可以使用字符串
 “&amp;lt;&amp;gt;”这个玩意儿的运用List tempList = new ArrayList&amp;lt;&amp;gt;(); 即泛型实例化类型自动推断
  两个 char 间的 equals
 
-务必注意第二点
-做题经验">
+务必注意第二点">
 
 
 
@@ -394,6 +391,7 @@ switch 中可以使用字符串
 <li><strong> 两个 char 间的 equals</strong></li>
 </ul>
 <p><strong>务必注意第二点</strong></p>
+<a id="more"></a>
 <h2 id="做题经验总结"><a href="#做题经验总结" class="headerlink" title="做题经验总结"></a>做题经验总结</h2><h3 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h3><p>使用输入输出时，最好带入缓冲流<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Scanner in = <span class="keyword">new</span> Scanner(<span class="keyword">new</span> BufferedInputStream(System.in));</div><div class="line">PrintWriter out = <span class="keyword">new</span> PrintWriter(<span class="keyword">new</span> BufferedOutputStream(System.out));</div></pre></td></tr></table></figure></p>
 <p><strong>注意</strong> 使用<code>out</code>输出时，记得在输出之后调用那个<code>flush()</code>函数，否则无法输出<br>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">out.println(str);</div><div class="line">out.flush();</div></pre></td></tr></table></figure></p>
 <p>若要使用<code>close()</code>方法也是可以得，但要注意题目要求，若还有多行数据需要输入，则不应该使用<code>close()</code><br>同时，好习惯是在程序结束之前将输入输出关闭 </p>
