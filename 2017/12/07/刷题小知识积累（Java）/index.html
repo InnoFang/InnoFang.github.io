@@ -106,7 +106,7 @@ switch 中可以使用字符串
  两个 char 间的 equals
 
 务必注意第二点">
-<meta property="og:updated_time" content="2017-12-18T02:47:44.492Z">
+<meta property="og:updated_time" content="2017-12-18T02:53:24.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="刷题小知识积累（Java）">
 <meta name="twitter:description" content="OJ Java 环境 ： JDK 1.6
@@ -457,7 +457,7 @@ switch 中可以使用字符串
 <blockquote>
 <p>两个人同时跑步，第二个人的速度是第一个人的两倍，那么第二个人能在下一圈的同一个位置遇到第一个人</p>
 </blockquote>
-<p>比如现在有个方法 <code>public int calc(int n)</code> 用于计算某个数，通过如下方法可以判断在循环中该数是否会循环出现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">	<span class="keyword">int</span> one = n;</div><div class="line">	<span class="keyword">int</span> two = n;</div><div class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">		one = calc(one);</div><div class="line">		two = calc(calc(two));</div><div class="line">		<span class="comment">// if (one 为何值）有什么结果</span></div><div class="line">		<span class="comment">// if (two 为何值) 有什么结果</span></div><div class="line">		<span class="keyword">if</span> (one == two) <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// 表示会出现循环</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>比如现在有个方法 <code>public int calc(int n)</code> 用于计算某个数，通过如下方法可以判断在循环中该数是否会循环出现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">	<span class="keyword">int</span> one = n;</div><div class="line">	<span class="keyword">int</span> two = n;</div><div class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">		one = calc(one);	   		 <span class="comment">// 相当于第一个人的速度</span></div><div class="line">		two = calc(calc(two));		 <span class="comment">// 相当于第二个人的速度，是第一个人的两倍</span></div><div class="line">		<span class="comment">// if (one 为何值）有什么结果</span></div><div class="line">		<span class="comment">// if (two 为何值) 有什么结果</span></div><div class="line">		<span class="keyword">if</span> (one == two) <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// 表示会出现循环</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>

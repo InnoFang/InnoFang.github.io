@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-12-18T02:47:44.492Z</updated>
+  <updated>2017-12-18T02:53:24.573Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/12/07/%E5%88%B7%E9%A2%98%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF%EF%BC%88Java%EF%BC%89/"/>
     <id>http://yoursite.com/2017/12/07/刷题小知识积累（Java）/</id>
     <published>2017-12-07T14:44:55.000Z</published>
-    <updated>2017-12-18T02:47:44.492Z</updated>
+    <updated>2017-12-18T02:53:24.573Z</updated>
     
     <content type="html"><![CDATA[<p>OJ Java 环境 ： JDK 1.6</p>
 <p>即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，</p>
@@ -96,7 +96,7 @@
 <blockquote>
 <p>两个人同时跑步，第二个人的速度是第一个人的两倍，那么第二个人能在下一圈的同一个位置遇到第一个人</p>
 </blockquote>
-<p>比如现在有个方法 <code>public int calc(int n)</code> 用于计算某个数，通过如下方法可以判断在循环中该数是否会循环出现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">	<span class="keyword">int</span> one = n;</div><div class="line">	<span class="keyword">int</span> two = n;</div><div class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">		one = calc(one);</div><div class="line">		two = calc(calc(two));</div><div class="line">		<span class="comment">// if (one 为何值）有什么结果</span></div><div class="line">		<span class="comment">// if (two 为何值) 有什么结果</span></div><div class="line">		<span class="keyword">if</span> (one == two) <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// 表示会出现循环</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>比如现在有个方法 <code>public int calc(int n)</code> 用于计算某个数，通过如下方法可以判断在循环中该数是否会循环出现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">	<span class="keyword">int</span> one = n;</div><div class="line">	<span class="keyword">int</span> two = n;</div><div class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">		one = calc(one);	   		 <span class="comment">// 相当于第一个人的速度</span></div><div class="line">		two = calc(calc(two));		 <span class="comment">// 相当于第二个人的速度，是第一个人的两倍</span></div><div class="line">		<span class="comment">// if (one 为何值）有什么结果</span></div><div class="line">		<span class="comment">// if (two 为何值) 有什么结果</span></div><div class="line">		<span class="keyword">if</span> (one == two) <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// 表示会出现循环</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
