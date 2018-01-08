@@ -106,7 +106,7 @@ switch 中可以使用字符串
  两个 char 间的 equals
 
 务必注意第二点">
-<meta property="og:updated_time" content="2017-12-21T11:23:38.356Z">
+<meta property="og:updated_time" content="2018-01-08T03:39:23.438Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="刷题小知识积累（Java）">
 <meta name="twitter:description" content="OJ Java 环境 ： JDK 1.6
@@ -436,6 +436,21 @@ switch 中可以使用字符串
 </ul>
 </li>
 </ul>
+<hr>
+<h3 id="length-size-length"><a href="#length-size-length" class="headerlink" title="length, size(), length()"></a>length, size(), length()</h3><p>在使用编译器时，并不会太注意这个问题，但是在白板编程时，经常会弄混，那么这里总结一下</p>
+<p>在 Java 中</p>
+<ul>
+<li>数组相关，用 <code>length</code></li>
+<li>集合相关，用 <code>size()</code></li>
+<li>字符串相关，用 <code>length()</code></li>
+</ul>
+<p>BTW，在 kotlin 中</p>
+<ul>
+<li>数组、集合相关，用 <code>size</code></li>
+<li>字符串相关，用 <code>length</code> </li>
+</ul>
+<p>并且都不需要圆括号</p>
+<hr>
 <h2 id="小知识收集"><a href="#小知识收集" class="headerlink" title="小知识收集"></a>小知识收集</h2><h3 id="余模定理"><a href="#余模定理" class="headerlink" title="余模定理"></a>余模定理</h3><blockquote>
 <p>(a + b) % mod = (a % mod + b % mod) % mod<br>(a <em> b) % mod = ((a % mod) </em> (b % mod)) % mod</p>
 </blockquote>
@@ -658,7 +673,7 @@ switch 中可以使用字符串
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#做题经验总结"><span class="nav-number">1.</span> <span class="nav-text">做题经验总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入输出"><span class="nav-number">1.1.</span> <span class="nav-text">输入输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串操作"><span class="nav-number">1.2.</span> <span class="nav-text">字符串操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于程序超时"><span class="nav-number">1.3.</span> <span class="nav-text">关于程序超时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于运行错误"><span class="nav-number">1.4.</span> <span class="nav-text">关于运行错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">1.5.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交"><span class="nav-number">1.6.</span> <span class="nav-text">提交</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小知识收集"><span class="nav-number">2.</span> <span class="nav-text">小知识收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#余模定理"><span class="nav-number">2.1.</span> <span class="nav-text">余模定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点数判断"><span class="nav-number">2.2.</span> <span class="nav-text">浮点数判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用换底公式判断一个数是否是-3-的-n-次方数"><span class="nav-number">2.3.</span> <span class="nav-text">使用换底公式判断一个数是否是 3 的 n 次方数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素"><span class="nav-number">2.4.</span> <span class="nav-text">使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#佛洛依德判环判断循环内是否出现循环数字"><span class="nav-number">2.5.</span> <span class="nav-text">佛洛依德判环判断循环内是否出现循环数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拿到数字的最高位为-1-的二进制数"><span class="nav-number">2.6.</span> <span class="nav-text">拿到数字的最高位为 1 的二进制数</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#做题经验总结"><span class="nav-number">1.</span> <span class="nav-text">做题经验总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入输出"><span class="nav-number">1.1.</span> <span class="nav-text">输入输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串操作"><span class="nav-number">1.2.</span> <span class="nav-text">字符串操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于程序超时"><span class="nav-number">1.3.</span> <span class="nav-text">关于程序超时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于运行错误"><span class="nav-number">1.4.</span> <span class="nav-text">关于运行错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">1.5.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交"><span class="nav-number">1.6.</span> <span class="nav-text">提交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#length-size-length"><span class="nav-number">1.7.</span> <span class="nav-text">length, size(), length()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小知识收集"><span class="nav-number">2.</span> <span class="nav-text">小知识收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#余模定理"><span class="nav-number">2.1.</span> <span class="nav-text">余模定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浮点数判断"><span class="nav-number">2.2.</span> <span class="nav-text">浮点数判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用换底公式判断一个数是否是-3-的-n-次方数"><span class="nav-number">2.3.</span> <span class="nav-text">使用换底公式判断一个数是否是 3 的 n 次方数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素"><span class="nav-number">2.4.</span> <span class="nav-text">使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#佛洛依德判环判断循环内是否出现循环数字"><span class="nav-number">2.5.</span> <span class="nav-text">佛洛依德判环判断循环内是否出现循环数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拿到数字的最高位为-1-的二进制数"><span class="nav-number">2.6.</span> <span class="nav-text">拿到数字的最高位为 1 的二进制数</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -679,7 +694,7 @@ switch 中可以使用字符串
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
