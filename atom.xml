@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-01-08T03:39:23.438Z</updated>
+  <updated>2018-01-13T03:06:08.644Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/12/07/%E5%88%B7%E9%A2%98%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF%EF%BC%88Java%EF%BC%89/"/>
     <id>http://yoursite.com/2017/12/07/刷题小知识积累（Java）/</id>
     <published>2017-12-07T14:44:55.000Z</published>
-    <updated>2018-01-08T03:39:23.438Z</updated>
+    <updated>2018-01-13T03:06:08.644Z</updated>
     
     <content type="html"><![CDATA[<p>OJ Java 环境 ： JDK 1.6</p>
 <p>即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，</p>
@@ -131,6 +131,14 @@
 </blockquote>
 <p> 这个方式的运用可以算出一个<strong>正数</strong>的反码</p>
 <p> 当我用 10000 与 11111 异或时，可以得到 10000 的反码 01111</p>
+<h3 id="关于-n-阶矩阵的规律"><a href="#关于-n-阶矩阵的规律" class="headerlink" title="关于 n 阶矩阵的规律"></a>关于 n 阶矩阵的规律</h3><p> 以 4 阶矩阵的正对角线 ‘/‘ 为例</p>
+<p> <img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fnesp9mup3j30ft0fxjs8.jpg" alt=""></p>
+<p> 对于 4 阶矩阵，对角线个数为 2 <em> 4 - 1 = 7 条<br> 对于 n 阶矩阵，对角线个数为 2 </em> n - 1 条</p>
+<p> 若用 i 表示行元素，j 表示列元素，那么每条对角线上的元素的 行下标 + 列下标 可得，从第一条正对角线开始，i + j 的值分别为<br> <code>0, 1, 2 .. 2*n-2</code></p>
+<p>以 4 阶矩阵的正对角线 ‘\’ 为例</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fnesp9z3hjj30gk0f80tl.jpg" alt=""></p>
+<p>反对角线个数同上：2 * n + 1</p>
+<p>若用 i 表示行元素，j 表示列元素，那么每条对角线上的元素的 行下标 - 列下标 可得，从第一条反对角线开始，i + j 的值分别为<br><code>-(n-1), -(n-2), -(n-3), ..., -1, 0, 1, ..., n-3, n-2, n-1</code></p>
 ]]></content>
     
     <summary type="html">
