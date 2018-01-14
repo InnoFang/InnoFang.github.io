@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-01-13T03:06:08.644Z</updated>
+  <updated>2018-01-14T01:24:28.907Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/12/07/%E5%88%B7%E9%A2%98%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF%EF%BC%88Java%EF%BC%89/"/>
     <id>http://yoursite.com/2017/12/07/刷题小知识积累（Java）/</id>
     <published>2017-12-07T14:44:55.000Z</published>
-    <updated>2018-01-13T03:06:08.644Z</updated>
+    <updated>2018-01-14T01:24:28.907Z</updated>
     
     <content type="html"><![CDATA[<p>OJ Java 环境 ： JDK 1.6</p>
 <p>即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，</p>
@@ -139,6 +139,9 @@
 <p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fnesp9z3hjj30gk0f80tl.jpg" alt=""></p>
 <p>反对角线个数同上：2 * n + 1</p>
 <p>若用 i 表示行元素，j 表示列元素，那么每条对角线上的元素的 行下标 - 列下标 可得，从第一条反对角线开始，i + j 的值分别为<br><code>-(n-1), -(n-2), -(n-3), ..., -1, 0, 1, ..., n-3, n-2, n-1</code></p>
+<h3 id="在二维数组中，尝试对四个方向进行遍历"><a href="#在二维数组中，尝试对四个方向进行遍历" class="headerlink" title="在二维数组中，尝试对四个方向进行遍历"></a>在二维数组中，尝试对四个方向进行遍历</h3><p> 假如现在的坐标为 (x, y)，那么要对四个方向进行遍历的话，可以先定义一个二维方向数组，用来存储 x 轴方向和 y 轴方向可移动的<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">// 顺时针方向</span></div><div class="line"><span class="keyword">int</span>[][] direct = &#123;</div><div class="line">			&#123;<span class="number">1</span>, <span class="number">0</span>&#125;, <span class="comment">// 右</span></div><div class="line">			&#123;<span class="number">0</span>, <span class="number">1</span>&#125;, <span class="comment">// 下</span></div><div class="line">			&#123;-<span class="number">1</span>, <span class="number">0</span>&#125;,<span class="comment">// 左</span></div><div class="line">			&#123;<span class="number">0</span>, -<span class="number">1</span>&#125; <span class="comment">// 上</span></div><div class="line">		&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这四个方向可以颠倒顺序，具体是怎样的应该根据具体情况分析</p>
+<p> 那么在对四个方向进行遍历时，就可以用循环操作了，这样代码会显得更加紧凑<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i ++ ) &#123;</div><div class="line">	<span class="keyword">int</span> newX = x + direct[i][<span class="number">0</span>];</div><div class="line">	<span class="keyword">int</span> newY = y + direct[i][<span class="number">1</span>];</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (newX &gt;= <span class="number">0</span> &amp;&amp; newX &lt; rows &amp;&amp; newY &gt;= <span class="number">0</span> &amp;&amp; newY &lt; cols) &#123;</div><div class="line">		<span class="comment">// 只要新坐标没越界就继续操作，rows 为行数，cols 为列数</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
