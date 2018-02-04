@@ -1,13 +1,103 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="设计模式(五):原型模式"><meta name="keywords" content="设计模式"><meta name="author" content="Inno Fang,undefined"><meta name="copyright" content="Inno Fang"><title>设计模式(五):原型模式 | Inno's Bolg</title><link rel="shortcut icon" href="/./source/img/favicon.jpg"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=undefined"><script>var GLOBAL = { 
-  root: '/',
-  algolia: undefined,
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  localSearch: undefined
-} </script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Prototype（原型）"><span class="toc-number">1.</span> <span class="toc-text">Prototype（原型）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Prototype（原型）的UML类图"><span class="toc-number">2.</span> <span class="toc-text">Prototype（原型）的UML类图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#原型模式的使用场景"><span class="toc-number">3.</span> <span class="toc-text">原型模式的使用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#原型模式的简单实现"><span class="toc-number">4.</span> <span class="toc-text">原型模式的简单实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原型模式的优缺点："><span class="toc-number">4.1.</span> <span class="toc-text">原型模式的优缺点：</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fnv0l76bjcj30bt0btdhf.jpg"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Talk is cheap, show me the code.</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">42</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">11</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">8</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://ws1.sinaimg.cn/large/0067fiZ7ly1fnv3amhuwmj31hc0u01jz.jpg);"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno's Bolg</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span></div><div id="post-info"><div id="post-title">设计模式(五):原型模式</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-03-02</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/设计模式/">设计模式</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div id="post-content"><h1 id="Prototype（原型）"><a href="#Prototype（原型）" class="headerlink" title="Prototype（原型）"></a>Prototype（原型）</h1><p>原型模式，是利用已有的实例对象通过克隆的方式，复制出一个具有相同属性的对象，起作用在于<br>当在面临创建一个复杂对象或实例时，通过克隆可以是程序更高效的运行，保证了程序的效率，因此<br>原型模式也是一种创建型模式</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>设计模式(五):原型模式 | Inno&#39;s Bolg</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Prototype（原型）原型模式，是利用已有的实例对象通过克隆的方式，复制出一个具有相同属性的对象，起作用在于当在面临创建一个复杂对象或实例时，通过克隆可以是程序更高效的运行，保证了程序的效率，因此原型模式也是一种创建型模式">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式(五):原型模式">
+<meta property="og:url" content="http://yoursite.com/2017/03/02/设计模式-五-原型模式/index.html">
+<meta property="og:site_name" content="Inno&#39;s Bolg">
+<meta property="og:description" content="Prototype（原型）原型模式，是利用已有的实例对象通过克隆的方式，复制出一个具有相同属性的对象，起作用在于当在面临创建一个复杂对象或实例时，通过克隆可以是程序更高效的运行，保证了程序的效率，因此原型模式也是一种创建型模式">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/prototype.png">
+<meta property="og:updated_time" content="2017-05-07T03:15:23.270Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式(五):原型模式">
+<meta name="twitter:description" content="Prototype（原型）原型模式，是利用已有的实例对象通过克隆的方式，复制出一个具有相同属性的对象，起作用在于当在面临创建一个复杂对象或实例时，通过克隆可以是程序更高效的运行，保证了程序的效率，因此原型模式也是一种创建型模式">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/prototype.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Inno&#39;s Bolg</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-设计模式-五-原型模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/02/设计模式-五-原型模式/" class="article-date">
+  <time datetime="2017-03-02T04:13:13.000Z" itemprop="datePublished">2017-03-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      设计模式(五):原型模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Prototype（原型）"><a href="#Prototype（原型）" class="headerlink" title="Prototype（原型）"></a>Prototype（原型）</h1><p>原型模式，是利用已有的实例对象通过克隆的方式，复制出一个具有相同属性的对象，起作用在于<br>当在面临创建一个复杂对象或实例时，通过克隆可以是程序更高效的运行，保证了程序的效率，因此<br>原型模式也是一种创建型模式</p>
 <a id="more"></a>
 <h1 id="Prototype（原型）的UML类图"><a href="#Prototype（原型）的UML类图" class="headerlink" title="Prototype（原型）的UML类图"></a>Prototype（原型）的UML类图</h1><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/prototype.png" alt=""></p>
 <ul>
@@ -23,7 +113,7 @@
 <p>那么这两个什么区别呢？这里暂且不提，当我们通过一个简单例子介绍了原型模式过后，再来介绍</p>
 <h1 id="原型模式的简单实现"><a href="#原型模式的简单实现" class="headerlink" title="原型模式的简单实现"></a>原型模式的简单实现</h1><p>首先，在Java中，我们是使用Cloneable接口作为Prototype</p>
 <p>那么，对于具体的原型类，只需要实现该接口即可，这里我们写一个WordDocument类，用来作为具体的原型实现<br>，因为对于文档的复制，我们在平常的工作中再熟悉不过了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordDocument</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String text;</div><div class="line">    <span class="keyword">private</span> ArrayList&lt;String&gt; images = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WordDocument</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"-------------init-------------"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getmText</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> text;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setText</span><span class="params">(String mText)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.text = mText;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;String&gt; <span class="title">getmImages</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> images;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setImages</span><span class="params">(ArrayList&lt;String&gt; mImages)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.images = mImages;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addImage</span><span class="params">(String image)</span> </span>&#123;</div><div class="line">        images.add(image);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showDocument</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"-------------Start-------------"</span>);</div><div class="line">        System.out.println(<span class="string">"Text : "</span> + text);</div><div class="line">        System.out.println(<span class="string">"Image List : "</span>);</div><div class="line">        <span class="keyword">for</span> (String mImage : images) &#123;</div><div class="line">            System.out.println(<span class="string">"Image Name : "</span> + mImage);</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"------------- End -------------"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> WordDocument <span class="title">clone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            WordDocument doc = (WordDocument) <span class="keyword">super</span>.clone();</div><div class="line">            doc.text = <span class="keyword">this</span>.text;</div><div class="line">            doc.images = <span class="keyword">this</span>.images;</div><div class="line">            <span class="keyword">return</span> doc;</div><div class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordDocument</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String text;</span><br><span class="line">    <span class="keyword">private</span> ArrayList&lt;String&gt; images = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WordDocument</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------init-------------"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getmText</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> text;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setText</span><span class="params">(String mText)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.text = mText;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;String&gt; <span class="title">getmImages</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> images;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setImages</span><span class="params">(ArrayList&lt;String&gt; mImages)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.images = mImages;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addImage</span><span class="params">(String image)</span> </span>&#123;</span><br><span class="line">        images.add(image);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showDocument</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------------Start-------------"</span>);</span><br><span class="line">        System.out.println(<span class="string">"Text : "</span> + text);</span><br><span class="line">        System.out.println(<span class="string">"Image List : "</span>);</span><br><span class="line">        <span class="keyword">for</span> (String mImage : images) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Image Name : "</span> + mImage);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"------------- End -------------"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> WordDocument <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            WordDocument doc = (WordDocument) <span class="keyword">super</span>.clone();</span><br><span class="line">            doc.text = <span class="keyword">this</span>.text;</span><br><span class="line">            doc.images = <span class="keyword">this</span>.images;</span><br><span class="line">            <span class="keyword">return</span> doc;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>解释一下上面的代码</p>
 <ul>
 <li>首先这个word文档有一段文本和若干图片，图片的描述用List来保存，</li>
@@ -31,17 +121,17 @@
 <li>最至关重要的，是实现了Cloneable的clone方法，在这个方法中可以很清晰的看到，当调用这方法时，会调用父类<br>的clone()方法来完成WordDocument文档的实例复制，然后将当前WordDocument的内容复制给了clone产生的实例，<br>最终完成了WordDocument的复制。</li>
 </ul>
 <p>那么，父类的clone方法是什么呢？</p>
-<p>首先我们得知道，每一个java类的祖先类都是Object类，所以这个就是调用<br>的Object的clone方法，但是我们通过源码可以看到Object的clone方法其实是一个本地方法<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Object</span> </span>&#123;</div><div class="line">   <span class="comment">// ...</span></div><div class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">native</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException</span>;</div><div class="line">   <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>首先我们得知道，每一个java类的祖先类都是Object类，所以这个就是调用<br>的Object的clone方法，但是我们通过源码可以看到Object的clone方法其实是一个本地方法<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Object</span> </span>&#123;</span><br><span class="line">   <span class="comment">// ...</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">native</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException</span>;</span><br><span class="line">   <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>好，完成了具体的原型类的实现，我们来测试一下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        WordDocument originDoc = <span class="keyword">new</span> WordDocument();</div><div class="line">        originDoc.setText(<span class="string">"This is a document"</span>);</div><div class="line">        originDoc.addImage(<span class="string">"Image 1"</span>);</div><div class="line">        originDoc.addImage(<span class="string">"Image 2"</span>);</div><div class="line">        originDoc.addImage(<span class="string">"Image 3"</span>);</div><div class="line">        originDoc.showDocument();</div><div class="line"></div><div class="line">        WordDocument copyDoc = originDoc.clone();</div><div class="line">        copyDoc.showDocument();</div><div class="line"></div><div class="line">        copyDoc.setText(<span class="string">"This is a copy document"</span>);</div><div class="line">        copyDoc.showDocument();</div><div class="line"></div><div class="line">        originDoc.showDocument();</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        WordDocument originDoc = <span class="keyword">new</span> WordDocument();</span><br><span class="line">        originDoc.setText(<span class="string">"This is a document"</span>);</span><br><span class="line">        originDoc.addImage(<span class="string">"Image 1"</span>);</span><br><span class="line">        originDoc.addImage(<span class="string">"Image 2"</span>);</span><br><span class="line">        originDoc.addImage(<span class="string">"Image 3"</span>);</span><br><span class="line">        originDoc.showDocument();</span><br><span class="line"></span><br><span class="line">        WordDocument copyDoc = originDoc.clone();</span><br><span class="line">        copyDoc.showDocument();</span><br><span class="line"></span><br><span class="line">        copyDoc.setText(<span class="string">"This is a copy document"</span>);</span><br><span class="line">        copyDoc.showDocument();</span><br><span class="line"></span><br><span class="line">        originDoc.showDocument();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在测试类中，我们通过clone复制了一个实例，并且这里尝试通过修改 copyDocument 的内容，并显示其内容</p>
-<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">-------------init-------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">------------- End -------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">------------- End -------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a copy document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">------------- End -------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">------------- End -------------</div></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">-------------init-------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">------------- End -------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">------------- End -------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a copy document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">------------- End -------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">------------- End -------------</span><br></pre></td></tr></table></figure></p>
 <p>根据输出结果，可以发现，当我们克隆产生的对象修改时，其原型不会改变</p>
 <p>但，真的是这样吗？</p>
 <p>我们再来测试一下，我们给 copyDocument 添加图片信息</p>
-<p>仍然是Client类的main函数中<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"> ...</div><div class="line">WordDocument copyDoc = originDoc.clone();</div><div class="line">copyDoc.showDocument();</div><div class="line"></div><div class="line">copyDoc.setText(<span class="string">"This is a copy document"</span>);</div><div class="line"></div><div class="line"><span class="comment">// add this line to test the origin document what will happen when the copy document add a image</span></div><div class="line">copyDoc.addImage(<span class="string">"a new Image"</span>);</div><div class="line"></div><div class="line">copyDoc.showDocument();</div><div class="line"></div><div class="line">originDoc.showDocument();</div></pre></td></tr></table></figure></p>
+<p>仍然是Client类的main函数中<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> ...</span><br><span class="line">WordDocument copyDoc = originDoc.clone();</span><br><span class="line">copyDoc.showDocument();</span><br><span class="line"></span><br><span class="line">copyDoc.setText(<span class="string">"This is a copy document"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// add this line to test the origin document what will happen when the copy document add a image</span></span><br><span class="line">copyDoc.addImage(<span class="string">"a new Image"</span>);</span><br><span class="line"></span><br><span class="line">copyDoc.showDocument();</span><br><span class="line"></span><br><span class="line">originDoc.showDocument();</span><br></pre></td></tr></table></figure></p>
 <p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">------------- End -------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a copy document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">Image Name : a new Image</div><div class="line">------------- End -------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">Image Name : a new Image</div><div class="line">------------- End -------------</div></pre></td></tr></table></figure>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">------------- End -------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a copy document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">Image Name : a new Image</span><br><span class="line">------------- End -------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">Image Name : a new Image</span><br><span class="line">------------- End -------------</span><br></pre></td></tr></table></figure>
 <p>这时，我们发现，当我们修改了copyDocument类的内容时，originDocument的内容也跟着改变了</p>
 <p>那这是为什么呢？</p>
 <p>前面我们提到过，浅拷贝 和 深拷贝</p>
@@ -51,10 +141,10 @@
 <p>那么，如何解决这个问题呢？</p>
 <p>答案是，利用深拷贝，那么怎么利用深拷贝呢？</p>
 <p>很简单，只需要将 images 也用clone的方式拷贝过来就好了，</p>
-<p>修改WordDocument的clone方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="function"><span class="keyword">protected</span> WordDocument <span class="title">clone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            WordDocument copy = (WordDocument) <span class="keyword">super</span>.clone();</div><div class="line">            copy.text = <span class="keyword">this</span>.text;</div><div class="line">            <span class="comment">// copy.images = this.images;</span></div><div class="line">            copy.images = (ArrayList&lt;String&gt;) <span class="keyword">this</span>.images.clone();</div><div class="line">            <span class="keyword">return</span> copy;</div><div class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>修改WordDocument的clone方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">protected</span> WordDocument <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            WordDocument copy = (WordDocument) <span class="keyword">super</span>.clone();</span><br><span class="line">            copy.text = <span class="keyword">this</span>.text;</span><br><span class="line">            <span class="comment">// copy.images = this.images;</span></span><br><span class="line">            copy.images = (ArrayList&lt;String&gt;) <span class="keyword">this</span>.images.clone();</span><br><span class="line">            <span class="keyword">return</span> copy;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>在上面代码中，利用ArrayList的clone方法来完成我们images的clone</p>
 <p>然后我们再来测试一下，Client的代码不变，运行程序显示结果如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">-------------init-------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">------------- End -------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">------------- End -------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a copy document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">Image Name : a new Image</div><div class="line">------------- End -------------</div><div class="line">-------------Start-------------</div><div class="line">Text : This is a document</div><div class="line">Image List :</div><div class="line">Image Name : Image 1</div><div class="line">Image Name : Image 2</div><div class="line">Image Name : Image 3</div><div class="line">------------- End -------------</div></pre></td></tr></table></figure>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">-------------init-------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">------------- End -------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">------------- End -------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a copy document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">Image Name : a new Image</span><br><span class="line">------------- End -------------</span><br><span class="line">-------------Start-------------</span><br><span class="line">Text : This is a document</span><br><span class="line">Image List :</span><br><span class="line">Image Name : Image 1</span><br><span class="line">Image Name : Image 2</span><br><span class="line">Image Name : Image 3</span><br><span class="line">------------- End -------------</span><br></pre></td></tr></table></figure>
 <p>问题解决了！</p>
 <p>那么在拷贝对象时，对于引用型的字段也要采用拷贝的形式，而不是单纯引用的形式，即深拷贝</p>
 <p>那么在日常开发中，为了减少错误，在使用原型模式时，建议使用深拷贝</p>
@@ -66,18 +156,149 @@
 </ul>
 <p>END.</p>
 <hr>
-<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/prototype" target="_blank" rel="external">源码地址</a></p>
-</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2017/03/02/设计模式-五-原型模式/">http://yoursite.com/2017/03/02/设计模式-五-原型模式/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com" target="_blank">Inno's Bolg</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/设计模式/">设计模式</a></div><elif theme.sharejs && theme.sharejs.enable></elif></article><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/03/04/设计模式-六-策略模式/"><i class="fa fa-chevron-left">  </i><span>设计模式(六):策略模式</span></a></div><div class="next-post pull-right"><a href="/2017/02/25/设计模式-四-抽象工厂模式/"><span>设计模式(四):抽象工厂模式</span><i class="fa fa-chevron-right"></i></a></div></nav><elif theme.laibili && theme.laibili.enable></elif><elif theme.gitment && theme.gitment.enable></elif></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2018 By Inno Fang</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.4.2"></script><script src="/js/fancybox.js?version=1.4.2"></script><script src="/js/sidebar.js?version=1.4.2"></script><script src="/js/copy.js?version=1.4.2"></script><script src="/js/fireworks.js?version=1.4.2"></script><script src="/js/transition.js?version=1.4.2"></script><script src="/js/scroll.js?version=1.4.2"></script><script src="/js/head.js?version=1.4.2"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-    processEscapes: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  }
-});
-</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
-  var all = MathJax.Hub.getAllJax(), i;
-  for (i=0; i < all.length; i += 1) {
-    all[i].SourceElement().parentNode.className += ' has-jax';
-  }
-});
-</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
+<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/prototype" target="_blank" rel="noopener">源码地址</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/02/设计模式-五-原型模式/" data-id="cjd8wpsnc0048j8ccq30c2o0l" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/04/设计模式-六-策略模式/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          设计模式(六):策略模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/25/设计模式-四-抽象工厂模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">设计模式(四):抽象工厂模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Inno Fang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

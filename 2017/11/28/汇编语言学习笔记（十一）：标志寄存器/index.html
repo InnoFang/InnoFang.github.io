@@ -1,13 +1,103 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="汇编语言学习笔记（十一）：标志寄存器"><meta name="keywords" content="汇编语言"><meta name="author" content="Inno Fang,undefined"><meta name="copyright" content="Inno Fang"><title>汇编语言学习笔记（十一）：标志寄存器 | Inno's Bolg</title><link rel="shortcut icon" href="/./source/img/favicon.jpg"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=undefined"><script>var GLOBAL = { 
-  root: '/',
-  algolia: undefined,
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  localSearch: undefined
-} </script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ZF-标志"><span class="toc-number">1.</span> <span class="toc-text">ZF 标志</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pf-标志"><span class="toc-number">2.</span> <span class="toc-text">pf 标志</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SF-标志"><span class="toc-number">3.</span> <span class="toc-text">SF 标志</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CF-标志"><span class="toc-number">4.</span> <span class="toc-text">CF 标志</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OF-标志"><span class="toc-number">5.</span> <span class="toc-text">OF 标志</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#adc-指令"><span class="toc-number">6.</span> <span class="toc-text">adc 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sbb-指令"><span class="toc-number">7.</span> <span class="toc-text">sbb 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cmp-指令"><span class="toc-number">8.</span> <span class="toc-text">cmp 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#检测比较结果的条件转移指令"><span class="toc-number">9.</span> <span class="toc-text">检测比较结果的条件转移指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DF-标志和串传送指令"><span class="toc-number">10.</span> <span class="toc-text">DF 标志和串传送指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pushf-和-popf"><span class="toc-number">11.</span> <span class="toc-text">pushf 和 popf</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fnv0l76bjcj30bt0btdhf.jpg"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Talk is cheap, show me the code.</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">42</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">11</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">8</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://ws1.sinaimg.cn/large/0067fiZ7ly1fnv3amhuwmj31hc0u01jz.jpg);"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno's Bolg</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span></div><div id="post-info"><div id="post-title">汇编语言学习笔记（十一）：标志寄存器</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-11-28</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/汇编语言/">汇编语言</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div id="post-content"><blockquote>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>汇编语言学习笔记（十一）：标志寄存器 | Inno&#39;s Bolg</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="学习参考：汇编语言（第2版）王爽   ZF 标志 pf 标志 SF 标志 CF 标志 OF 标志 adc 指令 sbb 指令 cmp 指令 检测比较结果的条件转移指令 DF 标志和串传送指令 pushf 和 popf">
+<meta name="keywords" content="汇编语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编语言学习笔记（十一）：标志寄存器">
+<meta property="og:url" content="http://yoursite.com/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/index.html">
+<meta property="og:site_name" content="Inno&#39;s Bolg">
+<meta property="og:description" content="学习参考：汇编语言（第2版）王爽   ZF 标志 pf 标志 SF 标志 CF 标志 OF 标志 adc 指令 sbb 指令 cmp 指令 检测比较结果的条件转移指令 DF 标志和串传送指令 pushf 和 popf">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/0067fiZ7ly1flumvosoe5j30e201zmx2.jpg">
+<meta property="og:updated_time" content="2017-11-28T03:59:21.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="汇编语言学习笔记（十一）：标志寄存器">
+<meta name="twitter:description" content="学习参考：汇编语言（第2版）王爽   ZF 标志 pf 标志 SF 标志 CF 标志 OF 标志 adc 指令 sbb 指令 cmp 指令 检测比较结果的条件转移指令 DF 标志和串传送指令 pushf 和 popf">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/0067fiZ7ly1flumvosoe5j30e201zmx2.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Inno&#39;s Bolg</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="title-汇编语言学习笔记（十一）：标志寄存器" class="article article-type-title" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/" class="article-date">
+  <time datetime="2017-11-28T03:57:09.000Z" itemprop="datePublished">2017-11-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/汇编语言/">汇编语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      汇编语言学习笔记（十一）：标志寄存器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
 <p>学习参考：汇编语言（第2版）王爽</p>
 </blockquote>
 <ul>
@@ -42,20 +132,20 @@
 <h1 id="ZF-标志"><a href="#ZF-标志" class="headerlink" title="ZF 标志"></a>ZF 标志</h1><blockquote>
 <p>flag 的第 6 位是 ZF( Zero Flag )，零标志位。它记录相关指令后，其结果是否为 0.如果结果为 0，zf=1；如果结果不为 0，那么 zf=0。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mov ax,1</div><div class="line">sub ax,1</div><div class="line">; 结果为 0 ，zf=1</div><div class="line"></div><div class="line">mov ax,2</div><div class="line">sub ax,1</div><div class="line">; 结果不为 0，zf=0</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mov ax,1</span><br><span class="line">sub ax,1</span><br><span class="line">; 结果为 0 ，zf=1</span><br><span class="line"></span><br><span class="line">mov ax,2</span><br><span class="line">sub ax,1</span><br><span class="line">; 结果不为 0，zf=0</span><br></pre></td></tr></table></figure>
 <h1 id="pf-标志"><a href="#pf-标志" class="headerlink" title="pf 标志"></a>pf 标志</h1><blockquote>
 <p>flag 的第 2 位是 PF( Parity Flag )，奇偶标志位。它记录相关指令执行后，其结果的所有 bit 位中 1 的个数是否为偶数。如果 1 的个数是偶数，pf=1，如果是奇数，pf=0</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mov al,1</div><div class="line">add al,10</div><div class="line">; 结果为 00001011B，3 个 1，pf=0</div><div class="line"></div><div class="line">mov al,1</div><div class="line">or  al,2</div><div class="line">; 结果为 00000011B，2 个 1，pf=1</div><div class="line"></div><div class="line">sub al,al</div><div class="line">; 结果为 00000000B，0 个 1，pf=1</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mov al,1</span><br><span class="line">add al,10</span><br><span class="line">; 结果为 00001011B，3 个 1，pf=0</span><br><span class="line"></span><br><span class="line">mov al,1</span><br><span class="line">or  al,2</span><br><span class="line">; 结果为 00000011B，2 个 1，pf=1</span><br><span class="line"></span><br><span class="line">sub al,al</span><br><span class="line">; 结果为 00000000B，0 个 1，pf=1</span><br></pre></td></tr></table></figure>
 <h1 id="SF-标志"><a href="#SF-标志" class="headerlink" title="SF 标志"></a>SF 标志</h1><blockquote>
 <p>flag 的第 7 位是 SF( Symobl Flag )，符号标志位。它记录相关指令执行后，其结果是否为负。如果为负，sf=1；如果非负，sf=0</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mov al,10000001B</div><div class="line">add al,1</div><div class="line">; 结果 10000010B，sf=1，表示：如果指令进行的是有符号数运算，那么结果为负</div><div class="line"></div><div class="line"></div><div class="line">mov al,10000001B</div><div class="line">add al,01111111B</div><div class="line">; 结果 0，sf=0，表示指令进行的是有符号数运算，那么结果为非负</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mov al,10000001B</span><br><span class="line">add al,1</span><br><span class="line">; 结果 10000010B，sf=1，表示：如果指令进行的是有符号数运算，那么结果为负</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mov al,10000001B</span><br><span class="line">add al,01111111B</span><br><span class="line">; 结果 0，sf=0，表示指令进行的是有符号数运算，那么结果为非负</span><br></pre></td></tr></table></figure>
 <h1 id="CF-标志"><a href="#CF-标志" class="headerlink" title="CF 标志"></a>CF 标志</h1><blockquote>
 <p>flag 的第 0 位是 CF ( Carry Flag )，进位标志位。一般情况下，在进行无符号数运算的时候，它记录了运算结果的最高有效位向更高位的进位值，或从更高位的借位值</p>
 </blockquote>
 <p>当两数相加时，有可能产生进位，CPU 在运算的时候，将这个进位值记录在一个特殊的寄存器的某一位上。8086CPU 就用 flag 的 CF 位来记录这个进位值。当两数相减时，有可能向更高位借位，而 flag 的 CF 位也可以用来记录这个借位值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mov al,98H</div><div class="line">add al,al   ; 执行后：(al)=30H,CF=1,CF记录了从最高有效位向更高位的进位值</div><div class="line">add al,al   ; 执行后：(al)=60H,CF=0,CF记录了从最高有效位向更高位的进位值</div><div class="line"></div><div class="line"></div><div class="line">mov al,97H</div><div class="line">sub al,98H   ; 执行后：(al)=FFH,CF=1,CF记录了从最高有效位向更高位的进位值</div><div class="line">sub al,al    ; 执行后：(al)=0,CF=0,CF记录了从最高有效位向更高位的进位值</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mov al,98H</span><br><span class="line">add al,al   ; 执行后：(al)=30H,CF=1,CF记录了从最高有效位向更高位的进位值</span><br><span class="line">add al,al   ; 执行后：(al)=60H,CF=0,CF记录了从最高有效位向更高位的进位值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mov al,97H</span><br><span class="line">sub al,98H   ; 执行后：(al)=FFH,CF=1,CF记录了从最高有效位向更高位的进位值</span><br><span class="line">sub al,al    ; 执行后：(al)=0,CF=0,CF记录了从最高有效位向更高位的进位值</span><br></pre></td></tr></table></figure>
 <h1 id="OF-标志"><a href="#OF-标志" class="headerlink" title="OF 标志"></a>OF 标志</h1><blockquote>
 <p>在进行有符号数运算的时候，如结果超过了机器所能表示的范围称为溢出。</p>
 </blockquote>
@@ -69,24 +159,24 @@
 <li>CF 是对无符号数运算有意义的标志位</li>
 <li>OF 是对有符号数运算有意义的标志位</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov al,98</div><div class="line">add al,99</div><div class="line"></div><div class="line">; add指令执行后：CF=0，OF=1</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov al,98</span><br><span class="line">add al,99</span><br><span class="line"></span><br><span class="line">; add指令执行后：CF=0，OF=1</span><br></pre></td></tr></table></figure>
 <p>CPU 在执行 add 等指令的时候，就包含了两种含义：无符号数运算和有符号数运算。对于无符号数运算，CPU 用 CF 位来记录是否产生了进位；对于有符号位运算，CPU 用 OF 位来记录是否产生了溢出，当然，还要用 SF 位来记录结果的符号。对于无符号数运算，98+99 没有进位，CF=0；对于有符号数运算，则发生了溢出，OF=1。</p>
 <p>CF 和 OF 所表示的进位和溢出，是分别对无符号数和有符号数运算而言的，它们之间没有任何关系。</p>
 <h1 id="adc-指令"><a href="#adc-指令" class="headerlink" title="adc 指令"></a>adc 指令</h1><p>adc 是带进位加法指令，它利用了 CF 位上记录的进位值</p>
 <p>指令功能：adc 操作对象 1，操作对象 2<br>功能：操作对象 1 = 操作对象 1 + 操作对象 2 + CF<br>比如指令 adc ax,bx 实现的功能是：(ax)=(ax)+(bx)+CF</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mov ax,2</div><div class="line">mov bx,1</div><div class="line">sub bx,ax</div><div class="line">adc ax,1</div><div class="line"></div><div class="line">; 执行后，(ax)=4。adc 执行时，相当于计算：(ax)+1+CF=2+1+1=4</div><div class="line"></div><div class="line"></div><div class="line">mov ax,1</div><div class="line">add ax,ax</div><div class="line">adc ax,3</div><div class="line">; 执行后，(ax)=5。adc 执行时，相当于计算：(ax)+3+CF=2+3+0=5</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mov ax,2</span><br><span class="line">mov bx,1</span><br><span class="line">sub bx,ax</span><br><span class="line">adc ax,1</span><br><span class="line"></span><br><span class="line">; 执行后，(ax)=4。adc 执行时，相当于计算：(ax)+1+CF=2+1+1=4</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mov ax,1</span><br><span class="line">add ax,ax</span><br><span class="line">adc ax,3</span><br><span class="line">; 执行后，(ax)=5。adc 执行时，相当于计算：(ax)+3+CF=2+3+0=5</span><br></pre></td></tr></table></figure>
 <p>Q：那么为什么 CPU 要提供这样一条指令？<br>A：先来看一下CF的值的含义。在执行adc指令的时候加上的 CF 的值的含义，是由adc 指令前面的指令决定的，也就是说，关键在于所加上的 CF 值是被什么指令设置的。显然，如果 CF 的值<strong>是被 sub 指令设置的，那么它的含义就是借位值</strong>; 如果是<strong>被 add 指令设置的，那么它的含义就是进位值</strong>。两个十六进制数相加时，可以分为两步来进行：1.低位相加；2.高位相加再加上低位相加产生的进位值。<strong>adc指令的目的，就是来进行加法的第二步运算的</strong>。adc 指令和 add 指令相配合就可以对更大的数据进行加法运算。</p>
 <h1 id="sbb-指令"><a href="#sbb-指令" class="headerlink" title="sbb 指令"></a>sbb 指令</h1><blockquote>
 <p>sbb 是带借位减法指令，它利用了 CF 位上记录的借位值。</p>
 </blockquote>
 <p>指令格式: sbb操作对象1,操作对象2<br>功能: 操作对象1=操作对象1 - 操作对象2 - CF<br>比如指令 <code>sbb ax,bx</code> 实现的功能是: (ax)=(ax)-(bx)-CF</p>
-<p>sbb 指令执行后，将对 CF 进行设置。利用 sbb 指令可以对任意大的数据进行减法运<br>算。比如，计算 003E1000-00202000H,结果放在 ax,bx 中，程序如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov bx,1000H</div><div class="line">mov ax,003EH</div><div class="line">sub bx,2000H</div><div class="line">sbb ax,0020H</div></pre></td></tr></table></figure></p>
+<p>sbb 指令执行后，将对 CF 进行设置。利用 sbb 指令可以对任意大的数据进行减法运<br>算。比如，计算 003E1000-00202000H,结果放在 ax,bx 中，程序如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov bx,1000H</span><br><span class="line">mov ax,003EH</span><br><span class="line">sub bx,2000H</span><br><span class="line">sbb ax,0020H</span><br></pre></td></tr></table></figure></p>
 <p><strong>sbb 和 adc 是基于同样的思想设计的两条指令，在应用思路上和 adc 类似</strong></p>
 <h1 id="cmp-指令"><a href="#cmp-指令" class="headerlink" title="cmp 指令"></a>cmp 指令</h1><blockquote>
 <p>cmp 是比较指令，cmp 的功能相当于减法指令，只是不保存结果。cmp 指令执行后，将对标志寄存器产生影响。其他相关指令通过识别这些被影响的标志寄存器位来得知比较结果。</p>
 </blockquote>
 <p> cmp 指令格式：cmp 操作对象1， 操作对象2<br> 功能：计算操作对象1 - 操作对象2 但并不保存结果，仅仅根据计算结果对标志寄存器进行设置<br> 比如，指令 cmp ax,ax 做(ax)-(ax) 的运算，结果为 0，但并不保存在 ax 中，仅影响 flag 的相关各位。指令执行后：zf=1，pf=1，sf=0，cf=0，of=0</p>
-<p> 下面的指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mov ax,8</div><div class="line">mov bx,3</div><div class="line">cmp ax,bx</div><div class="line">;执行后：(ax)=8, zf=0, pf=1, sf=0, cf=0, of=0</div></pre></td></tr></table></figure></p>
+<p> 下面的指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov ax,8</span><br><span class="line">mov bx,3</span><br><span class="line">cmp ax,bx</span><br><span class="line">;执行后：(ax)=8, zf=0, pf=1, sf=0, cf=0, of=0</span><br></pre></td></tr></table></figure></p>
 <h1 id="检测比较结果的条件转移指令"><a href="#检测比较结果的条件转移指令" class="headerlink" title="检测比较结果的条件转移指令"></a>检测比较结果的条件转移指令</h1><blockquote>
 <p>“转移” 指的是它能够修改 IP，而 “条件” 指的是它可以根据某种条件，决定是否修改 IP</p>
 </blockquote>
@@ -135,7 +225,7 @@
 </table>
 <p>j:jump<br>e:equal<br>ne: not equal<br>b:  below<br>nb: not below<br>a:  above<br>na: not above</p>
 <p>通过结合 cmp 指令和条件转移指令就可以实现类似高级语言中 IF 的效果</p>
-<p><strong>编程</strong> 如果 (ah)=(bh) 则 (ah)=(ah)+(ah)，否则 (ah)=(ah)+(bh)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">    cmp ah,bh</div><div class="line">    je s</div><div class="line">    add ah,bh</div><div class="line">    jmp short ok</div><div class="line">s:  add ah,ah</div><div class="line">ok:</div></pre></td></tr></table></figure></p>
+<p><strong>编程</strong> 如果 (ah)=(bh) 则 (ah)=(ah)+(ah)，否则 (ah)=(ah)+(bh)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    cmp ah,bh</span><br><span class="line">    je s</span><br><span class="line">    add ah,bh</span><br><span class="line">    jmp short ok</span><br><span class="line">s:  add ah,ah</span><br><span class="line">ok:</span><br></pre></td></tr></table></figure></p>
 <h1 id="DF-标志和串传送指令"><a href="#DF-标志和串传送指令" class="headerlink" title="DF 标志和串传送指令"></a>DF 标志和串传送指令</h1><blockquote>
 <p>flag 的第 10 位是 DF（Direction Flag），方向标志位。在串处理指令中，控制每次操作后 si、di 的增减。</p>
 </blockquote>
@@ -151,13 +241,13 @@
 <li>如果 df=1，则 (si)=(si)-1 ; (di)=(di)-1</li>
 </ul>
 <p>当然也可以传送一个字，使用指令 movsw (MOV String Word)，不过这里 di 和 si 的递增或递减的数量是 2</p>
-<p>movsb 和 movsw 都和 rep 配合使用，格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rep movsb</div></pre></td></tr></table></figure></p>
-<p>用汇编语法来描述该功能就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">s:  movsb</div><div class="line">    loop s</div></pre></td></tr></table></figure></p>
+<p>movsb 和 movsw 都和 rep 配合使用，格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rep movsb</span><br></pre></td></tr></table></figure></p>
+<p>用汇编语法来描述该功能就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s:  movsb</span><br><span class="line">    loop s</span><br></pre></td></tr></table></figure></p>
 <p>可见，rep 的作用是根据 cx 的值，重复执行后面的串传送zh’li指令。由于每执行一次 movsb 指令 si 和 di 都会递增或递减指向后一个单元或前一个单元，则 rep movsb 就可以循环实现 (cx) 个字符的传送</p>
 <p>movsw 同理</p>
 <p>下面两条指令对 df 位进行色设置</p>
 <p> cld 指令 (CLear Direction flag)：将标志位寄存器的 df 位置 0<br> std 指令 (SeT Direction flag)：将标志位寄存器的 df 位置 1</p>
-<p> <strong>编程</strong> 用串传送指令，将 data 段中的第一个字符串复制到它后面的空间中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">data segment</div><div class="line">db &apos;welcome to masm!&apos;</div><div class="line">db 16 dup (0)</div><div class="line">data ends</div></pre></td></tr></table></figure></p>
+<p> <strong>编程</strong> 用串传送指令，将 data 段中的第一个字符串复制到它后面的空间中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data segment</span><br><span class="line">db &apos;welcome to masm!&apos;</span><br><span class="line">db 16 dup (0)</span><br><span class="line">data ends</span><br></pre></td></tr></table></figure></p>
 <p> 分析：使用串传送指令进行数据的传送，需要给它提供一些必要的信息</p>
 <ol>
 <li>传送的原始位置：ds:si</li>
@@ -172,22 +262,153 @@
 <li>传送的长度：16</li>
 <li>传送的方向：df=0</li>
 </ol>
-<p>核心代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mov ax,data</div><div class="line">mov ds,ax</div><div class="line">mov si,0    ; ds:si 指向 data:0</div><div class="line">mov es,ax</div><div class="line">mov di,16   ; es:di 指向 data:0010</div><div class="line">mov cx,16   ; 设置 df=0，rep 循环 16 次</div><div class="line">cld         ; 设置 df=0，正向传递</div><div class="line">rep movsb</div></pre></td></tr></table></figure></p>
+<p>核心代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mov ax,data</span><br><span class="line">mov ds,ax</span><br><span class="line">mov si,0    ; ds:si 指向 data:0</span><br><span class="line">mov es,ax</span><br><span class="line">mov di,16   ; es:di 指向 data:0010</span><br><span class="line">mov cx,16   ; 设置 df=0，rep 循环 16 次</span><br><span class="line">cld         ; 设置 df=0，正向传递</span><br><span class="line">rep movsb</span><br></pre></td></tr></table></figure></p>
 <h1 id="pushf-和-popf"><a href="#pushf-和-popf" class="headerlink" title="pushf 和 popf"></a>pushf 和 popf</h1><blockquote>
 <p>pushf 的功能是将标志位寄存器的值压栈，而 popf 是从栈中弹出数据，送入标志寄存器中</p>
 <p>pushf 和 popf，为直接访问标志寄存器提供了一种方法</p>
 </blockquote>
-</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">http://yoursite.com/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com" target="_blank">Inno's Bolg</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/汇编语言/">汇编语言</a></div><elif theme.sharejs && theme.sharejs.enable></elif></article><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/12/07/刷题小知识积累（Java）/"><i class="fa fa-chevron-left">  </i><span>刷题小知识积累（Java）</span></a></div><div class="next-post pull-right"><a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/"><span>汇编语言学习笔记（十）：CALL 和 RET 指令</span><i class="fa fa-chevron-right"></i></a></div></nav><elif theme.laibili && theme.laibili.enable></elif><elif theme.gitment && theme.gitment.enable></elif></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2018 By Inno Fang</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.4.2"></script><script src="/js/fancybox.js?version=1.4.2"></script><script src="/js/sidebar.js?version=1.4.2"></script><script src="/js/copy.js?version=1.4.2"></script><script src="/js/fireworks.js?version=1.4.2"></script><script src="/js/transition.js?version=1.4.2"></script><script src="/js/scroll.js?version=1.4.2"></script><script src="/js/head.js?version=1.4.2"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-    processEscapes: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  }
-});
-</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
-  var all = MathJax.Hub.getAllJax(), i;
-  for (i=0; i < all.length; i += 1) {
-    all[i].SourceElement().parentNode.className += ' has-jax';
-  }
-});
-</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/" data-id="cjd8wpslb001oj8cc5v4i8gno" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/汇编语言/">汇编语言</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/07/刷题小知识积累（Java）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          刷题小知识积累（Java）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">汇编语言学习笔记（十）：CALL 和 RET 指令</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Inno Fang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
