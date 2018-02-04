@@ -1,364 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+extends includes/layout.pug
 
-  
-  <title>SQLite的简单实用 | Inno&#39;s Bolg</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="使用Android自带的API操作数据库创建数据库openOrCreateDatabase(···) 和 databaseList() 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。 不过，实际开发中，建议总是遵循以下步骤：  确认目标数据库实际存在 如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据 如果存">
-<meta name="keywords" content="Android,SQLite">
-<meta property="og:type" content="article">
-<meta property="og:title" content="SQLite的简单实用">
-<meta property="og:url" content="http://yoursite.com/2017/02/19/SQLite的简单实用/index.html">
-<meta property="og:site_name" content="Inno&#39;s Bolg">
-<meta property="og:description" content="使用Android自带的API操作数据库创建数据库openOrCreateDatabase(···) 和 databaseList() 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。 不过，实际开发中，建议总是遵循以下步骤：  确认目标数据库实际存在 如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据 如果存">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-03-10T04:56:20.135Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SQLite的简单实用">
-<meta name="twitter:description" content="使用Android自带的API操作数据库创建数据库openOrCreateDatabase(···) 和 databaseList() 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。 不过，实际开发中，建议总是遵循以下步骤：  确认目标数据库实际存在 如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据 如果存">
-  
-    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+block top_img
+  - var top_img = page.top_img || theme.post_meta.top_img || theme.top_img || config.top_img
+  if (top_img && page.top_img !== false)
+    - var flag = top_img === true ? 'no-bg' : undefined
+    div#top-container(style=`background-image: url(${top_img})` class=flag)
+      include ./includes/header.pug
+      #post-info
+        #post-title= page.title || _p('no_title')
+        #post-meta
+          if (theme.post_meta.date_type)
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+          if (theme.post_meta.categories && page.categories.data.length > 0)
+            if (theme.post_meta.date_type)
+              span.post-meta__separator |
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                 i.fa.fa-angle-right(aria-hidden="true")
+          if (theme.disqus.enable && theme.disqus.count)
+            if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+              span.post-meta__separator |
+            i.fa.fa-comment-o.post-meta__icon(aria-hidden="true")
+            a(href=url_for(page.path) + '#disqus_thread')
+              span.disqus-comment-count(data-disqus-identifier=page.path)
+          if (theme.wordcount && theme.wordcount.enable)
+            .post-meta-wordcount
+              span= _p('post.wordcount') + ': '
+              span.word-count= wordcount(page.content)
+              span.post-meta__separator |
+              span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+  else
+    div#top-container.plain
+      include ./includes/header.pug
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Inno&#39;s Bolg</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-SQLite的简单实用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/02/19/SQLite的简单实用/" class="article-date">
-  <time datetime="2017-02-19T07:16:14.000Z" itemprop="datePublished">2017-02-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      SQLite的简单实用
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="使用Android自带的API操作数据库"><a href="#使用Android自带的API操作数据库" class="headerlink" title="使用Android自带的API操作数据库"></a>使用Android自带的API操作数据库</h1><h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><p><code>openOrCreateDatabase(···)</code> 和 <code>databaseList()</code> 方法是Android提供的Context底层方法，可以用来打开数据库文件并将其转换为 SQLiteDatabase 实例。</p>
-<p>不过，实际开发中，建议总是遵循以下步骤：</p>
-<ul>
-<li>确认目标数据库实际存在</li>
-<li>如果不存在，首先创建数据库，然后创建数据库表以及必需的初始化数据</li>
-<li>如果存在，打开并确认数据是否为最新版本</li>
-<li>如果是旧版本，就运行相关代码升级到最新版本</li>
-</ul>
-<a id="more"></a>
-<p>Android为我们提供的SQLiteOpenHelper类可以帮我们处理这些。首先 SQLiteOpenHelper 类是抽象类，有两个抽象方法 <code>onCreate()</code> 和 <code>onUpgrade()</code>，我们需要重写这两个方法并且分别在这两个方法中去实现创建和升级数据库的逻辑。</p>
-<p>SQLiteOpenHelper 中有两个构造方法可供重写，一般使用参数少一点的那个构造方法即可。这个构造方法接收四个参数：</p>
-<ul>
-<li>第一个参数是 Context，有它才能对数据库进行操作。</li>
-<li>第二个参数是数据库名，创建数据库时使用的就是这里指定的名称。</li>
-<li>第三个参数允许我们在查询数据的时候返回一个自定义的Cursor，一般都是传入null</li>
-<li>第四个参数表示当前数据库的版本号，可用于对数据库进行升级操作</li>
-</ul>
-<p>SQLiteOpenHelper 中还有两个非常重要的实例方法， <code>getReadableDatabase()</code> 和 <code>getWritableDatabase()</code>。这两个方法都乐意创建或打开一个现有的数据库（如果数据库已存在就打开，否则创建一个新的数据库），并且返回一个可对数据库进行读写操作的对象。不同的是，当数据库不可写入的时候（如果磁盘空间已满）<code>getReadableDatabase()</code> 方法返回的对象将以只读方式去打开数据库，而<code>getWritableDatabase()</code>方法则会抛出异常。</p>
-<p>如果我们想创建一个名为 Student.db 的数据库，然后在这个数据库中新建一张Student表，表中有 学号(主键)，名字，性别等列。</p>
-<p>  <em><strong>Eg:</strong></em><br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table Bool(</span><br><span class="line">  id integer primary key autoincrement,</span><br><span class="line">  name text,</span><br><span class="line">  gender text</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>  在建表语句中使用了 primary key 将 id 列设为主键，并用autoincrement 关键字表示 id 列是自增长。</p>
-<h2 id="sqlite-数据库数据类型"><a href="#sqlite-数据库数据类型" class="headerlink" title="sqlite 数据库数据类型"></a>sqlite 数据库数据类型</h2><ul>
-<li>Integer</li>
-<li>varchar(10)</li>
-<li>flaot</li>
-<li>double</li>
-<li>char(10)</li>
-<li>text</li>
-</ul>
-<p>又因为SQLite允许存入数据时忽略底层数据列实际的数据类型，因此在编写建表语句时可以省略数据列后面的类型声明，所以下面的写法也是对的，</p>
-<p><em><strong>Eg:</strong></em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table Bool(</span><br><span class="line">  id integer primary key autoincrement,</span><br><span class="line">  name,</span><br><span class="line">  gender</span><br><span class="line">  )</span><br></pre></td></tr></table></figure></p>
-<p>所以，我们创建一个 MyDatebaseHelper 类，继承自 SQLiteOpenHelper ，并实现它的两个抽象方法，及一个构造方法，完成建表与执行SQL语句。</p>
-<p><em><strong>Eg:</strong></em></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDatebaseHelper</span> <span class="keyword">extends</span> <span class="title">SQLiteOpenHelper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CREAT_STUDENT = <span class="string">"create table Bool("</span> +</span><br><span class="line">      <span class="string">"id integer primary key autoincrement, "</span> +</span><br><span class="line">      <span class="string">"name, "</span> +</span><br><span class="line">      <span class="string">"gender "</span> +</span><br><span class="line">      <span class="string">")"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CrimeBaseHelper</span><span class="params">(Context context, String name, SQLiteDatabase.CursorFactory factory, <span class="keyword">int</span> version)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, name, factory, version);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(SQLiteDatabase db)</span> </span>&#123;</span><br><span class="line">        db.exec(CREAT_STUDENT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="SQLite数据库的-“增”-“删”-“改”-“查”"><a href="#SQLite数据库的-“增”-“删”-“改”-“查”" class="headerlink" title="SQLite数据库的 “增” “删” “改” “查”"></a>SQLite数据库的 “增” “删” “改” “查”</h2><h3 id="“增”-——-添加数据"><a href="#“增”-——-添加数据" class="headerlink" title="“增” —— 添加数据"></a>“增” —— 添加数据</h3><pre><code>public long insert(String table, String nullColumnHack, ContentValues values)
-</code></pre><p>该方法接收三个参数：</p>
-<ul>
-<li>第一个参数是表名</li>
-<li>第二个参数用于在未指定添加数据的情况下给某些可为空的列自赋值null，一般直接传入null即可</li>
-<li>第三个参数是一个 ContentValues 对象，它提供了一系列的 put() 方法重载，用于向 ContentValues 中添加数据，只需要将表中的每个列名以及相应的待添加数据传入即可。</li>
-</ul>
-<p><em><strong>Eg:</strong></em></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> MyDatebaseHelper dbHelper;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">      setContentView(R.layout.activity_fragment);</span><br><span class="line">      dbHelper = <span class="keyword">new</span> MyDatebaseHelper(<span class="keyword">this</span>, <span class="string">"Student.db"</span>, <span class="keyword">null</span>, <span class="number">1</span>);</span><br><span class="line">      ···</span><br><span class="line">      <span class="comment">//  点击按钮添加数据</span></span><br><span class="line">        onClick(View v)&#123;</span><br><span class="line">          SQLiteDatabase db = dbHelper.getWritableDatabase();</span><br><span class="line">          ContentValues values = <span class="keyword">new</span> ContentValues();</span><br><span class="line">          <span class="comment">//  开始组装第一组数据</span></span><br><span class="line">          values.put(<span class="string">"id"</span>, <span class="string">"001"</span>);</span><br><span class="line">          values.put(<span class="string">"name"</span>, <span class="string">"Jacob"</span>);</span><br><span class="line">          values.put(<span class="string">"gender"</span>, <span class="string">"male"</span>);</span><br><span class="line">          db.insert(<span class="string">"Student"</span>, <span class="keyword">null</span>, values);  <span class="comment">//  插入第一条数据</span></span><br><span class="line">          values.clear();  <span class="comment">//  若想在下面继续添加数据，这一定要调用该方法</span></span><br><span class="line">          <span class="comment">//  开始组装第二组数据</span></span><br><span class="line">          values.put(<span class="string">"id"</span>, <span class="string">"002"</span>);</span><br><span class="line">          values.put(<span class="string">"name"</span>, <span class="string">"Jane"</span>);</span><br><span class="line">          values.put(<span class="string">"gender"</span>, <span class="string">"female"</span>);</span><br><span class="line">          db.insert(<span class="string">"Student"</span>, <span class="keyword">null</span>, values);  <span class="comment">//  插入第二条数据</span></span><br><span class="line">        &#125;</span><br><span class="line">      ···</span><br></pre></td></tr></table></figure>
-<h3 id="“删”-——-删除数据"><a href="#“删”-——-删除数据" class="headerlink" title="“删” —— 删除数据"></a>“删” —— 删除数据</h3><pre><code>public int delete(String table, String whereClause, String[] whereArgs)
-</code></pre><p>该方法接收三个参数：</p>
-<ul>
-<li>第一个参数是表名</li>
-<li>第二，三个参数 用于约束删除某一行或某几行的数据，不指定的话默认就是删除所有行，在第二个参数中我们可以使用占位符 “?”</li>
-</ul>
-<p><em><strong>Eg:</strong></em> （以 <em>Student.db</em> 为例）</p>
-<blockquote>
-<p>删除 “name” 为 “Jacob” 的数据</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.dele(<span class="string">"Student"</span>, <span class="string">"name like ?"</span>, <span class="keyword">new</span> String[]&#123;<span class="string">"Jacob"</span>&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>删除所有 “name” 以 “J” 开头的数据</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.dele(<span class="string">"Student"</span>, <span class="string">"name like ?"</span>, <span class="keyword">new</span> String[]&#123;<span class="string">"J_"</span>&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>删除所有 “id” 为 “002” 的数据</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">  db.dele(<span class="string">"Student"</span>, <span class="string">"id = ?"</span>, <span class="keyword">new</span> String[]&#123;<span class="string">"002"</span>&#125;);</span><br><span class="line">```    </span><br><span class="line"></span><br><span class="line">&gt; 删除所有 <span class="string">"id"</span> 大于 <span class="string">"001"</span> 的数据</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line">  db.dele(<span class="string">"Student"</span>, <span class="string">"id &gt; ?"</span>, <span class="keyword">new</span> String[]&#123;<span class="string">"001"</span>&#125;);</span><br><span class="line">```   </span><br><span class="line"></span><br><span class="line">### “改” —— 更新数据</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(String table, ContentValues values, String whereClause, String[] whereArgs)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">该方法接收四个参数：</span></span><br><span class="line"><span class="function">  + 第一个参数是表名</span></span><br><span class="line"><span class="function">  + 第二个参数是 ContentValues 对象，要把更新数据在这里组装进去</span></span><br><span class="line"><span class="function">  + 第三，四个参数 用于约束更新某一行或某几行的数据，不指定的话默认就是更新所有行，在第二个参数中我们可以使用占位符 “?”</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">_**Eg:**_</span></span><br><span class="line"><span class="function">```java</span></span><br><span class="line"><span class="function">    <span class="keyword">private</span> MyDatebaseHelper dbHelper</span>;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">          setContentView(R.layout.activity_fragment);</span><br><span class="line">          dbHelper = <span class="keyword">new</span> MyDatebaseHelper(<span class="keyword">this</span>, <span class="string">"Student.db"</span>, <span class="keyword">null</span>, <span class="number">1</span>);</span><br><span class="line">          ···</span><br><span class="line">          <span class="comment">//  点击按钮更新数据，将 "id" 为 "002" 的数据的 "name" 改为 "Mary"</span></span><br><span class="line">            onClick(View v)&#123;</span><br><span class="line">              SQLiteDatabase db = dbHelper.getWritableDatabase();</span><br><span class="line">              ContentValues values = <span class="keyword">new</span> ContentValues();</span><br><span class="line">              values.put(<span class="string">"name"</span>, <span class="string">"Mary"</span>);</span><br><span class="line">              db.insert(<span class="string">"Student"</span>, values, <span class="string">"id = ?"</span>, <span class="keyword">new</span> String[]&#123;<span class="string">"002"</span>&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">          ···</span><br></pre></td></tr></table></figure>
-<h3 id="“查”-——-查找数据"><a href="#“查”-——-查找数据" class="headerlink" title="“查” —— 查找数据"></a>“查” —— 查找数据</h3><p>SQLite的查询方法有很多，而且参数都很多，这里我们讲一个参数最少却常用的</p>
-<pre><code>public Cursor query(String table, String[] columns, String selection,
-    String[] selectionArgs, String groupBy, String having,
-    String orderBy)
-</code></pre><table>
-<thead>
-<tr>
-<th>query() 方法参数</th>
-<th>对应 SQL 部分</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>table</td>
-<td>from table_name</td>
-<td>指定查询的表明</td>
-</tr>
-<tr>
-<td>columns</td>
-<td>select column1,column2</td>
-<td>指定查询的列名</td>
-</tr>
-<tr>
-<td>selection</td>
-<td>where column = value</td>
-<td>指定 where 的约束条件</td>
-</tr>
-<tr>
-<td>selectionArgs</td>
-<td>-</td>
-<td>为 where 中的占位符提供具体的值</td>
-</tr>
-<tr>
-<td>groupBy</td>
-<td>group by column</td>
-<td>指定需要 group by 的列</td>
-</tr>
-<tr>
-<td>having</td>
-<td>having column = value</td>
-<td>对 group by 后的结果进一步约束</td>
-</tr>
-<tr>
-<td>orderBy</td>
-<td>order by column1,column2</td>
-<td>指定查询结果的排序方式</td>
-</tr>
-</tbody>
-</table>
-<p>如果我们想查询数据库的全部数据，只需要传入表名即可；如果我们想查询单个数据，传入表名后，再在第三，四个参数上指定约束条件即可，也就是说我们没必要指定所有的参数</p>
-<p><em><strong>Eg:</strong></em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> MyDatebaseHelper dbHelper;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">      setContentView(R.layout.activity_fragment);</span><br><span class="line">      dbHelper = <span class="keyword">new</span> MyDatebaseHelper(<span class="keyword">this</span>, <span class="string">"Student.db"</span>, <span class="keyword">null</span>, <span class="number">1</span>);</span><br><span class="line">      ···</span><br><span class="line">      <span class="comment">//  点击按钮更新数据，将 "id" 为 "002" 的数据的 "name" 改为 "Mary"</span></span><br><span class="line">        onClick(View v)&#123;</span><br><span class="line">          SQLiteDatabase db = dbHelper.getWritableDatabase();</span><br><span class="line">          Cursor cursor = db.query(<span class="string">"Student</span></span><br><span class="line"><span class="string">                  null,  //  Columns - null selects all columns</span></span><br><span class="line"><span class="string">                  "</span>id = ?<span class="string">",</span></span><br><span class="line"><span class="string">                  new String[]&#123;"</span><span class="number">002</span><span class="string">"&#125;,</span></span><br><span class="line"><span class="string">                  null,  //  groupBy</span></span><br><span class="line"><span class="string">                  null,  //  having</span></span><br><span class="line"><span class="string">                  null   //  orderBy</span></span><br><span class="line"><span class="string">          );</span></span><br><span class="line"><span class="string">          cursor.moveToFirst();</span></span><br><span class="line"><span class="string">          String id = getString(getColumnIndex("</span>id<span class="string">"));</span></span><br><span class="line"><span class="string">          String name = getString(getColumnIndex("</span>name<span class="string">"));</span></span><br><span class="line"><span class="string">          String gender = getString(getColumnIndex("</span>gender<span class="string">"));</span></span><br><span class="line"><span class="string">          Log.d("</span>MainActivity<span class="string">", "</span>Student<span class="string">'s id is " + id);</span></span><br><span class="line"><span class="string">          Log.d("MainActivity", "Student'</span>s name is <span class="string">" + name);</span></span><br><span class="line"><span class="string">          Log.d("</span>MainActivity<span class="string">", "</span>Student<span class="string">'s gender is " + gender);</span></span><br><span class="line"><span class="string">          cursor.close();</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      ···</span></span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>那么简单的API操作讲了，还是讲一下如何用原生SQLite语句来操作吧</p>
-<h1 id="使用原生SQLite语句操作数据库"><a href="#使用原生SQLite语句操作数据库" class="headerlink" title="使用原生SQLite语句操作数据库"></a>使用原生SQLite语句操作数据库</h1><h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(字段名称 数据类型 约束， 字段名称 数据类型 约束 ... ... )</span><br><span class="line">create table person(_id Integer primary key, name varchar(10), age Integer not null)</span><br></pre></td></tr></table></figure>
-<h3 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop table 表名</span><br><span class="line">drop table person</span><br></pre></td></tr></table></figure>
-<h3 id="插入表"><a href="#插入表" class="headerlink" title="插入表"></a>插入表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into 表名[字段, 字段] values&#123;值1, 值2 ... ...&#125;</span><br><span class="line">insert into person&#123;_id, age&#125; values(1, 20)  // value在插入时必须与前面的字段相对应</span><br><span class="line">insert into person values(2, &quot;zs&quot;, 30)       // 若没指定字段，则默认从第一个字段开始</span><br></pre></td></tr></table></figure>
-<h3 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update 表名 set 字段 = 新值 where 修改的条件</span><br><span class="line">update person set name=&quot;ls&quot;,age=20 where _id=1</span><br></pre></td></tr></table></figure>
-<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">delete from 表名 where 删除条件</span><br><span class="line">delete from person where _id=2</span><br></pre></td></tr></table></figure>
-<h3 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select 字段名 from 表名 where 查询条件 group by 分组字段 having 筛选条件 order by 排序字段</span><br><span class="line">select * from person                        // 查询表中所有数据</span><br><span class="line">select _id,name from person                 // 查询person表中的id,name字段</span><br><span class="line">select * from person where _id=1            // 查询person表，id为1的情况</span><br><span class="line">select * from person where _id&lt;&gt;1           // 查询person表，id不为1的情况</span><br><span class="line">select * from person where _id=1 and age&gt;18 // 查询person表，id为1和age大于18的情况</span><br><span class="line">select * from person where name like &quot;%小%&quot; // 模糊查询name这个字段中，中间包含“小”(前后可以有任意长的字符)的情况</span><br><span class="line">select * from person where name like &quot;_小%&quot; // 模糊查询name这个字段中，一个字符之后是“小”(后面可以有任意长的字符)的情况</span><br><span class="line">select * from person where name is null     // 查询名字为空的情况</span><br><span class="line">select * from person where age between 10 and 20 // 年龄在10到20之间的情况</span><br><span class="line">select * from person where age&gt;18 orderby _id // 年龄大于18并根据id进行排序的情况</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/19/SQLite的简单实用/" data-id="cjd8wpskk000uj8cc3evn841x" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQLite/">SQLite</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/02/21/指针,数组,函数那些容易混淆的概念/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          指针，数组，函数那些容易混淆的概念
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/02/18/设计模式-一-单例模式/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">设计模式(一):单例模式</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Inno Fang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+block content
+  article#post(class="")
+    if (!top_img)
+      #post-title.plain= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          - var date_type = theme.post_meta.date_type === 'updated' ? '' : 'date'
+          time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator |
+          each item, index in page.categories.data
+            i.fa.fa-inbox(aria-hidden="true")
+            a(href=url_for(item.path)).post-meta__categories  #[=item.name]
+            if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right.post-meta__separator(aria-hidden="true")
+        if (theme.disqus.enable && theme.disqus.count)
+          if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+            span.post-meta__separator |
+          i.fa.fa-comment-o(aria-hidden="true")
+          a(href=url_for(page.path) + '#disqus_thread')
+            span.disqus-comment-count(data-disqus-identifier=page.path)
+        if (theme.wordcount && theme.wordcount.enable)
+          span.post-meta__separator |
+          span.post-meta-wordcount
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+    #post-content!= page.content
+    if (theme.post_copyright && theme.post_copyright.enable)
+      .post-copyright
+        .post-copyright__author
+          span.post-copyright-meta= _p('post.copyright.author') + ": "
+          span.post-copyright-info
+            a(href=`mailto:${config.email}`) #[=config.author]
+        .post-copyright__type
+          span.post-copyright-meta= _p('post.copyright.link') + ": "
+          span.post-copyright-info
+            a(href=url_for(page.permalink)) #[=page.permalink]
+        .post-copyright__notice
+          span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+          span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]
+    if (theme.QR_code)
+      if (theme.QR_code.length > 0)
+        .post-qr-code
+          each item in theme.QR_code
+            .post-qr-code-item
+              img.post-qr-code__img(src=(item.itemlist||item).img)
+              .post-qr-code__desc=(item.itemlist||item).text
+    include includes/share/index.pug
+  include includes/pagination.pug
+  if (theme.adv && theme.adv.enable)
+    .post-adv!= theme.adv.info
+  if page.comments !== false
+    include includes/comments/index.pug

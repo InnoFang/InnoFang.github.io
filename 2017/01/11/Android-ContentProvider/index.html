@@ -1,256 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+extends includes/layout.pug
 
-  
-  <title>Android ContentProvider | Inno&#39;s Bolg</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享 ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据 ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表">
-<meta name="keywords" content="Android">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android ContentProvider">
-<meta property="og:url" content="http://yoursite.com/2017/01/11/Android-ContentProvider/index.html">
-<meta property="og:site_name" content="Inno&#39;s Bolg">
-<meta property="og:description" content="ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享 ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据 ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://p1.bpimg.com/567571/d23b776cb100e776.png">
-<meta property="og:updated_time" content="2017-03-10T05:00:26.574Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android ContentProvider">
-<meta name="twitter:description" content="ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享 ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据 ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表">
-<meta name="twitter:image" content="http://p1.bpimg.com/567571/d23b776cb100e776.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+block top_img
+  - var top_img = page.top_img || theme.post_meta.top_img || theme.top_img || config.top_img
+  if (top_img && page.top_img !== false)
+    - var flag = top_img === true ? 'no-bg' : undefined
+    div#top-container(style=`background-image: url(${top_img})` class=flag)
+      include ./includes/header.pug
+      #post-info
+        #post-title= page.title || _p('no_title')
+        #post-meta
+          if (theme.post_meta.date_type)
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+          if (theme.post_meta.categories && page.categories.data.length > 0)
+            if (theme.post_meta.date_type)
+              span.post-meta__separator |
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                 i.fa.fa-angle-right(aria-hidden="true")
+          if (theme.disqus.enable && theme.disqus.count)
+            if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+              span.post-meta__separator |
+            i.fa.fa-comment-o.post-meta__icon(aria-hidden="true")
+            a(href=url_for(page.path) + '#disqus_thread')
+              span.disqus-comment-count(data-disqus-identifier=page.path)
+          if (theme.wordcount && theme.wordcount.enable)
+            .post-meta-wordcount
+              span= _p('post.wordcount') + ': '
+              span.word-count= wordcount(page.content)
+              span.post-meta__separator |
+              span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+  else
+    div#top-container.plain
+      include ./includes/header.pug
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Inno&#39;s Bolg</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-Android-ContentProvider" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/11/Android-ContentProvider/" class="article-date">
-  <time datetime="2017-01-11T07:36:06.000Z" itemprop="datePublished">2017-01-11</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android ContentProvider
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ContentProvider 是 Android 四大组件之一， 主要用于在不同的应用程序之间实现数据共享</p>
-<p>ContentProvider 以某种Uri的形式对外提供数据，允许其他应用访问或修改数据，其他应用程序使用ContentResolver根据Uri去访问操作指定数据</p>
-<p>ContentProvider使用表的形式来组织数据，无论数据的来源是什么，ContentProvider都会认为是一种表，然后把数据组织成表格</p>
-<a id="more"></a>
-<p>ConetentProvider提供顶点方法，query（查询），insert（插入），update（更新），delete（删除），<br>getType（的到数据类型），onCreate（创建数据时调用的回调函数）</p>
-<p>每个ContentProvider都有一个公共的URI，这个URI用于表示这ContentProvider所提供的数据 </p>
-<p>Uri：为系统的每一个资源给其一个名字，它由权限和路径组成，为了避免冲突，权限通常使用应用包名</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通常使用应用包名为权限</span></span><br><span class="line"><span class="comment">// 使用Uri.parse方法将字符串解析成Uri对象</span></span><br><span class="line">Uri uri = Uri.parse(<span class="string">"content://io.innofang.app.provider/table"</span>);</span><br></pre></td></tr></table></figure>
-<p>Android 所提供的ContentProvider都存放在android.provider包中，将其分为A，B，C，D四个部分，例如:<br><code>content://com.example.transportationprovider/trains/122</code></p>
-<p>A (content://) : 标准前缀，用于说明一个ContentProvider控制这些数据，无法改变的：“content://:”<br>B （com.example.transportationprovider）:URI标识，用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它一般是定义该ContentProvider的包.类的名称<br>C (trains) ： 路径，通俗的讲就是要操作的数据库中表的名字，或者自定义，在使用的时候保持一致<br>D (122)：如果URI中包含表示需要获取的记录的ID，则就返回该id对应的数据，如果没有ID，就表示返回全部</p>
-<p><em><strong>Eg:</strong></em></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数1为管理联系人电话的Uri，后面的条件填写null为查询全部</span></span><br><span class="line">Cursor cursor = cr.query(</span><br><span class="line">    ContactsContract.CommonDataKinds.Phone.CONTENT_URI, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line"><span class="comment">// 获得的Cursor对象就可以使用了</span></span><br></pre></td></tr></table></figure>
-<p>自定义ContentProvider必须在AndroidManifest.xml文件中注册</p>
-<p>如果想访问其他程序共享的数据，需要借助COntentResolver类来实现</p>
-<p>ContentResolver相当于在系统内部的HttpClient，应用该程序使用ContentResolver来操作ContentProvider锁暴露的数据</p>
-<h2 id="获得ContentResolver对象"><a href="#获得ContentResolver对象" class="headerlink" title="获得ContentResolver对象"></a>获得ContentResolver对象</h2><p>ContentResolver cr  = getContentResolver();</p>
-<h2 id="ContentResolver方法"><a href="#ContentResolver方法" class="headerlink" title="ContentResolver方法"></a>ContentResolver方法</h2><p><img src="http://p1.bpimg.com/567571/d23b776cb100e776.png" alt=""></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/11/Android-ContentProvider/" data-id="cjd8wpsix0000j8ccvu14s7jv" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/01/12/Android-BroadcastReceiver/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          Android BroadcastReceiver
-        
-      </div>
-    </a>
-  
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Inno Fang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+block content
+  article#post(class="")
+    if (!top_img)
+      #post-title.plain= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          - var date_type = theme.post_meta.date_type === 'updated' ? '' : 'date'
+          time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator |
+          each item, index in page.categories.data
+            i.fa.fa-inbox(aria-hidden="true")
+            a(href=url_for(item.path)).post-meta__categories  #[=item.name]
+            if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right.post-meta__separator(aria-hidden="true")
+        if (theme.disqus.enable && theme.disqus.count)
+          if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+            span.post-meta__separator |
+          i.fa.fa-comment-o(aria-hidden="true")
+          a(href=url_for(page.path) + '#disqus_thread')
+            span.disqus-comment-count(data-disqus-identifier=page.path)
+        if (theme.wordcount && theme.wordcount.enable)
+          span.post-meta__separator |
+          span.post-meta-wordcount
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+    #post-content!= page.content
+    if (theme.post_copyright && theme.post_copyright.enable)
+      .post-copyright
+        .post-copyright__author
+          span.post-copyright-meta= _p('post.copyright.author') + ": "
+          span.post-copyright-info
+            a(href=`mailto:${config.email}`) #[=config.author]
+        .post-copyright__type
+          span.post-copyright-meta= _p('post.copyright.link') + ": "
+          span.post-copyright-info
+            a(href=url_for(page.permalink)) #[=page.permalink]
+        .post-copyright__notice
+          span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+          span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]
+    if (theme.QR_code)
+      if (theme.QR_code.length > 0)
+        .post-qr-code
+          each item in theme.QR_code
+            .post-qr-code-item
+              img.post-qr-code__img(src=(item.itemlist||item).img)
+              .post-qr-code__desc=(item.itemlist||item).text
+    include includes/share/index.pug
+  include includes/pagination.pug
+  if (theme.adv && theme.adv.enable)
+    .post-adv!= theme.adv.info
+  if page.comments !== false
+    include includes/comments/index.pug

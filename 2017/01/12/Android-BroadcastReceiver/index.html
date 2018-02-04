@@ -1,285 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+extends includes/layout.pug
 
-  
-  <title>Android BroadcastReceiver | Inno&#39;s Bolg</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="广播的应用场景：  同一app内部的同一组件内的消息通信（单个或多个线程之间） 同一app内部的不同组件之间的消息通信 同一app具有多个线程的不同组件之间的消息通信 不同app之间的组建之间消息通信 Android系统在特定情况下与App之间的消息通信">
-<meta name="keywords" content="Android">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android BroadcastReceiver">
-<meta property="og:url" content="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/index.html">
-<meta property="og:site_name" content="Inno&#39;s Bolg">
-<meta property="og:description" content="广播的应用场景：  同一app内部的同一组件内的消息通信（单个或多个线程之间） 同一app内部的不同组件之间的消息通信 同一app具有多个线程的不同组件之间的消息通信 不同app之间的组建之间消息通信 Android系统在特定情况下与App之间的消息通信">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-03-10T05:00:07.231Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android BroadcastReceiver">
-<meta name="twitter:description" content="广播的应用场景：  同一app内部的同一组件内的消息通信（单个或多个线程之间） 同一app内部的不同组件之间的消息通信 同一app具有多个线程的不同组件之间的消息通信 不同app之间的组建之间消息通信 Android系统在特定情况下与App之间的消息通信">
-  
-    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+block top_img
+  - var top_img = page.top_img || theme.post_meta.top_img || theme.top_img || config.top_img
+  if (top_img && page.top_img !== false)
+    - var flag = top_img === true ? 'no-bg' : undefined
+    div#top-container(style=`background-image: url(${top_img})` class=flag)
+      include ./includes/header.pug
+      #post-info
+        #post-title= page.title || _p('no_title')
+        #post-meta
+          if (theme.post_meta.date_type)
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+          if (theme.post_meta.categories && page.categories.data.length > 0)
+            if (theme.post_meta.date_type)
+              span.post-meta__separator |
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                 i.fa.fa-angle-right(aria-hidden="true")
+          if (theme.disqus.enable && theme.disqus.count)
+            if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+              span.post-meta__separator |
+            i.fa.fa-comment-o.post-meta__icon(aria-hidden="true")
+            a(href=url_for(page.path) + '#disqus_thread')
+              span.disqus-comment-count(data-disqus-identifier=page.path)
+          if (theme.wordcount && theme.wordcount.enable)
+            .post-meta-wordcount
+              span= _p('post.wordcount') + ': '
+              span.word-count= wordcount(page.content)
+              span.post-meta__separator |
+              span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+  else
+    div#top-container.plain
+      include ./includes/header.pug
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Inno&#39;s Bolg</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-Android-BroadcastReceiver" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/12/Android-BroadcastReceiver/" class="article-date">
-  <time datetime="2017-01-12T03:14:49.000Z" itemprop="datePublished">2017-01-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android BroadcastReceiver
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>广播的应用场景：</p>
-<ul>
-<li>同一app内部的同一组件内的消息通信（单个或多个线程之间）</li>
-<li>同一app内部的不同组件之间的消息通信</li>
-<li>同一app具有多个线程的不同组件之间的消息通信</li>
-<li>不同app之间的组建之间消息通信</li>
-<li>Android系统在特定情况下与App之间的消息通信</li>
-</ul>
-<a id="more"></a>
-<p>广播分为两种：</p>
-<ul>
-<li>有序广播<ul>
-<li>类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游戏者。若某一个游戏者的花掉了，这就是广播截断，广播就不能继续传下去</li>
-</ul>
-</li>
-<li>无序广播<ul>
-<li>类似于老师宣布下课，学生就是广播接收者，基本都是按照同一时间执行某些操作</li>
-</ul>
-</li>
-</ul>
-<p>广播的使用，需要继承BroadcastReceiver并实现抽象方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcast</span>  <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span></span>&#123;</span><br><span class="line">        Toast.makeText(context, <span class="string">"收到广播，执行onReceiver()方法"</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当BroadcastReceiver作为Android的四大组件之一，在使用时，必须对BroadcastReceiver进行注册<br>注册方式分为两种：</p>
-<ul>
-<li><p>静态注册</p>
-<ul>
-<li><p>类似于Activity，自定义广播接收器之后，在AndroidManifest.xml中注册即为静态注册</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span> <span class="attr">android:name</span>=<span class="string">".MyBroadcast"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"io.innofang.broadcastdemo.MYBROADCAST"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">reveiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>其中action类似于显示广播的频段，当广播发送的时候需要指定后面的字符串。接收器接收的时候，也会根据该处指定的字符串进行过滤</p>
-</li>
-</ul>
-</li>
-<li><p>动态注册</p>
-<ul>
-<li>动态注册，即在java代码中进行注册，也就是程序启动后，执行到注册的代码才会注册成功，并且动态注册的广播需要接触注册<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MY_ACTION = <span class="string">"io.innofang.broadcastdemo.MYBROADCAST"</span>;</span><br><span class="line">    <span class="keyword">private</span> MyBroadcast mMyBroadcast;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">final</span> Intent intent = <span class="keyword">new</span> Intent(MY_ACTION);</span><br><span class="line">        <span class="comment">// 初始化广播接收器</span></span><br><span class="line">        mMyCast = <span class="keyword">new</span> MyBroadcast();</span><br><span class="line">        <span class="comment">// 初始化过滤器，对应Manifest文件中的receiver的字段</span></span><br><span class="line">        IntentFilter filter = <span class="keyword">new</span> IntentFilter();</span><br><span class="line">        <span class="comment">// 在过滤器中添加action</span></span><br><span class="line">        filter.addAction(MY_ACTION);</span><br><span class="line">        <span class="comment">// 注册广播接收器</span></span><br><span class="line">        registerReceiver(mMyCast, filter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        <span class="comment">// 在onDestroy中取消注册</span></span><br><span class="line">        unregisterReceiver(mMyCast);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<p>区别：</p>
-<ul>
-<li>动态注册的广播接收者要优先于静态注册的广播接收者</li>
-<li>当程序被销毁掉之后，静态注册的广播接收者任然可以接受到广播，但是动态注册的广播接收者则不可以</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/12/Android-BroadcastReceiver/" data-id="cjd8wpsj30001j8cc4efy0jto" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/02/18/设计模式-一-单例模式/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          设计模式(一):单例模式
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/01/11/Android-ContentProvider/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">Android ContentProvider</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Inno Fang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+block content
+  article#post(class="")
+    if (!top_img)
+      #post-title.plain= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          - var date_type = theme.post_meta.date_type === 'updated' ? '' : 'date'
+          time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator |
+          each item, index in page.categories.data
+            i.fa.fa-inbox(aria-hidden="true")
+            a(href=url_for(item.path)).post-meta__categories  #[=item.name]
+            if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right.post-meta__separator(aria-hidden="true")
+        if (theme.disqus.enable && theme.disqus.count)
+          if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+            span.post-meta__separator |
+          i.fa.fa-comment-o(aria-hidden="true")
+          a(href=url_for(page.path) + '#disqus_thread')
+            span.disqus-comment-count(data-disqus-identifier=page.path)
+        if (theme.wordcount && theme.wordcount.enable)
+          span.post-meta__separator |
+          span.post-meta-wordcount
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+    #post-content!= page.content
+    if (theme.post_copyright && theme.post_copyright.enable)
+      .post-copyright
+        .post-copyright__author
+          span.post-copyright-meta= _p('post.copyright.author') + ": "
+          span.post-copyright-info
+            a(href=`mailto:${config.email}`) #[=config.author]
+        .post-copyright__type
+          span.post-copyright-meta= _p('post.copyright.link') + ": "
+          span.post-copyright-info
+            a(href=url_for(page.permalink)) #[=page.permalink]
+        .post-copyright__notice
+          span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+          span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]
+    if (theme.QR_code)
+      if (theme.QR_code.length > 0)
+        .post-qr-code
+          each item in theme.QR_code
+            .post-qr-code-item
+              img.post-qr-code__img(src=(item.itemlist||item).img)
+              .post-qr-code__desc=(item.itemlist||item).text
+    include includes/share/index.pug
+  include includes/pagination.pug
+  if (theme.adv && theme.adv.enable)
+    .post-adv!= theme.adv.info
+  if page.comments !== false
+    include includes/comments/index.pug

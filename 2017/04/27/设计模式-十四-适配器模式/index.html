@@ -1,301 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+extends includes/layout.pug
 
-  
-  <title>设计模式(十四):适配器模式 | Inno&#39;s Bolg</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Adapter Class/Object（适配器）在平常开发当中，适配器 ( Adapter ) 是十分常用的模式，比如常用的 RecyclerView 的 Adapter，ListView 的 Adapter 等。但是在经常使用，但是并不知道适配器模式的具体实现原理是什么？那么下面就将结合具体案例分析一下这个适配器模式。">
-<meta name="keywords" content="设计模式">
-<meta property="og:type" content="article">
-<meta property="og:title" content="设计模式(十四):适配器模式">
-<meta property="og:url" content="http://yoursite.com/2017/04/27/设计模式-十四-适配器模式/index.html">
-<meta property="og:site_name" content="Inno&#39;s Bolg">
-<meta property="og:description" content="Adapter Class/Object（适配器）在平常开发当中，适配器 ( Adapter ) 是十分常用的模式，比如常用的 RecyclerView 的 Adapter，ListView 的 Adapter 等。但是在经常使用，但是并不知道适配器模式的具体实现原理是什么？那么下面就将结合具体案例分析一下这个适配器模式。">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/class_adapter.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/object_adapter.png">
-<meta property="og:updated_time" content="2017-07-07T06:35:21.709Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式(十四):适配器模式">
-<meta name="twitter:description" content="Adapter Class/Object（适配器）在平常开发当中，适配器 ( Adapter ) 是十分常用的模式，比如常用的 RecyclerView 的 Adapter，ListView 的 Adapter 等。但是在经常使用，但是并不知道适配器模式的具体实现原理是什么？那么下面就将结合具体案例分析一下这个适配器模式。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/class_adapter.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+block top_img
+  - var top_img = page.top_img || theme.post_meta.top_img || theme.top_img || config.top_img
+  if (top_img && page.top_img !== false)
+    - var flag = top_img === true ? 'no-bg' : undefined
+    div#top-container(style=`background-image: url(${top_img})` class=flag)
+      include ./includes/header.pug
+      #post-info
+        #post-title= page.title || _p('no_title')
+        #post-meta
+          if (theme.post_meta.date_type)
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+          if (theme.post_meta.categories && page.categories.data.length > 0)
+            if (theme.post_meta.date_type)
+              span.post-meta__separator |
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                 i.fa.fa-angle-right(aria-hidden="true")
+          if (theme.disqus.enable && theme.disqus.count)
+            if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+              span.post-meta__separator |
+            i.fa.fa-comment-o.post-meta__icon(aria-hidden="true")
+            a(href=url_for(page.path) + '#disqus_thread')
+              span.disqus-comment-count(data-disqus-identifier=page.path)
+          if (theme.wordcount && theme.wordcount.enable)
+            .post-meta-wordcount
+              span= _p('post.wordcount') + ': '
+              span.word-count= wordcount(page.content)
+              span.post-meta__separator |
+              span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+  else
+    div#top-container.plain
+      include ./includes/header.pug
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Inno&#39;s Bolg</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-设计模式-十四-适配器模式" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/04/27/设计模式-十四-适配器模式/" class="article-date">
-  <time datetime="2017-04-27T01:52:21.000Z" itemprop="datePublished">2017-04-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      设计模式(十四):适配器模式
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Adapter-Class-Object（适配器）"><a href="#Adapter-Class-Object（适配器）" class="headerlink" title="Adapter Class/Object（适配器）"></a>Adapter Class/Object（适配器）</h1><p>在平常开发当中，适配器 ( Adapter ) 是十分常用的模式，比如常用的 RecyclerView 的 Adapter，ListView 的 Adapter 等。但是在经常使用，但是并不知道适配器模式的具体实现原理是什么？那么下面就将结合具体案例分析一下这个适配器模式。</p>
-<a id="more"></a>
-<p>首先先理解什么是适配器？平常在手机充电或者给笔记本电脑充电时，都会使用到充电器。因为我们知道插板上的电压是 220 V ，如果直接连接上设备，则会将给烧坏，那么适配器的作用就是这样 ———— <strong>将原本因接口不匹配而无法在一起工作的两样东西能够在一起工作</strong></p>
-<h2 id="Adapter-Class-Object（适配器）的-UML-类图"><a href="#Adapter-Class-Object（适配器）的-UML-类图" class="headerlink" title="Adapter Class/Object（适配器）的 UML 类图"></a>Adapter Class/Object（适配器）的 UML 类图</h2><p>这里要说明的是，适配器按类型来分有两种：</p>
-<ul>
-<li>类适配器</li>
-<li>对象适配器</li>
-</ul>
-<p>下面是对应的 UML 类图</p>
-<blockquote>
-<p>类适配器</p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/class_adapter.png" alt=""></p>
-<ul>
-<li>Target : 适配器接口</li>
-<li>Adaptee : 需要适配的角色</li>
-<li>Adapter : 适配器，将需要适配的角色的对应操作进行适配</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/object_adapter.png" alt=""></p>
-<p> 这里的三个角色同上，但是这里使用了组合的方式</p>
-<p>那么这里这两种实现方式有什么不同的呢？</p>
-<ul>
-<li>相同点：都是将被适配的类的 API 转换成目标类的 API</li>
-<li>不同点：<ul>
-<li>类适配器使用<strong>继承</strong>的方式连接到 Adaptee 类</li>
-<li>对象适配器使用<strong>组合</strong>的方式连接到 Adaptee 类</li>
-</ul>
-</li>
-</ul>
-<p>使用组合的方式实现接口兼容的效果更为灵活，好处就是被适配对象中的方法不会暴露出来，而类适配器由于继承了被适配对象，因此也能使用被适配对象中的方法</p>
-<p>相比之下，<strong>使用对象适配器模式更加灵活、使用</strong></p>
-<h2 id="适配器模式的简单实现"><a href="#适配器模式的简单实现" class="headerlink" title="适配器模式的简单实现"></a>适配器模式的简单实现</h2><p>为了对两种方式进行比较，下面会分别实现这两中方式，以给移动设备充电为例，将 220 V 电压转换成 5 V 电压</p>
-<h3 id="类适配器模式的简单实现"><a href="#类适配器模式的简单实现" class="headerlink" title="类适配器模式的简单实现"></a>类适配器模式的简单实现</h3><p>首先就是提供目标接口，表示我们期望进行怎样的适配，这里期望将电压适配成 5 V<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">VoltFive</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>接下来就是实现被适配类，这里被适配对象为 220 V 电压<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Volt220</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVolt220</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">220</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后就可根据类适配器的实现方式实现具体的适配器了，继承 220 V 被适配对象，并实现将电压转换成 5 V 的接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VoltAdapter</span> <span class="keyword">extends</span> <span class="title">Volt220</span> <span class="keyword">implements</span> <span class="title">VoltFive</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">5</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>测试<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">VoltAdapter adapter = <span class="keyword">new</span> VoltAdapter();</span><br><span class="line"><span class="keyword">int</span> volt = adapter.provideVoltFive();</span><br><span class="line">System.out.println(<span class="string">"After adapted, the volt is :"</span> + volt);</span><br></pre></td></tr></table></figure></p>
-<p>测试结果<br><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">After adapted, the volt is :5</span><br></pre></td></tr></table></figure></p>
-<p>同时根据上面的分析可以知道，因为继承了被适配对象，所以这里的适配还可以输出 220 V 电压，具体操作可以自己尝试</p>
-<h3 id="对象适配器模式的简单实现"><a href="#对象适配器模式的简单实现" class="headerlink" title="对象适配器模式的简单实现"></a>对象适配器模式的简单实现</h3><p>因为目标接口和被适配对象与上面相同，所以这里不再贴出，具体的可以参考上面。下面来看一下对象适配器模式的具体实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VoltAdapter</span> <span class="keyword">implements</span> <span class="title">VoltFive</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Volt220 volt220;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">VoltAdapter</span><span class="params">(Volt220 volt220)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.volt220 = volt220;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> volt = volt220.provideVolt220();</span><br><span class="line">        <span class="comment">/* convert the 220V to 5V */</span></span><br><span class="line">        volt = <span class="number">5</span>;</span><br><span class="line">        <span class="keyword">return</span> volt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVolt220</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> volt220.provideVolt220();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>因为使用了组合的方式，所以这里需要给构造函数传入一个被适配对象实例，而具体如何实现转换方式，就需要在 <code>provideVoltFive()</code> 中进行操作，因为这次的示例比较简单，所以这里的操作仅供参考</p>
-<p>测试<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Volt220 volt220 = <span class="keyword">new</span> Volt220();</span><br><span class="line">VoltAdapter adapter = <span class="keyword">new</span> VoltAdapter(volt220);</span><br><span class="line"><span class="keyword">int</span> volt = adapter.provideVoltFive();</span><br><span class="line">System.out.println(<span class="string">"After adapted, the volt is :"</span> + volt);</span><br></pre></td></tr></table></figure></p>
-<p>测试结果同上</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>优点<ul>
-<li>复用性：通过使用适配器让不符合系统需求的接口得到更好的复用</li>
-<li>扩展性：通过使用适配器模式，可以在原有的功能上扩展自己实现的功能</li>
-</ul>
-</li>
-<li>缺点<ul>
-<li>过多的使用适配器模式，会使系统变得凌乱，不易整体把握。若非必要可以直接对功能进行重构</li>
-</ul>
-</li>
-</ul>
-<p>END.</p>
-<hr>
-<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/adapter" target="_blank" rel="noopener">源码地址</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/04/27/设计模式-十四-适配器模式/" data-id="cjd8wpsnr004tj8cceahrfcur" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/04/28/RxJava2-使用小记/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          RxJava2 使用小记
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/04/16/Android-NDK开发从0到1/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">Android NDK开发从0到1</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Inno Fang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+block content
+  article#post(class="")
+    if (!top_img)
+      #post-title.plain= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          - var date_type = theme.post_meta.date_type === 'updated' ? '' : 'date'
+          time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator |
+          each item, index in page.categories.data
+            i.fa.fa-inbox(aria-hidden="true")
+            a(href=url_for(item.path)).post-meta__categories  #[=item.name]
+            if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right.post-meta__separator(aria-hidden="true")
+        if (theme.disqus.enable && theme.disqus.count)
+          if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+            span.post-meta__separator |
+          i.fa.fa-comment-o(aria-hidden="true")
+          a(href=url_for(page.path) + '#disqus_thread')
+            span.disqus-comment-count(data-disqus-identifier=page.path)
+        if (theme.wordcount && theme.wordcount.enable)
+          span.post-meta__separator |
+          span.post-meta-wordcount
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+    #post-content!= page.content
+    if (theme.post_copyright && theme.post_copyright.enable)
+      .post-copyright
+        .post-copyright__author
+          span.post-copyright-meta= _p('post.copyright.author') + ": "
+          span.post-copyright-info
+            a(href=`mailto:${config.email}`) #[=config.author]
+        .post-copyright__type
+          span.post-copyright-meta= _p('post.copyright.link') + ": "
+          span.post-copyright-info
+            a(href=url_for(page.permalink)) #[=page.permalink]
+        .post-copyright__notice
+          span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+          span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]
+    if (theme.QR_code)
+      if (theme.QR_code.length > 0)
+        .post-qr-code
+          each item in theme.QR_code
+            .post-qr-code-item
+              img.post-qr-code__img(src=(item.itemlist||item).img)
+              .post-qr-code__desc=(item.itemlist||item).text
+    include includes/share/index.pug
+  include includes/pagination.pug
+  if (theme.adv && theme.adv.enable)
+    .post-adv!= theme.adv.info
+  if page.comments !== false
+    include includes/comments/index.pug

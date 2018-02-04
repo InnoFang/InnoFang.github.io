@@ -1,489 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+extends includes/layout.pug
 
-  
-  <title>MySQL 学习之数据类型 | Inno&#39;s Bolg</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="数据类型 数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。">
-<meta name="keywords" content="MySQL">
-<meta property="og:type" content="article">
-<meta property="og:title" content="MySQL 学习之数据类型">
-<meta property="og:url" content="http://yoursite.com/2017/07/17/MySQL-学习之数据类型/index.html">
-<meta property="og:site_name" content="Inno&#39;s Bolg">
-<meta property="og:description" content="数据类型 数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-20T12:13:24.330Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL 学习之数据类型">
-<meta name="twitter:description" content="数据类型 数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。">
-  
-    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+block top_img
+  - var top_img = page.top_img || theme.post_meta.top_img || theme.top_img || config.top_img
+  if (top_img && page.top_img !== false)
+    - var flag = top_img === true ? 'no-bg' : undefined
+    div#top-container(style=`background-image: url(${top_img})` class=flag)
+      include ./includes/header.pug
+      #post-info
+        #post-title= page.title || _p('no_title')
+        #post-meta
+          if (theme.post_meta.date_type)
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+          if (theme.post_meta.categories && page.categories.data.length > 0)
+            if (theme.post_meta.date_type)
+              span.post-meta__separator |
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                 i.fa.fa-angle-right(aria-hidden="true")
+          if (theme.disqus.enable && theme.disqus.count)
+            if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+              span.post-meta__separator |
+            i.fa.fa-comment-o.post-meta__icon(aria-hidden="true")
+            a(href=url_for(page.path) + '#disqus_thread')
+              span.disqus-comment-count(data-disqus-identifier=page.path)
+          if (theme.wordcount && theme.wordcount.enable)
+            .post-meta-wordcount
+              span= _p('post.wordcount') + ': '
+              span.word-count= wordcount(page.content)
+              span.post-meta__separator |
+              span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+  else
+    div#top-container.plain
+      include ./includes/header.pug
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Inno&#39;s Bolg</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-MySQL-学习之数据类型" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/17/MySQL-学习之数据类型/" class="article-date">
-  <time datetime="2017-07-17T05:48:30.000Z" itemprop="datePublished">2017-07-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      MySQL 学习之数据类型
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><blockquote>
-<p>数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>存储范围（有符号值）</th>
-<th>存储范围（无符号值）</th>
-<th>字节</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TINYINT</td>
-<td>(-128，127)（-2^(7) 到 2^(7) - 1）</td>
-<td>(0，255) （0 到 2^(8) - 1）</td>
-<td>1</td>
-<td>小整数值</td>
-</tr>
-<tr>
-<td>SMALLINT</td>
-<td>(-32 768，32 767)（-2^(15) 到 2^(15) - 1）</td>
-<td>(0，65 535) （0 到 2^(24) - 1）</td>
-<td>2</td>
-<td>大整数值</td>
-</tr>
-<tr>
-<td>MEDIUMINT</td>
-<td>(-8 388 608，8 388 607)（-2^(23) 到 2^(23) - 1）</td>
-<td>(0，16 777 215) （0 到 2^(16) - 1）</td>
-<td>3</td>
-<td>大整数值</td>
-</tr>
-<tr>
-<td>INT或INTEGER</td>
-<td>(-2 147 483 648，2 147 483 647)（-2^(31) 到 2^(31) - 1）</td>
-<td>(0，4 294 967 295) （0 到 2^(32) - 1）</td>
-<td>4</td>
-<td>大整数值</td>
-</tr>
-<tr>
-<td>BIGINT</td>
-<td>(-9 233 372 036 854 775 808，9 223 372 036 854 775 807)（-2^(63) 到 2^(63) - 1）</td>
-<td>(0，18 446 744 073 709 551 615) （0 到 2^(64) - 1）</td>
-<td>8</td>
-<td>极大整数值</td>
-</tr>
-</tbody>
-</table>
-<h2 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h2><table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>存储范围（有符号值）</th>
-<th>存储范围（无符号值）</th>
-<th>字节</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>FLOAT[(M,D)]</td>
-<td>(-3.402 823 466 E+38，-1.175 494 351 E-38)，0，(1.175 494 351 E-38，3.402 823 466 351 E+38)</td>
-<td>0，(1.175 494 351 E-38，3.402 823 466 E+38)</td>
-<td>4</td>
-<td>单精度浮点数值</td>
-</tr>
-<tr>
-<td>DOUBLE[(M,D)]</td>
-<td>(-1.797 693 134 862 315 7 E+308，-2.225 073 858 507 201 4 E-308)，0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308)</td>
-<td>0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308)</td>
-<td>8</td>
-<td>双精度浮点数值</td>
-</tr>
-</tbody>
-</table>
-<p><strong>PS</strong>   M 是数字总位数，D 是小数点后后面的位数，如果 M 和 D 被省略，根据硬件允许的限制来保存值</p>
-<h2 id="日期和时间类型"><a href="#日期和时间类型" class="headerlink" title="日期和时间类型"></a>日期和时间类型</h2><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>字节</th>
-<th>范围</th>
-<th>格式</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DATE</td>
-<td>3</td>
-<td>1000-01-01/9999-12-31</td>
-<td>YYYY-MM-DD</td>
-<td>日期值</td>
-</tr>
-<tr>
-<td>TIME</td>
-<td>3</td>
-<td>‘-838:59:59’/‘838:59:59’</td>
-<td>HH:MM:SS</td>
-<td>时间值或持续时间</td>
-</tr>
-<tr>
-<td>YEAR</td>
-<td>1</td>
-<td>1901/2155</td>
-<td>YYYY</td>
-<td>年份值</td>
-</tr>
-<tr>
-<td>DATETIME</td>
-<td>8</td>
-<td>1000-01-01 00:00:00/9999-12-31 23:59:59</td>
-<td>YYYY-MM-DD HH:MM:SS</td>
-<td>混合日期和时间值</td>
-</tr>
-<tr>
-<td>TIMESTAMP</td>
-<td>4</td>
-<td>1970-01-01 00:00:00/2037 年某时</td>
-<td>YYYYMMDD HHMMSS</td>
-<td>混合日期和时间值，时间戳</td>
-</tr>
-</tbody>
-</table>
-<h2 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h2><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>字节</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CHAR(n)</td>
-<td>0-255</td>
-<td>定长字符串</td>
-</tr>
-<tr>
-<td>VARCHAR(n)</td>
-<td>0-65535</td>
-<td>变长字符串</td>
-</tr>
-<tr>
-<td>TINYBLOB</td>
-<td>0-255</td>
-<td>不超过 255 个字符的二进制字符串</td>
-</tr>
-<tr>
-<td>TINYTEXT</td>
-<td>0-255</td>
-<td>短文本字符串</td>
-</tr>
-<tr>
-<td>BLOB</td>
-<td>0-65 535</td>
-<td>二进制形式的长文本数据</td>
-</tr>
-<tr>
-<td>TEXT</td>
-<td>0-65 535</td>
-<td>长文本数据</td>
-</tr>
-<tr>
-<td>MEDIUMBLOB</td>
-<td>0-16 777 215</td>
-<td>二进制形式的中等长度文本数据</td>
-</tr>
-<tr>
-<td>MEDIUMTEXT</td>
-<td>0-16 777 215</td>
-<td>中等长度文本数据</td>
-</tr>
-<tr>
-<td>LONGBLOB</td>
-<td>0-4 294 967 295</td>
-<td>二进制形式的极大文本数据</td>
-</tr>
-<tr>
-<td>LONGTEXT</td>
-<td>0-4 294 967 295</td>
-<td>极大文本数据</td>
-</tr>
-<tr>
-<td>ENUM(‘value1’, ‘value2’)</td>
-<td>1 或 2 个字节，取决于枚举类型的个数（最多 65 535 个值）</td>
-<td>枚举</td>
-</tr>
-<tr>
-<td>SET(‘value1’, ‘value2’)</td>
-<td>1、2、3、4 或者 8 个字节，取决于 set 成员的数目（最多 64 个成员）</td>
-<td>集合</td>
-</tr>
-</tbody>
-</table>
-<p><strong>PS</strong> CHAR 和 VARCHAR   </p>
-<ol>
-<li>CHAR(n) 若存入字符数小于 n，则以空格补于其后，查询之时再将空格去掉。所以 CHAR 类型存储的字符串末尾不能有空格，VARCHAR 不限于此。 </li>
-<li>CHAR(n) 固定长度，CHAR(4) 不管是存入几个字符，都将占用 4 个字节，VARCHAR 是存入的实际字符数 +1 个字节（n&lt;=255）或 2 个字节 (n&gt;255)，所以 VARCHAR(4),存入3个字符将占用4个字节。 </li>
-<li>CHAR 类型的字符串检索速度要比 VARCHAR 类型的快。</li>
-</ol>
-<h2 id="数据类型的属性"><a href="#数据类型的属性" class="headerlink" title="数据类型的属性"></a>数据类型的属性</h2><table>
-<thead>
-<tr>
-<th>关键字</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>NULL</td>
-<td>数据列可包含NULL值</td>
-</tr>
-<tr>
-<td>NOT NULL</td>
-<td>数据列不允许包含NULL值</td>
-</tr>
-<tr>
-<td>PRIMARY KEY</td>
-<td>主键约束，每张数据表只能存在一个主键，保证记录的唯一性，自动为 NOT NULL</td>
-</tr>
-<tr>
-<td>UNIQUE KEY</td>
-<td>唯一约束，每张数据表可以存在多个唯一约束，保证记录唯一性，可以为空值（NULL）</td>
-</tr>
-<tr>
-<td>AUTO_INCREMENT</td>
-<td>自动递增，适用于整数类型，默认情况下，起始值为1，每次增量为1，且必须与主键组合使用</td>
-</tr>
-<tr>
-<td>DEFAULT</td>
-<td>默认值</td>
-</tr>
-<tr>
-<td>UNSIGNED</td>
-<td>无符号</td>
-</tr>
-<tr>
-<td>CHARACTER SET name</td>
-<td>指定一个字符集</td>
-</tr>
-</tbody>
-</table>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/MySQL-学习之数据类型/" data-id="cjd8wpsjn0006j8ccikhl6i2k" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/07/17/MySQL-学习之约束/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          MySQL 学习之约束
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/07/16/MySQL学习之初识/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">MySQL 学习之初识</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Inno Fang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+block content
+  article#post(class="")
+    if (!top_img)
+      #post-title.plain= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          - var date_type = theme.post_meta.date_type === 'updated' ? '' : 'date'
+          time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator |
+          each item, index in page.categories.data
+            i.fa.fa-inbox(aria-hidden="true")
+            a(href=url_for(item.path)).post-meta__categories  #[=item.name]
+            if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right.post-meta__separator(aria-hidden="true")
+        if (theme.disqus.enable && theme.disqus.count)
+          if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+            span.post-meta__separator |
+          i.fa.fa-comment-o(aria-hidden="true")
+          a(href=url_for(page.path) + '#disqus_thread')
+            span.disqus-comment-count(data-disqus-identifier=page.path)
+        if (theme.wordcount && theme.wordcount.enable)
+          span.post-meta__separator |
+          span.post-meta-wordcount
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+    #post-content!= page.content
+    if (theme.post_copyright && theme.post_copyright.enable)
+      .post-copyright
+        .post-copyright__author
+          span.post-copyright-meta= _p('post.copyright.author') + ": "
+          span.post-copyright-info
+            a(href=`mailto:${config.email}`) #[=config.author]
+        .post-copyright__type
+          span.post-copyright-meta= _p('post.copyright.link') + ": "
+          span.post-copyright-info
+            a(href=url_for(page.permalink)) #[=page.permalink]
+        .post-copyright__notice
+          span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+          span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]
+    if (theme.QR_code)
+      if (theme.QR_code.length > 0)
+        .post-qr-code
+          each item in theme.QR_code
+            .post-qr-code-item
+              img.post-qr-code__img(src=(item.itemlist||item).img)
+              .post-qr-code__desc=(item.itemlist||item).text
+    include includes/share/index.pug
+  include includes/pagination.pug
+  if (theme.adv && theme.adv.enable)
+    .post-adv!= theme.adv.info
+  if page.comments !== false
+    include includes/comments/index.pug

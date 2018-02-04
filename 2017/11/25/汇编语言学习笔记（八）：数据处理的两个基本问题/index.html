@@ -1,382 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+extends includes/layout.pug
 
-  
-  <title>汇编语言学习笔记（八）：数据处理的两个基本问题 | Inno&#39;s Bolg</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="学习参考：汇编语言（第2版）王爽   bx、si、di 和 bp 机器指令处理的数据在什么地方 汇编语言中数据位置的表达 寻址方式 指令要处理的数据有多长 div 指令 伪指令 dd dup">
-<meta name="keywords" content="汇编语言">
-<meta property="og:type" content="article">
-<meta property="og:title" content="汇编语言学习笔记（八）：数据处理的两个基本问题">
-<meta property="og:url" content="http://yoursite.com/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/index.html">
-<meta property="og:site_name" content="Inno&#39;s Bolg">
-<meta property="og:description" content="学习参考：汇编语言（第2版）王爽   bx、si、di 和 bp 机器指令处理的数据在什么地方 汇编语言中数据位置的表达 寻址方式 指令要处理的数据有多长 div 指令 伪指令 dd dup">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/0067fiZ7ly1flti3xgt54j30fk0eo0tn.jpg">
-<meta property="og:updated_time" content="2017-11-25T02:26:16.544Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="汇编语言学习笔记（八）：数据处理的两个基本问题">
-<meta name="twitter:description" content="学习参考：汇编语言（第2版）王爽   bx、si、di 和 bp 机器指令处理的数据在什么地方 汇编语言中数据位置的表达 寻址方式 指令要处理的数据有多长 div 指令 伪指令 dd dup">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/0067fiZ7ly1flti3xgt54j30fk0eo0tn.jpg">
-  
-    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+block top_img
+  - var top_img = page.top_img || theme.post_meta.top_img || theme.top_img || config.top_img
+  if (top_img && page.top_img !== false)
+    - var flag = top_img === true ? 'no-bg' : undefined
+    div#top-container(style=`background-image: url(${top_img})` class=flag)
+      include ./includes/header.pug
+      #post-info
+        #post-title= page.title || _p('no_title')
+        #post-meta
+          if (theme.post_meta.date_type)
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+          if (theme.post_meta.categories && page.categories.data.length > 0)
+            if (theme.post_meta.date_type)
+              span.post-meta__separator |
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                 i.fa.fa-angle-right(aria-hidden="true")
+          if (theme.disqus.enable && theme.disqus.count)
+            if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+              span.post-meta__separator |
+            i.fa.fa-comment-o.post-meta__icon(aria-hidden="true")
+            a(href=url_for(page.path) + '#disqus_thread')
+              span.disqus-comment-count(data-disqus-identifier=page.path)
+          if (theme.wordcount && theme.wordcount.enable)
+            .post-meta-wordcount
+              span= _p('post.wordcount') + ': '
+              span.word-count= wordcount(page.content)
+              span.post-meta__separator |
+              span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+  else
+    div#top-container.plain
+      include ./includes/header.pug
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Inno&#39;s Bolg</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="title-汇编语言学习笔记（八）：数据处理的两个基本问题" class="article article-type-title" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/" class="article-date">
-  <time datetime="2017-11-25T02:24:26.000Z" itemprop="datePublished">2017-11-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/汇编语言/">汇编语言</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      汇编语言学习笔记（八）：数据处理的两个基本问题
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>学习参考：汇编语言（第2版）王爽</p>
-</blockquote>
-<ul>
-<li>bx、si、di 和 bp</li>
-<li>机器指令处理的数据在什么地方</li>
-<li>汇编语言中数据位置的表达</li>
-<li>寻址方式</li>
-<li>指令要处理的数据有多长</li>
-<li>div 指令</li>
-<li>伪指令 dd</li>
-<li>dup</li>
-</ul>
-<a id="more"></a>
-<p>计算机作为进行数据处理、运算的机器，那么有两个基本问题：</p>
-<ul>
-<li>处理的数据在什么地方</li>
-<li>要处理的数据有多长</li>
-</ul>
-<p>我们使用 reg 来表示一个寄存器，sreg 表示一个段寄存器</p>
-<ul>
-<li>reg 的集合包括：ax、bx、cx、dx、ah、al、bh、bl、ch、cl、dh、dl、sp、bp、si、di</li>
-<li>sreg的集合包括：ds、ss、cs、es</li>
-</ul>
-<h1 id="bx、si、di-和-bp"><a href="#bx、si、di-和-bp" class="headerlink" title="bx、si、di 和 bp"></a>bx、si、di 和 bp</h1><ul>
-<li>只有这四个寄存器可以用在 “[…]” 中来进行内存单元的寻址</li>
-<li>这四个寄存器可以单个出席那，或只能以四种组合出现：<ul>
-<li>bx 和 si</li>
-<li>bx 和 di</li>
-<li>bp 和 si</li>
-<li>bp 和 di</li>
-</ul>
-</li>
-<li>只要在 “[…]” 中使用寄存器 bp，而指令中没有显性地给出段地址，段地址就默认在 ss 中</li>
-</ul>
-<h1 id="机器指令处理的数据在什么地方"><a href="#机器指令处理的数据在什么地方" class="headerlink" title="机器指令处理的数据在什么地方"></a>机器指令处理的数据在什么地方</h1><p>进行数据处理的指令分为三类：</p>
-<ul>
-<li>读取</li>
-<li>写入</li>
-<li>运算</li>
-</ul>
-<p>在机器指令这一层来讲，并不关心数据的值是多少？而关心<strong>指令执行前一刻，它将要处理的数据所在的位置</strong>。</p>
-<p>在指令执行之前，所要处理的数据可以在 3 个地方：</p>
-<ul>
-<li>CPU 内部</li>
-<li>内存</li>
-<li>端口</li>
-</ul>
-<p>指令举例</p>
-<table>
-<thead>
-<tr>
-<th>汇编指令</th>
-<th>指令执行前数据的位置</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mov bx,[0]</td>
-<td>内存，ds:0 单元</td>
-</tr>
-<tr>
-<td>mov bx,ax</td>
-<td>CPU 内部，ax 寄存器</td>
-</tr>
-<tr>
-<td>mov bx,1</td>
-<td>CPU 内部，指令缓冲器</td>
-</tr>
-</tbody>
-</table>
-<h1 id="汇编语言中数据位置的表达"><a href="#汇编语言中数据位置的表达" class="headerlink" title="汇编语言中数据位置的表达"></a>汇编语言中数据位置的表达</h1><p>用 3 个概念表达数据的位置</p>
-<ul>
-<li><p>立即数（idata）：对于直接包含在机器指令中的数据（执行前在 CPU 的指令缓冲器中）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov ax,1</span><br><span class="line">add bx,2000h</span><br><span class="line">or  bx,00010000b</span><br><span class="line">mov al,&apos;a&apos;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>寄存器：指令要处理的数据在寄存器中</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov ax,bx</span><br><span class="line">mov ds,ax</span><br><span class="line">push bx</span><br><span class="line">mov ds:[0],bx</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>段地址（SA）和偏移地址（EA）:指令要处理的数据在内存中，在汇编指令中可用[x]的格式给出 EA，SA 在某个段寄存器中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov ax,[0]</span><br><span class="line">mov ax,[di]</span><br><span class="line">mov ax,[bx+di+8]</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="寻址方式"><a href="#寻址方式" class="headerlink" title="寻址方式"></a>寻址方式</h1><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1flti3xgt54j30fk0eo0tn.jpg" alt=""></p>
-<h1 id="指令要处理的数据有多长"><a href="#指令要处理的数据有多长" class="headerlink" title="指令要处理的数据有多长"></a>指令要处理的数据有多长</h1><blockquote>
-<p> 8086CPU 的指令，可以处理两种尺寸的数据，byte 和 word。所以在机器指令中要指名，指令进行的是字操作还是字节操作。对于这个问题，用一下方法处理</p>
-</blockquote>
-<ul>
-<li><p>通过寄存器指明要处理的数据的尺寸</p>
-<p> 下面进行的是字操作</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov ax,1</span><br><span class="line">mov bx,ds:[0]</span><br><span class="line">mov ds,ax</span><br><span class="line">mov ds:[0],ax</span><br><span class="line">inc ax</span><br><span class="line">add ax,1000</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<pre><code>下面进行的是字节操作
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov al,1</span><br><span class="line">mov al,bl</span><br><span class="line">mov al,ds:[0]</span><br><span class="line">mov ds:[0],al</span><br><span class="line">inc al</span><br><span class="line">add al,100</span><br></pre></td></tr></table></figure>
-</code></pre><ul>
-<li><p>在没有寄存器名称存在的情况下，用操作符 X ptr 指明内存单元的长度，X 在汇编指令中可以为 word 或 byte</p>
-<p>下面的指令中，用 word ptr 指明了指令访问的内存单元是一个字单元</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov word ptr ds:[0],1</span><br><span class="line">inc word ptr [bx]</span><br><span class="line">inc word ptr ds:[0]</span><br><span class="line">add word ptr [bx],2</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<pre><code>下面的指令中，用 byte ptr 指明了指令访问的内存单元是一个字节单元
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov byte ptr ds:[0],1</span><br><span class="line">inc byte ptr [bx]</span><br><span class="line">inc byte ptr ds:[0]</span><br><span class="line">add byte ptr [bx],2</span><br></pre></td></tr></table></figure>
-</code></pre><ul>
-<li><p>其他方法</p>
-<p> 有些指令默认了访问的字单元还是字节单元，比如，push 指令只进行字操作</p>
-</li>
-</ul>
-<h1 id="div-指令"><a href="#div-指令" class="headerlink" title="div 指令"></a>div 指令</h1><blockquote>
-<p>div 是除法指令，使用 div 做除法的时候应注意一下问题</p>
-</blockquote>
-<ul>
-<li>除数：有 8 位和 16位两种，在一个 reg 或内存单元中</li>
-<li>被除数：默认凡在 AX 或 DX 和 AX 中，如果除数为 8 位，被除数则为 16 位，默认在 AX 中存放；如果除数为 16 位，被除数则为 32 位，在 DX 和 AX 中存放，DX 存放高 16 位，AX 存放低 16 位</li>
-<li>结果：如果除数为 8 位，则 AL 存储除法操作的商，AH 存储除法操作的余数；如果除数为 16 位，则 AX 存储除法操作的商，DX 存储除法操作的余数</li>
-</ul>
-<p>格式如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">div reg</span><br><span class="line">div 内存单元</span><br></pre></td></tr></table></figure></p>
-<p>现在可以有多种方法来表示一个内存单元了，比如下面的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">div byte ptr ds:[0]</span><br><span class="line">含义： (al)=(ax) / ((ds)*16+0) 的商</span><br><span class="line">       (ah)=(ax) / ((ds)*16+0) 的余数</span><br><span class="line">       </span><br><span class="line">div word ptr es:[0]</span><br><span class="line">含义： (ax)=[(dx)*10000H + (ax)] / ((es)*16+0) 的商</span><br><span class="line">       (dx)=[(dx)*10000H + (ax)] / ((es)*16+0) 的余数</span><br></pre></td></tr></table></figure></p>
-<p><code>dx*10000H</code> 相当于将 dx 左移了 16 位</p>
-<p><strong>编程</strong>  利用除法指令计算 100001/100</p>
-<p>分析：被除数大于 65535（2^16），不能用 ax 寄存器存放，所以只能使用 dx 和 ax 两个寄存器联合存放 100001，也就是说要进行 16 位的除法。除数 100 小于 255，可以在一个 8 位寄存器存放，但是，因为被除数是 32 位的，除数应为 16 位，所以要用一个 16 位寄存器来存放被除数 100</p>
-<p>因为要分别为 dx 和 ax 赋 10001 的高 16 位值和低 16 位值，所以应先将 100001 表示为 16 进制形式：186A1H，程序如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov dx,1</span><br><span class="line">mov ax,86a1     ;(dx)*10000H+(ax)=100001</span><br><span class="line">mov bx,100</span><br><span class="line">div bx</span><br></pre></td></tr></table></figure></p>
-<p>程序执行后，(ax)=03E8H(即 1000)，(dx)=1(余数为 1)</p>
-<p><strong>编程</strong> 利用除法指令计算 1001/100</p>
-<p>分析：被除数 1001 小于 65535 ，所以可以用 ax 寄存器存储，除数 100 小于 255，可以用 8 位寄存器存储，也就是说要进行 8 位的除法。程序如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov ax,1001</span><br><span class="line">mov bl,100</span><br><span class="line">div bl</span><br></pre></td></tr></table></figure></p>
-<p>程序执行后，(al)=0AH(即 10)，(dh)=1(余数为 1)</p>
-<h1 id="伪指令-dd"><a href="#伪指令-dd" class="headerlink" title="伪指令 dd"></a>伪指令 dd</h1><blockquote>
-<p>dd 是用来定义 dword（double word，双字）型数据的。比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data segment</span><br><span class="line">    db 1</span><br><span class="line">    dw 1</span><br><span class="line">    dd 1</span><br><span class="line">data ends</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>在 data 段中定义了 3 个数据</p>
-<p>第一个数据为 01H，在 data:0 处，占 1 个字节<br>第二个数据为 0001H，在 data:1 处，占 1 个字<br>第三个数据为 00000001H，在 data:3 处，占 2 个字</p>
-<p>用 div 计算data段中第一个数据除以第二个数据后的结果，商存在第三个数据的存储单元中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data segment</span><br><span class="line">    dd 100001</span><br><span class="line">    dw 100</span><br><span class="line">    dw 0</span><br><span class="line">data ends</span><br></pre></td></tr></table></figure></p>
-<p>分析:data 段中的第一个数据是被除数，为 dword(双字)型，32 位，所以在做除法之前，用 dx 和ax 存储。应将 data:0 字单元中的低 16 位存储在ax中，data:2 字单元中的高16位存<br>储在 dx 中。程序如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov ax,data </span><br><span class="line">mov ds,ax</span><br><span class="line">mov ax,ds:[0]       ;ds:0字单元中的低16位存储在ax中</span><br><span class="line">mov dx,ds:[2]       ;ds:2字单元中的高16位存储在dx中</span><br><span class="line">div word ptr ds:[4]  ;用dx:ax中的32位数据除以ds:4字单元中的数据</span><br><span class="line">mov ds:[6],ax        ;将商存储在ds:6字单元中</span><br></pre></td></tr></table></figure></p>
-<h1 id="dup"><a href="#dup" class="headerlink" title="dup"></a>dup</h1><blockquote>
-<p>和 db、dw、dd 等数据定义伪指令配合使用，用来表示数据的重复</p>
-</blockquote>
-<p>格式如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db 重复次数 dup (重复的字节型数据)</span><br><span class="line">dw 重复次数 dup (重复的字型数据)</span><br><span class="line">dd 重复次数 dup (重复的双字节数据)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/" data-id="cjd8wpsl8001kj8ccjdzjv2cq" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/汇编语言/">汇编语言</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          汇编语言学习笔记（九）：转移指令的原理
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/11/24/汇编语言学习笔记（七）：更灵活的定位内存地址的方法/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">汇编语言学习笔记（七）：更灵活的定位内存地址的方法</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Inno Fang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+block content
+  article#post(class="")
+    if (!top_img)
+      #post-title.plain= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          - var date_type = theme.post_meta.date_type === 'updated' ? '' : 'date'
+          time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator |
+          each item, index in page.categories.data
+            i.fa.fa-inbox(aria-hidden="true")
+            a(href=url_for(item.path)).post-meta__categories  #[=item.name]
+            if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right.post-meta__separator(aria-hidden="true")
+        if (theme.disqus.enable && theme.disqus.count)
+          if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+            span.post-meta__separator |
+          i.fa.fa-comment-o(aria-hidden="true")
+          a(href=url_for(page.path) + '#disqus_thread')
+            span.disqus-comment-count(data-disqus-identifier=page.path)
+        if (theme.wordcount && theme.wordcount.enable)
+          span.post-meta__separator |
+          span.post-meta-wordcount
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+    #post-content!= page.content
+    if (theme.post_copyright && theme.post_copyright.enable)
+      .post-copyright
+        .post-copyright__author
+          span.post-copyright-meta= _p('post.copyright.author') + ": "
+          span.post-copyright-info
+            a(href=`mailto:${config.email}`) #[=config.author]
+        .post-copyright__type
+          span.post-copyright-meta= _p('post.copyright.link') + ": "
+          span.post-copyright-info
+            a(href=url_for(page.permalink)) #[=page.permalink]
+        .post-copyright__notice
+          span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+          span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]
+    if (theme.QR_code)
+      if (theme.QR_code.length > 0)
+        .post-qr-code
+          each item in theme.QR_code
+            .post-qr-code-item
+              img.post-qr-code__img(src=(item.itemlist||item).img)
+              .post-qr-code__desc=(item.itemlist||item).text
+    include includes/share/index.pug
+  include includes/pagination.pug
+  if (theme.adv && theme.adv.enable)
+    .post-adv!= theme.adv.info
+  if page.comments !== false
+    include includes/comments/index.pug

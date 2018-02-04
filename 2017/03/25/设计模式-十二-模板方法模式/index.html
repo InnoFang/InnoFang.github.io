@@ -1,279 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+extends includes/layout.pug
 
-  
-  <title>设计模式(十二):模板方法模式 | Inno&#39;s Bolg</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Template Method（模板方法）在日常的开发中，模板方法是一种用于流程封装的设计模式 比如，类似的功能或许具体的实现细节不一样，但是功能的执行流程是一样的，这时通过将执行流程封装起来，那么在使用这种模式的时候，只需要去关注如何实现功能细节就可以了。这样将公共代码提取出来，便于维护。">
-<meta name="keywords" content="设计模式">
-<meta property="og:type" content="article">
-<meta property="og:title" content="设计模式(十二):模板方法模式">
-<meta property="og:url" content="http://yoursite.com/2017/03/25/设计模式-十二-模板方法模式/index.html">
-<meta property="og:site_name" content="Inno&#39;s Bolg">
-<meta property="og:description" content="Template Method（模板方法）在日常的开发中，模板方法是一种用于流程封装的设计模式 比如，类似的功能或许具体的实现细节不一样，但是功能的执行流程是一样的，这时通过将执行流程封装起来，那么在使用这种模式的时候，只需要去关注如何实现功能细节就可以了。这样将公共代码提取出来，便于维护。">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/template_method.png">
-<meta property="og:updated_time" content="2017-05-08T05:42:55.214Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式(十二):模板方法模式">
-<meta name="twitter:description" content="Template Method（模板方法）在日常的开发中，模板方法是一种用于流程封装的设计模式 比如，类似的功能或许具体的实现细节不一样，但是功能的执行流程是一样的，这时通过将执行流程封装起来，那么在使用这种模式的时候，只需要去关注如何实现功能细节就可以了。这样将公共代码提取出来，便于维护。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/template_method.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+block top_img
+  - var top_img = page.top_img || theme.post_meta.top_img || theme.top_img || config.top_img
+  if (top_img && page.top_img !== false)
+    - var flag = top_img === true ? 'no-bg' : undefined
+    div#top-container(style=`background-image: url(${top_img})` class=flag)
+      include ./includes/header.pug
+      #post-info
+        #post-title= page.title || _p('no_title')
+        #post-meta
+          if (theme.post_meta.date_type)
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+          if (theme.post_meta.categories && page.categories.data.length > 0)
+            if (theme.post_meta.date_type)
+              span.post-meta__separator |
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                 i.fa.fa-angle-right(aria-hidden="true")
+          if (theme.disqus.enable && theme.disqus.count)
+            if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+              span.post-meta__separator |
+            i.fa.fa-comment-o.post-meta__icon(aria-hidden="true")
+            a(href=url_for(page.path) + '#disqus_thread')
+              span.disqus-comment-count(data-disqus-identifier=page.path)
+          if (theme.wordcount && theme.wordcount.enable)
+            .post-meta-wordcount
+              span= _p('post.wordcount') + ': '
+              span.word-count= wordcount(page.content)
+              span.post-meta__separator |
+              span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+  else
+    div#top-container.plain
+      include ./includes/header.pug
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Inno&#39;s Bolg</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-设计模式-十二-模板方法模式" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/25/设计模式-十二-模板方法模式/" class="article-date">
-  <time datetime="2017-03-25T03:00:14.000Z" itemprop="datePublished">2017-03-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      设计模式(十二):模板方法模式
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Template-Method（模板方法）"><a href="#Template-Method（模板方法）" class="headerlink" title="Template Method（模板方法）"></a>Template Method（模板方法）</h1><p>在日常的开发中，模板方法是一种用于流程封装的设计模式</p>
-<p>比如，类似的功能或许具体的实现细节不一样，但是功能的执行流程是一样的，这时通过将执行流程封装起来，那么在使用这种模式的时候，只需要去关注如何实现功能细节就可以了。这样将公共代码提取出来，便于维护。</p>
-<a id="more"></a>
-<h1 id="Template-Method（模板方法）的UML类图"><a href="#Template-Method（模板方法）的UML类图" class="headerlink" title="Template Method（模板方法）的UML类图"></a>Template Method（模板方法）的UML类图</h1><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/template_method.png" alt=""></p>
-<ul>
-<li>AbstractClass : 抽象模板，定义了模板方法的执行流程</li>
-<li>ConcreteClass : 具体实现类</li>
-</ul>
-<h1 id="模板方法的简单实现"><a href="#模板方法的简单实现" class="headerlink" title="模板方法的简单实现"></a>模板方法的简单实现</h1><p>如果非要说一个现实中的案例的话，我觉可以例举工厂中的流水线 (Assembly Line)</p>
-<p>因为一条流水线的分工是明确的，流水线的头部是加工元器件，中部是元器件装配，尾部就是将电子产品打包装箱，这是流水线作业的流程，但是具体是装配什么电子产品，需要在那个流程上注意什么细节，每一条流水线都是不一样的，如果开发者需要开发类似的功能，利用模板方法模式是再合适不过的了</p>
-<p>经过上面的介绍，下面就来实现以下这个案例</p>
-<p>首先就是对流水线作业流程进行抽象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AssemblyLine</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* 生产产品外壳 */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceShell</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Produce Shell"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 生产元器件 */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceComponents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Produce some components"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 元器件装配 */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onAssemblyComponents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Assembly Components"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 产品测试 */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onTestProducts</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Test Products"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 产品装箱 */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProductPacking</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Product Packing"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 流水线产品制作流程封装 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">product</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"+------Start Product------+"</span>);</span><br><span class="line">        onProduceShell();</span><br><span class="line">        onProduceComponents();</span><br><span class="line">        onAssemblyComponents();</span><br><span class="line">        onTestProducts();</span><br><span class="line">        onProduceComponents();</span><br><span class="line">        onProductPacking();</span><br><span class="line">        System.out.println(<span class="string">"+------Finish Product------+"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在流水线作业中，我将具体流程分成了上面五个部分：</p>
-<ul>
-<li>生产产品外壳</li>
-<li>生产元器件</li>
-<li>元器件装配</li>
-<li>产品测试</li>
-<li>产品装箱</li>
-</ul>
-<p>并且对于流水线的执行流程的代码使用了 final 修饰，这样子类就不可以重写这个方法</p>
-<p>为了简单起见，内部方法的实现用一句输出代替，但是具体实现细节应该根据具体情况而定，因为这种流程式的功能设计，或多说少都会有共有的实现，那么就可以将共有代码写在抽象类的对应方法内部</p>
-<p>如果这是一家电子产品生产厂的流水线，那么就会各种各样的电子产品，那么这里例举生产收音机的流水线和生产电脑的流水线，其他情况可以自行拓展</p>
-<p>生产收音机的流水线<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RadioAssemblyLine</span> <span class="keyword">extends</span> <span class="title">AssemblyLine</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* 生产收音机元器件和天线 */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceComponents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Product Radio Components and Antennas"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在这里，只重写了一个生产元器件的方法</p>
-<p>再来看一下生产电脑的流水线，为了区分与生产收音机的流水线，这里多重写几个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ComputerAssemblyLine</span> <span class="keyword">extends</span> <span class="title">AssemblyLine</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* 生产铝合金外壳和液晶显示屏 */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceShell</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Product Aluminum housing and Liquid Crystal Display"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 生产元器件和键盘 */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProduceComponents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Product Components and keyboard"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 将产品打包并标上苹果标签 */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProductPacking</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Pack and Mark the Apple trademark"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这里多重写了产品装配方法和产品打包方法</p>
-<p>可以看到的是，在这两个具体的流水线中，都只写了区别于其他流水线的代码，代码更加的简洁了</p>
-<p>因为，流水线的工作流程都已经封装好了，那么在接下来的测试中，只需要直接调用就可以了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">AssemblyLine assemblyLine = <span class="keyword">new</span> RadioAssemblyLine();</span><br><span class="line">assemblyLine.product();</span><br><span class="line"></span><br><span class="line">System.out.println();</span><br><span class="line"></span><br><span class="line">assemblyLine = <span class="keyword">new</span> ComputerAssemblyLine();</span><br><span class="line">assemblyLine.product();</span><br></pre></td></tr></table></figure></p>
-<p>看一下输出结果<br><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">+------Start Product------+</span><br><span class="line">Produce Shell</span><br><span class="line">Product Radio Components and Antennas</span><br><span class="line">Assembly Components</span><br><span class="line">Test Products</span><br><span class="line">Product Radio Components and Antennas</span><br><span class="line">Product Packing</span><br><span class="line">+------Finish Product------+</span><br><span class="line"></span><br><span class="line">+------Start Product------+</span><br><span class="line">Product Aluminum housing and Liquid Crystal Display</span><br><span class="line">Product Components and keyboard</span><br><span class="line">Assembly Components</span><br><span class="line">Test Products</span><br><span class="line">Product Components and keyboard</span><br><span class="line">Pack and Mark the Apple trademark</span><br><span class="line">+------Finish Product------+</span><br></pre></td></tr></table></figure></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在上面的编码过程中，模板方法最明显的优势就是将不变的地方进行封装，扩展可变的部分，这样操作更有利于维护。</p>
-<p>模板方法是一种十分常用的设计模式，如果你是一名 Android Developer ，那么你应该知道 AsyncTask 这个用于异步加载的工具，那么 AsyncTask 就是一个在 Android 中一个模板方法的使用案例，当然不只有 AsyncTask，Android 的生命周期函数也使用了模板方法这个设计模式，有兴趣的同学可以去查看一下源码。</p>
-<p>END.</p>
-<hr>
-<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/template_method" target="_blank" rel="noopener">源码地址</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/25/设计模式-十二-模板方法模式/" data-id="cjd8wpsns004wj8ccic31c6z0" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/04/02/计算机网络之绪论/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          计算机网络之绪论
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/03/22/设计模式-十一-迭代器模式/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">设计模式(十一):迭代器模式</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Inno Fang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+block content
+  article#post(class="")
+    if (!top_img)
+      #post-title.plain= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          - var date_type = theme.post_meta.date_type === 'updated' ? '' : 'date'
+          time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator |
+          each item, index in page.categories.data
+            i.fa.fa-inbox(aria-hidden="true")
+            a(href=url_for(item.path)).post-meta__categories  #[=item.name]
+            if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right.post-meta__separator(aria-hidden="true")
+        if (theme.disqus.enable && theme.disqus.count)
+          if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+            span.post-meta__separator |
+          i.fa.fa-comment-o(aria-hidden="true")
+          a(href=url_for(page.path) + '#disqus_thread')
+            span.disqus-comment-count(data-disqus-identifier=page.path)
+        if (theme.wordcount && theme.wordcount.enable)
+          span.post-meta__separator |
+          span.post-meta-wordcount
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+    #post-content!= page.content
+    if (theme.post_copyright && theme.post_copyright.enable)
+      .post-copyright
+        .post-copyright__author
+          span.post-copyright-meta= _p('post.copyright.author') + ": "
+          span.post-copyright-info
+            a(href=`mailto:${config.email}`) #[=config.author]
+        .post-copyright__type
+          span.post-copyright-meta= _p('post.copyright.link') + ": "
+          span.post-copyright-info
+            a(href=url_for(page.permalink)) #[=page.permalink]
+        .post-copyright__notice
+          span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+          span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]
+    if (theme.QR_code)
+      if (theme.QR_code.length > 0)
+        .post-qr-code
+          each item in theme.QR_code
+            .post-qr-code-item
+              img.post-qr-code__img(src=(item.itemlist||item).img)
+              .post-qr-code__desc=(item.itemlist||item).text
+    include includes/share/index.pug
+  include includes/pagination.pug
+  if (theme.adv && theme.adv.enable)
+    .post-adv!= theme.adv.info
+  if page.comments !== false
+    include includes/comments/index.pug

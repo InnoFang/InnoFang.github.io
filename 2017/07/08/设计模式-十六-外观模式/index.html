@@ -1,283 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+extends includes/layout.pug
 
-  
-  <title>设计模式(十六):外观模式 | Inno&#39;s Bolg</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Facade（外观）模式外观模式，或者叫门面模式，是一种十分常用的结构性模式。具体体现在我们平常使用的第三方 SDK 上，在使用的过程中，可以发现这些 SDK 具有良好的封装性，我们在调用时是需要调用相关的方法就可以实现我们想要的功能，但是这个方法内部的具体实现我们一概不知，降低了我们的使用成本。简单的一句话总结就是：外观模式提供了一个高层次的接口，使得子系统更易于使用。">
-<meta name="keywords" content="设计模式">
-<meta property="og:type" content="article">
-<meta property="og:title" content="设计模式(十六):外观模式">
-<meta property="og:url" content="http://yoursite.com/2017/07/08/设计模式-十六-外观模式/index.html">
-<meta property="og:site_name" content="Inno&#39;s Bolg">
-<meta property="og:description" content="Facade（外观）模式外观模式，或者叫门面模式，是一种十分常用的结构性模式。具体体现在我们平常使用的第三方 SDK 上，在使用的过程中，可以发现这些 SDK 具有良好的封装性，我们在调用时是需要调用相关的方法就可以实现我们想要的功能，但是这个方法内部的具体实现我们一概不知，降低了我们的使用成本。简单的一句话总结就是：外观模式提供了一个高层次的接口，使得子系统更易于使用。">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/facade.png">
-<meta property="og:updated_time" content="2017-07-08T12:11:59.752Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式(十六):外观模式">
-<meta name="twitter:description" content="Facade（外观）模式外观模式，或者叫门面模式，是一种十分常用的结构性模式。具体体现在我们平常使用的第三方 SDK 上，在使用的过程中，可以发现这些 SDK 具有良好的封装性，我们在调用时是需要调用相关的方法就可以实现我们想要的功能，但是这个方法内部的具体实现我们一概不知，降低了我们的使用成本。简单的一句话总结就是：外观模式提供了一个高层次的接口，使得子系统更易于使用。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/facade.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Inno&#39;s Bolg" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+block top_img
+  - var top_img = page.top_img || theme.post_meta.top_img || theme.top_img || config.top_img
+  if (top_img && page.top_img !== false)
+    - var flag = top_img === true ? 'no-bg' : undefined
+    div#top-container(style=`background-image: url(${top_img})` class=flag)
+      include ./includes/header.pug
+      #post-info
+        #post-title= page.title || _p('no_title')
+        #post-meta
+          if (theme.post_meta.date_type)
+            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
+            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+          if (theme.post_meta.categories && page.categories.data.length > 0)
+            if (theme.post_meta.date_type)
+              span.post-meta__separator |
+            each item, index in page.categories.data
+              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
+              a(href=url_for(item.path)).post-meta__categories #[=item.name]
+              if (index < page.categories.data.length - 1)
+                 i.fa.fa-angle-right(aria-hidden="true")
+          if (theme.disqus.enable && theme.disqus.count)
+            if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+              span.post-meta__separator |
+            i.fa.fa-comment-o.post-meta__icon(aria-hidden="true")
+            a(href=url_for(page.path) + '#disqus_thread')
+              span.disqus-comment-count(data-disqus-identifier=page.path)
+          if (theme.wordcount && theme.wordcount.enable)
+            .post-meta-wordcount
+              span= _p('post.wordcount') + ': '
+              span.word-count= wordcount(page.content)
+              span.post-meta__separator |
+              span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+  else
+    div#top-container.plain
+      include ./includes/header.pug
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Inno&#39;s Bolg</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Inno&#39;s world, not just the code, but also the life</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-设计模式-十六-外观模式" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/08/设计模式-十六-外观模式/" class="article-date">
-  <time datetime="2017-07-08T12:10:02.000Z" itemprop="datePublished">2017-07-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      设计模式(十六):外观模式
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Facade（外观）模式"><a href="#Facade（外观）模式" class="headerlink" title="Facade（外观）模式"></a>Facade（外观）模式</h1><p>外观模式，或者叫门面模式，是一种十分常用的结构性模式。具体体现在我们平常使用的第三方 SDK 上，在使用的过程中，可以发现这些 SDK 具有良好的封装性，我们在调用时是需要调用相关的方法就可以实现我们想要的功能，但是这个方法内部的具体实现我们一概不知，降低了我们的使用成本。简单的一句话总结就是：<strong>外观模式提供了一个高层次的接口，使得子系统更易于使用。</strong></p>
-<a id="more"></a>
-<p>举一个生活中的例子，在我看来，去餐厅点餐就用到了外观模式。<strong>菜单就像是一个高层次的接口</strong>，将各种菜系和菜品都罗列在一个菜单上，用户根据自己的情况来点菜，但是用户不需要知道这个菜是怎么做吃来的，他只需要在点完菜后等待就可以了，而具体的如何做出用户点的菜由厨师来实现，这里<strong>厨师就相当于是一个一个的子系统</strong>。因此，用户通过菜单来决定吃什么，比直接去问厨师要简单的多。</p>
-<h1 id="Facade（外观）模式的-UML-类图"><a href="#Facade（外观）模式的-UML-类图" class="headerlink" title="Facade（外观）模式的 UML 类图"></a>Facade（外观）模式的 UML 类图</h1><p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/facade.png" alt="外观模式的 uml 类图"></p>
-<ul>
-<li>Client：客户</li>
-<li>Facade：高层次的接口</li>
-<li>SubSystem：各个子系统，由 Facade 同一管理</li>
-</ul>
-<h1 id="外观模式的简单实现"><a href="#外观模式的简单实现" class="headerlink" title="外观模式的简单实现"></a>外观模式的简单实现</h1><p>根据前面提到的菜单的例子，那么就以菜单为例，实现一个简单的外观模式。首先是分析一下那个是高层接口，哪些是子系统？</p>
-<ul>
-<li>菜单通过统一管理菜系和菜品名，来向用户展示这家餐厅有什么菜，所以<strong>菜单类应该为高层接口</strong></li>
-<li>各系菜系都有不同的实现，而且都属于同一家餐厅，所以<strong>各系菜系为子系统</strong>（或者说做菜的厨师也可以）</li>
-</ul>
-<p>经过简单的分析过后，下面来实现一下这个案例</p>
-<p>首先应该是实现各个子系统接口，这里假设这家餐厅有中，法，意三个菜系（那这家餐厅到底是中餐厅还是西餐厅？？？）</p>
-<p>中国菜接口：ChineseCuisine<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ChineseCuisine</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 白切鸡 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">boiledChickenwithSauce</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 铁板牛肉 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sizzlingBeefSteak</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 宫保鸡丁 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">kungPaoChicken</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>法国菜接口：FrenchCuisine<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FrenchCuisine</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 马赛鱼汤 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bouillabaisse</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 豆焖肉 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cassoulet</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 法式炖鸡 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pouleAuPot</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>意大利接口：ItalyCuisine<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ItalyCuisine</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 焗茄汁千层面 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lasagneWithTomatoAndCheese</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 虾仁烩饭 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">prawnRisotto</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 焦糖布丁 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">creamCaramel</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>接口内部只是简单的罗列了一下，接下来就是具体的实现了</p>
-<p>中国菜实现类：ChineseCuisineImpl<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChineseCuisineImpl</span> <span class="keyword">implements</span> <span class="title">ChineseCuisine</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">boiledChickenWithSauce</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">/* 准备材料; 加工材料; 烹饪; 装盘 */</span></span><br><span class="line">        System.out.println(<span class="string">"白切鸡"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sizzlingBeefSteak</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">/* 准备材料; 加工材料; 烹饪; 装盘 */</span></span><br><span class="line">        System.out.println(<span class="string">"铁板牛肉"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">kungPaoChicken</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">/* 准备材料; 加工材料; 烹饪; 装盘 */</span></span><br><span class="line">        System.out.println(<span class="string">"宫保鸡丁"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>法国菜实现类：FrenchCuisineImpl<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FrenchCuisineImpl</span> <span class="keyword">implements</span> <span class="title">FrenchCuisine</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bouillabaisse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"马赛鱼汤"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cassoulet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"豆焖肉"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pouleAuPot</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"法式炖鸡"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>意大利菜实现类：ItalyCuisineImpl<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ItalyCuisineImpl</span> <span class="keyword">implements</span> <span class="title">ItalyCuisine</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lasagneWithTomatoAndCheese</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"焗茄汁千层面"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">prawnRisotto</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"虾仁烩饭"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">creamCaramel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"焦糖布丁"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>注意</strong> 关于具体实现的细节，这里是用注释加以代替，但在实际开发中，应该根据具体情况而定</p>
-<p>以上，菜就算“做”好了，下面该实现菜单类了</p>
-<p>菜单类：Menu<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Menu</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ChineseCuisine chineseCuisine;</span><br><span class="line">    <span class="keyword">private</span> FrenchCuisine frenchCuisine;</span><br><span class="line">    <span class="keyword">private</span> ItalyCuisine italyCuisine;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Menu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        chineseCuisine = <span class="keyword">new</span> ChineseCuisineImpl();</span><br><span class="line">        frenchCuisine = <span class="keyword">new</span> FrenchCuisineImpl();</span><br><span class="line">        italyCuisine = <span class="keyword">new</span> ItalyCuisineImpl();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">boiledChickenWithSauce</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        chineseCuisine.boiledChickenWithSauce();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sizzlingBeefSteak</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        chineseCuisine.sizzlingBeefSteak();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">kungPaoChicken</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        chineseCuisine.kungPaoChicken();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bouillabaisse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        frenchCuisine.bouillabaisse();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cassoulet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        frenchCuisine.cassoulet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pouleAuPot</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        frenchCuisine.cassoulet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lasagneWithTomatoAndCheese</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        italyCuisine.lasagneWithTomatoAndCheese();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">prawnRisotto</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        italyCuisine.prawnRisotto();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">creamCaramel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        italyCuisine.creamCaramel();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>经过以上的步骤过后，就可以简单的测试一下了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Menu menu = <span class="keyword">new</span> Menu();</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"客户一点餐："</span>);</span><br><span class="line">menu.boiledChickenWithSauce();</span><br><span class="line">menu.lasagneWithTomatoAndCheese();</span><br><span class="line">menu.sizzlingBeefSteak();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"\n+-----------+\n"</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"客户二点餐："</span>);</span><br><span class="line">menu.cassoulet();</span><br><span class="line">menu.pouleAuPot();</span><br><span class="line">menu.creamCaramel();</span><br></pre></td></tr></table></figure></p>
-<p>测试结果如下<br><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">客户一点餐：</span><br><span class="line">白切鸡</span><br><span class="line">焗茄汁千层面</span><br><span class="line">铁板牛肉</span><br><span class="line"></span><br><span class="line">+-----------+</span><br><span class="line"></span><br><span class="line">客户二点餐：</span><br><span class="line">豆焖肉</span><br><span class="line">法式炖鸡</span><br><span class="line">焦糖布丁</span><br></pre></td></tr></table></figure></p>
-<p>可见，Menu 的作用就是同一管理各个菜，通过一份菜单客户就可以点到各种各样的菜，降低了用户的使用（点餐）成本，使用起来更加简单</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>通过将各个子系统封装起来，并通过一个高层次的结构向用户提供一个统一的 API 入口，使得这些子系统的使用更加的灵活并且降低了用户的使用成本。所以这里总结一下外观模式的优缺点：</p>
-<ul>
-<li><p>优点：向使用者或者用户隐藏具体实现细节，减少对子系统的联系，通过统一的管理，使得子系统易于使用</p>
-</li>
-<li><p>缺点：因为管理着多个子系统，因此对于外观类来说，并没有遵循开闭原则，所以一旦业务出现变更，就需要直接修改外观类来适应变更</p>
-</li>
-</ul>
-<p>END.</p>
-<hr>
-<p><a href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/facade" target="_blank" rel="noopener">源码地址</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/08/设计模式-十六-外观模式/" data-id="cjd8wpsnx0052j8ccissi8gk9" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/07/10/设计模式-十七-享元模式/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          设计模式(十七):享元模式
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/05/05/设计模式-十五-装饰模式/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">设计模式(十五):装饰模式</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Kategorien</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/汇编语言/">汇编语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/回调/">回调</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/指针/">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C语言/" style="font-size: 10px;">C语言</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/回调/" style="font-size: 10px;">回调</a> <a href="/tags/指针/" style="font-size: 10px;">指针</a> <a href="/tags/汇编语言/" style="font-size: 16.67px;">汇编语言</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a> <a href="/tags/设计模式/" style="font-size: 20px;">设计模式</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/12/07/刷题小知识积累（Java）/">刷题小知识积累（Java）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/28/汇编语言学习笔记（十一）：标志寄存器/">汇编语言学习笔记（十一）：标志寄存器</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/27/汇编语言学习笔记（十）：CALL-和-RET-指令/">汇编语言学习笔记（十）：CALL 和 RET 指令</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/26/汇编语言学习笔记（九）：转移指令的原理/">汇编语言学习笔记（九）：转移指令的原理</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/25/汇编语言学习笔记（八）：数据处理的两个基本问题/">汇编语言学习笔记（八）：数据处理的两个基本问题</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Inno Fang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+block content
+  article#post(class="")
+    if (!top_img)
+      #post-title.plain= page.title || _p('no_title')
+      #post-meta
+        if (theme.post_meta.date_type)
+          - var date_type = theme.post_meta.date_type === 'updated' ? '' : 'date'
+          time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
+        if (theme.post_meta.categories && page.categories.data.length > 0)
+          if (theme.post_meta.date_type)
+            span.post-meta__separator |
+          each item, index in page.categories.data
+            i.fa.fa-inbox(aria-hidden="true")
+            a(href=url_for(item.path)).post-meta__categories  #[=item.name]
+            if (index < page.categories.data.length - 1)
+                i.fa.fa-angle-right.post-meta__separator(aria-hidden="true")
+        if (theme.disqus.enable && theme.disqus.count)
+          if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
+            span.post-meta__separator |
+          i.fa.fa-comment-o(aria-hidden="true")
+          a(href=url_for(page.path) + '#disqus_thread')
+            span.disqus-comment-count(data-disqus-identifier=page.path)
+        if (theme.wordcount && theme.wordcount.enable)
+          span.post-meta__separator |
+          span.post-meta-wordcount
+            span= _p('post.wordcount') + ': '
+            span.word-count= wordcount(page.content)
+            span.post-meta__separator |
+            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
+    #post-content!= page.content
+    if (theme.post_copyright && theme.post_copyright.enable)
+      .post-copyright
+        .post-copyright__author
+          span.post-copyright-meta= _p('post.copyright.author') + ": "
+          span.post-copyright-info
+            a(href=`mailto:${config.email}`) #[=config.author]
+        .post-copyright__type
+          span.post-copyright-meta= _p('post.copyright.link') + ": "
+          span.post-copyright-info
+            a(href=url_for(page.permalink)) #[=page.permalink]
+        .post-copyright__notice
+          span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
+          span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
+    if (theme.post_meta.tags)
+      .post-meta__tag-list
+        each item, index in page.tags.data
+          a(href=url_for(item.path)).post-meta__tags #[=item.name]
+    if (theme.QR_code)
+      if (theme.QR_code.length > 0)
+        .post-qr-code
+          each item in theme.QR_code
+            .post-qr-code-item
+              img.post-qr-code__img(src=(item.itemlist||item).img)
+              .post-qr-code__desc=(item.itemlist||item).text
+    include includes/share/index.pug
+  include includes/pagination.pug
+  if (theme.adv && theme.adv.enable)
+    .post-adv!= theme.adv.info
+  if page.comments !== false
+    include includes/comments/index.pug
