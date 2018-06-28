@@ -42,20 +42,20 @@
 <ul>
 <li><a href="http://www.androiddevtools.cn/" target="_blank" rel="noopener">在 AndroidDevTools 中下载</a> </li>
 </ul>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/ndk%E4%B8%8B%E8%BD%BD.png" alt="ndk下载"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/ndk%E4%B8%8B%E8%BD%BD.png?raw=true" alt="ndk下载"></p>
 <p>当NDK下载完过后，经过解压等一些列操作，就可以配置环境了</p>
 <p>新建系统变量，将变量名( NDK_HOME )和变量值 (自己NDK文件路径)如下输入</p>
 <blockquote>
 <p>因为我是用的第二种方式，所以 NDK 直接下在了 android-sdk 中，具体情况请根据自己的文件位置而定</p>
 </blockquote>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E8%AE%BE%E7%BD%AENDK_HOME.png" alt="设置NDK_HOME"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E8%AE%BE%E7%BD%AENDK_HOME.png?raw=true" alt="设置NDK_HOME"></p>
 <p>然后添加到 path 中 <code>%NDK_HOME%\</code> ，如果是添加在最后要记得在前面加个分号</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E5%B0%86NDK_HOME%E6%B7%BB%E5%8A%A0%E8%BF%9Bpath.png" alt="将NDK_HOME添加进path"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E5%B0%86NDK_HOME%E6%B7%BB%E5%8A%A0%E8%BF%9Bpath.png?raw=true" alt="将NDK_HOME添加进path"></p>
 <p>配置完成过后，在命令窗口输入 <code>ndk-build</code> </p>
 <p>![ndk-build][ndk-build]</p>
 <p>若能出现如上信息，则说明配置成功</p>
 <p>最后就是对Android Studio 进行环境配置，路径根据自己的情况而定</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/as%E7%9A%84ndk%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.png" alt="as的ndk环境配置"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/as%E7%9A%84ndk%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.png?raw=true" alt="as的ndk环境配置"></p>
 <h2 id="在-Java-类中编写-native-代码"><a href="#在-Java-类中编写-native-代码" class="headerlink" title="在 Java 类中编写 native 代码"></a>在 Java 类中编写 native 代码</h2><p>新建 Android 项目，现在先建一个 <code>JniUtil</code> 类，专门用来存放 native 方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JniUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里将利用 NDK 计算两数之和</p>
@@ -70,10 +70,10 @@
 <p>这里只需要将上面括号类的内容按照自己项目的情况进行修改就可以了。但是，这么长的命令，难道每次添加 native 方法都要自己手动输入生成头文件吗？</p>
 <p>在这里可以利用一个小技巧，就是<strong>利用 Android Studio 的 External Tools 工具</strong> ，一件生成头文件</p>
 <p>File -&gt; Settings 或者 <code>Ctrl+Alt+S</code> 打开设置界面，接着点击 Tools ，找到 External  Tool </p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E6%89%BE%E5%88%B0external_tools.png" alt="找到external_tools"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E6%89%BE%E5%88%B0external_tools.png?raw=true" alt="找到external_tools"></p>
 <p>点击 <code>+</code>新建一个 Exteranl Tools</p>
 <p>输入如下信息</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/general%20header.png" alt="general header"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/general%20header.png?raw=true" alt="general header"></p>
 <p>在 Name 区域输入 Generate Header File </p>
 <p>Program : <code>$JDKPath$\bin\javah</code></p>
 <p>Parameters : <code>-classpath $OutputPath$ -d ./app/src/main/jni $FileClass$</code></p>
@@ -81,9 +81,9 @@
 <p>其余的勾选项对照上图即可</p>
 <p>然后点击 OK 就完成了</p>
 <p>使用时，只需要右击java文件，找到 External Tool ，点击 Generate Header File 即可</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E6%89%BE%E5%88%B0%20Generate%20Header%20File.png" alt="找到 Generate Header File"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E6%89%BE%E5%88%B0%20Generate%20Header%20File.png?raw=true" alt="找到 Generate Header File"></p>
 <p>切换到 Project 视图，就可以看到在 main 包下多了一个 jni 的文件，里面就是刚刚生成的头文件</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E7%94%9F%E6%88%90%E7%9A%84jni%E6%96%87%E4%BB%B6.png" alt="生成的jni文件"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E7%94%9F%E6%88%90%E7%9A%84jni%E6%96%87%E4%BB%B6.png?raw=true" alt="生成的jni文件"></p>
 <p><strong>Q: 出现类似 <code>错误: 找不到 &#39;com.innofang.ndkdemo.jnituil&#39; 的类文件。</code> 的情况</strong> </p>
 <p><strong>A：在生成头文件之前要先生成类文件，使用快捷键 <code>ctrl+F9</code> 或者 Android  Studio 顶部菜单栏 build -&gt; Make Project</strong></p>
 <h2 id="利用生成的头文件，编写对应的-C-C-代码"><a href="#利用生成的头文件，编写对应的-C-C-代码" class="headerlink" title="利用生成的头文件，编写对应的 C/C++ 代码"></a>利用生成的头文件，编写对应的 C/C++ 代码</h2><p>点击进入头文件，查看头文件内部的内容</p>
@@ -151,17 +151,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd app/src/main/jni     # 将位置切换到 jni目录下</span><br><span class="line">ndk-build</span><br></pre></td></tr></table></figure>
 <p>这里需要强调一点的是，<strong>如果目录名字不是 jni，那么 ndk-build 则无法编译成功</strong>。因为在上一步生成头文件的时候已经通过命令行自动生成了一个 jni 文件夹并在里面生成了头文件，所以这一步没有强调让创建 jni 文件夹。</p>
 <p>如果终端信息出现如下内容则说明 so 库生成成功，否则<strong>请检查上面的步骤是否正确操作</strong></p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/so%E5%BA%93%E7%94%9F%E6%88%90%E6%88%90%E5%8A%9F.png" alt="so库生成成功"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/so%E5%BA%93%E7%94%9F%E6%88%90%E6%88%90%E5%8A%9F.png?raw=true" alt="so库生成成功"></p>
 <p>经过上面一系列步骤，你会发现 main 目录下多了两个文件夹 libs 和 obj，这两个文件下存的都是新生成的  so 库。至此，生成 so 库这个任务就算完成了。</p>
 <p>但是发现每次生成 so 库时都要手动切换路径然后生成文件，虽然说没有之前生成头文件那么复杂，但是这种重复的操作还是有点麻烦，那么为了简化这个步骤，下面就要利用到上面提到过的 External Tool 了</p>
 <p>还是打开设置界面，找到 Tools 这个目录，找到 External Tool，点击 <code>+</code> 新建一个 External Tool</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/general%20so.png" alt="general so"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/general%20so.png?raw=true" alt="general so"></p>
 <p>在 Name ： 区域输入 Generate SO </p>
 <p>Program : <code>F:\android-sdk\ndk-bundle\ndk-build.cmd</code>  ( <em>这里请改成自己的 NDK 目录下的 ndk-build.cmd 的位置</em> )</p>
 <p>Parameters : <code>-C ./app/src/main/jni</code>        ( <em>-C 后面接 project 路径</em> )</p>
 <p>Working directory : <code>$ProjectFileDir$</code></p>
 <p>最后点击 OK 就完成了。使用时，<strong>右击 jni 文件</strong>  找到并点击 External Tool 下的 Generate SO 即可</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E6%89%BE%E5%88%B0%20general%20so.png" alt="找到 general so"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E6%89%BE%E5%88%B0%20general%20so.png?raw=true" alt="找到 general so"></p>
 <p>结果跟手动生成的一样</p>
 <h2 id="使用-so-库"><a href="#使用-so-库" class="headerlink" title="使用 so 库"></a>使用 so 库</h2><p>上面进行了很多操作，都是为了使用生成的 so 库</p>
 <p>要使用 so 库，首先就是先修改 <code>JniUtil.java</code> 文件，<strong>添加一个静态块</strong> </p>
@@ -172,7 +172,7 @@
 <p>确定经过上面这步后，就可以正式使用 so 库了</p>
 <p>回到我们熟悉的 MainActivity 中，为了使用 JniUtil 中的 add 方法，首先在布局文件中添加两个 EditText 和一个 Button，然后在 MainActivity 中编写如下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_main);</span><br><span class="line">    <span class="comment">/* 含有本地方法的Java类 */</span></span><br><span class="line">    <span class="keyword">final</span> JniUtil jniUtil = <span class="keyword">new</span> JniUtil();</span><br><span class="line">  	<span class="comment">/* 控件初始化 */</span></span><br><span class="line">    <span class="keyword">final</span> EditText numberA = (EditText) findViewById(R.id.number_a);</span><br><span class="line">    <span class="keyword">final</span> EditText numberB = (EditText) findViewById(R.id.number_b);</span><br><span class="line">    <span class="comment">/* Button 点击事件 */</span></span><br><span class="line">    findViewById(R.id.result).setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">            String a = numberA.getText().toString();</span><br><span class="line">            String b = numberB.getText().toString();</span><br><span class="line">            <span class="comment">/* 判空 */</span></span><br><span class="line">            <span class="keyword">if</span> (!TextUtils.isEmpty(a) &amp;&amp; !TextUtils.isEmpty(b)) &#123;</span><br><span class="line">                <span class="comment">/* 使用本地方法 */</span></span><br><span class="line">                <span class="keyword">int</span> result = jniUtil.add(Integer.parseInt(a), Integer.parseInt(b));</span><br><span class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>,</span><br><span class="line">                        <span class="string">""</span> + result,</span><br><span class="line">                        Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>,</span><br><span class="line">                        <span class="string">"cannot be empty"</span>,</span><br><span class="line">                        Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在这里，获取两个 EditText 中的数字，然后调用 JniUtil 中的 add 方法，将返回数据 Toast 显示出来</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E6%88%90%E6%9E%9C.png" alt="成果"></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/Android%20NDK%20%E5%BC%80%E5%8F%91%E4%BB%8E%200%20%E5%88%B0%201/%E6%88%90%E6%9E%9C.png?raw=true" alt="成果"></p>
 <p>到此为止，Android NDK开发的第一步已经成功迈出!!!</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上面知识添加了一个 native 方法，如果根据又需要要添加多个 native 方法 ，那么步骤基本相似，这里将步骤重温一遍当作总结 </p>
 <ul>
