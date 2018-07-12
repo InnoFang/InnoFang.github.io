@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innofang.github.io/"/>
-  <updated>2018-07-12T07:07:05.555Z</updated>
+  <updated>2018-07-12T07:39:40.546Z</updated>
   <id>https://innofang.github.io/</id>
   
   <author>
@@ -17,13 +17,429 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title></title>
+    <link href="https://innofang.github.io/2018/07/12/%E6%AD%A3%E5%88%99%E4%B8%AD%E5%85%B3%E4%BA%8E%E7%8E%AF%E8%A7%86%EF%BC%88lookaround%EF%BC%89%E7%9A%84%E5%B0%8F%E4%BE%8B%E5%AD%90/"/>
+    <id>https://innofang.github.io/2018/07/12/正则中关于环视（lookaround）的小例子/</id>
+    <published>2018-07-12T07:39:40.391Z</published>
+    <updated>2018-07-12T07:39:40.546Z</updated>
+    
+    <content type="html"><![CDATA[<!DOCTYPE html><html><head><title>正则中关于环视（lookaround）的小例子.md</title><meta http-equiv="Content-type" content="text/html;charset=UTF-8"><style>/*--------------------------------------------------------------------------------------------- *  Copyright (c) Microsoft Corporation. All rights reserved. *  Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/body {font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";font-size: 14px;padding: 0 12px;line-height: 22px;word-wrap: break-word;}#code-csp-warning {position: fixed;top: 0;right: 0;color: white;margin: 16px;text-align: center;font-size: 12px;font-family: sans-serif;background-color:#444444;cursor: pointer;padding: 6px;box-shadow: 1px 1px 1px rgba(0,0,0,.25);}#code-csp-warning:hover {text-decoration: none;background-color:#007acc;box-shadow: 2px 2px 2px rgba(0,0,0,.25);}body.scrollBeyondLastLine {margin-bottom: calc(100vh - 22px);}body.showEditorSelection .code-line {position: relative;}body.showEditorSelection .code-active-line:before,body.showEditorSelection .code-line:hover:before {content: "";display: block;position: absolute;top: 0;left: -12px;height: 100%;}body.showEditorSelection li.code-active-line:before,body.showEditorSelection li.code-line:hover:before {left: -30px;}.vscode-light.showEditorSelection .code-active-line:before {border-left: 3px solid rgba(0, 0, 0, 0.15);}.vscode-light.showEditorSelection .code-line:hover:before {border-left: 3px solid rgba(0, 0, 0, 0.40);}.vscode-dark.showEditorSelection .code-active-line:before {border-left: 3px solid rgba(255, 255, 255, 0.4);}.vscode-dark.showEditorSelection .code-line:hover:before {border-left: 3px solid rgba(255, 255, 255, 0.60);}.vscode-high-contrast.showEditorSelection .code-active-line:before {border-left: 3px solid rgba(255, 160, 0, 0.7);}.vscode-high-contrast.showEditorSelection .code-line:hover:before {border-left: 3px solid rgba(255, 160, 0, 1);}img {max-width: 100%;max-height: 100%;}a {color: #4080D0;text-decoration: none;}a:focus,input:focus,select:focus,textarea:focus {outline: 1px solid -webkit-focus-ring-color;outline-offset: -1px;}hr {border: 0;height: 2px;border-bottom: 2px solid;}h1 {padding-bottom: 0.3em;line-height: 1.2;border-bottom-width: 1px;border-bottom-style: solid;}h1, h2, h3 {font-weight: normal;}h1 code,h2 code,h3 code,h4 code,h5 code,h6 code {font-size: inherit;line-height: auto;}a:hover {color: #4080D0;text-decoration: underline;}table {border-collapse: collapse;}table > thead > tr > th {text-align: left;border-bottom: 1px solid;}table > thead > tr > th,table > thead > tr > td,table > tbody > tr > th,table > tbody > tr > td {padding: 5px 10px;}table > tbody > tr + tr > td {border-top: 1px solid;}blockquote {margin: 0 7px 0 5px;padding: 0 16px 0 10px;border-left: 5px solid;}code {font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";font-size: 14px;line-height: 19px;}body.wordWrap pre {white-space: pre-wrap;}.mac code {font-size: 12px;line-height: 18px;}pre:not(.hljs),pre.hljs code > div {padding: 16px;border-radius: 3px;overflow: auto;}/** Theming */.vscode-light,.vscode-light pre code {color: rgb(30, 30, 30);}.vscode-dark,.vscode-dark pre code {color: #DDD;}.vscode-high-contrast,.vscode-high-contrast pre code {color: white;}.vscode-light code {color: #A31515;}.vscode-dark code {color: #D7BA7D;}.vscode-light pre:not(.hljs),.vscode-light code > div {background-color: rgba(220, 220, 220, 0.4);}.vscode-dark pre:not(.hljs),.vscode-dark code > div {background-color: rgba(10, 10, 10, 0.4);}.vscode-high-contrast pre:not(.hljs),.vscode-high-contrast code > div {background-color: rgb(0, 0, 0);}.vscode-high-contrast h1 {border-color: rgb(0, 0, 0);}.vscode-light table > thead > tr > th {border-color: rgba(0, 0, 0, 0.69);}.vscode-dark table > thead > tr > th {border-color: rgba(255, 255, 255, 0.69);}.vscode-light h1,.vscode-light hr,.vscode-light table > tbody > tr + tr > td {border-color: rgba(0, 0, 0, 0.18);}.vscode-dark h1,.vscode-dark hr,.vscode-dark table > tbody > tr + tr > td {border-color: rgba(255, 255, 255, 0.18);}.vscode-light blockquote,.vscode-dark blockquote {background: rgba(127, 127, 127, 0.1);border-color: rgba(0, 122, 204, 0.5);}.vscode-high-contrast blockquote {background: transparent;border-color: #fff;}</style><style>/* Tomorrow Theme *//* http://jmblog.github.com/color-themes-for-google-code-highlightjs *//* Original theme - https://github.com/chriskempson/tomorrow-theme *//* Tomorrow Comment */.hljs-comment,.hljs-quote {color: #8e908c;}/* Tomorrow Red */.hljs-variable,.hljs-template-variable,.hljs-tag,.hljs-name,.hljs-selector-id,.hljs-selector-class,.hljs-regexp,.hljs-deletion {color: #c82829;}/* Tomorrow Orange */.hljs-number,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-type,.hljs-params,.hljs-meta,.hljs-link {color: #f5871f;}/* Tomorrow Yellow */.hljs-attribute {color: #eab700;}/* Tomorrow Green */.hljs-string,.hljs-symbol,.hljs-bullet,.hljs-addition {color: #718c00;}/* Tomorrow Blue */.hljs-title,.hljs-section {color: #4271ae;}/* Tomorrow Purple */.hljs-keyword,.hljs-selector-tag {color: #8959a8;}.hljs {display: block;overflow-x: auto;color: #4d4d4c;padding: 0.5em;}.hljs-emphasis {font-style: italic;}.hljs-strong {font-weight: bold;}</style><style>/* * Markdown PDF CSS */ body {font-family:  "Meiryo", "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";}pre {background-color: #f8f8f8;border: 1px solid #cccccc;border-radius: 3px;overflow-x: auto;white-space: pre-wrap;overflow-wrap: break-word;}pre:not(.hljs) {padding: 23px;line-height: 19px;}blockquote {background: rgba(127, 127, 127, 0.1);border-color: rgba(0, 122, 204, 0.5);}.emoji {height: 1.4em;}/* for inline code */:not(pre):not(.hljs) > code {color: #C9AE75; /* Change the old color so it seems less like an error */font-size: inherit;}/* Page Break : use <div class="page"/> to insert page break-------------------------------------------------------- */.page {page-break-after: always;}</style></head><body><hr><h2 id="layout-titletitle-%E6%AD%A3%E5%88%99%E4%B8%AD%E5%85%B3%E4%BA%8E%E7%8E%AF%E8%A7%86%EF%BC%88lookaround%EF%BC%89%E7%9A%84%E5%B0%8F%E4%BE%8B%E5%AD%90date-2018-07-12-113406tags-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fcategories-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Ftopimg-httpsgithubcominnofanginnofanggithubioblobmasterheader293038jpgrawtrue">layout: titletitle: 正则中关于环视（lookaround）的小例子date: 2018-07-12 11:34:06tags: 正则表达式categories: 正则表达式top_img: https://github.com/InnoFang/InnoFang.github.io/blob/master/header/293038.jpg?raw=true</h2><p>刚开始学正则表达式时，环视（lookaround）经常会给初学者造成一定的困扰。但如果能抓住其中的要点，那么这种困惑就会立刻消失。</p><p>环视（lookaround）其实分为两个部分：前瞻（lookahead）和后视（lookbehind）。</p><blockquote><p>注：这里的翻译是基于我个人的理解，其它地方可能还有别的叫法</p></blockquote><a id="more"></a><h1 id="%E5%BC%95%E8%A8%80">引言</h1><p>我们在学一个东西时，我们需要去考虑一下它的使用场景，如果没有一个明确的目的的话，学到的知识也不会很深刻。</p><p>考虑这样一个场景，我们在做用户登录或注册校验时，会去判断用户输入的密码是否合法，比如，现在对于用户输入的密码，我们有如下几点要求：</p><ul><li>至少有 6 个字符</li><li>包含一个小写字母</li><li>包含一个大写字母</li><li>包含一个数字</li></ul><p>如果不使用正则表达式的话，估计大部分人都会用 if 语句去逐个判断每个要求是否符合。这样的代码初学时也没有少写过，不能说这样写的方式有什么不对，但总归是没有那么优雅。</p><p>那么有没有更好的解决方案呢？可能大部分人也会想到用正则表达式，但如果对正则表达式的了解并不是很深入的话，面对这样的需求，可能会遇到这样一个问题：怎么判断字符串中至少含有一个大小写字母和数字？如果你动手去写的话，你就会发现你没法保证写出来的表达式不考虑顺序。</p><h1 id="%E7%8E%AF%E8%A7%86%EF%BC%88lookaround%EF%BC%89%E7%9A%84%E7%AE%80%E5%8D%95%E8%AE%B2%E8%A7%A3">环视（lookaround）的简单讲解</h1><p>那么如何解决这个问题？如何能够通过正则表达式，在不考虑字符出现顺序的情况下判断密码是否至少包含一个大小写字母和数字？</p><p>这就将用到我们接下来要介绍的关于环视（lookaround）的两个部分：前瞻（lookahead）和后视（lookbehind）。</p><p>当我们在使用前瞻（lookahead）和后视（lookbehind）时，正则表达式在处理字符串的过程中，是不会在字符串上移动的，也就是说我们可以使用这种技术或者说手段来提前判定字符串是否符合一些情况。</p><p>那么，在继续深入讲解之前，我们先来学习一下 4 种环视（lookaround）的写法：</p><blockquote><p>这里假设你已经具备了基本的正则表达式语法知识</p></blockquote><table><thead><tr><th>环视（lookaround）</th><th>名称</th><th>做了什么</th></tr></thead><tbody><tr><td>(?=foo)</td><td>前瞻（lookahead）</td><td>判断紧跟在字符串中当前位置后面的内容是否<strong>是</strong> <em>foo</em></td></tr><tr><td>(?!foo)</td><td>否定前瞻（negative lookahead）</td><td>判断紧跟在字符串中当前位置后面的内容是否<strong>不是</strong> <em>foo</em></td></tr><tr><td>(?&lt;=foo)</td><td>后视（lookbehind）</td><td>判断紧跟在字符串中当前位置前面的内容是否<strong>是</strong> <em>foo</em></td></tr><tr><td>(?&lt;!foo)</td><td>否定后视（negative lookbehind）</td><td>判断紧跟在字符串中当前位置前面的内容是否<strong>不是</strong> <em>foo</em></td></tr></tbody></table><blockquote><p>注：上面的 <em>foo</em> 可以替换为正则表达式，功能将会更强大</p></blockquote><h1 id="%E7%8E%AF%E8%A7%86%EF%BC%88lookaround%EF%BC%89%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B">环视（lookaround）的简单示例</h1><p>理解不了上面的介绍？那么为了能先让读者简单理解四种环视的写法的作用，我先讲个简单例子，现在先假设这个当前的字符串是 <em>foobarbarfoo</em>：</p><table><thead><tr><th>例子</th><th>描述</th></tr></thead><tbody><tr><td>bar(?=bar)</td><td>匹配第一个 <em>bar</em>（因为第一个 <em>bar</em> 后面<strong>紧跟着</strong>一个 <em>bar</em>）</td></tr><tr><td>bar(?!bar)</td><td>匹配第二个 <em>bar</em>（因为第二个 <em>bar</em> 后面<strong>没有紧跟着</strong>一个 <em>bar</em>）</td></tr><tr><td>(?&lt;=foo)bar</td><td>匹配第一个 <em>bar</em>（因为第一个 <em>bar</em> 前面<strong>紧跟着</strong> <em>foo</em>）</td></tr><tr><td>(?&lt;!foo)bar</td><td>匹配第二个 <em>bar</em>（因为第二个 <em>bar</em> 前面<strong>没有紧跟着</strong> <em>foo</em>）</td></tr></tbody></table><p>在上面的例子中，都着重强调了 “紧跟着” 这几个字，这是相对于括号之外的那个 <em>bar</em> 字符串而言的，即要判断紧挨着这个字符串 <em>bar</em> 的前后是否符合要求。</p><h1 id="%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98">解决问题</h1><p>现在环视（lookaround）的概念以及简单的示例已经介绍完了，那么再回到我们开头讲的那个例子：如何用正则表达式去判断用户输入的密码是否符合要求？</p><p>我们先把几个需求逐步解决。首先第一个：至少有 6 个字符。这个很好解决，保证密码内容是由大小写字母及数字组成的，并且长度至少为 6。</p><pre class="hljs"><code><div>^[A-Za-z0-9]{6,}$</div></code></pre><p>简单解释一下吧，<code>^</code> 用来匹配开头，<code>$</code>用来匹配结尾，<code>[A-Za-z0-9]</code>表示要匹配的内容是由大小写字母及数字组成的，<code>{6,}</code>表示长度至少为6。</p><p>那么第二个要求：包含一个小写字母。前面我们在描述那几个例子时，都强调了要<strong>紧跟在字符串当前位置</strong>，那么可能有读者会困惑，既然都这样要求了，那么就无法不强调一个先后顺序了，但是事实是，我们可以通过修改表达式来达到这个目的，修改原来的正则表达式，满足现在的要求：</p><pre class="hljs"><code><div>^(?=.*[a-z])[A-Za-z0-9]{6,}$</div></code></pre><p>与之前用字符串的写法不同，这里使用了一个表达式： <code>.*[a-z]</code>。<code>.</code>用来匹配任何字符，<code>*</code>即匹配 0 个到多个字符，<code>[a-z]</code>即表示小写字母，这个写法表示，后面的字符串中至少要有一个小写字母，而小写字母的前面有什么，不需要考虑，即只要满足一堆字符串后面有一个小写字母即可。注意这里只是一个判断，正则表达式在环视扫描时，不会在字符串上移动，如果没有符合要求的字符，那么就会结束扫描。</p><p>当然这是贪婪（greedy）模式的写法，也可以使用懒惰（lazy）模式的写法： <code>(?=.*?[a-z])</code>，即在 <code>*</code> 后面加一个 <code>?</code> ，这样只要有第一个符合要求的字符出现，就会停止匹配，然后继续扫描。如果你不理解什么是贪婪（greedy）模式和懒惰（lazy）模式，可以先跳过这一段，文末会有个简单的解释。</p><p>后面两个要求：包含一个大写字母和包含一个数字。原理同第二个要求，这里就直接给出最终实现了：</p><pre class="hljs"><code><div>^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{6,}$</div></code></pre><p>值得注意的是，<code>(?=.*?[A-Z])</code>、<code>(?=.*?[a-z])</code>、<code>(?=.*?[0-9])</code>这三个表达式，会先后进行扫描判断，只要有不符合的就停止，匹配失败。正则表达式在扫描时不会在字符串上移动，所以这三个表达式的写法并没有顺序。</p><p>以上，就解决了我们本文开头提出的问题，有了正则表达式，你就可以使用你喜欢或者你正在用的编程语言去进行尝试了。</p><p>本文的灵感来自 <a href="https://www.codewars.com/" target="_blank" rel="noopener">CodeWars</a> 的 <a href="https://www.codewars.com/kata/52e1476c8147a7547a000811/train/python" target="_blank" rel="noopener">Regex Password Validation</a></p><p>解决方案也可以参考 <a href="https://github.com/InnoFang/Algorithms/blob/master/codewars/python/5%20kyu/Regex%20Password%20Validation/Solution.py" target="_blank" rel="noopener">我的实现</a></p><h1 id="%E5%85%B3%E4%BA%8E%E8%B4%AA%E5%A9%AA%EF%BC%88greedy%EF%BC%89%E6%A8%A1%E5%BC%8F%E5%92%8C%E6%87%92%E6%83%B0%EF%BC%88lazy%EF%BC%89%E6%A8%A1%E5%BC%8F">关于贪婪（greedy）模式和懒惰（lazy）模式</h1><ul><li><strong>贪婪</strong>意味着匹配最长的字符串</li><li><strong>懒惰</strong>意味着匹配最短的字符串</li></ul><p>举例来说，给定一个字符串 <em>InnoFang</em>。</p><ul><li>对贪婪模式来说，正则表达式为 <code>I.*n</code>，匹配文本输出为 <em><strong>InnoFan</strong>g</em></li><li>对懒惰模式来说，正则表达式为 <code>I.*?n</code>，匹配文本输出为 <em><strong>In</strong>noFang</em></li></ul><p>两者在写法上的区别，就是懒惰模式相比贪婪模式会在诸如 <code>*</code>、<code>+</code>、<code>?</code> 等限定匹配数量的符号后面加一个 <code>?</code></p><p>在上文已经提过了，<code>.</code> 表示匹配任何字符，<code>*</code>表示匹配个数为 0 到多个。</p><h1 id="%E5%8F%82%E8%80%83">参考</h1><ul><li><a href="https://www.rexegg.com/regex-lookarounds.html" target="_blank" rel="noopener">https://www.rexegg.com/regex-lookarounds.html</a></li><li><a href="https://stackoverflow.com/questions/2973436/regex-lookahead-lookbehind-and-atomic-groups" target="_blank" rel="noopener">https://stackoverflow.com/questions/2973436/regex-lookahead-lookbehind-and-atomic-groups</a></li><li><a href="https://stackoverflow.com/questions/2301285/what-do-lazy-and-greedy-mean-in-the-context-of-regular-expressions" target="_blank" rel="noopener">https://stackoverflow.com/questions/2301285/what-do-lazy-and-greedy-mean-in-the-context-of-regular-expressions</a></li></ul></body></html>]]></content>
+    
+    <summary type="html">
+    
+      &lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;正则中关于环视（lookaround）的小例子.md&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html;charset=UTF-8&quot;&gt;
+
+&lt;style&gt;
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: &quot;Segoe WPC&quot;, &quot;Segoe UI&quot;, &quot;SFUIText-Light&quot;, &quot;HelveticaNeue-Light&quot;, sans-serif, &quot;Droid Sans Fallback&quot;;
+	font-size: 14px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: &quot;&quot;;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table &gt; thead &gt; tr &gt; th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table &gt; thead &gt; tr &gt; th,
+table &gt; thead &gt; tr &gt; td,
+table &gt; tbody &gt; tr &gt; th,
+table &gt; tbody &gt; tr &gt; td {
+	padding: 5px 10px;
+}
+
+table &gt; tbody &gt; tr + tr &gt; td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, &quot;Droid Sans Mono&quot;, &quot;Courier New&quot;, monospace, &quot;Droid Sans Fallback&quot;;
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code &gt; div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code &gt; div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code &gt; div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code &gt; div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table &gt; thead &gt; tr &gt; th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table &gt; thead &gt; tr &gt; th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table &gt; tbody &gt; tr + tr &gt; td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table &gt; tbody &gt; tr + tr &gt; td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+&lt;/style&gt;
+
+&lt;style&gt;
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+&lt;/style&gt;
+
+&lt;style&gt;
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family:  &quot;Meiryo&quot;, &quot;Segoe WPC&quot;, &quot;Segoe UI&quot;, &quot;SFUIText-Light&quot;, &quot;HelveticaNeue-Light&quot;, sans-serif, &quot;Droid Sans Fallback&quot;;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) &gt; code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use &lt;div class=&quot;page&quot;/&gt; to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;layout-titletitle-%E6%AD%A3%E5%88%99%E4%B8%AD%E5%85%B3%E4%BA%8E%E7%8E%AF%E8%A7%86%EF%BC%88lookaround%EF%BC%89%E7%9A%84%E5%B0%8F%E4%BE%8B%E5%AD%90date-2018-07-12-113406tags-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fcategories-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Ftopimg-httpsgithubcominnofanginnofanggithubioblobmasterheader293038jpgrawtrue&quot;&gt;layout: title
+title: 正则中关于环视（lookaround）的小例子
+date: 2018-07-12 11:34:06
+tags: 正则表达式
+categories: 正则表达式
+top_img: https://github.com/InnoFang/InnoFang.github.io/blob/master/header/293038.jpg?raw=true&lt;/h2&gt;
+&lt;p&gt;刚开始学正则表达式时，环视（lookaround）经常会给初学者造成一定的困扰。但如果能抓住其中的要点，那么这种困惑就会立刻消失。&lt;/p&gt;
+&lt;p&gt;环视（lookaround）其实分为两个部分：前瞻（lookahead）和后视（lookbehind）。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注：这里的翻译是基于我个人的理解，其它地方可能还有别的叫法&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>正则中关于环视（lookaround）的小例子</title>
     <link href="https://innofang.github.io/2018/07/12/%E6%AD%A3%E5%88%99%E4%B8%AD%E5%85%B3%E4%BA%8E%E7%8E%AF%E8%A7%86%EF%BC%88lookaround%EF%BC%89%E7%9A%84%E5%B0%8F%E4%BE%8B%E5%AD%90/"/>
     <id>https://innofang.github.io/2018/07/12/正则中关于环视（lookaround）的小例子/</id>
     <published>2018-07-12T03:34:06.000Z</published>
-    <updated>2018-07-12T07:07:05.555Z</updated>
+    <updated>2018-07-12T07:41:27.612Z</updated>
     
-    <content type="html"><![CDATA[<p>刚开始学正则表达式时，环视（lookaround）经常会给初学者造成一定的困扰。但如果能抓住其中的要点，那么这种困惑就会立刻消失。</p><p>环视（lookaround）其实分为两个部分：前瞻（lookahead）和后视（lookbehind）。</p><blockquote><p>注：这里的翻译是基于我个人的理解，其它地方可能还有别的叫法</p></blockquote><a id="more"></a><h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>我们在学一个东西时，我们需要去考虑一下它的使用场景，如果没有一个明确的目的的话，学到的知识也不会很深刻。</p><p>考虑这样一个场景，我们在做用户登录或注册校验时，会去判断用户输入的密码是否合法，比如，现在对于用户输入的密码，我们有如下几点要求：</p><ul><li>至少有 6 个字符</li><li>包含一个小写字母</li><li>包含一个大写字母</li><li>包含一个数字</li></ul><p>如果不使用正则表达式的话，估计大部分人都会用 if 语句去逐个判断每个要求是否符合。这样的代码初学时也没有少写过，不能说这样写的方式有什么不对，但总归是没有那么优雅。</p><p>那么有没有更好的解决方案呢？可能大部分人也会想到用正则表达式，但如果对正则表达式的了解并不是很深入的话，面对这样的需求，可能会遇到这样一个问题：怎么判断字符串中至少含有一个大小写字母和数字？如果你动手去写的话，你就会发现你没法保证写出来的表达式不考虑顺序。</p><h1 id="环视（lookaround）的简单讲解"><a href="#环视（lookaround）的简单讲解" class="headerlink" title="环视（lookaround）的简单讲解"></a>环视（lookaround）的简单讲解</h1><p>那么如何解决这个问题？如何能够通过正则表达式，在不考虑字符出现顺序的情况下判断密码是否至少包含一个大小写字母和数字？</p><p>这就将用到我们接下来要介绍的关于环视（lookaround）的两个部分：前瞻（lookahead）和后视（lookbehind）。</p><p>当我们在使用前瞻（lookahead）和后视（lookbehind）时，正则表达式在处理字符串的过程中，是不会在字符串上移动的，也就是说我们可以使用这种技术或者说手段来提前判定字符串是否符合一些情况。</p><p>那么，在继续深入讲解之前，我们先来学习一下 4 种环视（lookaround）的写法：</p><blockquote><p>这里假设你已经具备了基本的正则表达式语法知识</p></blockquote><table><thead><tr><th>环视（lookaround）</th><th>名称</th><th>做了什么</th></tr></thead><tbody><tr><td>(?=foo)</td><td>前瞻（lookahead）</td><td>判断紧跟在字符串中当前位置后面的内容是否<strong>是</strong> <em>foo</em></td></tr><tr><td>(?!foo)</td><td>否定前瞻（negative lookahead）</td><td>判断紧跟在字符串中当前位置后面的内容是否<strong>不是</strong> <em>foo</em></td></tr><tr><td>(?&lt;=foo)</td><td>后视（lookbehind）</td><td>判断紧跟在字符串中当前位置前面的内容是否<strong>是</strong> <em>foo</em></td></tr><tr><td>(?&lt;!foo)</td><td>否定后视（negative lookbehind）</td><td>判断紧跟在字符串中当前位置前面的内容是否<strong>不是</strong> <em>foo</em></td></tr></tbody></table><blockquote><p>注：上面的 <em>foo</em> 可以替换为正则表达式，功能将会更强大</p></blockquote><h1 id="环视（lookaround）的简单示例"><a href="#环视（lookaround）的简单示例" class="headerlink" title="环视（lookaround）的简单示例"></a>环视（lookaround）的简单示例</h1><p>理解不了上面的介绍？那么为了能先让读者简单理解四种环视的写法的作用，我先讲个简单例子，现在先假设这个当前的字符串是 <em>foobarbarfoo</em>：</p><table><thead><tr><th>例子</th><th>描述</th></tr></thead><tbody><tr><td>bar(?=bar)</td><td>匹配第一个 <em>bar</em>（因为第一个 <em>bar</em> 后面<strong>紧跟着</strong>一个 <em>bar</em>）</td></tr><tr><td>bar(?!bar)</td><td>匹配第二个 <em>bar</em>（因为第二个 <em>bar</em> 后面<strong>没有紧跟着</strong>一个 <em>bar</em>）</td></tr><tr><td>(?&lt;=foo)bar</td><td>匹配第一个 <em>bar</em>（因为第一个 <em>bar</em> 前面<strong>紧跟着</strong> <em>foo</em>）</td></tr><tr><td>(?&lt;!foo)bar</td><td>匹配第二个 <em>bar</em>（因为第二个 <em>bar</em> 前面<strong>没有紧跟着</strong> <em>foo</em>）</td></tr></tbody></table><p>在上面的例子中，都着重强调了 “紧跟着” 这几个字，这是相对于括号之外的那个 <em>bar</em> 字符串而言的，即要判断紧挨着这个字符串 <em>bar</em> 的前后是否符合要求。</p><h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>现在环视（lookaround）的概念以及简单的示例已经介绍完了，那么再回到我们开头讲的那个例子：如何用正则表达式去判断用户输入的密码是否符合要求？</p><p>我们先把几个需求逐步解决。首先第一个：至少有 6 个字符。这个很好解决，保证密码内容是由大小写字母及数字组成的，并且长度至少为 6。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;6,&#125;$</span><br></pre></td></tr></table></figure><p>简单解释一下吧，<code>^</code> 用来匹配开头，<code>$</code>用来匹配结尾，<code>[A-Za-z0-9]</code>表示要匹配的内容是由大小写字母及数字组成的，<code>{6,}</code>表示长度至少为6。</p><p>那么第二个要求：包含一个小写字母。前面我们在描述那几个例子时，都强调了要<strong>紧跟在字符串当前位置</strong>，那么可能有读者会困惑，既然都这样要求了，那么就无法不强调一个先后顺序了，但是事实是，我们可以通过修改表达式来达到这个目的，修改原来的正则表达式，满足现在的要求：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(?=.*[a-z])[A-Za-z0-9]&#123;6,&#125;$</span><br></pre></td></tr></table></figure><p>与之前用字符串的写法不同，这里使用了一个表达式： <code>.*[a-z]</code>。<code>.</code>用来匹配任何字符，<code>*</code>即匹配 0 个到多个字符，<code>[a-z]</code>即表示小写字母，这个写法表示，后面的字符串中至少要有一个小写字母，而小写字母的前面有什么，不需要考虑，注意这里只是一个判断，正则表达式在环视扫描时，不会在字符串上移动，如果没有符合要求的字符，那么就会结束扫描。当然这是贪婪（greedy）模式的写法，也可以使用懒惰（lazy）模式： <code>(?=.*?[a-z])</code>，即在 <code>*</code> 后面加一个 <code>?</code> ，这样只要有第一个符合要求的字符出现，就会停止匹配，然后继续扫描。</p><p>后面两个要求：包含一个大写字母和包含一个数字。原理同第二个要求，这里就直接给出最终实现了：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]&#123;6,&#125;$</span><br></pre></td></tr></table></figure><p>值得注意的是，<code>(?=.*?[A-Z])</code>、<code>(?=.*?[a-z])</code>、<code>(?=.*?[0-9])</code>这三个表达式，会先后进行扫描判断，只要有不符合的就停止，匹配失败。正则表达式在扫描时不会在字符串上移动，所以这三个表达式的写法并没有顺序。</p><p>以上，就解决了我们本文开头提出的问题，有了正则表达式，你就可以使用你喜欢或者你正在用的编程语言去进行尝试了。</p><p>本文的灵感来自 <a href="https://www.codewars.com/" target="_blank" rel="noopener">CodeWars</a> 的 <a href="https://www.codewars.com/kata/52e1476c8147a7547a000811/train/python" target="_blank" rel="noopener">Regex Password Validation</a></p><p>解决方案也可以参考 <a href="https://github.com/InnoFang/Algorithms/blob/master/codewars/python/5%20kyu/Regex%20Password%20Validation/Solution.py" target="_blank" rel="noopener">我的实现</a></p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul><li><a href="https://www.rexegg.com/regex-lookarounds.html" target="_blank" rel="noopener">https://www.rexegg.com/regex-lookarounds.html</a></li><li><a href="https://stackoverflow.com/questions/2973436/regex-lookahead-lookbehind-and-atomic-groups" target="_blank" rel="noopener">https://stackoverflow.com/questions/2973436/regex-lookahead-lookbehind-and-atomic-groups</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<p>刚开始学正则表达式时，环视（lookaround）经常会给初学者造成一定的困扰。但如果能抓住其中的要点，那么这种困惑就会立刻消失。</p><p>环视（lookaround）其实分为两个部分：前瞻（lookahead）和后视（lookbehind）。</p><blockquote><p>注：这里的翻译是基于我个人的理解，其它地方可能还有别的叫法</p></blockquote><a id="more"></a><h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>我们在学一个东西时，我们需要去考虑一下它的使用场景，如果没有一个明确的目的的话，学到的知识也不会很深刻。</p><p>考虑这样一个场景，我们在做用户登录或注册校验时，会去判断用户输入的密码是否合法，比如，现在对于用户输入的密码，我们有如下几点要求：</p><ul><li>至少有 6 个字符</li><li>包含一个小写字母</li><li>包含一个大写字母</li><li>包含一个数字</li></ul><p>如果不使用正则表达式的话，估计大部分人都会用 if 语句去逐个判断每个要求是否符合。这样的代码初学时也没有少写过，不能说这样写的方式有什么不对，但总归是没有那么优雅。</p><p>那么有没有更好的解决方案呢？可能大部分人也会想到用正则表达式，但如果对正则表达式的了解并不是很深入的话，面对这样的需求，可能会遇到这样一个问题：怎么判断字符串中至少含有一个大小写字母和数字？如果你动手去写的话，你就会发现你没法保证写出来的表达式不考虑顺序。</p><h1 id="环视（lookaround）的简单讲解"><a href="#环视（lookaround）的简单讲解" class="headerlink" title="环视（lookaround）的简单讲解"></a>环视（lookaround）的简单讲解</h1><p>那么如何解决这个问题？如何能够通过正则表达式，在不考虑字符出现顺序的情况下判断密码是否至少包含一个大小写字母和数字？</p><p>这就将用到我们接下来要介绍的关于环视（lookaround）的两个部分：前瞻（lookahead）和后视（lookbehind）。</p><p>当我们在使用前瞻（lookahead）和后视（lookbehind）时，正则表达式在处理字符串的过程中，是不会在字符串上移动的，也就是说我们可以使用这种技术或者说手段来提前判定字符串是否符合一些情况。</p><p>那么，在继续深入讲解之前，我们先来学习一下 4 种环视（lookaround）的写法：</p><blockquote><p>这里假设你已经具备了基本的正则表达式语法知识</p></blockquote><table><thead><tr><th>环视（lookaround）</th><th>名称</th><th>做了什么</th></tr></thead><tbody><tr><td>(?=foo)</td><td>前瞻（lookahead）</td><td>判断紧跟在字符串中当前位置后面的内容是否<strong>是</strong> <em>foo</em></td></tr><tr><td>(?!foo)</td><td>否定前瞻（negative lookahead）</td><td>判断紧跟在字符串中当前位置后面的内容是否<strong>不是</strong> <em>foo</em></td></tr><tr><td>(?&lt;=foo)</td><td>后视（lookbehind）</td><td>判断紧跟在字符串中当前位置前面的内容是否<strong>是</strong> <em>foo</em></td></tr><tr><td>(?&lt;!foo)</td><td>否定后视（negative lookbehind）</td><td>判断紧跟在字符串中当前位置前面的内容是否<strong>不是</strong> <em>foo</em></td></tr></tbody></table><blockquote><p>注：上面的 <em>foo</em> 可以替换为正则表达式，功能将会更强大</p></blockquote><h1 id="环视（lookaround）的简单示例"><a href="#环视（lookaround）的简单示例" class="headerlink" title="环视（lookaround）的简单示例"></a>环视（lookaround）的简单示例</h1><p>理解不了上面的介绍？那么为了能先让读者简单理解四种环视的写法的作用，我先讲个简单例子，现在先假设这个当前的字符串是 <em>foobarbarfoo</em>：</p><table><thead><tr><th>例子</th><th>描述</th></tr></thead><tbody><tr><td>bar(?=bar)</td><td>匹配第一个 <em>bar</em>（因为第一个 <em>bar</em> 后面<strong>紧跟着</strong>一个 <em>bar</em>）</td></tr><tr><td>bar(?!bar)</td><td>匹配第二个 <em>bar</em>（因为第二个 <em>bar</em> 后面<strong>没有紧跟着</strong>一个 <em>bar</em>）</td></tr><tr><td>(?&lt;=foo)bar</td><td>匹配第一个 <em>bar</em>（因为第一个 <em>bar</em> 前面<strong>紧跟着</strong> <em>foo</em>）</td></tr><tr><td>(?&lt;!foo)bar</td><td>匹配第二个 <em>bar</em>（因为第二个 <em>bar</em> 前面<strong>没有紧跟着</strong> <em>foo</em>）</td></tr></tbody></table><p>在上面的例子中，都着重强调了 “紧跟着” 这几个字，这是相对于括号之外的那个 <em>bar</em> 字符串而言的，即要判断紧挨着这个字符串 <em>bar</em> 的前后是否符合要求。</p><h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>现在环视（lookaround）的概念以及简单的示例已经介绍完了，那么再回到我们开头讲的那个例子：如何用正则表达式去判断用户输入的密码是否符合要求？</p><p>我们先把几个需求逐步解决。首先第一个：至少有 6 个字符。这个很好解决，保证密码内容是由大小写字母及数字组成的，并且长度至少为 6。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;6,&#125;$</span><br></pre></td></tr></table></figure><p>简单解释一下吧，<code>^</code> 用来匹配开头，<code>$</code>用来匹配结尾，<code>[A-Za-z0-9]</code>表示要匹配的内容是由大小写字母及数字组成的，<code>{6,}</code>表示长度至少为6。</p><p>那么第二个要求：包含一个小写字母。前面我们在描述那几个例子时，都强调了要<strong>紧跟在字符串当前位置</strong>，那么可能有读者会困惑，既然都这样要求了，那么就无法不强调一个先后顺序了，但是事实是，我们可以通过修改表达式来达到这个目的，修改原来的正则表达式，满足现在的要求：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(?=.*[a-z])[A-Za-z0-9]&#123;6,&#125;$</span><br></pre></td></tr></table></figure><p>与之前用字符串的写法不同，这里使用了一个表达式： <code>.*[a-z]</code>。<code>.</code>用来匹配任何字符，<code>*</code>即匹配 0 个到多个字符，<code>[a-z]</code>即表示小写字母，这个写法表示，后面的字符串中至少要有一个小写字母，而小写字母的前面有什么，不需要考虑，即只要满足一堆字符串后面有一个小写字母即可。注意这里只是一个判断，正则表达式在环视扫描时，不会在字符串上移动，如果没有符合要求的字符，那么就会结束扫描。</p><p>当然这是贪婪（greedy）模式的写法，也可以使用懒惰（lazy）模式的写法： <code>(?=.*?[a-z])</code>，即在 <code>*</code> 后面加一个 <code>?</code> ，这样只要有第一个符合要求的字符出现，就会停止匹配，然后继续扫描。如果你不理解什么是贪婪（greedy）模式和懒惰（lazy）模式，可以先跳过这一段，文末会有个简单的解释。</p><p>后面两个要求：包含一个大写字母和包含一个数字。原理同第二个要求，这里就直接给出最终实现了：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]&#123;6,&#125;$</span><br></pre></td></tr></table></figure><p>值得注意的是，<code>(?=.*?[A-Z])</code>、<code>(?=.*?[a-z])</code>、<code>(?=.*?[0-9])</code>这三个表达式，会先后进行扫描判断，只要有不符合的就停止，匹配失败。正则表达式在扫描时不会在字符串上移动，所以这三个表达式的写法并没有顺序。</p><p>以上，就解决了我们本文开头提出的问题，有了正则表达式，你就可以使用你喜欢或者你正在用的编程语言去进行尝试了。</p><p>本文的灵感来自 <a href="https://www.codewars.com/" target="_blank" rel="noopener">CodeWars</a> 的 <a href="https://www.codewars.com/kata/52e1476c8147a7547a000811/train/python" target="_blank" rel="noopener">Regex Password Validation</a></p><p>解决方案也可以参考 <a href="https://github.com/InnoFang/Algorithms/blob/master/codewars/python/5%20kyu/Regex%20Password%20Validation/Solution.py" target="_blank" rel="noopener">我的实现</a></p><h1 id="关于贪婪（greedy）模式和懒惰（lazy）模式"><a href="#关于贪婪（greedy）模式和懒惰（lazy）模式" class="headerlink" title="关于贪婪（greedy）模式和懒惰（lazy）模式"></a>关于贪婪（greedy）模式和懒惰（lazy）模式</h1><ul><li><strong>贪婪</strong>意味着匹配最长的字符串</li><li><strong>懒惰</strong>意味着匹配最短的字符串</li></ul><p>举例来说，给定一个字符串 <em>InnoFang</em>。</p><ul><li>对贪婪模式来说，正则表达式为 <code>I.*n</code>，匹配文本输出为 <em><strong>InnoFan</strong>g</em></li><li>对懒惰模式来说，正则表达式为 <code>I.*?n</code>，匹配文本输出为 <em><strong>In</strong>noFang</em></li></ul><p>两者在写法上的区别，就是懒惰模式相比贪婪模式会在诸如 <code>*</code>、<code>+</code>、<code>?</code> 等限定匹配数量的符号后面加一个 <code>?</code> 。</p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul><li><a href="https://www.rexegg.com/regex-lookarounds.html" target="_blank" rel="noopener">https://www.rexegg.com/regex-lookarounds.html</a></li><li><a href="https://stackoverflow.com/questions/2973436/regex-lookahead-lookbehind-and-atomic-groups" target="_blank" rel="noopener">https://stackoverflow.com/questions/2973436/regex-lookahead-lookbehind-and-atomic-groups</a> </li><li><a href="https://stackoverflow.com/questions/2301285/what-do-lazy-and-greedy-mean-in-the-context-of-regular-expressions" target="_blank" rel="noopener">https://stackoverflow.com/questions/2301285/what-do-lazy-and-greedy-mean-in-the-context-of-regular-expressions</a> </li></ul>]]></content>
     
     <summary type="html">
     
@@ -549,45 +965,6 @@
 &lt;li&gt;修改 CS、IP 的指令&lt;/li&gt;
 &lt;li&gt;代码段&lt;/li&gt;
 &lt;li&gt;小结&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>汇编语言学习笔记（一）：基础知识</title>
-    <link href="https://innofang.github.io/2017/11/17/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>https://innofang.github.io/2017/11/17/汇编语言学习笔记（一）：基础知识/</id>
-    <published>2017-11-17T14:28:14.000Z</published>
-    <updated>2017-11-19T05:27:46.796Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p><strong>学习参考：汇编语言（第2版）王爽</strong></p></blockquote><ul><li>存储器</li><li>指令和数据</li><li>存储单元</li><li>CPU 对存储器的读写</li><li>地址总线</li><li>数据总线</li><li>控制总线</li><li>小结</li><li>内存地址空间</li><li>主板</li><li>接口卡</li><li>各类存储器芯片</li><li>内存地址空间</li></ul><a id="more"></a><h1 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h1><blockquote><p>CPU 是计算机的核心部件，控制整个计算机的运行并进行计算。<br>要让一个 CPU 工作，就必须向它提供指令和数据。指令和数据在存储器中存放，即平常所说的内存。<br>磁盘上的数据或程序要读到内存中才可以被 CPU 使用。</p></blockquote><h1 id="指令和数据"><a href="#指令和数据" class="headerlink" title="指令和数据"></a>指令和数据</h1><blockquote><p>在内存或磁盘上，指令和数据没有任何区别，都是二进制信息。CPU 在工作时为同样的信息赋予了不同的意义。</p></blockquote><h1 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h1><blockquote><p>存储器被划分成若干个存储单元，每个存储器单元从 0 开始顺序编号，如一个存储器有 128 个存储单元，编号从 0 到 127<br>微型机存储器的存储单元可以存储一个 Byte（1 字节 8 bit，即 8 个二进制位）。含有 128 个存储单元的存储器可以存储 128 个 Byte。</p></blockquote><h1 id="CPU-对存储器的读写"><a href="#CPU-对存储器的读写" class="headerlink" title="CPU 对存储器的读写"></a>CPU 对存储器的读写</h1><blockquote><p>CPU 要从内存中读取数据，首先要指定存储单元的地址（即存储单元的编号）。<br>在一台微机中，不只有存储器一中起见。CPU 在读写数据时还要指明，它对哪一个器件进行操作，进行哪种操作，是从中读出数据，还是向里面写入数据</p></blockquote><p>CPU 要想进行数据的读写，必须和外部起见（标准说法是芯片）进行下面 3 类信息的交互</p><ul><li>存储单元的地址（地址信息）；</li><li>起见的选择，读或写的命令（控制信息）；</li><li>读或写的数据（数据信息）</li></ul><p> 在 CPU 中通过 <strong>总线</strong> 将地址、数据和控制信息传到存储器芯片中。</p><p> 根据传送信息的不同，总线从逻辑上分为 3 类</p><ul><li>地址总线</li><li>控制总线</li><li>数据总线</li></ul><p>CPU 从 3 号单元中读取数据的过程</p><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljseen73zj30im0bnq3e.jpg" alt=""></p><ol><li>CPU 通过地址线将地址信息 3 发出</li><li>CPU 通过控制线发出内存读命令，选中存储器芯片，并通知它，将要从中读取数据</li><li>存储器将 3 号单元中的数据 8 通过数据线送入 CPU</li></ol><p>写操作与读操作的步骤类似。如向 3 号单元写入数据 26</p><ol><li>CPU 通过地址线将地址信息 3 发出</li><li>CPU 通过控制线发出内存命令，选中存储器芯片，并通知它，要想其中写入数据</li><li>CPU 通过数据线将数据 26 送入内存的 3 号单元中</li></ol><h1 id="地址总线"><a href="#地址总线" class="headerlink" title="地址总线"></a>地址总线</h1><blockquote><p>CPU 通过地址总线来指定存储器单元。地址总线上能传送多少个不同的信息，CPU 就可以对多少个存储单元进行寻址。<br>一个 CPU 有 N 根地址线，则可以说这个 CPU 的地址总线的宽度为 N。这样的 CPU 最多可以寻找 2 的 N 次方个内存单元</p></blockquote><h1 id="数据总线"><a href="#数据总线" class="headerlink" title="数据总线"></a>数据总线</h1><blockquote><p>CPU 与内存或其他器件之间的数据传送是通过数据总线来进行的。数据总线的宽度决定了 CPU 和外界的数据传送速度。8 根数据总线一次可传送一个 8 位二进制数据（即一个字节）。16 根数据总线一次可以传送两个字节。</p></blockquote><h1 id="控制总线"><a href="#控制总线" class="headerlink" title="控制总线"></a>控制总线</h1><blockquote><p>CPU 对外部器件的控制是通过控制总线来进行的。在这里控制总线是一个总称，控制总线是一些不同控制线的集合。有多少个控制总线，就意味着 CPU 提供了对外部器件的多少种控制。所以，控制总线的宽度决定了 CPU 对外部器件的控制能力。</p></blockquote><h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol><li>汇编指令是机器指令的助记符，同机器指令一一对应</li><li>每一种 CPU 都有自己的汇编指令集</li><li>CPU 可以直接使用的信息在存储器中存放</li><li>在存储器中指令和数据没有任何区别，都是二进制信息</li><li>存储单元从零开始顺序编号</li><li>一个存储单元可以存储 8 个 bit，即 8 位二进制数，一个存储单元是一个字节</li><li>1Byte = 8bit  1KB = 1024B  1MB = 1024KB  1GB = 1024MB（1GB = 2^30Byte, 1MB = 2^20Byte, 1KB = 2^10Byte）</li><li>每一个 CPU 芯片都有许多管脚，这些管脚和总线相连。也可以说，这些管脚引出总线。一个 CPU 可以引出 3 种总线的宽度标志了这个 CPU 的不同方面的性能：<ul><li>地址总线的宽度决定了 CPU 的寻址能力</li><li>数据总线的宽度决定了 CPU 与其他器件进行数据传送时的一次数据传送量</li><li>控制总线的宽度决定了 CPU 对系统中其他器件的控制能力</li></ul></li><li>总线宽度 N 与寻址能力的关系： 寻址能力=2^N</li><li>8 根数据总线一次可传送一个 8 位二进制数据（即一个字节），即宽度为 8 的数据总线读取 1024 字节的内容需要读 1024 次</li></ol><blockquote><p>Q：一个 CPU 的寻址能力为 8 KB，那么它的地址总线的宽度为？<br>A：<br>8 KB = 1024 * 8 Byte = 8192 Byte<br>设地址总线宽度为 N，则内存单元个数为 2 的 N 次方个，即 N = log(2)(8192) = 13<br>所以宽度为 13</p></blockquote><h1 id="内存地址空间"><a href="#内存地址空间" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><blockquote><p>举例来说，一个 CPU 的地址总线宽度为 10，那么可以寻址 1024 个内存单元，这 1024 个可寻到的内存单元就构成这个 CPU 的内存地址空间</p></blockquote><h1 id="主板"><a href="#主板" class="headerlink" title="主板"></a>主板</h1><blockquote><p>每一台 PC 机中，都有一个主板，主板上有核心器件和一些主要器件，这些器件通过总线（地址总线、数据总线、控制总线）相连。这些器件有 CPU、存储器、外围芯片组、扩展插槽等。扩展插槽上一般插有 RAM 内存条和各类接口卡</p></blockquote><h1 id="接口卡"><a href="#接口卡" class="headerlink" title="接口卡"></a>接口卡</h1><blockquote><p>接口卡直接控制外部设备，CPU 通过总线向接口卡发送命令，接口卡根据 CPU 的命令控制外设进行工作，从而实现 CPU 对外设的间接控制</p></blockquote><h1 id="各类存储器芯片"><a href="#各类存储器芯片" class="headerlink" title="各类存储器芯片"></a>各类存储器芯片</h1><p>从读写属性上看分为两类：</p><ul><li>随机存储器（RAM）：可读可写，但必须带电存储，关机后存储的内容丢失</li><li>只读存储器（ROM）：只能读不能写入，关机后其中的内容buu’i不会丢失</li></ul><p>从功能和连接上可分为一下几类：</p><ul><li>随机存储器<ul><li>存放供 CPU 使用的绝大部分程序和数据</li><li>主随机存储器由装在主板上 RAM 和插在扩展插槽上的 RAM 组成</li></ul></li><li>装有 BIOS 的 ROM</li><li>接口卡上的 RAM</li></ul><h1 id="内存地址空间-1"><a href="#内存地址空间-1" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><p>上述的那些存储器，在物理上是独立的器件，但是在以下两点两点上相同：</p><ul><li>都和 CPU 的总线相连</li><li>CPU 对它们进行读或写的时候都通过控制线发出内存读写命令</li></ul><blockquote><p>对 CPU 来讲，系统中的所有存储器中的存储单元都处于一个统一的逻辑存储器中，它的容量受 CPU 寻址能力的限制。这个逻辑存储器即是我们所说的内存地址空间</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;学习参考：汇编语言（第2版）王爽&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;存储器&lt;/li&gt;
-&lt;li&gt;指令和数据&lt;/li&gt;
-&lt;li&gt;存储单元&lt;/li&gt;
-&lt;li&gt;CPU 对存储器的读写&lt;/li&gt;
-&lt;li&gt;地址总线&lt;/li&gt;
-&lt;li&gt;数据总线&lt;/li&gt;
-&lt;li&gt;控制总线&lt;/li&gt;
-&lt;li&gt;小结&lt;/li&gt;
-&lt;li&gt;内存地址空间&lt;/li&gt;
-&lt;li&gt;主板&lt;/li&gt;
-&lt;li&gt;接口卡&lt;/li&gt;
-&lt;li&gt;各类存储器芯片&lt;/li&gt;
-&lt;li&gt;内存地址空间&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>
