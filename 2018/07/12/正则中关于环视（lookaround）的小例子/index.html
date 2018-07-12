@@ -95,7 +95,7 @@
 <h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>现在环视（lookaround）的概念以及简单的示例已经介绍完了，那么再回到我们开头讲的那个例子：如何用正则表达式去判断用户输入的密码是否符合要求？</p>
 <p>我们先把几个需求逐步解决。首先第一个：至少有 6 个字符。这个很好解决，保证密码内容是由大小写字母及数字组成的，并且长度至少为 6。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;6,&#125;$</span><br></pre></td></tr></table></figure>
-<p>简单解释一下吧，<code>^</code> 用来匹配开头，<code>$</code>用来匹配结尾，<code>[A-Za-z0-6]</code>表示要匹配的内容是由大小写字母及数字组成的，<code>{6,}</code>表示长度至少为6。</p>
+<p>简单解释一下吧，<code>^</code> 用来匹配开头，<code>$</code>用来匹配结尾，<code>[A-Za-z0-9]</code>表示要匹配的内容是由大小写字母及数字组成的，<code>{6,}</code>表示长度至少为6。</p>
 <p>那么第二个要求：包含一个小写字母。前面我们在描述那几个例子时，都强调了要<strong>紧跟在字符串当前位置</strong>，那么可能有读者会困惑，既然都这样要求了，那么就无法不强调一个先后顺序了，但是事实是，我们可以通过修改表达式来达到这个目的，修改原来的正则表达式，满足现在的要求：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(?=.*[a-z])[A-Za-z0-9]&#123;6,&#125;$</span><br></pre></td></tr></table></figure>
 <p>与之前用字符串的写法不同，这里使用了一个表达式： <code>.*[a-z]</code>。<code>.</code>用来匹配任何字符，<code>*</code>即匹配 0 个到多个字符，<code>[a-z]</code>即表示小写字母，这个写法表示，后面的字符串中至少要有一个小写字母，而小写字母的前面有什么，不需要考虑，注意这里只是一个判断，正则表达式在环视扫描时，不会在字符串上移动，如果没有符合要求的字符，那么就会结束扫描。当然这是贪婪（greedy）模式的写法，也可以使用懒惰（lazy）模式： <code>(?=.*?[a-z])</code>，即在 <code>*</code> 后面加一个 <code>?</code> ，这样只要有第一个符合要求的字符出现，就会停止匹配，然后继续扫描。</p>
