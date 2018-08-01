@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Inno&#39;s Blog</title>
   
-  <subtitle>The developer who doesn&#39;t want to be an artist is not a good geek.</subtitle>
+  <subtitle>Programming is an art form.</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innofang.github.io/"/>
