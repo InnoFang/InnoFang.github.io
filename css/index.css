@@ -115,17 +115,17 @@ hr:before {
   transition: all 1s ease-in-out;
 }
 details {
-  border: 2px solid #d6d6d6;
   padding: 0.3rem;
+  border: 2px solid #d6d6d6;
 }
 details summary {
   color: #49b1f5;
 }
 .not-code {
-  text-align: center;
   margin: 0.5em;
   padding: 0.5em;
   border: thin #c0c0c0 solid;
+  text-align: center;
 }
 table {
   overflow: auto;
@@ -148,6 +148,12 @@ table td {
 }
 .text-center {
   text-align: center;
+}
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
 }
 @media screen and (max-width: 1024px) {
   i#toggle-sidebar,
@@ -200,8 +206,8 @@ table td {
 .article-container figure.highlight.c table:before {
   content: "c";
 }
-.article-container figure.highlight.c++ table:before {
-  content: "c++";
+.article-container figure.highlight.c\+\+ table:before {
+  content: "c\+\+";
 }
 .article-container figure.highlight.go table:before {
   content: "go";
@@ -831,6 +837,9 @@ footer {
 }
 .recent-post-item .article-meta {
   color: #858585;
+}
+.recent-post-item .article-meta .sticky {
+  color: #ff7242;
 }
 .recent-post-item .article-meta i {
   margin: 0 0.2rem 0 0.3rem;
@@ -1559,6 +1568,9 @@ img:hover {
 .post-copyright-meta {
   color: #49b1f5;
   font-weight: bold;
+}
+.post-copyright-info a {
+  word-break: break-word;
 }
 .post-qr-code {
   text-align: center;
