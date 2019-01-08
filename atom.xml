@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innofang.github.io/"/>
-  <updated>2018-07-15T00:53:46.910Z</updated>
+  <updated>2019-01-08T11:15:05.233Z</updated>
   <id>https://innofang.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>是时候用 Github 私仓做你的私人图床了</title>
+    <link href="https://innofang.github.io/2019/01/08/%E6%98%AF%E6%97%B6%E5%80%99%E7%94%A8-Github-%E7%A7%81%E4%BB%93%E5%81%9A%E4%BD%A0%E7%9A%84%E7%A7%81%E4%BA%BA%E5%9B%BE%E5%BA%8A%E4%BA%86/"/>
+    <id>https://innofang.github.io/2019/01/08/是时候用-Github-私仓做你的私人图床了/</id>
+    <published>2019-01-08T09:10:56.000Z</published>
+    <updated>2019-01-08T11:15:05.233Z</updated>
+    
+    <content type="html"><![CDATA[<p>喜大普奔！Github 终于开放了对普通用户的私人仓库的使用 🎉。</p><a id="more"></a><p><img src="https://raw.githubusercontent.com/InnoFang/image-hosting/master/%E6%98%AF%E6%97%B6%E5%80%99%E7%94%A8%20Github%20%E7%A7%81%E4%BB%93%E5%81%9A%E4%BD%A0%E7%9A%84%E7%A7%81%E4%BA%BA%E5%9B%BE%E5%BA%8A%E4%BA%86/new_year_new_github.png?token=AO_t-hVA9lvsxdpoaOid32pb8BAYIxbyks5cPb-FwA%3D%3D" alt="new_year_new_github"></p><p>自从 Github 被微软收购以后，可谓动作频频，无论是有 UI 还是其他方面都有了很多的变化，不过在 1 月 7 日这天宣布开放私人仓库的使用，估计有不少人都会说：<strong>真香！</strong>。</p><p>其实 Github 对每个代码仓库的大小限制大概是 1G ，虽然这个 1G 不算很大，但是用来做自己博客文章的图床我觉得还是可以的，毕竟有就不错了，<strong>要啥自行车呢</strong> （手动滑稽）</p><p>其实我其实尝试过很多图床，但最后都因为各种各样的原因不再继续使用了，最后是在自己的笔记仓库上建了一个分支，用来做图床，这样相对不容易被发现，毕竟我个人感觉在这种开源的环境建一个图床仓库还是有点尴尬的，但是私仓的出现就可以避免这种尴尬了。</p><h2 id="建一个私仓吧"><a href="#建一个私仓吧" class="headerlink" title="建一个私仓吧"></a>建一个私仓吧</h2><p><img src="https://raw.githubusercontent.com/InnoFang/image-hosting/master/%E6%98%AF%E6%97%B6%E5%80%99%E7%94%A8%20Github%20%E7%A7%81%E4%BB%93%E5%81%9A%E4%BD%A0%E7%9A%84%E7%A7%81%E4%BA%BA%E5%9B%BE%E5%BA%8A%E4%BA%86/create_new_repo.png?token=AO_t-r7GCEnttefte0O8_gCe3EOMwHHvks5cPb8wwA%3D%3D" alt="create_new_repo"></p><p>要注意勾选 <code>Private</code>。不过如果忘了的话，也可以到新建的项目中，通过 <code>settings -&gt; Danger Zone -&gt; Make this repository private</code> 把你的仓库变成私仓。</p><h2 id="Git-三连"><a href="#Git-三连" class="headerlink" title="Git 三连"></a>Git 三连</h2><p>把空的仓库 clone 到本地后，把你的图片放到项目对应的本地文件夹中，接下来就是传统的 Git 三连了</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure><p>属于你的 Github 私人图床就 OK 了！</p><p>不过，如果只是这样的话，那这篇文章就没啥价值了，因为现在这个私人仓库只有你能访问到，所以如果是直接通过 <code>右键 -&gt; 复制图片地址</code> 的方式来引用图片的话，将出现 404。😮</p><h2 id="换一个思路"><a href="#换一个思路" class="headerlink" title="换一个思路"></a>换一个思路</h2><p>那我图床中的一个图片为例子，通过 <code>右键 -&gt; 复制图片地址</code> 获得的图片链接是这样的</p><p><img src="https://raw.githubusercontent.com/InnoFang/image-hosting/master/%E6%98%AF%E6%97%B6%E5%80%99%E7%94%A8%20Github%20%E7%A7%81%E4%BB%93%E5%81%9A%E4%BD%A0%E7%9A%84%E7%A7%81%E4%BA%BA%E5%9B%BE%E5%BA%8A%E4%BA%86/right_click_to_get_the_link.jpg?token=AO_t-lvLFOzafJqqLYg-GlLhgKiby-nOks5cPcAzwA%3D%3D" alt="right_click_to_get_the_link"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/InnoFang/image-hosting/blob/master/jotter.png?raw=true</span><br></pre></td></tr></table></figure><p>通过这个连接，其实可以发现这相当于是从外部访问你的私仓，这当然是访问不到的</p><p>那么怎么解决呢？其实如果 <code>右键 -&gt; 在新标签页中打开图片</code> ，你会发现你原来的图片链接由被重定向到了新的链接</p><p><img src="https://raw.githubusercontent.com/InnoFang/image-hosting/master/%E6%98%AF%E6%97%B6%E5%80%99%E7%94%A8%20Github%20%E7%A7%81%E4%BB%93%E5%81%9A%E4%BD%A0%E7%9A%84%E7%A7%81%E4%BA%BA%E5%9B%BE%E5%BA%8A%E4%BA%86/right_click_to_open_the_image.jpg?token=AO_t-vSFvNyBi13bCkMNbd60A5SHomMiks5cPcAvwA%3D%3D" alt="right_click_to_open_the_image"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://raw.githubusercontent.com/InnoFang/image-hosting/master/jotter.png?token=AO_t-o8T6kwDT_nfiTLuMTQskvTM0LO8ks5cPbmDwA%3D%3D</span><br></pre></td></tr></table></figure><p>其中开头的 <code>https://raw.githubusercontent.com</code> 是 Github 的转存地址，如果你点开该链接会被转到 <code>https://github.com</code>，据说这是 Github 的素材服务器 (assets server), 是为了避免跟主服务抢占负载。<br>(<strong>PS</strong>：更多解释可以查看 <a href="https://stackoverflow.com/questions/39065921/what-do-raw-githubusercontent-com-urls-represent" target="_blank" rel="noopener">What do raw.githubusercontent.com URLs represent?</a>)</p><p>总而言之，这个链接外界是可以访问到的，那么我们的问题就引刃而解了。</p><h2 id="多说一句"><a href="#多说一句" class="headerlink" title="多说一句"></a>多说一句</h2><p>如果小伙伴之前是用的公有仓库作图床的话，可以自行选择是否把仓库变为私仓，修改后，难免就需要修改之前不合适的连接；如果小伙伴之前用的识别的图床，且正好需要一个新图床，那么可能也需要修改图片链接的问题。</p><p>大部分情况下，我们在 MarkDown 文件中引用图片资源是通过 <code>![desc](url)</code> 的方式来引用的，但是如果你尝试对大篇幅的文章更换图片链接的话，会发现这是一个很痛苦的过程，那么既然要更改更改图片链接那么有没有一个相对易于修改的方式呢？</p><p>其实我们可以把原来的语法进行修改，使用引用的方式引用图片资源，举例来说</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">这是博客正文</span><br><span class="line"></span><br><span class="line">我将引用第一个图片 ![图片描述][image1]，这是第二个图片 ![图片描述][image2]</span><br><span class="line"></span><br><span class="line">下面是引用，一般在文章末尾</span><br><span class="line"></span><br><span class="line">[image1]:your_image_url</span><br><span class="line">[image2]:your_image_url</span><br></pre></td></tr></table></figure><p>这样就可以把图片链接进行统一的管理，把引用放在文章末尾修改起来更直观不会遗漏，值得注意的是，这里是两个 <code>[]</code> 而原来的图片引用语法是一个 <code>[]</code> 和一个 <code>()</code> ，两者是有区别的，而且你的第二个 <code>[]</code> 需与你的引用链接相一致，最好做到见名之意，所以我一般也是写图片描述，这样方便应用链接与图片的位置一一对应，方便查找。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;喜大普奔！Github 终于开放了对普通用户的私人仓库的使用 🎉。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Github" scheme="https://innofang.github.io/categories/Github/"/>
+    
+    
+      <category term="Github" scheme="https://innofang.github.io/tags/Github/"/>
+    
+  </entry>
   
   <entry>
     <title>正则中关于环视（lookaround）的小例子</title>
@@ -549,45 +571,6 @@
 &lt;li&gt;修改 CS、IP 的指令&lt;/li&gt;
 &lt;li&gt;代码段&lt;/li&gt;
 &lt;li&gt;小结&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>汇编语言学习笔记（一）：基础知识</title>
-    <link href="https://innofang.github.io/2017/11/17/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>https://innofang.github.io/2017/11/17/汇编语言学习笔记（一）：基础知识/</id>
-    <published>2017-11-17T14:28:14.000Z</published>
-    <updated>2017-11-19T05:27:46.796Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p><strong>学习参考：汇编语言（第2版）王爽</strong></p></blockquote><ul><li>存储器</li><li>指令和数据</li><li>存储单元</li><li>CPU 对存储器的读写</li><li>地址总线</li><li>数据总线</li><li>控制总线</li><li>小结</li><li>内存地址空间</li><li>主板</li><li>接口卡</li><li>各类存储器芯片</li><li>内存地址空间</li></ul><a id="more"></a><h1 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h1><blockquote><p>CPU 是计算机的核心部件，控制整个计算机的运行并进行计算。<br>要让一个 CPU 工作，就必须向它提供指令和数据。指令和数据在存储器中存放，即平常所说的内存。<br>磁盘上的数据或程序要读到内存中才可以被 CPU 使用。</p></blockquote><h1 id="指令和数据"><a href="#指令和数据" class="headerlink" title="指令和数据"></a>指令和数据</h1><blockquote><p>在内存或磁盘上，指令和数据没有任何区别，都是二进制信息。CPU 在工作时为同样的信息赋予了不同的意义。</p></blockquote><h1 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h1><blockquote><p>存储器被划分成若干个存储单元，每个存储器单元从 0 开始顺序编号，如一个存储器有 128 个存储单元，编号从 0 到 127<br>微型机存储器的存储单元可以存储一个 Byte（1 字节 8 bit，即 8 个二进制位）。含有 128 个存储单元的存储器可以存储 128 个 Byte。</p></blockquote><h1 id="CPU-对存储器的读写"><a href="#CPU-对存储器的读写" class="headerlink" title="CPU 对存储器的读写"></a>CPU 对存储器的读写</h1><blockquote><p>CPU 要从内存中读取数据，首先要指定存储单元的地址（即存储单元的编号）。<br>在一台微机中，不只有存储器一中起见。CPU 在读写数据时还要指明，它对哪一个器件进行操作，进行哪种操作，是从中读出数据，还是向里面写入数据</p></blockquote><p>CPU 要想进行数据的读写，必须和外部起见（标准说法是芯片）进行下面 3 类信息的交互</p><ul><li>存储单元的地址（地址信息）；</li><li>起见的选择，读或写的命令（控制信息）；</li><li>读或写的数据（数据信息）</li></ul><p> 在 CPU 中通过 <strong>总线</strong> 将地址、数据和控制信息传到存储器芯片中。</p><p> 根据传送信息的不同，总线从逻辑上分为 3 类</p><ul><li>地址总线</li><li>控制总线</li><li>数据总线</li></ul><p>CPU 从 3 号单元中读取数据的过程</p><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljseen73zj30im0bnq3e.jpg" alt=""></p><ol><li>CPU 通过地址线将地址信息 3 发出</li><li>CPU 通过控制线发出内存读命令，选中存储器芯片，并通知它，将要从中读取数据</li><li>存储器将 3 号单元中的数据 8 通过数据线送入 CPU</li></ol><p>写操作与读操作的步骤类似。如向 3 号单元写入数据 26</p><ol><li>CPU 通过地址线将地址信息 3 发出</li><li>CPU 通过控制线发出内存命令，选中存储器芯片，并通知它，要想其中写入数据</li><li>CPU 通过数据线将数据 26 送入内存的 3 号单元中</li></ol><h1 id="地址总线"><a href="#地址总线" class="headerlink" title="地址总线"></a>地址总线</h1><blockquote><p>CPU 通过地址总线来指定存储器单元。地址总线上能传送多少个不同的信息，CPU 就可以对多少个存储单元进行寻址。<br>一个 CPU 有 N 根地址线，则可以说这个 CPU 的地址总线的宽度为 N。这样的 CPU 最多可以寻找 2 的 N 次方个内存单元</p></blockquote><h1 id="数据总线"><a href="#数据总线" class="headerlink" title="数据总线"></a>数据总线</h1><blockquote><p>CPU 与内存或其他器件之间的数据传送是通过数据总线来进行的。数据总线的宽度决定了 CPU 和外界的数据传送速度。8 根数据总线一次可传送一个 8 位二进制数据（即一个字节）。16 根数据总线一次可以传送两个字节。</p></blockquote><h1 id="控制总线"><a href="#控制总线" class="headerlink" title="控制总线"></a>控制总线</h1><blockquote><p>CPU 对外部器件的控制是通过控制总线来进行的。在这里控制总线是一个总称，控制总线是一些不同控制线的集合。有多少个控制总线，就意味着 CPU 提供了对外部器件的多少种控制。所以，控制总线的宽度决定了 CPU 对外部器件的控制能力。</p></blockquote><h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol><li>汇编指令是机器指令的助记符，同机器指令一一对应</li><li>每一种 CPU 都有自己的汇编指令集</li><li>CPU 可以直接使用的信息在存储器中存放</li><li>在存储器中指令和数据没有任何区别，都是二进制信息</li><li>存储单元从零开始顺序编号</li><li>一个存储单元可以存储 8 个 bit，即 8 位二进制数，一个存储单元是一个字节</li><li>1Byte = 8bit  1KB = 1024B  1MB = 1024KB  1GB = 1024MB（1GB = 2^30Byte, 1MB = 2^20Byte, 1KB = 2^10Byte）</li><li>每一个 CPU 芯片都有许多管脚，这些管脚和总线相连。也可以说，这些管脚引出总线。一个 CPU 可以引出 3 种总线的宽度标志了这个 CPU 的不同方面的性能：<ul><li>地址总线的宽度决定了 CPU 的寻址能力</li><li>数据总线的宽度决定了 CPU 与其他器件进行数据传送时的一次数据传送量</li><li>控制总线的宽度决定了 CPU 对系统中其他器件的控制能力</li></ul></li><li>总线宽度 N 与寻址能力的关系： 寻址能力=2^N</li><li>8 根数据总线一次可传送一个 8 位二进制数据（即一个字节），即宽度为 8 的数据总线读取 1024 字节的内容需要读 1024 次</li></ol><blockquote><p>Q：一个 CPU 的寻址能力为 8 KB，那么它的地址总线的宽度为？<br>A：<br>8 KB = 1024 * 8 Byte = 8192 Byte<br>设地址总线宽度为 N，则内存单元个数为 2 的 N 次方个，即 N = log(2)(8192) = 13<br>所以宽度为 13</p></blockquote><h1 id="内存地址空间"><a href="#内存地址空间" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><blockquote><p>举例来说，一个 CPU 的地址总线宽度为 10，那么可以寻址 1024 个内存单元，这 1024 个可寻到的内存单元就构成这个 CPU 的内存地址空间</p></blockquote><h1 id="主板"><a href="#主板" class="headerlink" title="主板"></a>主板</h1><blockquote><p>每一台 PC 机中，都有一个主板，主板上有核心器件和一些主要器件，这些器件通过总线（地址总线、数据总线、控制总线）相连。这些器件有 CPU、存储器、外围芯片组、扩展插槽等。扩展插槽上一般插有 RAM 内存条和各类接口卡</p></blockquote><h1 id="接口卡"><a href="#接口卡" class="headerlink" title="接口卡"></a>接口卡</h1><blockquote><p>接口卡直接控制外部设备，CPU 通过总线向接口卡发送命令，接口卡根据 CPU 的命令控制外设进行工作，从而实现 CPU 对外设的间接控制</p></blockquote><h1 id="各类存储器芯片"><a href="#各类存储器芯片" class="headerlink" title="各类存储器芯片"></a>各类存储器芯片</h1><p>从读写属性上看分为两类：</p><ul><li>随机存储器（RAM）：可读可写，但必须带电存储，关机后存储的内容丢失</li><li>只读存储器（ROM）：只能读不能写入，关机后其中的内容buu’i不会丢失</li></ul><p>从功能和连接上可分为一下几类：</p><ul><li>随机存储器<ul><li>存放供 CPU 使用的绝大部分程序和数据</li><li>主随机存储器由装在主板上 RAM 和插在扩展插槽上的 RAM 组成</li></ul></li><li>装有 BIOS 的 ROM</li><li>接口卡上的 RAM</li></ul><h1 id="内存地址空间-1"><a href="#内存地址空间-1" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><p>上述的那些存储器，在物理上是独立的器件，但是在以下两点两点上相同：</p><ul><li>都和 CPU 的总线相连</li><li>CPU 对它们进行读或写的时候都通过控制线发出内存读写命令</li></ul><blockquote><p>对 CPU 来讲，系统中的所有存储器中的存储单元都处于一个统一的逻辑存储器中，它的容量受 CPU 寻址能力的限制。这个逻辑存储器即是我们所说的内存地址空间</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;学习参考：汇编语言（第2版）王爽&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;存储器&lt;/li&gt;
-&lt;li&gt;指令和数据&lt;/li&gt;
-&lt;li&gt;存储单元&lt;/li&gt;
-&lt;li&gt;CPU 对存储器的读写&lt;/li&gt;
-&lt;li&gt;地址总线&lt;/li&gt;
-&lt;li&gt;数据总线&lt;/li&gt;
-&lt;li&gt;控制总线&lt;/li&gt;
-&lt;li&gt;小结&lt;/li&gt;
-&lt;li&gt;内存地址空间&lt;/li&gt;
-&lt;li&gt;主板&lt;/li&gt;
-&lt;li&gt;接口卡&lt;/li&gt;
-&lt;li&gt;各类存储器芯片&lt;/li&gt;
-&lt;li&gt;内存地址空间&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>

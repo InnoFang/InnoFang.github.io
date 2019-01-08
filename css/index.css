@@ -236,6 +236,12 @@ table td {
 .article-container figure.highlight.bash table:before {
   content: "bash";
 }
+.article-container figure.highlight.yml table:before {
+  content: "yml";
+}
+.article-container figure.highlight.gradle table:before {
+  content: "gradle";
+}
 .article-container pre,
 .article-container .highlight {
   overflow: auto;
