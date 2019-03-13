@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://innofang.github.io/sitemap.xml
+Sitemap: https://innofang.github.io/baidusitemap.xml
