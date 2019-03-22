@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innofang.github.io/"/>
-  <updated>2018-07-15T00:53:46.910Z</updated>
+  <updated>2019-03-22T11:41:02.247Z</updated>
   <id>https://innofang.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hadoop 架构</title>
+    <link href="https://innofang.github.io/2019/03/22/Hadoop-%E6%9E%B6%E6%9E%84/"/>
+    <id>https://innofang.github.io/2019/03/22/Hadoop-架构/</id>
+    <published>2019-03-22T11:39:15.000Z</published>
+    <updated>2019-03-22T11:41:02.247Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="HDFS-架构"><a href="#HDFS-架构" class="headerlink" title="HDFS 架构"></a>HDFS 架构</h2><p>HDFS 即分布式文件系统（Hadoop Distributed File System)。HDFS 具有高容错性，且能运行在低廉的硬件上。HDFS 提供对应用程序数据的高吞吐量访问，适用于具有大数据集的应用程序。</p><a id="more"></a><h2 id="NameNode-和-DataNode"><a href="#NameNode-和-DataNode" class="headerlink" title="NameNode 和 DataNode"></a>NameNode 和 DataNode</h2><p>HDFS 具有 Master/Slave 架构，根据名字可以联想到古时候<code>奴隶主</code>和<code>奴隶</code>的关系。一个 Hadoop 集群由单个 NameNode 和多个 DataNode 组成。</p><ul><li>NameNode <ul><li>负责客户端请求的响应</li><li>负责元数据的管理，比如文件名称、副本系数、数据块存放的位置等</li></ul></li><li>DataNode <ul><li>通常是集群中每个节点一个，存储文件对应的数据块（Block)</li><li>定期向 NameNode 发送心跳信息，汇报本身及其所有的 block 信息  </li></ul></li></ul><p>HDFS 暴露了一个文件系统并允许用户数据存储在这些文件中。此外，一个文件会把被<strong>拆分</strong>到一个或多个数据块（block）中，这些数据块就存储在一系列 DataNode 中。NameNode 则是执行诸如打开、关闭、重命名文件和文件夹等文件系统操作，并且它还决定了数据块到 DataNode 的映射，即哪个数据块在哪个 DataNode 中，是由 NameNode 来决定的。DataNode 负责提供来自文件系统客户机的读写请求，还会根据来自 NameNode 的指令来执行对数据块的创建、删除和复制。 </p><p><strong>PS</strong> 文件拆分的依据是由底层的 blocksize 来决定。如果 blocksize 定义为 128M，那么对于一个 130M 的文件就会被拆分成两个分别为 128M 和 2M 的文件。</p><p><img src="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png" alt=""></p><p>NameNode 和 DataNode 可以运行在廉价的机器上，通常是运行在具有 GNU/Linux 操作系统的机器上。HDFS 由 Java 语言构建，所以任何支持 Java 的机器都可以运行 NameNode 和 DataNode。</p><p>一个典型的部署方式是<strong>一个专有机器运行 NameNode，其它每台机器运行一个 DataNode</strong>。当然，并不排除一台机器运行多个 DataNode，但是在实际情况中很少发生。</p><h2 id="文件系统命名空间"><a href="#文件系统命名空间" class="headerlink" title="文件系统命名空间"></a>文件系统命名空间</h2><p>HDFS 支持传统的层级文件结构。用户或应用可以创建文件夹并在文件夹内存储文件。文件系统命名空间与其它大多数现存的文件一同类似，支持文件的创建、删除，移动和重命名。</p><p>NameNode 维护着文件系统命名空间。任何对命名空间或对它的属性的改变都会被 NameNode 记录下来。应用可以指定 HDFS 应当维护的文件副本系数。文件副本系数也叫做文件的<strong>副本因子</strong>（Replication Factor），这些信息由 NameNode 进行存储。</p><h2 id="数据副本"><a href="#数据副本" class="headerlink" title="数据副本"></a>数据副本</h2><p>HDFS 旨在可靠地在大型集群中跨机器存储大文件，将文件存储为一系列数据块中。为了实现容错，一个文件的数据块会被复制多份。数据块大小和副本因子可以根据文件进行配置。</p><p>所有数据块中除了最后一个数据块之外的大小都是相同的。</p><p>应用可以指定文件的副本数。副本因子可以在文件创建时指定并可以在以后进行更改。HDFS 中的文件是一次写入的（除非追加和截断），并且任何时候只能有一个 Writer，并不支持多并发。</p><p>NameNode 会根据数据块的副本作出决定。它会定期接收集群中每个 DataNode 的心跳（Hearbeat）和数据块报告（Blockreport）。收到心跳意味着这个 DataNode 是正常工作的。数据块报告则包含 DataNode 上所有数据块的列表。</p><p><img src="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsdatanodes.png" alt=""></p><h2 id="HDFS-优缺点"><a href="#HDFS-优缺点" class="headerlink" title="HDFS 优缺点"></a>HDFS 优缺点</h2><ul><li>数据冗余、硬件容错</li><li>适合存储大文件</li><li>处理流式的数据访问</li><li>可构建在廉价机器上</li></ul><p>缺点：</p><ul><li>低延迟的数据访问</li><li>不适合小文件存储</li></ul><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html" target="_blank" rel="noopener">HDFS Architecture</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;HDFS-架构&quot;&gt;&lt;a href=&quot;#HDFS-架构&quot; class=&quot;headerlink&quot; title=&quot;HDFS 架构&quot;&gt;&lt;/a&gt;HDFS 架构&lt;/h2&gt;&lt;p&gt;HDFS 即分布式文件系统（Hadoop Distributed File System)。HDFS 具有高容错性，且能运行在低廉的硬件上。HDFS 提供对应用程序数据的高吞吐量访问，适用于具有大数据集的应用程序。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Hadoop" scheme="https://innofang.github.io/categories/Hadoop/"/>
+    
+    
+      <category term="Hadoop" scheme="https://innofang.github.io/tags/Hadoop/"/>
+    
+  </entry>
   
   <entry>
     <title>正则中关于环视（lookaround）的小例子</title>
@@ -549,45 +571,6 @@
 &lt;li&gt;修改 CS、IP 的指令&lt;/li&gt;
 &lt;li&gt;代码段&lt;/li&gt;
 &lt;li&gt;小结&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>汇编语言学习笔记（一）：基础知识</title>
-    <link href="https://innofang.github.io/2017/11/17/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>https://innofang.github.io/2017/11/17/汇编语言学习笔记（一）：基础知识/</id>
-    <published>2017-11-17T14:28:14.000Z</published>
-    <updated>2017-11-19T05:27:46.796Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p><strong>学习参考：汇编语言（第2版）王爽</strong></p></blockquote><ul><li>存储器</li><li>指令和数据</li><li>存储单元</li><li>CPU 对存储器的读写</li><li>地址总线</li><li>数据总线</li><li>控制总线</li><li>小结</li><li>内存地址空间</li><li>主板</li><li>接口卡</li><li>各类存储器芯片</li><li>内存地址空间</li></ul><a id="more"></a><h1 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h1><blockquote><p>CPU 是计算机的核心部件，控制整个计算机的运行并进行计算。<br>要让一个 CPU 工作，就必须向它提供指令和数据。指令和数据在存储器中存放，即平常所说的内存。<br>磁盘上的数据或程序要读到内存中才可以被 CPU 使用。</p></blockquote><h1 id="指令和数据"><a href="#指令和数据" class="headerlink" title="指令和数据"></a>指令和数据</h1><blockquote><p>在内存或磁盘上，指令和数据没有任何区别，都是二进制信息。CPU 在工作时为同样的信息赋予了不同的意义。</p></blockquote><h1 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h1><blockquote><p>存储器被划分成若干个存储单元，每个存储器单元从 0 开始顺序编号，如一个存储器有 128 个存储单元，编号从 0 到 127<br>微型机存储器的存储单元可以存储一个 Byte（1 字节 8 bit，即 8 个二进制位）。含有 128 个存储单元的存储器可以存储 128 个 Byte。</p></blockquote><h1 id="CPU-对存储器的读写"><a href="#CPU-对存储器的读写" class="headerlink" title="CPU 对存储器的读写"></a>CPU 对存储器的读写</h1><blockquote><p>CPU 要从内存中读取数据，首先要指定存储单元的地址（即存储单元的编号）。<br>在一台微机中，不只有存储器一中起见。CPU 在读写数据时还要指明，它对哪一个器件进行操作，进行哪种操作，是从中读出数据，还是向里面写入数据</p></blockquote><p>CPU 要想进行数据的读写，必须和外部起见（标准说法是芯片）进行下面 3 类信息的交互</p><ul><li>存储单元的地址（地址信息）；</li><li>起见的选择，读或写的命令（控制信息）；</li><li>读或写的数据（数据信息）</li></ul><p> 在 CPU 中通过 <strong>总线</strong> 将地址、数据和控制信息传到存储器芯片中。</p><p> 根据传送信息的不同，总线从逻辑上分为 3 类</p><ul><li>地址总线</li><li>控制总线</li><li>数据总线</li></ul><p>CPU 从 3 号单元中读取数据的过程</p><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljseen73zj30im0bnq3e.jpg" alt=""></p><ol><li>CPU 通过地址线将地址信息 3 发出</li><li>CPU 通过控制线发出内存读命令，选中存储器芯片，并通知它，将要从中读取数据</li><li>存储器将 3 号单元中的数据 8 通过数据线送入 CPU</li></ol><p>写操作与读操作的步骤类似。如向 3 号单元写入数据 26</p><ol><li>CPU 通过地址线将地址信息 3 发出</li><li>CPU 通过控制线发出内存命令，选中存储器芯片，并通知它，要想其中写入数据</li><li>CPU 通过数据线将数据 26 送入内存的 3 号单元中</li></ol><h1 id="地址总线"><a href="#地址总线" class="headerlink" title="地址总线"></a>地址总线</h1><blockquote><p>CPU 通过地址总线来指定存储器单元。地址总线上能传送多少个不同的信息，CPU 就可以对多少个存储单元进行寻址。<br>一个 CPU 有 N 根地址线，则可以说这个 CPU 的地址总线的宽度为 N。这样的 CPU 最多可以寻找 2 的 N 次方个内存单元</p></blockquote><h1 id="数据总线"><a href="#数据总线" class="headerlink" title="数据总线"></a>数据总线</h1><blockquote><p>CPU 与内存或其他器件之间的数据传送是通过数据总线来进行的。数据总线的宽度决定了 CPU 和外界的数据传送速度。8 根数据总线一次可传送一个 8 位二进制数据（即一个字节）。16 根数据总线一次可以传送两个字节。</p></blockquote><h1 id="控制总线"><a href="#控制总线" class="headerlink" title="控制总线"></a>控制总线</h1><blockquote><p>CPU 对外部器件的控制是通过控制总线来进行的。在这里控制总线是一个总称，控制总线是一些不同控制线的集合。有多少个控制总线，就意味着 CPU 提供了对外部器件的多少种控制。所以，控制总线的宽度决定了 CPU 对外部器件的控制能力。</p></blockquote><h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol><li>汇编指令是机器指令的助记符，同机器指令一一对应</li><li>每一种 CPU 都有自己的汇编指令集</li><li>CPU 可以直接使用的信息在存储器中存放</li><li>在存储器中指令和数据没有任何区别，都是二进制信息</li><li>存储单元从零开始顺序编号</li><li>一个存储单元可以存储 8 个 bit，即 8 位二进制数，一个存储单元是一个字节</li><li>1Byte = 8bit  1KB = 1024B  1MB = 1024KB  1GB = 1024MB（1GB = 2^30Byte, 1MB = 2^20Byte, 1KB = 2^10Byte）</li><li>每一个 CPU 芯片都有许多管脚，这些管脚和总线相连。也可以说，这些管脚引出总线。一个 CPU 可以引出 3 种总线的宽度标志了这个 CPU 的不同方面的性能：<ul><li>地址总线的宽度决定了 CPU 的寻址能力</li><li>数据总线的宽度决定了 CPU 与其他器件进行数据传送时的一次数据传送量</li><li>控制总线的宽度决定了 CPU 对系统中其他器件的控制能力</li></ul></li><li>总线宽度 N 与寻址能力的关系： 寻址能力=2^N</li><li>8 根数据总线一次可传送一个 8 位二进制数据（即一个字节），即宽度为 8 的数据总线读取 1024 字节的内容需要读 1024 次</li></ol><blockquote><p>Q：一个 CPU 的寻址能力为 8 KB，那么它的地址总线的宽度为？<br>A：<br>8 KB = 1024 * 8 Byte = 8192 Byte<br>设地址总线宽度为 N，则内存单元个数为 2 的 N 次方个，即 N = log(2)(8192) = 13<br>所以宽度为 13</p></blockquote><h1 id="内存地址空间"><a href="#内存地址空间" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><blockquote><p>举例来说，一个 CPU 的地址总线宽度为 10，那么可以寻址 1024 个内存单元，这 1024 个可寻到的内存单元就构成这个 CPU 的内存地址空间</p></blockquote><h1 id="主板"><a href="#主板" class="headerlink" title="主板"></a>主板</h1><blockquote><p>每一台 PC 机中，都有一个主板，主板上有核心器件和一些主要器件，这些器件通过总线（地址总线、数据总线、控制总线）相连。这些器件有 CPU、存储器、外围芯片组、扩展插槽等。扩展插槽上一般插有 RAM 内存条和各类接口卡</p></blockquote><h1 id="接口卡"><a href="#接口卡" class="headerlink" title="接口卡"></a>接口卡</h1><blockquote><p>接口卡直接控制外部设备，CPU 通过总线向接口卡发送命令，接口卡根据 CPU 的命令控制外设进行工作，从而实现 CPU 对外设的间接控制</p></blockquote><h1 id="各类存储器芯片"><a href="#各类存储器芯片" class="headerlink" title="各类存储器芯片"></a>各类存储器芯片</h1><p>从读写属性上看分为两类：</p><ul><li>随机存储器（RAM）：可读可写，但必须带电存储，关机后存储的内容丢失</li><li>只读存储器（ROM）：只能读不能写入，关机后其中的内容buu’i不会丢失</li></ul><p>从功能和连接上可分为一下几类：</p><ul><li>随机存储器<ul><li>存放供 CPU 使用的绝大部分程序和数据</li><li>主随机存储器由装在主板上 RAM 和插在扩展插槽上的 RAM 组成</li></ul></li><li>装有 BIOS 的 ROM</li><li>接口卡上的 RAM</li></ul><h1 id="内存地址空间-1"><a href="#内存地址空间-1" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><p>上述的那些存储器，在物理上是独立的器件，但是在以下两点两点上相同：</p><ul><li>都和 CPU 的总线相连</li><li>CPU 对它们进行读或写的时候都通过控制线发出内存读写命令</li></ul><blockquote><p>对 CPU 来讲，系统中的所有存储器中的存储单元都处于一个统一的逻辑存储器中，它的容量受 CPU 寻址能力的限制。这个逻辑存储器即是我们所说的内存地址空间</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;学习参考：汇编语言（第2版）王爽&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;存储器&lt;/li&gt;
-&lt;li&gt;指令和数据&lt;/li&gt;
-&lt;li&gt;存储单元&lt;/li&gt;
-&lt;li&gt;CPU 对存储器的读写&lt;/li&gt;
-&lt;li&gt;地址总线&lt;/li&gt;
-&lt;li&gt;数据总线&lt;/li&gt;
-&lt;li&gt;控制总线&lt;/li&gt;
-&lt;li&gt;小结&lt;/li&gt;
-&lt;li&gt;内存地址空间&lt;/li&gt;
-&lt;li&gt;主板&lt;/li&gt;
-&lt;li&gt;接口卡&lt;/li&gt;
-&lt;li&gt;各类存储器芯片&lt;/li&gt;
-&lt;li&gt;内存地址空间&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>
