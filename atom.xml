@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innofang.github.io/"/>
-  <updated>2019-03-22T11:45:26.900Z</updated>
+  <updated>2019-03-23T06:15:39.532Z</updated>
   <id>https://innofang.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>YARN 架构</title>
+    <link href="https://innofang.github.io/2019/03/23/YARN-%E6%9E%B6%E6%9E%84/"/>
+    <id>https://innofang.github.io/2019/03/23/YARN-架构/</id>
+    <published>2019-03-23T06:11:25.000Z</published>
+    <updated>2019-03-23T06:15:39.532Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Yarn-架构"><a href="#Yarn-架构" class="headerlink" title="Yarn 架构"></a>Yarn 架构</h2><p>YARN 的基本思想是把资源管理和作业调度拆分成单独的守护进程，其拥有一个全局的  ResourceManager（RM) 和对每个应用的 ApplicationMaster（AM)。应用既可以是单个作业，也可以是多个作业。</p><a id="more"></a><p>ResourceManger 和 NodeManager 构成了数据计算框架。ResourceManager 是在系统中的所有应用之间仲裁资源的最终权限。NodeManager 是每台机器的框架代理，负责容器（Container)的管理，监视其资源的使用情况（CPU、内存、磁盘、网络），并向 ResourceManger 或者调度器（Scheduler）汇报这些情况。</p><p>实际上，每个应用程序的 ApplicationMaster 是一个特定于框架的库，其任务是协调来自 ResourceManager 的资源，并与 NodeManager 一起执行和监视这些任务。</p><p><img src="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/yarn_architecture.gif" alt=""></p><p>ResourceManager 由两部分组成：Schedulaer 和 ApplicationMaster</p><p>Scheduler 会根据容量、队列等约束，负责将资源分配给各种正在运行的应用。在某种意义上，Scheduler 就是一个纯粹的调度器而已，它不对应用进行状态的监控或跟踪。此外，它不会保证因为应用错误或硬件故障而重启失败的任务。Scheduler 根据应用的资源需求来执行其调度功能。它基于资源容器的抽象概念执行调度功能，该资源容器包含内存、CPU、磁盘、网络等。</p><p>Scheduler 具有一个可插入策略，该策略负责在不同的队列、应用等之间划分集群资源。当前诸如 <a href="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/CapacityScheduler.html" target="_blank" rel="noopener">CapacityScheduler</a> 和 <a href="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/FairScheduler.html" target="_blank" rel="noopener">FairScheduler</a> 就是一些插件的示例。</p><p>ApplicaitonMaster 负责接收作业提交，协商执行特定于应用的 ApplicationMaster 的第一个容器，并提供在失败时重启 ApplicationMaster 容器的服务。每个应用的 ApplicationMaster 负责调度来自 Scheduler 的合适的资源容器，跟踪它们的状态并监视其进度。</p><p>Hadoop 2.x 中的 MapReduce 与以前的稳定版本（Hadoop 1.x）保持 API 兼容性。这意味着所有 MapReduce 作业都应该在 YARN 上保持不变，只需重新编译即可。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul><li><p>Client</p><ul><li>提交作业</li><li>查询作业的运行进度</li><li>杀死作业</li></ul></li><li><p>ResuourceManager</p><ul><li>整个集群同一时间提供服务的 ResourceManager 只有一个</li><li>负责集群资源的统一管理和调度</li><li>处理客户端的请求（提交作业、杀死作业等）</li><li>监控 NodeManager，当 NodeManager出现故障时，NodeManager 上的运行的任务需要询问 ApplicationMaster 如何处理</li></ul></li><li><p>NodeManager </p><ul><li>整个集群有多个</li><li>负责节点本身的资源管理</li><li>定期向 ResourceManager 汇报本节点的资源使用情况</li><li>接收来自 ResourceManager 的命令（重启 Container 等）</li><li>处理来自 ApplicationMaster 的命令</li></ul></li><li><p>ApplicationMaster</p><ul><li>每个应用程序对应一个 ApplicaitonMaster</li><li>负责应用程序的管理</li><li>为应用程序向 ResourceManager 申请资源并分配给内部的 Task</li><li>需要与 NodeManager 进行通信（启动/停止 Task）</li><li>Task 运行在 Container 中，ApplicationMaster 也运行在 Container 中</li></ul></li><li><p>Container</p><ul><li>封装了 CPU、Memory 等资源的一个容器</li><li>是一个任务运行环境的抽象</li></ul></li></ul><h2 id="Refernece"><a href="#Refernece" class="headerlink" title="Refernece"></a>Refernece</h2><p><a href="http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html" target="_blank" rel="noopener">Apache Hadoop YARN</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Yarn-架构&quot;&gt;&lt;a href=&quot;#Yarn-架构&quot; class=&quot;headerlink&quot; title=&quot;Yarn 架构&quot;&gt;&lt;/a&gt;Yarn 架构&lt;/h2&gt;&lt;p&gt;YARN 的基本思想是把资源管理和作业调度拆分成单独的守护进程，其拥有一个全局的  ResourceManager（RM) 和对每个应用的 ApplicationMaster（AM)。应用既可以是单个作业，也可以是多个作业。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Hadoop" scheme="https://innofang.github.io/categories/Hadoop/"/>
+    
+    
+      <category term="Hadoop" scheme="https://innofang.github.io/tags/Hadoop/"/>
+    
+  </entry>
   
   <entry>
     <title>HDFS 架构</title>
@@ -175,9 +197,9 @@
       <category term="算法" scheme="https://innofang.github.io/categories/kotlin/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="kotlin" scheme="https://innofang.github.io/tags/kotlin/"/>
-    
       <category term="算法" scheme="https://innofang.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="kotlin" scheme="https://innofang.github.io/tags/kotlin/"/>
     
   </entry>
   
@@ -533,45 +555,6 @@
 &lt;li&gt;CPU 提供的栈机制&lt;/li&gt;
 &lt;li&gt;push、pop 指令 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;小结&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>汇编语言学习笔记（二）：寄存器</title>
-    <link href="https://innofang.github.io/2017/11/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8/"/>
-    <id>https://innofang.github.io/2017/11/18/汇编语言学习笔记（二）：寄存器/</id>
-    <published>2017-11-18T05:55:26.000Z</published>
-    <updated>2017-11-18T05:57:06.382Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p><strong>学习参考：汇编语言（第2版）王爽</strong></p></blockquote><ul><li>通用寄存器</li><li>字在寄存器中的存储</li><li>几条汇编指令</li><li>物理地址</li><li>16 位结构的 CPU</li><li>8086CPU 给出物理地址的方法</li><li>“段地址*16+偏移地址=物理地址” 的本质含义</li><li>段的概念</li><li>段寄存器</li><li>CS 和 IP</li><li>修改 CS、IP 的指令</li><li>代码段</li><li>小结</li></ul><a id="more"></a><p>一个典型的 CPU 由元算器、控制器、寄存器等器件构成，这些器件靠内部总线相连。在 CPU 中：</p><ul><li>运算器进行信息处理</li><li>寄存器进行信息存储</li><li>控制器控制各种器件进行工作</li><li>内部总线连接各种器件，在它们之间进行数据的传送</li></ul><p>8086CPU 有 14 个寄存器，每个寄存器有一个名称。这些寄存器是：<br>AX、BX、CX、DX、SI、DI、SP、BP、IP、CS、SS、DS、ES、PSW</p><h1 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h1><blockquote><p>8086CPU 的所有寄存器都是 16 位的，可以存放两个字节。AX、BX、CX、DX 这 4个存储器通常用来存放一般性到的数据，被称为通用寄存器</p></blockquote><p>一个 16 位寄存器可以存储一个 16 位的数据。8086CPU 的 AX、BX、CX、DX 这 4 个寄存器都可分为两个可独立使用的 8 位寄存器来用：</p><ul><li>AX 可分为 AH 和 AL</li><li>BX 可分为 BH 和 BL</li><li>CX 可分为 CH 和 CL</li><li>DX 可分为 DH 和 DL</li></ul><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljz7meu61j30ik0cddge.jpg" alt=""></p><p>以 AX 为例， 8086CPU 的 16 位寄存器分为两个 8 位寄存器的情况</p><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljzbcgovnj31830dmgnc.jpg" alt=""></p><p>AX 的低 8 位 （0位 ~ 7位）构成了 AL 寄存器， 高 8 位（8位 ~ 15位）构成了 AH 寄存器。AH 和 AL 寄存器可以独立使用的 8 位寄存器。下图为 16位寄存器及它所分成的两个 8 位寄存器的数据存储的情况，在 AH 中存储了它的高 8 位，在 AL 中存储了它的低 8 位。</p><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljzkvaywkj30zc0m640o.jpg" alt=""></p><h1 id="字在寄存器中的存储"><a href="#字在寄存器中的存储" class="headerlink" title="字在寄存器中的存储"></a>字在寄存器中的存储</h1><p>8086CPU 可以一次性处理以下两种尺寸的数据</p><ul><li>字节：记为 byte，一个字节由 8 个 bit 组成，可以存在 8 位寄存器中</li><li>字：记为 word，一个字由两个字节组成，这两个字节分别称为这个字的高位字节和低位字节</li></ul><p>一个字可以存在一个 16 位寄存器中，这个字的高位字节和低位字节自然就存在这个寄存器的高 8 位寄存器和低 8 位寄存器中</p><h1 id="几条汇编指令"><a href="#几条汇编指令" class="headerlink" title="几条汇编指令"></a>几条汇编指令</h1><p>通过汇编指令控制 CPU 进行工作</p><blockquote><p>汇编指令举例</p></blockquote><table><thead><tr><th>汇编指令</th><th>控制 CPU 完成的操作</th><th>用高级语言的语法描述</th></tr></thead><tbody><tr><td>mov ax,18</td><td>将 18 送入寄存器 AX</td><td>AX=18</td></tr><tr><td>mov ah,78</td><td>将 78 送入寄存器 AH</td><td>AH=78</td></tr><tr><td>add ax,8</td><td>将寄存器 AX 中的数值加上 8</td><td>AX=AX+8</td></tr><tr><td>mov ax,bx</td><td>将寄存器 BX 中的数据送入寄存器 AX</td><td>AX=BX</td></tr><tr><td>add ax,bx</td><td>将 AX 和 BX 中的数值相加，结果存在 AX 中</td><td>AX=AX+BX</td></tr></tbody></table><blockquote><p>程序段中指令的执行情况之一（原 AX 中的值：0000H，原 BX 中的值：0000H）</p></blockquote><table><thead><tr><th>程序段中的指令</th><th>指令执行后 AX 中的数据</th><th>指令执行后 BX 中的数据</th></tr></thead><tbody><tr><td>mov ax,4E20H</td><td>4e20H</td><td>0000H</td></tr><tr><td>add ax,1406H</td><td>6226H</td><td>0000H</td></tr><tr><td>mov bx,2000H</td><td>6226H</td><td>2000H</td></tr><tr><td>add ax,bx</td><td>8226H</td><td>2000H</td></tr><tr><td>mov bx,ax</td><td>8226H</td><td>8226H</td></tr><tr><td>add ax,bx</td><td>044cH</td><td>8226H </td></tr></tbody></table><p>因为 8226H + 8226H = 1044CH ，但是 ax 为 16 位寄存器，只能存放 4 位十六进制的数据，所以最高位的 1 不能在 ax 中保存， ax 中的数据为： 044CH</p><p>在对 al， ah 进行操作时，注意，此是 al 是作为一个独立的 8 位寄存器来使用的，和 ah 没有关系， CPU 在执行这条指令时认为 ah 和 al 是两个不相关的寄存器，如果操作数超过范围则高位会丢失</p><blockquote><p>在进行数据传送或运算时，要注意指令的两个操作对象的位数应当是一致的</p></blockquote><h1 id="物理地址"><a href="#物理地址" class="headerlink" title="物理地址"></a>物理地址</h1><blockquote><p>CPU 访问内存单元时，要给出内存单元的地址。所有的内存单元构成的存储空间是一个一维的线性空间，每一个内存单元在这个空间中都有唯一的地址，这个唯一的地址称为物理地址<br>CPU 通过地址总线送入存储器的，必须是一个内存单元的物理地址。在 CPU 想地址总线上发出物理地址之前，必须要在内部先形成这个物理地址</p></blockquote><h1 id="16-位结构的-CPU"><a href="#16-位结构的-CPU" class="headerlink" title="16 位结构的 CPU"></a>16 位结构的 CPU</h1><p>16 位结构描述了一个 CPU 具有下面几方面的结构特性：</p><ul><li>运算器一次最多可以处理 16 位的数据</li><li>寄存器的最大宽度为 16 位</li><li>寄存器和运算器之间的通路为 16 位</li></ul><blockquote><p>在 8086 内部， 一次性处理、传输、暂时存储的信息的最大长度是 16 位的</p></blockquote><h1 id="8086CPU-给出物理地址的方法"><a href="#8086CPU-给出物理地址的方法" class="headerlink" title="8086CPU 给出物理地址的方法"></a>8086CPU 给出物理地址的方法</h1><blockquote><p>8086CPU 有 20 位地址总线，可以传送 20 位地址，达到 1MB 寻址能力。8086CPU 是 16 位结构的， 一次性处理、传输、暂时存储的信息的最大长度是 16 位的。从内部结构看，如果将地址从内部简单地发出，那么它只能送出 16 位的地址，表现出的寻址能力只有 64 KB</p><p>8086CPU 采用一种在内部用两个 16 位地址合成的方法来形成一个 20 位的物理地址</p></blockquote><p> <img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fll8swyu6jj30ez09oglx.jpg" alt=""></p><ol><li>CPU 中的相关部件提供连<strong>两个 16 位的地址，一个称为段地址，一个称为偏移地址</strong></li><li>段地址和偏移地址通过内部总线送入一个称为地址加法器的部件</li><li>地址加法器将两个 16 位地址合成为一个 20 位的物理地址</li><li>地址加法器通过内部总线将 20 位物理地址送入输入输出控制电路</li><li>输入输出控制电路将 20 位物理地址送上地址总线</li><li>20 位物理地址被地址总线送到存储器</li></ol><blockquote><p>地址加法器采用 <strong>物理地址=段地址*16+偏移地址</strong> 的方法用段地址和偏移地址合成物理地址。</p><p>一个十六进制的数据左移 1 位，相当于乘以 16<br>一个 X 进制的数据左移 1 位，相当于乘以 X</p></blockquote><h1 id="“段地址-16-偏移地址-物理地址”-的本质含义"><a href="#“段地址-16-偏移地址-物理地址”-的本质含义" class="headerlink" title="“段地址*16+偏移地址=物理地址” 的本质含义"></a>“段地址*16+偏移地址=物理地址” 的本质含义</h1><blockquote><p>CPU 在访问内存时，用一个基础地址（段地址*16）和一个相对于基础地质的偏移地址相加，给出内存单元的物理地址</p></blockquote><h1 id="段的概念"><a href="#段的概念" class="headerlink" title="段的概念"></a>段的概念</h1><blockquote><p>内存并没有分段，段的划分来自于 CPU，我们可以用分段的方式来管理内存</p><p>地址 10000H ~ 100FFH 的内存单元组成一个段，该段的起始地址为 10000H，段地址为 1000H 大小为 100H </p></blockquote><p><strong>注意</strong></p><ul><li>CPU 可以用不同的段地址和偏移地址形成同一个物理地址</li><li>偏移地址 16 位，变化范围为 0~FFFFH，仅用偏移地址来寻址最多可寻 64KB 个内存单元</li></ul><blockquote><p>“数据在 21F60H 内存单元中” 的一般说法是：</p><ul><li>数据存在内存 2000：1F60 单元中</li><li>数据存在内存的 2000 段中的 1F60 单元中</li></ul></blockquote><h1 id="段寄存器"><a href="#段寄存器" class="headerlink" title="段寄存器"></a>段寄存器</h1><blockquote><p>段地址在 8086CPU 的段寄存器中存放。8086CPU 有 4 个段寄存器：CS、DS、SS、ES。当 8086CPU 要访问内存时由这 4 个段寄存器提供内存单元的段地址</p></blockquote><h1 id="CS-和-IP"><a href="#CS-和-IP" class="headerlink" title="CS 和 IP"></a>CS 和 IP</h1><blockquote><p>CS 和 IP 是 8086CPU 中两个最关键的寄存器，它们指示了 CPU 当前要读取指令的地址</p></blockquote><ul><li>CS : 代码段寄存器 （Code Segment register）</li><li>IP : 指令指针寄存器 （Instruction Pointer register）</li></ul><blockquote><p>在 8086CPU 机中，任意时刻，设 CS 中的内容为 M，IP 中的内容为 N，8086CPU 将从内存  M*16+N 单元开始，读取一条指令并执行。即任意时刻，CPU 将 CS:IP 指向的内容当作指令执行</p></blockquote><p>8086CPU 的工作过程可以简要描述如下：</p><ol><li>从 CS:IP 指向的内存单元读取指令，读取的指令进入指令缓冲器</li><li>IP=IP+所都去指令的长度，从而指向下一条指令</li><li>执行指令。转到（1），重复这个过程</li></ol><p>Q：CPU 根据什么将内存中的信息看作指令？<br>A：CPU 将 CS:IP 指向的内存单元中的内容看作指令，因为，在任何时候，CPU 将 CS、IP 中的内容当作指令的段地址和偏移地址，用它们合成指令的物理地址，到内存中读取指令码，执行。如果说，内存中的一段信息曾被 CPU 执行过的话，那么，它所在的内存单元必然被 CS:IP 指向过。</p><h1 id="修改-CS、IP-的指令"><a href="#修改-CS、IP-的指令" class="headerlink" title="修改 CS、IP 的指令"></a>修改 CS、IP 的指令</h1><blockquote><p>在 CPU 中，程序员能够用指令读写的部件只有寄存器，程序员可以通过改变寄存器中的内容实现对 CPU 的控制。CPU 从何处执行指令是由 CS、IP 中的内容决定的，程序员可以通过改变 CS、IP 中的内容来控制 CPU</p><p><strong>8086CPU 大部分寄存器的值，都可以用 mov 指令来改变，mov 指令被称为传送指令</strong></p><p>mov 指令不能用于设置 CS、IP 的值，因为 8086CPU 没有提供该功能</p><p>能够改变 CS、IP 的内容的指令被称为转移指令</p></blockquote><p>一个简单的可以修改 CS、IP 的指令：JMP 指令。若想同时修改 CS、IP 的内容，可用形如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmp 段地址：偏移地址</span><br></pre></td></tr></table></figure></p><p>的指令完成。其功能为：<strong>用指令中给出的段地址修改 CS，偏移地址修改 IP</strong></p><p>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmp 2AE3:3  ;执行后：CS=2AE3H, IP=0003H, CPU 将从 2AE33H 处读取指令</span><br><span class="line">jmp 3:0B16  ;执行后：CS=0003H, IP=0B16H, CPU 将从 00B46H 处读取指令</span><br></pre></td></tr></table></figure></p><p>若想仅修改 IP 的内容，可用形如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmp 某一合法寄存器</span><br></pre></td></tr></table></figure></p><p>的指令完成。其功能为：<strong>用寄存器中的值修改 IP</strong></p><p>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jmp ax  ;指令执行前：ax=1000H, CS=2000H, IP=0003H</span><br><span class="line">        ;指令执行后：ax=1000H, CS=2000H, IP=1000H</span><br><span class="line">        </span><br><span class="line">jmp bx  ;指令执行前：bx=0B16H, CS=2000H, IP=0003H</span><br><span class="line">        ;指令执行后：bx=0B16H, CS=2000H, IP=0B16H</span><br></pre></td></tr></table></figure></p><p>举个不恰当的比喻，这有点类似于 <code>mov IP,ax</code>，当然这个指令是不存在的，不过可以这么理解</p><h1 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h1><p>首先我们可以将长度为 N （N &lt;= 64KB）的一组代码，存在一组地址连续、起始地址为 16 的倍数的内存单元中，可以认为这段内存是用来存放代码的，从而定义一个代码段。</p><p>那么如何使得代码段中的指令被执行？CPU 只认被 CS:IP 指向所定义的代码段中的第一条指令的首地址。所以，要让 CPU 执行我们放在代码段中的指令，必须要将 CS:IP 指向所定义的代码段中的第一条指令的首地址。比如代码段存放在 123B0H ~ 123B9H 的一组内存单元中，要让这段代码得到执行，可设 CS=123BH、IP=0000H</p><h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol><li>段地址在 8086CPU 的段寄存器中存放。当 8086CPU 要访问内存时，由段寄存器提供内存单元的段地址。8086CPU 有 4 个段寄存器，其中 CS 用来存放指令的段地址</li><li>CS 存放指令的段地址，IP 存放指令的偏移地址。8086 机中，任意时刻，CPU 将 CS:IP 指向的内容当作指令执行。</li><li>8086CPU 的工作过程：<br>i. 从 CS:IP 指向的内存单元读取指令，读取的指令进入指令缓冲器<br>ii. IP 指向下一条指令<br>iii. 执行指令（转到步骤 i ，重复这个过程）     </li><li>8086 提供转移指令修改 CS、IP 的内容</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;学习参考：汇编语言（第2版）王爽&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;通用寄存器&lt;/li&gt;
-&lt;li&gt;字在寄存器中的存储&lt;/li&gt;
-&lt;li&gt;几条汇编指令&lt;/li&gt;
-&lt;li&gt;物理地址&lt;/li&gt;
-&lt;li&gt;16 位结构的 CPU&lt;/li&gt;
-&lt;li&gt;8086CPU 给出物理地址的方法&lt;/li&gt;
-&lt;li&gt;“段地址*16+偏移地址=物理地址” 的本质含义&lt;/li&gt;
-&lt;li&gt;段的概念&lt;/li&gt;
-&lt;li&gt;段寄存器&lt;/li&gt;
-&lt;li&gt;CS 和 IP&lt;/li&gt;
-&lt;li&gt;修改 CS、IP 的指令&lt;/li&gt;
-&lt;li&gt;代码段&lt;/li&gt;
-&lt;li&gt;小结&lt;/li&gt;
-&lt;/ul&gt;
     
     </summary>
     

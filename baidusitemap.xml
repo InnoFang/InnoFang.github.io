@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>https://innofang.github.io/2019/03/23/YARN-%E6%9E%B6%E6%9E%84/</loc>
+    <lastmod>2019-03-23T06:15:39.532Z</lastmod>
+    <data>
+        <display>
+        <title>YARN 架构</title>
+        <pubTime>2019-03-23T06:11:25.000Z</pubTime>
+        
+        <tag>Hadoop</tag>
+         
+         
+           
+             
+              <breadCrumb title="Hadoop" url="https://innofang.github.io/categories/Hadoop/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://innofang.github.io/2019/03/22/HDFS-%E6%9E%B6%E6%9E%84/</loc>
     <lastmod>2019-03-22T11:45:26.900Z</lastmod>
     <data>
@@ -236,9 +256,9 @@
         <title>酷! kotlin 的一行快排实现</title>
         <pubTime>2018-02-27T06:44:31.000Z</pubTime>
         
-        <tag>kotlin</tag>
-         
         <tag>算法</tag>
+         
+        <tag>kotlin</tag>
          
          
            
