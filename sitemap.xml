@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://innofang.github.io/gallery/index.html</loc>
+    
+    <lastmod>2019-03-28T01:01:15.732Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://innofang.github.io/2018/02/27/%E9%85%B7!%20kotlin-%E7%9A%84%E4%B8%80%E8%A1%8C%E5%BF%AB%E6%8E%92%E5%AE%9E%E7%8E%B0/</loc>
     
     <lastmod>2019-03-28T00:57:10.051Z</lastmod>
@@ -89,13 +96,6 @@
     <loc>https://innofang.github.io/contribution/index.html</loc>
     
     <lastmod>2019-03-28T00:49:11.169Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://innofang.github.io/gallery/index.html</loc>
-    
-    <lastmod>2019-03-28T00:35:15.280Z</lastmod>
     
   </url>
   
