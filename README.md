@@ -10,6 +10,8 @@
 <li><a href="https://innofang.github.io/archives/">Archives</a></li>
 <li><a href="https://innofang.github.io/tags/">Tag</a></li>
 <li><a href="https://innofang.github.io/categories/">Categories</a></li>
+<li><a href="https://innofang.github.io/contribution/">Contribution</a></li>
+<li><a href="https://innofang.github.io/gallery/">Gallery</a></li>
 <li><a href="https://innofang.github.io/about/">About</a></li>
 </ul>
 
