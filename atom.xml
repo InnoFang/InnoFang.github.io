@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innofang.github.io/"/>
-  <updated>2019-04-15T05:04:38.487Z</updated>
+  <updated>2019-04-15T05:09:46.933Z</updated>
   <id>https://innofang.github.io/</id>
   
   <author>
@@ -21,18 +21,13 @@
     <link href="https://innofang.github.io/2019/04/15/%E4%B8%8D%E7%9F%A5%E4%B8%8D%E8%A7%89%E5%B7%B2%E7%BB%8F%E5%86%99%E5%A4%9F%E4%BA%86%E5%8D%81%E4%B8%87%E8%A1%8C%E4%BB%A3%E7%A0%81/"/>
     <id>https://innofang.github.io/2019/04/15/不知不觉已经写够了十万行代码/</id>
     <published>2019-04-15T02:23:00.000Z</published>
-    <updated>2019-04-15T05:04:38.487Z</updated>
+    <updated>2019-04-15T05:09:46.933Z</updated>
     
-    <content type="html"><![CDATA[<p>大一的时候，那会还是一个刚开始学 C 语言的小白，偶然间看到过一个问题 <code>如何才能写够十万行代码</code>。当时觉得，我这种水平要在毕业前写够十万行代码真的太难了，我也没奢望能写够这么多的代码。</p><!-- moew --><p>大学四年，转瞬即逝。不知不觉间，我差不多写到了大学（可能）最后一个项目 —— 毕设。现在已是四月中旬，经过一个多月的摸索，一边查阅文献，一边尝试，毕设也算是接近完成。偶然回过头想看看我那些与代码为伴的时光，很好奇这四年到底写了多少行代码？</p><p>我这四年写过的项目包括但不限于算法实践、Android、桌面 GUI、React、Spring Boot、机器学习、深度学习等，没接过外包，写过的代码有 C、C++、Java、Kotlin、Python、JavaScript、Dart，Processing 等，其它还玩过的比如 Lisp、Clojure、Matlab、Shell 等，再比如 HTML、CSS、XML 这些就暂且不算代码了吧，Github 上托管的项目也有 23 个了。于是就想写一个小工具来测一测自己还记得的且 Github 上还维护的项目，那些本地未上传或搬不上台面的项目就不统计了，下面是结果截图</p><p><img src="https://raw.githubusercontent.com/InnoFang/jotter/image-hosting/%E4%B8%8D%E7%9F%A5%E4%B8%8D%E8%A7%89%E5%B7%B2%E7%BB%8F%E5%86%99%E5%A4%9F%E4%BA%86%E5%8D%81%E4%B8%87%E8%A1%8C%E4%BB%A3%E7%A0%81/result.png" alt="result" title="1 million code result screenshot"></p><p>总代码行数为 163,747，其中注释有 23,277，空行 29,437，所以有效代码大概为 111,033。这次写的代码计数工具，剔除了 out、build、node_modules、target 等项目生成文件，并且我检查过所有输出的路径，所以最后结果还是比较可信的。</p><p>上面的结果显示，我的 Java 代码占总有效代码行数的 <code>67.90%</code>。我大一进了 Android 实验室之后，就把大部分经历都投入到了 Java 和 Android 开发中，从大一下写到了大三上，差不多两年时间，后期为了跟进前沿技术开始学习了 Kotlin，期间也让我一直都很困惑，自己的技术面过于狭窄。到了大三下开始学习 Web 开发，我没有使用学校教的 SSH 开发，而是另外自学了 Spring Boot 和 React，一是想着拓宽自己的技术面，二来想着框架既然要学为什么不学新的呢？最后使用这两项技术，利用前后台分离的方式，实现了一个 <a href="https://github.com/innofang/jokul" target="_blank" rel="noopener">Jokul 电影网站</a>，写完后也算是打开了新世界吧，至少尝试过其它的开发；考研之前两个月还学了 TensorFlow 和 Flask，写了一个手写数字识别的网站；大四上考完研后，与同学合作完成了软件大型实验周的课设，我负责前端部分完成了 <a href="https://github.com/innofang/haetae" target="_blank" rel="noopener">Haetae 獬豸</a>，这是一个信访大数据智能管理系统的前端，因为涉及敏感数据，所以后端没有开源，这也算是我大学四年唯一一次真正意义上的协同开发。</p><p>但是，即使写够了十万行代码，我感觉也只是到了另一个阶段而已，并没什么特别的感觉，或者说也只算是成为了入门码农吧。这次考研没有上岸，惆怅了很久，如果前一年去找工作的话，现在应该也是不一样的景象，只是现在心里还是放不下，想了好久还是希望能够读书，学更多自己想学的东西，只可惜现在依旧长路漫漫。</p><blockquote><p>塞翁失马，焉知非福</p></blockquote><p>往后路的还得慢慢走呀。</p><hr><p>对了，安利下这次统计代码用的工具吧 —— <a href="https://github.com/innofang/code-counter" target="_blank" rel="noopener">Code Counter</a>，可以通过指定路径或者指定包含多个路径的文件作为输入，统计指定后缀的代码文件，实现了过滤功能，并且能够统计出代码数、空行数、注释行数，基本满足常见需求。</p><p>欢迎使用及反馈 。😁</p>]]></content>
+    <content type="html"><![CDATA[<p>大一的时候，那会还是一个刚开始学 C 语言的小白，偶然间看到过一个问题 <code>如何才能写够十万行代码</code>。当时觉得，我这种水平要在毕业前写够十万行代码真的太难了，我也没奢望能写够这么多的代码。</p><a id="more"></a><p>大学四年，转瞬即逝。不知不觉间，我差不多写到了大学（可能）最后一个项目 —— 毕设。现在已是四月中旬，经过一个多月的摸索，一边查阅文献，一边尝试，毕设也算是接近完成。偶然回过头想看看我那些与代码为伴的时光，很好奇这四年到底写了多少行代码？</p><p>我这四年写过的项目包括但不限于算法实践、Android、桌面 GUI、React、Spring Boot、机器学习、深度学习等，没接过外包，写过的代码有 C、C++、Java、Kotlin、Python、JavaScript、Dart，Processing 等，其它还玩过的比如 Lisp、Clojure、Matlab、Shell 等，再比如 HTML、CSS、XML 这些就暂且不算代码了吧，Github 上托管的项目也有 23 个了。于是就想写一个小工具来测一测自己还记得的且 Github 上还维护的项目，那些本地未上传或搬不上台面的项目就不统计了，下面是结果截图</p><p><img src="https://raw.githubusercontent.com/InnoFang/jotter/image-hosting/%E4%B8%8D%E7%9F%A5%E4%B8%8D%E8%A7%89%E5%B7%B2%E7%BB%8F%E5%86%99%E5%A4%9F%E4%BA%86%E5%8D%81%E4%B8%87%E8%A1%8C%E4%BB%A3%E7%A0%81/result.png" alt="result" title="1 million code result screenshot"></p><p>总代码行数为 163,747，其中注释有 23,277，空行 29,437，所以有效代码大概为 111,033。这次写的代码计数工具，剔除了 out、build、node_modules、target 等项目生成文件，并且我检查过所有输出的路径，所以最后结果还是比较可信的。</p><p>上面的结果显示，我的 Java 代码占总有效代码行数的 <code>67.90%</code>。我大一进了 Android 实验室之后，就把大部分经历都投入到了 Java 和 Android 开发中，从大一下写到了大三上，差不多两年时间，后期为了跟进前沿技术开始学习了 Kotlin，期间也让我一直都很困惑，自己的技术面过于狭窄。到了大三下开始学习 Web 开发，我没有使用学校教的 SSH 开发，而是另外自学了 Spring Boot 和 React，一是想着拓宽自己的技术面，二来想着框架既然要学为什么不学新的呢？最后使用这两项技术，利用前后台分离的方式，实现了一个 <a href="https://github.com/innofang/jokul" target="_blank" rel="noopener">Jokul 电影网站</a>，写完后也算是打开了新世界吧，至少尝试过其它的开发；考研之前两个月还学了 TensorFlow 和 Flask，写了一个手写数字识别的网站；大四上考完研后，与同学合作完成了软件大型实验周的课设，我负责前端部分完成了 <a href="https://github.com/innofang/haetae" target="_blank" rel="noopener">Haetae 獬豸</a>，这是一个信访大数据智能管理系统的前端，因为涉及敏感数据，所以后端没有开源，这也算是我大学四年唯一一次真正意义上的协同开发。</p><p>但是，即使写够了十万行代码，我感觉也只是到了另一个阶段而已，并没什么特别的感觉，或者说也只算是成为了入门码农吧。这次考研没有上岸，惆怅了很久，如果前一年去找工作的话，现在应该也是不一样的景象，只是现在心里还是放不下，想了好久还是希望能够读书，学更多自己想学的东西，只可惜现在依旧长路漫漫。</p><blockquote><p>塞翁失马，焉知非福</p></blockquote><p>往后路的还得慢慢走呀。</p><hr><p>对了，安利下这次统计代码用的工具吧 —— <a href="https://github.com/innofang/code-counter" target="_blank" rel="noopener">Code Counter</a>，可以通过指定路径或者指定包含多个路径的文件作为输入，统计指定后缀的代码文件，实现了过滤功能，并且能够统计出代码数、空行数、注释行数，基本满足常见需求。</p><p>欢迎使用及反馈 。😁</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;大一的时候，那会还是一个刚开始学 C 语言的小白，偶然间看到过一个问题 &lt;code&gt;如何才能写够十万行代码&lt;/code&gt;。当时觉得，我这种水平要在毕业前写够十万行代码真的太难了，我也没奢望能写够这么多的代码。&lt;/p&gt;
-&lt;!-- moew --&gt;
-&lt;p&gt;大学四年，转瞬即逝。不
-      
+      &lt;p&gt;大一的时候，那会还是一个刚开始学 C 语言的小白，偶然间看到过一个问题 &lt;code&gt;如何才能写够十万行代码&lt;/code&gt;。当时觉得，我这种水平要在毕业前写够十万行代码真的太难了，我也没奢望能写够这么多的代码。&lt;/p&gt;
     
     </summary>
     
