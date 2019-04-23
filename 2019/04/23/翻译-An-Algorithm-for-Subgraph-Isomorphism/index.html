@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="[翻译] An Algorithm for Subgraph Isomorphism"><meta name="keywords" content="翻译"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>[翻译] An Algorithm for Subgraph Isomorphism | Inno's Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#翻译-An-Algorithm-foir-Subgraph-Isomorphism"><span class="toc-number">1.</span> <span class="toc-text">[翻译] An Algorithm foir Subgraph Isomorphism</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-介绍"><span class="toc-number">1.1.</span> <span class="toc-text">1. 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-用于子图同构的简单迭代算法"><span class="toc-number">1.2.</span> <span class="toc-text">2. 用于子图同构的简单迭代算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-使用细化过程（Refinement-Procedure）的算法"><span class="toc-number">1.3.</span> <span class="toc-text">3. 使用细化过程（Refinement Procedure）的算法</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">The developer who doesn't want to be an artist isn't a great geek.</div><div class="follow-button"><a href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">54</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">15</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7dlebuvj31uo1b4438.jpg);"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span></div><div id="post-info"><div id="post-title">[翻译] An Algorithm for Subgraph Isomorphism</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-04-23</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/算法/">算法</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="翻译-An-Algorithm-foir-Subgraph-Isomorphism"><a href="#翻译-An-Algorithm-foir-Subgraph-Isomorphism" class="headerlink" title="[翻译] An Algorithm foir Subgraph Isomorphism"></a>[翻译] An Algorithm foir Subgraph Isomorphism</h1><blockquote>
+<p>作者：J. R. Ullmann</p>
+<p>翻译：Inno Fang</p>
+<p>链接：<a href="https://www.cs.bgu.ac.il/~dinitz/Course/SS-12/Ullman_Algorithm.pdf" target="_blank" rel="noopener">https://www.cs.bgu.ac.il/~dinitz/Course/SS-12/Ullman_Algorithm.pdf</a></p>
+</blockquote>
+<p><strong>概要</strong> 子图同构可以通过蛮力树搜索枚举过程的方式来确定。本论文提出了一种在树搜索中通过推理消除后继结点的方式来提高搜索效率的新算法。为了评估新算法实际用时，对随机图和多种非随机图进行了子图同构（subgraph isomorphism)，分团检测（clique detection），图同构（graph isomorphism）和有向图同构（directed graph isomorphism）实验。</p>
+<p>本文还描述算法的一个重要部分的并行异步逻辑内存实现，尽管该硬件实际上尚未构建。硬件实现将允许非常快速地确定同构。</p>
+<a id="more"></a>
+<h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>Corneil 和 Cotlieb[4] 提到，子图同构的一种可能的应用是给定结构式的情况下，找出给定的化合物是否是另一种特定化合物的亚化合物。子图同构可能在场景分析 [1, 10] 中用来检测嵌入在场景中的关系描述对象。类似于子图同构的问题也出现在扭曲形状的识别的研究中，其中任何允许的变形都在限制内保持位置关系。在发现两个图是否是通过 1 : 1 对应关系来保持一致性和发现到两个模式是否通过在已知限制内保持空间关系的形变来相关的问题之间有着一些形式上的相似性。这个想法在介绍层面进行了探讨，同时也指出了本文所描述的历史渊源。</p>
+<p>同构可以通过暴力枚举的方式来决定，这是众所周知的。作为引入算法原始部分的第一步，本文的第 2 节描述了一种实际上是深度优先树搜索算法的暴力枚举过程。第 3 节介绍了工作的原始部分，它包含在树搜索中每个结点之后输入的过程。该过程的结果通常是减少必须搜索的后继结点的数量，从而减少了用来确定同构所需的总计算机用时。</p>
+<p>在 Corneil 和 Gotlieb 的算法中 [4]，用于测试同构的两个图分别进行计算，产生具有代表性的图。类似于 Berztiss 的树搜索算法 [2]，这个我们之后将会讨论，我们的算法与 Corneil 和 Gotlieb 所提出的算法的不同在于它不会分别处理两个图：源于计算这一事实，处理子图同构的能力总是一次作用在两个子图上。我们并没有企图找到与给定图同构的所有图所拥有的图属性。</p>
+<p>在本文中，我们将使用 Nllson [7] 的术语进行树搜索计算，以及使用 Haraty [5] 的术语表示除搜索树以外的图。图 G 由被称为点的 p 个元素的有限非空集合 V 以及属于 V 的 q 个不同的无序点对的集合 E 组成。属于 E 的一对点为一行。G 的子图是所有点和线都属于 G 的图。图 $G<em>α$ 与图 $G</em>β$ 子图同构， 前提是该子图的点集和保持邻接的 $G_α$ 的点集之间存在 1 : 1 对应关系。</p>
+<h2 id="2-用于子图同构的简单迭代算法"><a href="#2-用于子图同构的简单迭代算法" class="headerlink" title="2. 用于子图同构的简单迭代算法"></a>2. 用于子图同构的简单迭代算法</h2><p>本节我们制定了一个简单的树搜索算法，出于介绍的目的，我们省略了在搜索中消除后继结点的关键过程。该过程会在第三节中介绍。</p>
+<p>该迭代算法旨在找到给定图 $G<em>α=(V</em>α, E<em>α)$ 与另一个给定图 $G</em>β=(V<em>β, E</em>β)$ 的子图之间的所有的同构。$G<em>α$ 和 $G</em>β$ 的点和线的数量分别为 $p<em>α$ ，$q</em>α$ 和 $p<em>β$，$q</em>β$ 。$G<em>α$ 和 $G</em>β$ 的邻接矩阵分别为 $A=[a<em>{ij}]$ 和 $B=[b</em>{ij}]$ 。</p>
+<p>原因很快就会显现出来，我们将 $M’$ 矩阵定义为 $p<em>α(rows) \times p</em>β(columns)$  的矩阵，其中的元素都是 1 和 0，每行只包含一个 1，没有一列包含多个 1。矩阵 $M’=[m<em>{ij}’]$ 可用于置换 $B$ 的行和列进一步产生矩阵 $C$。特别地，我们定义 $C=[c</em>{ij}]=M’(M’B)^T$ ，其中 $T$ 表示转置。若下式为真</p>
+<p> $(\forall i \forall j)<em>{\begin{subarray}{c} 1 \leq i \leq p</em>\alpha \ 1 \leq j \leq p<em>\beta \end{subarray}} (a</em>{ij} = 1) \Rightarrow (c_{ij} = 1)$  ( 1 )</p>
+<p>那么 $M’$ 指定了 $G<em>α$ 和 $G</em>β$ 的子图之间的一个同构。在这种情况下，如果 $m<em>{ij}’=1$ ，那么在本次同构中， $G</em>\beta$ 中的第 $j$ 点对应与 $G_\alpha$ 中的第 $i$ 点。</p>
+<p>在枚举算法的开始， 我们根据以下规则构造一个有  $p<em>\alpha \times p</em>\beta $ 个元素的矩阵 $M^0 = [m_{ij}^0]$ </p>
+<p>$m<em>{ij}^0=\begin{cases} =1&amp;{若 G</em>\beta 的第 j 个点的度大于等于 G_\alpha 第 i 个点的度}, \ =0&amp;{否则} \end{cases}$</p>
+<p>事实上，在任何子图同构中，如果我们有先验理由来确定 $G<em>\beta$ 的第 $j$ 点不与 $G</em>\alpha$ 的第 i 点对应，那么我们就让 $m[i][j] = 0$ 。</p>
+<p>枚举算法的工作原理是生成所有可能的矩阵 $M’$  ，使得对于 $M’$ 的每一个元素 $m<em>{ij}’$ ，存在 $(m</em>{ji’} = 1) \Rightarrow (m<em>{ji}^0 = 1)$ 。对每一个这样的矩阵 $M’$ ，算法通过应用条件（1）来测试同构。矩阵 $M’9$ 通过系统地把矩阵 $M’$ 中每行的元素更改为只有一个 1 而其他元素为 0 来生成的，但必须符合矩阵 $M’$ 中每列不能包含多个 1 这一明确条件。在搜索树中，所有终端结点处于深度 $d = p</em>\alpha$ 并且它们对应于不同的矩阵 $M’$ 。处于深度 $d &lt; p_\alpha$ 的每个非终端结点都对应于不同的矩阵 $M$ ，与矩阵 $M^0$ 不同的地方在于在 d 行中除了一个 1 之外，其他所有元素都被更改为 0。</p>
+<p>算法使用了一个 $p<em>\alpha$ 位长的二元向量 $\left{F</em>{1}, \cdots, F<em>{i}, \cdots, F</em>{p<em>{\beta}}\right}$ 来记录在计算的中间状态下哪一列已经使用过了。如果第 $i$ 列已经被使用过了，则 $F{i} = 1$  。算法还使用了一个向量 $\left{H</em>{1}, \cdots, H<em>{d}, \cdots, H</em>{p<em>{\alpha}} \right}$ 来记录选择的列的深度。如果在深度 $d$ 下选择了第 $k$ 列，则 $H</em>{d} = k$ 。</p>
+<p>我们将使用符合 $:=$ 来表示赋值。因此 $d := d + 1$ 意味着 “ 让 $d$ 等于 $d + 1$ ”  。此外，我们写 $M := M_d$ 的意思就是 “ 让整个矩阵 $M$ 等于矩阵 $M_d$ ” 。矩阵 $M_d$ 是矩阵 $M$ 在深度为 $d$ 时的存储副本。我们已经制定了算法，使其尽可能与第三节中的算法相似（比如，完全赋值 $M_d := M$ 在本节中并不是必需的）。</p>
+<p>简单迭代算法如下所示:</p>
+<p>第 1 步    $M = M^0, d := 1; H<em>1 = 1;\ for \ all\ i = 1, \cdots, p</em>\alpha, set \ F_i = 0$</p>
+<p>第 2 步    $如果不存在值\ j\ 使得\ m_{dj}=1\ 以及\ F_i = 0，那么执行第\ 7\ 步; \ M_d := M, \ if\ d = 1\ then\ k := H_1 else k := 0,$</p>
+<p>第 3 步    $k := k + 1, \ 如果\ m_{dk} = 0\ 或者\ F<em>k = 1\ 那么执行第\ 3\ 步;\for\ all\ j \ne k\ set\ m</em>{dj} := 0$</p>
+<p>第 4 步    $如果\ d &lt; p_\alpha\ 则执行第\ 6\ 步，否则使用条件（1）并且如果找到同构则输出$</p>
+<p>第 5 步    $如果不存在\ j&gt;k\ 使得\ m_{dj} = 1\ 且\ F_j = 0\ 那么执行第 7 步;\ M := M_d,\ 执行第\ 3\ 步;$</p>
+<p>第 6 步    $H_d = k, F_k = 1; d := d + 1;\ 执行第\ 2\ 步,$</p>
+<p>第 7 步    $如果\ d=1 那么终止算法,\ F_k = 0; d := d - 1, M := M_d, k := H_d,\执行第\ 5\ 步,$</p>
+<h2 id="3-使用细化过程（Refinement-Procedure）的算法"><a href="#3-使用细化过程（Refinement-Procedure）的算法" class="headerlink" title="3. 使用细化过程（Refinement Procedure）的算法"></a>3. 使用细化过程（Refinement Procedure）的算法</h2><blockquote>
+<p>未完待续 …</p>
+</blockquote>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://innofang.github.io/2019/04/23/翻译-An-Algorithm-for-Subgraph-Isomorphism/">https://innofang.github.io/2019/04/23/翻译-An-Algorithm-for-Subgraph-Isomorphism/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> 许可协议。转载请注明来自 <a href="https://innofang.github.io">Inno's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/翻译/">翻译</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2019/04/18/关于英译中的个人技巧/"><span>关于英译中的个人技巧</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7dlebuvj31uo1b4438.jpg);"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2019 By Inno Fang</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>

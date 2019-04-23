@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innofang.github.io/"/>
-  <updated>2019-04-18T15:30:12.034Z</updated>
+  <updated>2019-04-23T04:15:29.651Z</updated>
   <id>https://innofang.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>[翻译] An Algorithm for Subgraph Isomorphism</title>
+    <link href="https://innofang.github.io/2019/04/23/%E7%BF%BB%E8%AF%91-An-Algorithm-for-Subgraph-Isomorphism/"/>
+    <id>https://innofang.github.io/2019/04/23/翻译-An-Algorithm-for-Subgraph-Isomorphism/</id>
+    <published>2019-04-23T04:04:18.000Z</published>
+    <updated>2019-04-23T04:15:29.651Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="翻译-An-Algorithm-foir-Subgraph-Isomorphism"><a href="#翻译-An-Algorithm-foir-Subgraph-Isomorphism" class="headerlink" title="[翻译] An Algorithm foir Subgraph Isomorphism"></a>[翻译] An Algorithm foir Subgraph Isomorphism</h1><blockquote><p>作者：J. R. Ullmann</p><p>翻译：Inno Fang</p><p>链接：<a href="https://www.cs.bgu.ac.il/~dinitz/Course/SS-12/Ullman_Algorithm.pdf" target="_blank" rel="noopener">https://www.cs.bgu.ac.il/~dinitz/Course/SS-12/Ullman_Algorithm.pdf</a></p></blockquote><p><strong>概要</strong> 子图同构可以通过蛮力树搜索枚举过程的方式来确定。本论文提出了一种在树搜索中通过推理消除后继结点的方式来提高搜索效率的新算法。为了评估新算法实际用时，对随机图和多种非随机图进行了子图同构（subgraph isomorphism)，分团检测（clique detection），图同构（graph isomorphism）和有向图同构（directed graph isomorphism）实验。</p><p>本文还描述算法的一个重要部分的并行异步逻辑内存实现，尽管该硬件实际上尚未构建。硬件实现将允许非常快速地确定同构。</p><a id="more"></a><h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>Corneil 和 Cotlieb[4] 提到，子图同构的一种可能的应用是给定结构式的情况下，找出给定的化合物是否是另一种特定化合物的亚化合物。子图同构可能在场景分析 [1, 10] 中用来检测嵌入在场景中的关系描述对象。类似于子图同构的问题也出现在扭曲形状的识别的研究中，其中任何允许的变形都在限制内保持位置关系。在发现两个图是否是通过 1 : 1 对应关系来保持一致性和发现到两个模式是否通过在已知限制内保持空间关系的形变来相关的问题之间有着一些形式上的相似性。这个想法在介绍层面进行了探讨，同时也指出了本文所描述的历史渊源。</p><p>同构可以通过暴力枚举的方式来决定，这是众所周知的。作为引入算法原始部分的第一步，本文的第 2 节描述了一种实际上是深度优先树搜索算法的暴力枚举过程。第 3 节介绍了工作的原始部分，它包含在树搜索中每个结点之后输入的过程。该过程的结果通常是减少必须搜索的后继结点的数量，从而减少了用来确定同构所需的总计算机用时。</p><p>在 Corneil 和 Gotlieb 的算法中 [4]，用于测试同构的两个图分别进行计算，产生具有代表性的图。类似于 Berztiss 的树搜索算法 [2]，这个我们之后将会讨论，我们的算法与 Corneil 和 Gotlieb 所提出的算法的不同在于它不会分别处理两个图：源于计算这一事实，处理子图同构的能力总是一次作用在两个子图上。我们并没有企图找到与给定图同构的所有图所拥有的图属性。</p><p>在本文中，我们将使用 Nllson [7] 的术语进行树搜索计算，以及使用 Haraty [5] 的术语表示除搜索树以外的图。图 G 由被称为点的 p 个元素的有限非空集合 V 以及属于 V 的 q 个不同的无序点对的集合 E 组成。属于 E 的一对点为一行。G 的子图是所有点和线都属于 G 的图。图 $G<em>α$ 与图 $G</em>β$ 子图同构， 前提是该子图的点集和保持邻接的 $G_α$ 的点集之间存在 1 : 1 对应关系。</p><h2 id="2-用于子图同构的简单迭代算法"><a href="#2-用于子图同构的简单迭代算法" class="headerlink" title="2. 用于子图同构的简单迭代算法"></a>2. 用于子图同构的简单迭代算法</h2><p>本节我们制定了一个简单的树搜索算法，出于介绍的目的，我们省略了在搜索中消除后继结点的关键过程。该过程会在第三节中介绍。</p><p>该迭代算法旨在找到给定图 $G<em>α=(V</em>α, E<em>α)$ 与另一个给定图 $G</em>β=(V<em>β, E</em>β)$ 的子图之间的所有的同构。$G<em>α$ 和 $G</em>β$ 的点和线的数量分别为 $p<em>α$ ，$q</em>α$ 和 $p<em>β$，$q</em>β$ 。$G<em>α$ 和 $G</em>β$ 的邻接矩阵分别为 $A=[a<em>{ij}]$ 和 $B=[b</em>{ij}]$ 。</p><p>原因很快就会显现出来，我们将 $M’$ 矩阵定义为 $p<em>α(rows) \times p</em>β(columns)$  的矩阵，其中的元素都是 1 和 0，每行只包含一个 1，没有一列包含多个 1。矩阵 $M’=[m<em>{ij}’]$ 可用于置换 $B$ 的行和列进一步产生矩阵 $C$。特别地，我们定义 $C=[c</em>{ij}]=M’(M’B)^T$ ，其中 $T$ 表示转置。若下式为真</p><p> $(\forall i \forall j)<em>{\begin{subarray}{c} 1 \leq i \leq p</em>\alpha \ 1 \leq j \leq p<em>\beta \end{subarray}} (a</em>{ij} = 1) \Rightarrow (c_{ij} = 1)$  ( 1 )</p><p>那么 $M’$ 指定了 $G<em>α$ 和 $G</em>β$ 的子图之间的一个同构。在这种情况下，如果 $m<em>{ij}’=1$ ，那么在本次同构中， $G</em>\beta$ 中的第 $j$ 点对应与 $G_\alpha$ 中的第 $i$ 点。</p><p>在枚举算法的开始， 我们根据以下规则构造一个有  $p<em>\alpha \times p</em>\beta $ 个元素的矩阵 $M^0 = [m_{ij}^0]$ </p><p>$m<em>{ij}^0=\begin{cases} =1&amp;{若 G</em>\beta 的第 j 个点的度大于等于 G_\alpha 第 i 个点的度}, \ =0&amp;{否则} \end{cases}$</p><p>事实上，在任何子图同构中，如果我们有先验理由来确定 $G<em>\beta$ 的第 $j$ 点不与 $G</em>\alpha$ 的第 i 点对应，那么我们就让 $m[i][j] = 0$ 。</p><p>枚举算法的工作原理是生成所有可能的矩阵 $M’$  ，使得对于 $M’$ 的每一个元素 $m<em>{ij}’$ ，存在 $(m</em>{ji’} = 1) \Rightarrow (m<em>{ji}^0 = 1)$ 。对每一个这样的矩阵 $M’$ ，算法通过应用条件（1）来测试同构。矩阵 $M’9$ 通过系统地把矩阵 $M’$ 中每行的元素更改为只有一个 1 而其他元素为 0 来生成的，但必须符合矩阵 $M’$ 中每列不能包含多个 1 这一明确条件。在搜索树中，所有终端结点处于深度 $d = p</em>\alpha$ 并且它们对应于不同的矩阵 $M’$ 。处于深度 $d &lt; p_\alpha$ 的每个非终端结点都对应于不同的矩阵 $M$ ，与矩阵 $M^0$ 不同的地方在于在 d 行中除了一个 1 之外，其他所有元素都被更改为 0。</p><p>算法使用了一个 $p<em>\alpha$ 位长的二元向量 $\left{F</em>{1}, \cdots, F<em>{i}, \cdots, F</em>{p<em>{\beta}}\right}$ 来记录在计算的中间状态下哪一列已经使用过了。如果第 $i$ 列已经被使用过了，则 $F{i} = 1$  。算法还使用了一个向量 $\left{H</em>{1}, \cdots, H<em>{d}, \cdots, H</em>{p<em>{\alpha}} \right}$ 来记录选择的列的深度。如果在深度 $d$ 下选择了第 $k$ 列，则 $H</em>{d} = k$ 。</p><p>我们将使用符合 $:=$ 来表示赋值。因此 $d := d + 1$ 意味着 “ 让 $d$ 等于 $d + 1$ ”  。此外，我们写 $M := M_d$ 的意思就是 “ 让整个矩阵 $M$ 等于矩阵 $M_d$ ” 。矩阵 $M_d$ 是矩阵 $M$ 在深度为 $d$ 时的存储副本。我们已经制定了算法，使其尽可能与第三节中的算法相似（比如，完全赋值 $M_d := M$ 在本节中并不是必需的）。</p><p>简单迭代算法如下所示:</p><p>第 1 步    $M = M^0, d := 1; H<em>1 = 1;\ for \ all\ i = 1, \cdots, p</em>\alpha, set \ F_i = 0$</p><p>第 2 步    $如果不存在值\ j\ 使得\ m_{dj}=1\ 以及\ F_i = 0，那么执行第\ 7\ 步; \ M_d := M, \ if\ d = 1\ then\ k := H_1 else k := 0,$</p><p>第 3 步    $k := k + 1, \ 如果\ m_{dk} = 0\ 或者\ F<em>k = 1\ 那么执行第\ 3\ 步;\for\ all\ j \ne k\ set\ m</em>{dj} := 0$</p><p>第 4 步    $如果\ d &lt; p_\alpha\ 则执行第\ 6\ 步，否则使用条件（1）并且如果找到同构则输出$</p><p>第 5 步    $如果不存在\ j&gt;k\ 使得\ m_{dj} = 1\ 且\ F_j = 0\ 那么执行第 7 步;\ M := M_d,\ 执行第\ 3\ 步;$</p><p>第 6 步    $H_d = k, F_k = 1; d := d + 1;\ 执行第\ 2\ 步,$</p><p>第 7 步    $如果\ d=1 那么终止算法,\ F_k = 0; d := d - 1, M := M_d, k := H_d,\执行第\ 5\ 步,$</p><h2 id="3-使用细化过程（Refinement-Procedure）的算法"><a href="#3-使用细化过程（Refinement-Procedure）的算法" class="headerlink" title="3. 使用细化过程（Refinement Procedure）的算法"></a>3. 使用细化过程（Refinement Procedure）的算法</h2><blockquote><p>未完待续 …</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;翻译-An-Algorithm-foir-Subgraph-Isomorphism&quot;&gt;&lt;a href=&quot;#翻译-An-Algorithm-foir-Subgraph-Isomorphism&quot; class=&quot;headerlink&quot; title=&quot;[翻译] An Algorithm foir Subgraph Isomorphism&quot;&gt;&lt;/a&gt;[翻译] An Algorithm foir Subgraph Isomorphism&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;作者：J. R. Ullmann&lt;/p&gt;
+&lt;p&gt;翻译：Inno Fang&lt;/p&gt;
+&lt;p&gt;链接：&lt;a href=&quot;https://www.cs.bgu.ac.il/~dinitz/Course/SS-12/Ullman_Algorithm.pdf&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.cs.bgu.ac.il/~dinitz/Course/SS-12/Ullman_Algorithm.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;概要&lt;/strong&gt; 子图同构可以通过蛮力树搜索枚举过程的方式来确定。本论文提出了一种在树搜索中通过推理消除后继结点的方式来提高搜索效率的新算法。为了评估新算法实际用时，对随机图和多种非随机图进行了子图同构（subgraph isomorphism)，分团检测（clique detection），图同构（graph isomorphism）和有向图同构（directed graph isomorphism）实验。&lt;/p&gt;
+&lt;p&gt;本文还描述算法的一个重要部分的并行异步逻辑内存实现，尽管该硬件实际上尚未构建。硬件实现将允许非常快速地确定同构。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="算法" scheme="https://innofang.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="翻译" scheme="https://innofang.github.io/tags/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
   
   <entry>
     <title>关于英译中的个人技巧</title>
@@ -512,35 +540,6 @@
 &lt;li&gt;在代码段中使用栈&lt;/li&gt;
 &lt;li&gt;将数据、代码、栈放入不同的段&lt;/li&gt;
 &lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-    
-      <category term="汇编语言" scheme="https://innofang.github.io/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>汇编语言学习笔记（五）：[BX] 和 loop 指令</title>
-    <link href="https://innofang.github.io/2017/11/22/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%94%EF%BC%89%EF%BC%9A-BX-%E5%92%8C-loop-%E6%8C%87%E4%BB%A4/"/>
-    <id>https://innofang.github.io/2017/11/22/汇编语言学习笔记（五）：-BX-和-loop-指令/</id>
-    <published>2017-11-22T08:05:50.000Z</published>
-    <updated>2017-11-22T08:07:04.424Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>学习参考：汇编语言（第2版）王爽</p></blockquote><ul><li>[bx]</li><li>loop 指令</li><li>段前缀</li><li><p>一段安全的空间</p><a id="more"></a></li></ul><h1 id="bx"><a href="#bx" class="headerlink" title="[bx]"></a>[bx]</h1><p>[bx] 表示一个内存单元，它的偏移地址在 bx 中，比如下面的指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov ax,[bx]</span><br></pre></td></tr></table></figure></p><p>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址 EA 在 bx 中，段地址 SA 在 ds 中。即 (ax)=((ds)*16+(bx))</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov al,[bx]</span><br></pre></td></tr></table></figure><p>将一个内存单元的内容送入 al，这个内存单元的长度为 1 字节（字节单元），存放一个字节，偏移地址在 bx 中，段地址在 ds 中</p><h1 id="loop-指令"><a href="#loop-指令" class="headerlink" title="loop 指令"></a>loop 指令</h1><blockquote><p>loop 指令的格式是：loop 标号，CPU 执行 loop 指令的时候，要进行两步操作</p><ol><li>(cx)=(cx)-1</li><li>判断 cx 中的值，不为零则转至标号处执行程序，如果为零则向下执行</li></ol></blockquote><p>上述中，可见 cx 中的值影响着 loop 指令的执行结果。<strong>通常</strong>  cx 中存放循环次数</p><p>例如，求 2^12 的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line">code segment</span><br><span class="line">    mov ax,2</span><br><span class="line">    </span><br><span class="line">    mov cx,11</span><br><span class="line">s:  add ax,ax</span><br><span class="line">    loop s</span><br><span class="line">    </span><br><span class="line">    mov ax,4c00h</span><br><span class="line">    int 21h</span><br><span class="line">code ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p><p>程序中出现了一个标号 <code>s:</code> ，这个实际上标识了一条指令:<code>add ax,ax</code></p><p>根据程序，我们可以总结出用 cx 和 loop 指令相配合实现循环功能的 3 个要点：</p><ol><li>在 cx 中存放循环次数</li><li>loop 指令中的标号所标识地址要在前面</li><li>要循环执行的程序段，要写在标号和 loop 指令的中间</li></ol><p>用 cx 和 loop 指令相配合实现循环功能的程序框架如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    mov cx,循环次数</span><br><span class="line">s:  </span><br><span class="line">    循环执行的程序段</span><br><span class="line">    loop s</span><br></pre></td></tr></table></figure></p><p>例程2：用加法计算 123*236，结果存在 ax 中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">    mov ax,0</span><br><span class="line">    </span><br><span class="line">    mov cx,123</span><br><span class="line">s:</span><br><span class="line">    add ax,236</span><br><span class="line">    loop s</span><br><span class="line">    </span><br><span class="line">    mov ax,4c00h</span><br><span class="line">    int 21h</span><br><span class="line">code ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p><h1 id="段前缀"><a href="#段前缀" class="headerlink" title="段前缀"></a>段前缀</h1><blockquote><p>指令 “mov ax,[bx]” 中，内存单元的偏移地址由 bx 给出，而段地址默认在 ds 中。我们可以在访问内存的单元的指令中显示地给出内存单元的段地址所在的段寄存器。比如</p></blockquote><ol><li><code>mov ax,ds:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 ds 中</strong>。</li><li><code>mov ax,cs:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 cs 中</strong>。</li><li><code>mov ax,ss:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 ss 中</strong></li><li><code>mov ax,es:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 es 中</strong></li></ol><blockquote><p>这种显式地指明内存单元的段地址的 “ds:” “cs:” “ss:” “es:”，在汇编中称为<strong>段前缀</strong></p></blockquote><h1 id="一段安全的空间"><a href="#一段安全的空间" class="headerlink" title="一段安全的空间"></a>一段安全的空间</h1><ol><li>我们需要直接向一段内存中写入内容；</li><li>这段内存空间不应该存放系统或其他程序的数据或代码，否则写入操作很可能引发错误；</li><li>DOS 方式下，一般情况，0:200~0:2ff 空间中没有系统或其他程序的数据或代码；</li><li>以后，我们需要直接向一段内存中写入内容时，就使用 0:200~0:2ff 这段空间。</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;学习参考：汇编语言（第2版）王爽&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;[bx]&lt;/li&gt;
-&lt;li&gt;loop 指令&lt;/li&gt;
-&lt;li&gt;段前缀&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;一段安全的空间&lt;/p&gt;
     
     </summary>
     
