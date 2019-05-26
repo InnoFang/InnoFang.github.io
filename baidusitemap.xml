@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>https://innofang.github.io/2019/03/23/YARN-%E6%9E%B6%E6%9E%84/</loc>
+    <lastmod>2019-05-26T01:52:16.418Z</lastmod>
+    <data>
+        <display>
+        <title>YARN 架构</title>
+        <pubTime>2019-03-23T06:11:25.000Z</pubTime>
+        
+        <tag>Hadoop</tag>
+         
+         
+           
+             
+              <breadCrumb title="Hadoop" url="https://innofang.github.io/categories/Hadoop/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://innofang.github.io/2019/04/18/%E5%85%B3%E4%BA%8E%E8%8B%B1%E8%AF%91%E4%B8%AD%E7%9A%84%E4%B8%AA%E4%BA%BA%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2019-04-18T15:30:12.034Z</lastmod>
     <data>
@@ -259,26 +279,6 @@
            
              
               <breadCrumb title="Java" url="https://innofang.github.io/categories/Java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://innofang.github.io/2019/03/23/YARN-%E6%9E%B6%E6%9E%84/</loc>
-    <lastmod>2019-03-28T00:52:51.021Z</lastmod>
-    <data>
-        <display>
-        <title>YARN 架构</title>
-        <pubTime>2019-03-23T06:11:25.000Z</pubTime>
-        
-        <tag>Hadoop</tag>
-         
-         
-           
-             
-              <breadCrumb title="Hadoop" url="https://innofang.github.io/categories/Hadoop/"/>
           
         </display>
     </data>
