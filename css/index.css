@@ -165,84 +165,6 @@ table td {
     padding-left: 0 !important;
   }
 }
-.article-container figure.highlight.js table:before {
-  content: "js";
-}
-.article-container figure.highlight.javascript table:before {
-  content: "javascript";
-}
-.article-container figure.highlight.python table:before {
-  content: "python";
-}
-.article-container figure.highlight.ruby table:before {
-  content: "ruby";
-}
-.article-container figure.highlight.xml table:before {
-  content: "xml";
-}
-.article-container figure.highlight.html table:before {
-  content: "html";
-}
-.article-container figure.highlight.css table:before {
-  content: "css";
-}
-.article-container figure.highlight.perl table:before {
-  content: "perl";
-}
-.article-container figure.highlight.sql table:before {
-  content: "sql";
-}
-.article-container figure.highlight.coffeescript table:before {
-  content: "coffeescript";
-}
-.article-container figure.highlight.java table:before {
-  content: "java";
-}
-.article-container figure.highlight.scala table:before {
-  content: "scala";
-}
-.article-container figure.highlight.kotlin table:before {
-  content: "kotlin";
-}
-.article-container figure.highlight.c table:before {
-  content: "c";
-}
-.article-container figure.highlight.c\+\+ table:before {
-  content: "c\+\+";
-}
-.article-container figure.highlight.go table:before {
-  content: "go";
-}
-.article-container figure.highlight.less table:before {
-  content: "less";
-}
-.article-container figure.highlight.sass table:before {
-  content: "sass";
-}
-.article-container figure.highlight.scss table:before {
-  content: "scss";
-}
-.article-container figure.highlight.stylus table:before {
-  content: "stylus";
-}
-.article-container figure.highlight.styl table:before {
-  content: "styl";
-}
-.article-container figure.highlight.typescript table:before {
-  content: "typescript";
-}
-.article-container figure.highlight.ts table:before {
-  content: "ts";
-}
-.article-container figure.highlight.bash table:before {
-  content: "bash";
-}
-.article-container figure.highlight.yml table:before {
-  content: "yml";
-}
-.article-container figure.highlight.gradle table:before {
-  content: "gradle";
-}
 .article-container pre,
 .article-container .highlight {
   overflow: auto;
@@ -307,19 +229,6 @@ blockquote {
   margin: 0;
   width: auto;
   border: none;
-}
-.article-container .highlight table:before {
-  position: fixed;
-  z-index: 1;
-  display: inline-block;
-  margin-top: -1.4rem;
-  padding: 0 0.7rem;
-  width: 5rem;
-  color: #90a4ae;
-  content: "Code";
-  font-weight: bold;
-  font-size: 0.8rem;
-  line-height: 1.4rem;
 }
 .article-container .highlight table:after {
   position: absolute;
@@ -613,7 +522,32 @@ footer.is-mobile {
   background-attachment: local;
 }
 #site-info {
-  padding: 20rem 1rem 20rem;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -o-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  padding: 0 1rem;
+  height: 60vh;
 }
 #site-title,
 #site-sub-title {
@@ -789,6 +723,12 @@ footer.is-mobile {
   #page-header .menus a:hover {
     color: #49b1f5;
   }
+  #page-header .search {
+    right: 0.5rem;
+  }
+  #page-header .search span {
+    display: none;
+  }
 }
 .recent-post-item {
   margin: 1.6rem 0 2rem;
@@ -887,7 +827,7 @@ footer.is-mobile {
 }
 .article-sort {
   padding-left: 1rem;
-  border-left: 2px solid #a4d8fa;
+  border-left: 0.1rem solid #a4d8fa;
 }
 .article-sort-title {
   position: relative;
@@ -1207,8 +1147,33 @@ footer.is-mobile {
   cursor: pointer;
 }
 #top-container #post-info {
-  padding: 10rem 1rem;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -o-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  padding: 0 1rem;
   width: 100%;
+  height: 60vh;
   color: #eee;
   text-align: center;
 }
@@ -1229,8 +1194,10 @@ footer.is-mobile {
   margin-bottom: 0.5rem;
 }
 .post-meta__tags {
-  margin-right: 0.4rem;
-  padding: 0.2rem 0.6rem;
+  display: inline-block;
+  margin: 0 0.4rem 0.2rem 0;
+  padding: 0 0.6rem;
+  width: fit-content;
   border: 1px solid #49b1f5;
   border-radius: 0.6rem;
   background: #fff;
@@ -1306,6 +1273,9 @@ footer.is-mobile {
 #content-inner h1 {
   padding-left: 1.1rem;
 }
+#content-inner h1 code {
+  font-size: 1rem;
+}
 #content-inner h1:before {
   top: calc(50% - unit(fontsize / 2 - 0.05, "rem"));
   font-size: 1rem;
@@ -1315,6 +1285,9 @@ footer.is-mobile {
 }
 #content-inner h2 {
   padding-left: 1rem;
+}
+#content-inner h2 code {
+  font-size: 0.9rem;
 }
 #content-inner h2:before {
   top: calc(50% - unit(fontsize / 2 - 0.05, "rem"));
@@ -1326,6 +1299,9 @@ footer.is-mobile {
 #content-inner h3 {
   padding-left: 0.9rem;
 }
+#content-inner h3 code {
+  font-size: 0.8rem;
+}
 #content-inner h3:before {
   top: calc(50% - unit(fontsize / 2 - 0.05, "rem"));
   font-size: 0.8rem;
@@ -1335,6 +1311,9 @@ footer.is-mobile {
 }
 #content-inner h4 {
   padding-left: 0.8rem;
+}
+#content-inner h4 code {
+  font-size: 0.7rem;
 }
 #content-inner h4:before {
   top: calc(50% - unit(fontsize / 2 - 0.05, "rem"));
@@ -1346,6 +1325,9 @@ footer.is-mobile {
 #content-inner h5 {
   padding-left: 0.7rem;
 }
+#content-inner h5 code {
+  font-size: 0.6rem;
+}
 #content-inner h5:before {
   top: calc(50% - unit(fontsize / 2 - 0.05, "rem"));
   font-size: 0.6rem;
@@ -1355,6 +1337,9 @@ footer.is-mobile {
 }
 #content-inner h6 {
   padding-left: 0.7rem;
+}
+#content-inner h6 code {
+  font-size: 0.6rem;
 }
 #content-inner h6:before {
   top: calc(50% - unit(fontsize / 2 - 0.05, "rem"));
@@ -1449,6 +1434,7 @@ a:hover {
   text-decoration: none;
 }
 a#site-name {
+  color: #eee;
   text-decoration: none;
 }
 a.fancybox {
@@ -1477,6 +1463,16 @@ img:hover {
 }
 .code-area-wrap {
   position: relative;
+}
+.code-area-wrap .codeblock-language {
+  position: absolute;
+  z-index: 1;
+  display: inline-block;
+  padding: 0 0.7rem;
+  color: #90a4ae;
+  font-weight: bold;
+  font-size: 0.8rem;
+  line-height: 1.4rem;
 }
 .fa-clipboard {
   position: absolute;
@@ -1582,9 +1578,11 @@ img:hover {
     background-attachment: local;
   }
   #top-container #post-title {
+    color: #eee;
     font-size: 1.1rem;
   }
   #post-title {
+    color: #eee;
     font-size: 1.1rem;
   }
 }
@@ -1601,6 +1599,9 @@ img:hover {
     width: 900px;
     height: 506.25px;
   }
+}
+.katex-wrap {
+  overflow: auto;
 }
 #sidebar {
   position: fixed;
