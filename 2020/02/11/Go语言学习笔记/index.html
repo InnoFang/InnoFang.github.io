@@ -196,7 +196,58 @@
 <p>生成了二进制文件 <code>cpu.out</code>，接着使用命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go tool pprof cpu.out</span><br></pre></td></tr></table></figure>
 <p>进入交互式命令行，可以使用 <code>help</code> 查看，最简单的方式是输入 <code>web</code> 查看二进制文件。内容上，看到的方框越大，说明耗时越久，优化方框大的部分可以使程序性能更有。</p>
-</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://innofang.github.io/2020/02/11/Go语言学习笔记/">https://innofang.github.io/2020/02/11/Go语言学习笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> 许可协议。转载请注明来自 <a href="https://innofang.github.io">Inno's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Go/">Go</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2019/04/18/关于英译中的个人技巧/"><span>关于英译中的个人技巧</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg);"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2020 By Inno Fang</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+<p>Goroutine</p>
+<p>协程</p>
+<ul>
+<li>轻量级“线程”</li>
+<li>非抢占式多任务处理，由协程序主动交出控制权</li>
+<li>编译器/解释器/虚拟机层面的多任务</li>
+<li>多个协程可能在一个或多个线程上运行</li>
+</ul>
+<p>因为是非抢占式的 ，若不切换协程，则会一直执行一个协程（io操作会自动切换协程）。因此对于自定义协程，需要注意有没有手动交出控制权</p>
+<pre><code>func main() {
+    var a [10]int
+    for i := 0; i &lt; 10; i++ {
+        go func(i int) {
+            for {
+                a[i]++
+                runtime.Gosched() // 手动交出控制权
+            }
+        }(i)
+    }
+    time.Sleep(time.Millisecond)
+    fmt.Println(a)
+}
+</code></pre><p>goroutine 的定义</p>
+<ul>
+<li>任何函数只需要加上 go 就能送给调度器运行</li>
+<li>不需要在定义时区分是否是异步函数</li>
+<li>调度器在合适的点进行切换 </li>
+<li>调试时，在命令行使用 -race 来检测数据访问冲突  go run -race goroutine.go</li>
+</ul>
+<p>goroutine 可能的切换点</p>
+<ul>
+<li>I/O, select</li>
+<li>channel</li>
+<li>等待锁</li>
+<li>函数调用（有时）</li>
+<li>runtime.Gosched()</li>
+</ul>
+<p>只是参考，不能保证切换，不能保证在其他地方不切换</p>
+<p>Channel</p>
+<p>定义方式</p>
+<pre><code>// var c chan int // c == nil
+c := make(chan int)
+go func() {
+    for {
+        n := &lt;- c
+        fmt.Println(n)
+    }
+}()
+c &lt;- 1
+c &lt;- 2
+time.Sleep(time.Millisecond)
+</code></pre></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://innofang.github.io/2020/02/11/Go语言学习笔记/">https://innofang.github.io/2020/02/11/Go语言学习笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> 许可协议。转载请注明来自 <a href="https://innofang.github.io">Inno's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Go/">Go</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2019/04/18/关于英译中的个人技巧/"><span>关于英译中的个人技巧</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg);"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2020 By Inno Fang</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
     processEscapes: true,
