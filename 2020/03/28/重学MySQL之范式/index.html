@@ -48,21 +48,21 @@
 <tr>
 <td>10020</td>
 <td>李四</td>
-<td>经管系刘会计</td>
+<td>经管系刘快计</td>
 <td>大学英语</td>
 <td>86</td>
 </tr>
 <tr>
 <td>10020</td>
 <td>李四</td>
-<td>经管系刘会计</td>
+<td>经管系刘快计</td>
 <td>高等数学</td>
 <td>80</td>
 </tr>
 <tr>
 <td>10020</td>
 <td>李四</td>
-<td>经管系刘会计</td>
+<td>经管系刘快计</td>
 <td>工商管理</td>
 <td>82</td>
 </tr>
@@ -130,7 +130,7 @@
 <td>10020</td>
 <td>李四</td>
 <td>经管系</td>
-<td>刘会计</td>
+<td>刘快计</td>
 <td>大学英语</td>
 <td>86</td>
 </tr>
@@ -138,7 +138,7 @@
 <td>10020</td>
 <td>李四</td>
 <td>经管系</td>
-<td>刘会计</td>
+<td>刘快计</td>
 <td>高等数学</td>
 <td>80</td>
 </tr>
@@ -146,7 +146,7 @@
 <td>10020</td>
 <td>李四</td>
 <td>经管系</td>
-<td>刘会计</td>
+<td>刘快计</td>
 <td>工商管理</td>
 <td>82</td>
 </tr>
@@ -208,7 +208,7 @@
 </li>
 </ul>
 <p>我们要设计数据表符合<strong>第二范式</strong>，就需要<strong>在符合第一范式的基础上，消除非主属性对（候选）码的部分函数依赖</strong>。</p>
-<p>在上表中， <code>分数</code> 完全函数依赖于  <code>(学号，课程名称)</code> ，<code>姓名</code> 、 <code>系名</code> 和 <code>系主任</code> 部分依赖于 <code>(学号，课程名称)</code> ，因此我们需要将 <code>姓名</code> 、 <code>系名</code> 和 <code>系主任</code> 三列从原表中提出，另建一个学生表来存放数据，修改如下</p>
+<p>在上表中， <code>分数</code> 完全函数依赖于  <code>(学号，课程名称)</code> ，<code>姓名</code> 、 <code>系名</code> 和 <code>系主任</code> <strong>部分依赖于</strong> <code>(学号，课程名称)</code> ，因此我们需要将 <code>姓名</code> 、 <code>系名</code> 和 <code>系主任</code> 三列从原表中提出，以次来消除选课表中非主属性对（候选）码的部分函数依赖，并另建一个学生表来存放这些数据，修改如下</p>
 <blockquote>
 <p>选课表</p>
 </blockquote>
@@ -301,7 +301,7 @@
 <td>10020</td>
 <td>李四</td>
 <td>经管系</td>
-<td>刘会计  </td>
+<td>刘快计  </td>
 </tr>
 <tr>
 <td>10030</td>
@@ -314,7 +314,7 @@
 <p>此时第二张表的（候选）码就为 <code>学号</code>，其他属性都完全依赖于 <code>学号</code>，因此现在这两张表的设计都符合第二范式，此外我们还解决了之前遇到的第一个问题，解决了数据冗余的问题。但是后两个问题任然存在，如果要添加新的 <code>系名</code> 和 <code>系主任</code> ，任然无法添加到学生表中，此外当张三毕业后，对应的 <code>系名</code> 和 <code>系主任</code> 的数据就会被删除。</p>
 <h3 id="第三范式"><a href="#第三范式" class="headerlink" title="第三范式"></a>第三范式</h3><p>要<strong>符合第三范式</strong>，就需要<strong>在符合第二范式的基础之上消除传递依赖</strong></p>
 <p>观察上面新建的学生表，可以发现，其实 <code>系主任</code> 依赖于 <code>系名</code> ， 而 <code>系名</code> 又依赖于 <code>学号</code> ，因此学生表中存在 <code>系主任</code> 对 <code>学号</code> 的传递函数依赖</p>
-<p>因此我们需要将 <code>系名</code> 和 <code>系主任</code> 从原表中提出，新建一个系表来存储数据</p>
+<p>因此我们需要将 <code>系名</code> 和 <code>系主任</code> 从原表中提出，以此来消除学生表中的传递函数依赖，并新建一个系表来存储数据</p>
 <blockquote>
 <p>学生表</p>
 </blockquote>
@@ -361,7 +361,7 @@
 </tr>
 <tr>
 <td> 经管系</td>
-<td>刘会计  </td>
+<td>刘快计  </td>
 </tr>
 <tr>
 <td> 自动化系</td>
@@ -369,7 +369,7 @@
 </tr>
 </tbody>
 </table>
-<p>此时，如果我们需要新添系名和系主任的数据，就不会出现错误了，当张三毕业后，系名和系主任的数据也不会消失，从而最后两个问题也得到了解决</p>
+<p>此时，如果我们需要新添系名和系主任的数据，就不会出现错误了；当张三毕业后，系名和系主任的数据也不会消失，从而最后两个问题也得到了解决。</p>
 </div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://innofang.github.io/2020/03/28/重学MySQL之范式/">https://innofang.github.io/2020/03/28/重学MySQL之范式/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> 许可协议。转载请注明来自 <a href="https://innofang.github.io">Inno's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2020/03/27/重学MySQL之基本操作和约束/"><span>重学MySQL之基本操作和约束</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7e2tnvgj31cb0p0188.jpg);"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2020 By Inno Fang</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
