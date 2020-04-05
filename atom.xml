@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innofang.github.io/"/>
-  <updated>2020-04-03T12:25:43.396Z</updated>
+  <updated>2020-04-05T06:52:00.209Z</updated>
   <id>https://innofang.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Shell编程学习记录</title>
+    <link href="https://innofang.github.io/2020/04/05/Shell%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    <id>https://innofang.github.io/2020/04/05/Shell编程学习记录/</id>
+    <published>2020-04-05T06:06:05.000Z</published>
+    <updated>2020-04-05T06:52:00.209Z</updated>
+    
+    <content type="html"><![CDATA[<p>学习 Shell 编程的有关知识</p><a id="more"></a><h2 id="Shell-脚本的格式"><a href="#Shell-脚本的格式" class="headerlink" title="Shell 脚本的格式"></a>Shell 脚本的格式</h2><p>在 Linux 中有很多命令，每一条命令都可以完成某种特定的任务，这也是 UNIX 的设计哲学：一条命令只做一件事。因此为了组合命令以及便于多次执行，可以使用脚本文件来保存需要执行的命令。</p><p>创建一个以 <code>.sh</code> 为后缀的文件，我们可以在其中编写很多指令。如果执行的是刚编写好的脚本文件，那么在执行前还需要为其赋予可执行权限 <code>chmod u+rx filename</code>。</p><p>说到 Shell 脚本执行方式，有下面几种：</p><ol><li><code>bash ./filename.sh</code></li><li><code>./filename.sh</code></li><li><code>source ./filename.sh</code></li><li><code>.filename.sh</code></li></ol><p>在 1、2 中，会创建一个名叫 bash 的子进程，Shell 脚本就会运行在该子进程中，两者的区别就在于 2 需要在脚本开头使用 <code>#!/bin/bash</code> 来指定使用 bash，而方式 1 在执行时就明确需要使用 bash 了。方式 3、4 则是在当前进程中执行 Shell 脚本。</p><p>如何理解前两种和后两种执行方式的区别呢？比如在 Shell 脚本中存在切换目录的操作 <code>cd</code> ，在前两种方式中，在脚本执行完成后，当前的路径是不会被改变的，因为是使用另一个进程执行的该脚本，而后两种方式在脚本执行完成后，当前路径就会被改变，因为它就是在当前进程下执行的。</p><p>有时候我们会发现 Shell 脚本的第一行往往都是 <code>#!/bin/bash</code>，写这一行代码有什么作用呢？或者说有什么好处呢？</p><p>简而言之，在第一行开头使用 <code>#!</code> 可以在文件中指定脚本的解析方式，在使用  <code>bash filename.sh</code> 来执行 Shell 时，就是直接指定 bash 作为解析方式，文件内以 <code>#</code> 开头的部分都会被当作注释。而在使用 <code>./filename.sh</code> 来执行脚本文件时，会使用系统自带的 Shell 来解析脚本文件，遇到以 <code>#!</code> 开头的行时就会被当成非注释，因此在开头写上 <code>#!/bin/bash</code> 就表示需要使用 bash 来解析脚本文件。换句话说，如果第一行写的是，<code>#!/usr/bin/python</code> 或者 <code>#!/usr/bin/python3</code> 就表示该文件需要使用 Python 来解析，即使文件后缀为 <code>.sh</code>。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;学习 Shell 编程的有关知识&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Shell" scheme="https://innofang.github.io/categories/Shell/"/>
+    
+    
+      <category term="Shell" scheme="https://innofang.github.io/tags/Shell/"/>
+    
+  </entry>
   
   <entry>
     <title>重学MySQL之视图</title>
@@ -444,28 +466,6 @@
     
     
       <category term="kotlin" scheme="https://innofang.github.io/tags/kotlin/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>新的一年，一年期目标达成！</title>
-    <link href="https://innofang.github.io/2018/02/17/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4%EF%BC%8C%E4%B8%80%E5%B9%B4%E6%9C%9F%E7%9B%AE%E6%A0%87%E8%BE%BE%E6%88%90%EF%BC%81/"/>
-    <id>https://innofang.github.io/2018/02/17/新的一年，一年期目标达成！/</id>
-    <published>2018-02-16T23:51:53.000Z</published>
-    <updated>2019-03-28T00:56:07.106Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="一年期目标达成！"><a href="#一年期目标达成！" class="headerlink" title="一年期目标达成！"></a>一年期目标达成！</h1><a id="more"></a><p>今天是 2018 年 2 月 17 日，大年初二。</p><p>去年二月份的时候，开始在 Github 上开始每天 commit，不知不觉已经坚持一年了。</p><p>现在回过头来看看一年前的 Github contributions，当时我是大一之上，大二未完（这么说对不对啊？(lll￢ω￢)）</p><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7gy1foj45kn1x2j30pt0nrab9.jpg" alt=""></p><p>emmmmmmmm，简单朴素</p><p>一年后的现在 （算是坚持完了 2017 一整年，现在是 2018 年，所以多算了几天）</p><p><img src="https://ws1.sinaimg.cn/large/0067fiZ7gy1foj45kj3ucj30q70njwg1.jpg" alt=""></p><p>contributions 已经到了 1856 了，从 2017 年 2 月 12 日开始坚持 commit 直到今天，一共 371 天</p><p>我觉得对我来说，这是一件很有纪念价值的事，毕竟这么正儿八经的做一件事并且坚持了一年</p><h1 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h1><p>其实这件事也没什么大不了的 <del>其实高兴了很久</del> ，主要是这个坚持的过程</p><p>如果仅仅只是为了 commit ，那么每天改改 README 其实也可以，或者写个 shell 然么每天改个时间戳随便提交一下。那么这件事就没有任何意义，<strong>只是一个自我感动的过程</strong>。</p><p>那么现在来说说，这一年的变化吧。 <strong>你所做的所有努力，都在潜移默化的改变着你</strong></p><h2 id="要懂得去为自己的项目写文档，并且尽量写英文或者英汉双语"><a href="#要懂得去为自己的项目写文档，并且尽量写英文或者英汉双语" class="headerlink" title="要懂得去为自己的项目写文档，并且尽量写英文或者英汉双语"></a>要懂得去为自己的项目写文档，并且尽量写英文或者英汉双语</h2><p>毕竟 Github 是个全球的技术社区，虽然国人也不少，但我觉得这是一个好习惯。<strong>不仅要写文档，还要写好的文档</strong>。当然我也没觉得自己写的有多好，而且我英文也不是很好，但是这也是个学习的过程，就连写文档都在学习，感觉也是很不错的</p><p>当然有些能力所限，英文实在是完成不了，就只能用中文代替了，比如当时为了养成这种写 README 的习惯，在当时学 <a href="https://github.com/InnoFang/DesignPatterns" target="_blank" rel="noopener">Design Pattern</a> 时，就一边学一遍尝试用自己的例子和代码来解释学到的东西，效果还可以</p><p>其实这么做最大的一个好处就是，你会发现有时候会有不认识的人来给你的 repo 点 star 或者 fork，这就体现了写文档的好处了，你要让别人知道你的东西，就要用文档去解释他，这样才有开源的意义</p><h2 id="多去接触一些新的玩意儿，但是别忘了你原来的东西"><a href="#多去接触一些新的玩意儿，但是别忘了你原来的东西" class="headerlink" title="多去接触一些新的玩意儿，但是别忘了你原来的东西"></a>多去接触一些新的玩意儿，但是别忘了你原来的东西</h2><p>当时大一的时候年轻气盛（其实现在也很年轻），感觉什么都想学，而且那些入门的东西也很简单，所以会有一种 <code>“嗯，还行，我觉得我入门了”</code> 的错觉。其实这是最打脸的事了，记得当时大二暑假没回家，在学校写华五的项目，期间为了打发时间，学了 Python，JavaScript，CSS，HTML 等这些东西，当时学的很快，但是忘的也快，所以导致后来写数值分析作业时，一直不知道自己 Python 到底是会还是不会😂，反复看了好几遍，这些是大二的事了。</p><p>现在不会这样了，当我真正需要什么的时候，我再去学习，囫囵吞枣，捡芝麻丢西瓜的事还是少干为好。</p><p>当然，如果你抑制不住你的好奇心，这也没什么坏处，但是学了，你就要尝试去用，不然学了跟没学几乎没有区别。今年的一个不错的收获就是入门了 kotlin，这是门很有魅力的语言，为了让自己用起来，我就用 kotlin 去刷 leetcode，现在 <a href="https://github.com/InnoFang/Algorithms" target="_blank" rel="noopener">Algorithms</a> 里的 leetcode 题解我就是用 kotlin 来实现，并且在做的过程中，我也会想着如何去做好，所以也学了很多 kotlin 的玩法。</p><p>后来暑假期间因为兴趣学了 Processing，看完了 <a href="https://github.com/shiffman" target="_blank" rel="noopener">Daniel Shiffman</a> 的 The nature of code（代码本色） 就尝试将做一些小玩意儿，比如 <a href="https://github.com/InnoFang/AlgorithmVisualizer" target="_blank" rel="noopener">AlgorithmVisualizer</a> 用 Processing 来可视化算法，现在只是完成了排序的可视化，如果以后有什么好玩的新创意，我也会继续更新的。顺带一提，代码本色这本书，我觉得写的非常棒，这也是我喜欢 Processing 的一个原因，这本书的整体目标是模拟一个自然系统，所以免不了会用到很多知识，前面是一些基本的物理常识，后面就逐渐由浅入深学到了分型，CA，遗传算法等东西，并且都是以可视化的方式，真的不能更赞了✨。</p><p>后来就开始接触机器学习，<del>又</del> 学习 Python，想跟着书写一个 <a href="https://github.com/InnoFang/Algo4ML" target="_blank" rel="noopener">algorithm for machine learning</a> 的 repo ，后来发现还需要很多数学知识，所以现在又开始恶补以前欠下的债（以前为什么就不能好好学数学呢？）</p><p>在这一年中，也学了很多东西，不信可以去 <a href="https://github.com/InnoFang" target="_blank" rel="noopener">我的 Github</a> 看看。从原本只会用点 Java <del>的菜鸡</del>，到后来接触了很多新的东西，这也丰富了我 Github 的内容</p><h2 id="懂得去精简与提炼"><a href="#懂得去精简与提炼" class="headerlink" title="懂得去精简与提炼"></a>懂得去精简与提炼</h2><p>其实就是去把不再维护的 repo 删掉，或者放在一个集合里，比如整了个 <a href="https://github.com/InnoFang/Android-Code-Demos" target="_blank" rel="noopener">Android-Code-Demos</a> 的集合，就把一些我学 Android 时的代码和项目放到了一起，这样看着就稍微整洁点。</p><p>repo 的数量也从原本的 30 多简化到了现在的 19，除了打算持续更新维护的，或者一些有纪念价值的 repo，其他的基本都删去了</p><h2 id="…-…"><a href="#…-…" class="headerlink" title="… …"></a>… …</h2><p><del>其实还有很多，只是懒得写了</del></p><h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>这一年过的还是很快的，收获了很多，学到了很多，也经历了很多，但是还有很多遗憾与不足，所以我还想继续坚持，去做一些我想做的事，不然就没时间了</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;一年期目标达成！&quot;&gt;&lt;a href=&quot;#一年期目标达成！&quot; class=&quot;headerlink&quot; title=&quot;一年期目标达成！&quot;&gt;&lt;/a&gt;一年期目标达成！&lt;/h1&gt;
-    
-    </summary>
-    
-      <category term="misc" scheme="https://innofang.github.io/categories/misc/"/>
-    
-    
-      <category term="misc" scheme="https://innofang.github.io/tags/misc/"/>
     
   </entry>
   
