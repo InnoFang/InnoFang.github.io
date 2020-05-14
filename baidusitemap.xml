@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>https://innofang.github.io/2020/03/29/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E4%BA%8B%E5%8A%A1/</loc>
+    <lastmod>2020-05-14T14:51:49.387Z</lastmod>
+    <data>
+        <display>
+        <title>重学MySQL之事务</title>
+        <pubTime>2020-03-29T14:17:07.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+         
+           
+             
+              <breadCrumb title="MySQL" url="https://innofang.github.io/categories/MySQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://innofang.github.io/2020/04/05/Shell%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2020-05-13T03:47:30.394Z</lastmod>
     <data>
@@ -150,26 +170,6 @@
         <display>
         <title>重学MySQL之视图</title>
         <pubTime>2020-04-02T07:58:50.000Z</pubTime>
-        
-        <tag>MySQL</tag>
-         
-         
-           
-             
-              <breadCrumb title="MySQL" url="https://innofang.github.io/categories/MySQL/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://innofang.github.io/2020/03/29/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E4%BA%8B%E5%8A%A1/</loc>
-    <lastmod>2020-03-30T11:58:05.339Z</lastmod>
-    <data>
-        <display>
-        <title>重学MySQL之事务</title>
-        <pubTime>2020-03-29T14:17:07.000Z</pubTime>
         
         <tag>MySQL</tag>
          
