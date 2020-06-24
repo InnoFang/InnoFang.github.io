@@ -39,21 +39,21 @@
 <li><strong>处理器：</strong> 2 <em> 2 （即处理器数量和每个处理器的内核数量为 2 </em> 2，处理器内核总数为 4，如果还需要更高，需要查看自己CPU的个数与核数，设置不能超过本机上限）</li>
 <li><strong>网络适配器：</strong> NAT 模式（VMware 默认配置）</li>
 </ul>
-<h3 id="配置虚拟机"><a href="#配置虚拟机" class="headerlink" title="配置虚拟机"></a>配置虚拟机</h3><p><img src="../image/Hadoop分布式搭建全流程记录/虚拟机设置.jpg" alt="虚拟机配置"></p>
+<h3 id="配置虚拟机"><a href="#配置虚拟机" class="headerlink" title="配置虚拟机"></a>配置虚拟机</h3><p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//Hadoop分布式搭建全流程记录/虚拟机设置.jpg" alt="虚拟机配置"></p>
 <p>确认后即可点击 “开启此虚拟机” 进行虚拟机的启动项配置，语言设置选择中文</p>
-<p><img src="../image/Hadoop分布式搭建全流程记录/语言选择.jpg" alt="语言选择"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//Hadoop分布式搭建全流程记录/语言选择.jpg" alt="语言选择"></p>
 <p>确认后进入 “安装信息摘要”，先配置 “安装位置”</p>
-<p><img src="../image/Hadoop分布式搭建全流程记录/安装信息摘要.jpg" alt="安装信息摘要"></p>
-<p><img src="../image/Hadoop分布式搭建全流程记录/安装目标位置.jpg" alt="安装目标位置"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//Hadoop分布式搭建全流程记录/安装信息摘要.jpg" alt="安装信息摘要"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//Hadoop分布式搭建全流程记录/安装目标位置.jpg" alt="安装目标位置"></p>
 <p>这里为了方便，我选择了 “自动配置分区”。点击 “完成”，回到 “安装信息摘要界面” 后，在点击 “网络和主机名”</p>
-<p><img src="../image/Hadoop分布式搭建全流程记录/网络和主机名.jpg" alt="网络和主机名"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//Hadoop分布式搭建全流程记录/网络和主机名.jpg" alt="网络和主机名"></p>
 <p>打开以太网，点击 “完成” 后，继续下一步</p>
-<p><img src="../image/Hadoop分布式搭建全流程记录/用户配置.jpg" alt="用户配置"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//Hadoop分布式搭建全流程记录/用户配置.jpg" alt="用户配置"></p>
 <p>这里要为root配置密码，等会登陆后需要用到，暂时可以不用创建用户。稍等片刻，安装完成后，选择 “重启”。</p>
 <p>重启后会看到终端交互界面，输入root和密码即可登录成功</p>
 <p><strong>值得注意的是</strong>，在分布式集群的使用过程中，是不需要图形界面的，全程时使用 Xshell 来远程链接操作集群的系统，文件传输则使用 Xftp 来完成。当然，如果不习惯无操作界面的系统或者其他原因需要 GUI，那么可以在 CentOS 启动项配置过程中的 <code>安装信息摘要 -&gt; 软件 -&gt; 软件选择</code> 中选择自己需要的组件，不过使用默认的 “最小安装” 才是符合实际开发场景的。（GUI 安装选项不是本文重点并且也不需要，可以自行查阅其他文章）</p>
 <h3 id="获取IP及关闭防火墙"><a href="#获取IP及关闭防火墙" class="headerlink" title="获取IP及关闭防火墙"></a>获取IP及关闭防火墙</h3><p>紧接着输入 <code>ip addr</code> 获取本机的 IP 地址，当然前提是在安装时已经打开了以太网的连接</p>
-<p><img src="../image/Hadoop分布式搭建全流程记录/获取IP地址.jpg" alt="获取IP地址"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//Hadoop分布式搭建全流程记录/获取IP地址.jpg" alt="获取IP地址"></p>
 <p>下一步，我们需要将虚拟机的防火墙关闭，这样主机才能 ping 通虚拟机的 IP。要注意的是，CentOS 7 的防火墙操作指令与 CentOS 7 的不同，具体如下所示：</p>
 <ul>
 <li>启动防火墙：<code>systemctl start firewalld.service</code></li>
@@ -63,10 +63,10 @@
 <li>禁止防火墙开机自启：<code>systemctl disable firewalld.service</code></li>
 </ul>
 <p>这里我们需要先关闭防火墙，然后禁止防火墙开机自启，最后查看一下防火墙状态，出现如下信息则表示防火墙已关闭。</p>
-<p><img src="../image/Hadoop分布式搭建全流程记录/关闭防火墙.jpg" alt="关闭防火墙"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//Hadoop分布式搭建全流程记录/关闭防火墙.jpg" alt="关闭防火墙"></p>
 <p>接着主机可以尝试 ping 一下虚拟机的 IP，如果能 ping 通则说明没有问题。</p>
 <h3 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h3><p>接下来修改主机名，这样做是为了在打开多个系统的终端时，可以分得清对应的是哪个。输入 <code>vi /etc/hostname</code> 并将原来的 <code>localhost.localdomain</code> 修改为你需要的主机名，比如 <code>hadoop101</code>，保存之后，重启即可看到主机名已经修改。</p>
-<p><img src="../image/Hadoop分布式搭建全流程记录/修改主机名.jpg" alt="修改主机名"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//Hadoop分布式搭建全流程记录/修改主机名.jpg" alt="修改主机名"></p>
 <h2 id="Hadoop-安装及各运行模式的配置"><a href="#Hadoop-安装及各运行模式的配置" class="headerlink" title="Hadoop 安装及各运行模式的配置"></a>Hadoop 安装及各运行模式的配置</h2><p>进行中……</p>
 <!-- iamge resource -->
 </div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://innofang.github.io/2020/06/22/Hadoop分布式搭建全流程记录/">https://innofang.github.io/2020/06/22/Hadoop分布式搭建全流程记录/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> 许可协议。转载请注明来自 <a href="https://innofang.github.io">Inno's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hadoop/">Hadoop</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2020/04/05/Shell编程学习记录/"><span>Shell编程学习记录</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg);"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2020 By Inno Fang</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
