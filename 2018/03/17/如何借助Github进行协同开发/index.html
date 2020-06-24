@@ -11,17 +11,17 @@
 <a id="more"></a>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>如果你想只是想简单的尝试下协同开发，而不像基于参与真正的开发，那么创建一个测试项目来实验一下是最合适不过的了</p>
 <p>首先打开 Github ，接着点击 New repository，创建一个空项目，简便起见，我们在创建新项目时顺便勾选 <code>Initialize this repository with a README</code> 这个选项，这样我们的项目至少还有一个 README 文件，而不至于什么也没有</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/new_repository.jpg?raw=true" alt=""> </p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/new_repository.jpg" alt=""> </p>
 <p>为了便于后文进行描述，这里约定</p>
 <ul>
 <li>把拥有原始仓库的操作者称为 <strong><em>master</em></strong></li>
 <li>把 fork 了原始项目的操作者称为 <strong><em>follower</em></strong></li>
 </ul>
 <p>那么现在 <strong><em>master</em></strong> 已经创建好仓库了，接着 <strong><em>follower</em></strong> 也想和 <strong><em>master</em></strong> 一起开发这个项目，那么 <strong><em>follower</em></strong> 要做的就是在 Github 上 fork <strong><em>master</em></strong> 的这个项目</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/fork.jpg?raw=true" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/fork.jpg" alt=""></p>
 <p>那么 <strong><em>follower</em></strong> 的 Github 上也有了一份这个项目的副本</p>
 <p>接下来 <strong><em>follower</em></strong> 把项目 clone 到本地，复制项目的 ssh</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/clone.jpg?raw=true" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/clone.jpg" alt=""></p>
 <p>打开 Git Bash，输入下面的命令 (请用复制的 ssh 替换掉 <follower ssh="">)</follower></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> &lt;follower ssh&gt;</span><br></pre></td></tr></table></figure>
 <p>稍等片刻，即可进行项目的开发了</p>
@@ -41,11 +41,11 @@
 <p>现在就已经到 dev 分支上了，那么我们就在这个分支上进行开发，因为项目很简单，所以简单修改下 README 即可，接着就可以 add、commit、push 三部曲更新 <strong><em>follower</em></strong> 的代码了</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">":memo: update"</span></span><br><span class="line">$ git push -u origin dev</span><br></pre></td></tr></table></figure>
 <p>这时候 <strong><em>follower</em></strong> 进入 Github 就会发现在该项目下多了一行下面的东西</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/compare.jpg?raw=true" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/compare.jpg" alt=""></p>
 <p>点击 <code>Compare &amp; pull request</code> ，然后填写一些必要信息再点击 <code>Create pull request</code> 即可</p>
 <p>至此， <strong><em>follower</em></strong> 的代码编写与提交就算完成，接下来就是 <strong><em>master</em></strong> 的任务了</p>
 <h1 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h1><p>此时 <strong><em>master</em></strong> 在 Github 就可以看到在项目顶部栏上多了一个 pull request</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/one_pull_request.jpg?raw=true" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/one_pull_request.jpg" alt=""></p>
 <p>那么点击去找到这个 pull request 请求就可以看到下面的信息</p>
 <p><img src="https://github.com/InnoFang/StudyNotes/blob/master/notimportant/%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/merge.jpg?raw=true" alt=""></p>
 <p>点击 <code>Merge pull request</code> 然后 confirm 就可以把 <strong><em>follower</em></strong> 更新的代码合并到自己的项目里。</p>

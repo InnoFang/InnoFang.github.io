@@ -12,7 +12,7 @@
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>其实突然想写这篇博客的原因，主要是最近看到学弟的开源项目上连基本的 .gitignore 文件都没有，连带着 IDE 的配置文件（.idea/，*.iml 等），out 目录都在上面，所以他们在用 git 协同开发的时候经常会出现冲突。</p>
 <p>此外，大部分都没有 README，有的学弟兴致勃勃的开源了自己写的项目，可惜很少有人去 star，其实你换个角度想，这个项目写的好不好，有没有学习价值，除了你知道外，你不用文档的形式展示出来，别人又怎么会去看呢？当然如果你只是用 github 来简单的存储代码，那么当我没说，但我觉得就算留一个只有标题的 README 都比什么都不留好得多。</p>
 <p>如果你细心的话，就会发现每次在 Github 上创建项目的时候，都有这么几个选项</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/github.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/github.jpg" alt=""></p>
 <ul>
 <li>Repository name 项目名</li>
 <li>Description 项目描述</li>
@@ -26,14 +26,14 @@
 <h2 id="为什么要忽略一些文件呢"><a href="#为什么要忽略一些文件呢" class="headerlink" title="为什么要忽略一些文件呢"></a>为什么要忽略一些文件呢</h2><p>如果你不明白为什么，那么可以看一下你平常提交的东西，除了更新的代码之外，还包括大量的 IDE 配置文件的修改，out 目录的更新等等。</p>
 <p><strong>怎么查看呢？</strong></p>
 <p>你可以随意打开一个用 IDE 开发的项目，Github 会记录你每次的提交</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/see_commits.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/see_commits.jpg" alt=""></p>
 <p>点击那个 commits 后，再随意点击几个你的 commit 记录，你会发现有时候可能你都没有写代码，仅仅只是更新下配置，整个上传的东西都特别多，甚至很多你都看不懂，这些东西对项目并没有什么影响，当然你在本地开发的话，还是需要这些文件的，但是如果是跟别人协同开发，那么每个人在本地打开你的项目的时候都会覆盖原有的项目配置，如果此时合并代码，就会产生很多的冲突。此外，类似于 build 这样的文件夹里的内容都特别大，别人在 clone 你项目时，很大一部分时间都会耗在这种无足轻重的内容上</p>
 <h2 id="如何编写-gitignore-文件"><a href="#如何编写-gitignore-文件" class="headerlink" title="如何编写 .gitignore 文件"></a>如何编写 .gitignore 文件</h2><p>在新建 Github 仓库时，可以通过根据你当前的项目类型，选择对应的 .gitignore 文件，比如我要上传我的 Android 项目，那么我就选择 Android，但是这样是远远不够的。</p>
 <p>这里推荐一个网站 <a href="https://www.gitignore.io/" target="_blank" rel="noopener">gitignore.io</a>，相比于 Github 生成的，在这里你可以选择更多的类型</p>
 <p>如果此时我要上传一个 Android 项目，我可以输入 <code>Android</code>，<code>AndroidStudio</code> 这些关键字</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/gitignore_input.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/gitignore_input.jpg" alt=""></p>
 <p>点击 Create 按钮后就会生成一个<a href="https://www.gitignore.io/api/android%2Candroidstudio" target="_blank" rel="noopener">文件</a></p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/gitignore_generate.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/gitignore_generate.jpg" alt=""></p>
 <p>比较长，这里只显示一点点，你可以自己尝试，也可以点击上面的文件链接进行查看。和 Github 生成的比较一下，就会发现 gitignore.io 生成的会更加全面。</p>
 <p>把全部内容复制下来，打开你项目的 .gitignore 文件，如果没有的话就新建一个，注意文件名不能写错了，把复制的内容粘贴进去即可。保存，这样在之后的上传中就不会，上传这些被过滤的文件了。</p>
 <p>如果你已经上传过项目了，你会发现即使更改了 .gitignore 文件，你 Github 上原本应该过滤的文件还是存在的，只不过并没有更新。既然不更新，那么也就没必要让他占着这么个地方</p>
@@ -71,16 +71,16 @@
 <p>虽然我们的项目并不大，协议几乎没什么作用，不过我觉得加一个协议并不会耗多少事，选择一个合适的协议，百利而无一害，何乐而不为呢？😀</p>
 <p>如果你想为已经创建的项目添加 LICENSE，可以在 Github 上进行操作</p>
 <ol>
-<li>先在项目对应面板下，点击 Create new file <br> <img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/createnewfile.jpg?raw=true" alt=""></li>
-<li>接着在输入文件名 <code>LICENSE</code>，接着会出现选择 LICENSE 模板的按钮 <br> <img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/chooseLicenseTemplate.jpg?raw=true" alt=""></li>
-<li>然后你就可以根据需要选择适合自己的 LIECNSE 了  <br> <img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/chooseLicense.jpg?raw=true" alt=""></li>
+<li>先在项目对应面板下，点击 Create new file <br> <img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/createnewfile.jpg" alt=""></li>
+<li>接着在输入文件名 <code>LICENSE</code>，接着会出现选择 LICENSE 模板的按钮 <br> <img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/chooseLicenseTemplate.jpg" alt=""></li>
+<li>然后你就可以根据需要选择适合自己的 LIECNSE 了  <br> <img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/chooseLicense.jpg" alt=""></li>
 </ol>
 <h1 id="为你的项目添加-topics"><a href="#为你的项目添加-topics" class="headerlink" title="为你的项目添加 topics"></a>为你的项目添加 topics</h1><p>我觉得这是一个很容易让人忽略的细节</p>
 <p>我们经常维护一个项目，但是一直无人问津，会不会觉得没有动力？</p>
 <p>没有宣传是一方面，还有一个原因就是大家的项目名太多重复的了</p>
 <p>举个例子，我每天都会在 leetcode 中写一道题，然后将 solution 代码放在我的 <a href="https://github.com/InnoFang/Algorithms" target="_blank" rel="noopener">Algorithms</a> 这个项目中这个项目主要是放一些我在 leetcode 的题解以及我的算法实践的代码，因为我主要是用 Kotlin 来写的代码，此外还有部分 Java ，JavaScript，Python 的代码，所以这个项目就变成了一个 Kotlin 为主要语言的项目了。</p>
 <p>有一次我突发奇想，在 Github 上以 <code>kotlin</code> <code>leetcode</code> 为关键字去搜索，的确也看到了很多项目，但是项目名都大同小异，不过令我困惑的是我翻了好几页都没有发现我的项目，后来我为项目添加了好几个 topics</p>
-<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/algorithms.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/image-hosting/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/algorithms.jpg" alt=""></p>
 <p>现在再以 <code>kotlin</code> <code>leetcode</code> 为关键字去搜索，就可以在第一页发现我的项目。可见，为自己项目添加合适的 topics 是很多人都忽视了的一个细节。</p>
 <p>此外，在搜索结果中，除了项目名，star 数外，另一个能简洁描述你项目的就是 Description，为你的项目添加简洁的描述也是一个让别人了解你项目的很好的方式</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如果你有认真的做上面说的几件事，可能有时候你就会发现偶尔有陌生人来 star 或者 fork 你的项目，这种被陌人生肯定的感觉也是一种坚持开源的很好的动力 🎉</p>
