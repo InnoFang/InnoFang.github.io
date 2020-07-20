@@ -204,7 +204,6 @@
 <p><strong>注意</strong> 文件中添加的内容结尾不允许有空格，并且文件中不允许有空行。</p>
 <h5 id="同步虚拟机文件及配置环境"><a href="#同步虚拟机文件及配置环境" class="headerlink" title="同步虚拟机文件及配置环境"></a>同步虚拟机文件及配置环境</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo rsync -av /opt/module/hadoop-2.6.0-cdh5.15.0 hadoop102:/opt/module/</span><br><span class="line">sudo rsync -av /opt/module/hadoop-2.6.0-cdh5.15.0 hadoop103:/opt/module/</span><br><span class="line">sudo rsync -av /etc/profile hadoop102:/etc/profile</span><br><span class="line">sudo rsync -av /etc/profile hadoop103:/etc/profile</span><br></pre></td></tr></table></figure>
 <p><strong>注意</strong> 在完成了同步操作后，还需要在各台虚拟机上执行 <code>source /etc/profile</code> 使配置生效。</p>
-<p>完成以上操作后，Hadoop的分布式配置才算基本完成。</p>
 <h2 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h2><h3 id="格式化-NameNode"><a href="#格式化-NameNode" class="headerlink" title="格式化 NameNode"></a>格式化 NameNode</h3><p>如果集群是第一次启动，需要格式化NameNode（注意格式化之前，一定要先停止上次启动的所有namenode和datanode进程，然后再删除data和log数据）</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
 <p><strong>注意</strong> <strong>NameNode 只在第一次启动时需要格式化</strong>，往后非必要的情况下都不需要格式化，因为频繁的格式化会导致出现一些意想不到的问题，比如找不到 DataNode 等。</p>
@@ -214,19 +213,10 @@
 </ul>
 <p><strong>注意</strong> 若 NameNode 和 ResourceMange 不是同一台机器，则不能在 NameNode 上启动 YARN，应该在 ResouceManager 所在的机器上启动 YARN。</p>
 <p>接下来使用 jps 命令分别查看一下三台虚拟机的运行情况</p>
-<blockquote>
-<p>haoop101</p>
-</blockquote>
 <p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source/Hadoop分布式搭建全流程记录/hadoop101-jps.jpg" alt="hadoop101-jps"></p>
-<blockquote>
-<p>haoop102</p>
-</blockquote>
 <p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source/Hadoop分布式搭建全流程记录/hadoop102-jps.jpg" alt="hadoop102-jps"></p>
-<blockquote>
-<p>haoop103</p>
-</blockquote>
 <p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source/Hadoop分布式搭建全流程记录/hadoop103-jps.jpg" alt="hadoop103-jps"></p>
-<p>结果与之前的集群部署规划相符合。至此，集群已经部署完成，再来看一下控制台的情况，以下操作在自己本机（Windows / Mac OS）的浏览器中操作</p>
+<p>结果与之前的集群部署规划相符合。至此，Hadoop 分布式集群基本部署完成，再来看一下控制台的情况，以下操作在自己本机（Windows / Mac OS）的浏览器中操作</p>
 <p>输入 <code>haoop101:50070</code> 查看 HDFS 的运行情况：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source/Hadoop分布式搭建全流程记录/查看HDFS的运行状况.jpg" alt="查看HDFS的运行状况"></p>
 <p>再点击头部的 <code>Datanodes</code> 查看 DataNode 的情况</p>
