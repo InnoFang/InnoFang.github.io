@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="如何借助Github进行协同开发"><meta name="keywords" content="Github"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>如何借助Github进行协同开发 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9%E6%9C%AC%E5%9C%B0%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%9B%B4%E6%96%B0"><span class="toc-number">2.</span> <span class="toc-text">对本地项目进行更新</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91"><span class="toc-number">3.</span> <span class="toc-text">对项目进行开发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF"><span class="toc-number">4.</span> <span class="toc-text">合并分支</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">同步本地代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%BD%E9%87%8F%E5%87%8F%E5%B0%91%E5%86%B2%E7%AA%81"><span class="toc-number">6.</span> <span class="toc-text">尽量减少冲突</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E8%AF%B4%E4%B8%80%E5%8F%A5"><span class="toc-number">7.</span> <span class="toc-text">多说一句</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7dgp763j315o0owq6x.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">如何借助Github进行协同开发</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-03-17</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Github/">Github</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>平常都是自己一个人在开发，一直都没有机会接触协同开发，平常使用 Github 时也就是简单的 add, commit, push，并由体会到 Git 带给我们<br>更多的好处，那么如何借助 Github 进行协同开发，现在来简单的尝试一下</p>
+<span id="more"></span>
+
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>如果你想只是想简单的尝试下协同开发，而不像基于参与真正的开发，那么创建一个测试项目来实验一下是最合适不过的了</p>
+<p>首先打开 Github ，接着点击 New repository，创建一个空项目，简便起见，我们在创建新项目时顺便勾选 <code>Initialize this repository with a README</code> 这个选项，这样我们的项目至少还有一个 README 文件，而不至于什么也没有</p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/new_repository.jpg"> </p>
+<p>为了便于后文进行描述，这里约定</p>
+<ul>
+<li>把拥有原始仓库的操作者称为 <em><strong>master</strong></em></li>
+<li>把 fork 了原始项目的操作者称为 <em><strong>follower</strong></em></li>
+</ul>
+<p>那么现在 <em><strong>master</strong></em> 已经创建好仓库了，接着 <em><strong>follower</strong></em> 也想和 <em><strong>master</strong></em> 一起开发这个项目，那么 <em><strong>follower</strong></em> 要做的就是在 Github 上 fork <em><strong>master</strong></em> 的这个项目</p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/fork.jpg"></p>
+<p>那么 <em><strong>follower</strong></em> 的 Github 上也有了一份这个项目的副本</p>
+<p>接下来 <em><strong>follower</strong></em> 把项目 clone 到本地，复制项目的 ssh</p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/clone.jpg"></p>
+<p>打开 Git Bash，输入下面的命令 (请用复制的 ssh 替换掉 <follower ssh>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> &lt;follower ssh&gt;</span><br></pre></td></tr></table></figure>
+
+<p>稍等片刻，即可进行项目的开发了</p>
+<h1 id="对本地项目进行更新"><a href="#对本地项目进行更新" class="headerlink" title="对本地项目进行更新"></a>对本地项目进行更新</h1><p><em><strong>follower</strong></em> 已经把项目 clone 到本地了，这里要注意的就是，每次进行开发时要保持跟 <em><strong>master</strong></em> 项目一样的进度，也就是把 <em><strong>master</strong></em> 的代码更新到本地</p>
+<p>那么在更新之前， <em><strong>follower</strong></em> 要做的就是添加 <em><strong>master</strong></em> 的远端连接，这里需要 <em><strong>master</strong></em> 远端的 ssh，操作参考上一节，命令如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add upstream &lt;master ssh&gt;</span><br></pre></td></tr></table></figure>
+
+<p>添加成功过后就可以更新本地代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote update</span><br></pre></td></tr></table></figure>
+
+<p>接着合并 master 的分支，（这里的 master 是指 upstream 的 master， 即远端的 master，而不是本地的）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git merge upstream/master</span><br></pre></td></tr></table></figure>
+
+<p>现在 <em><strong>follower</strong></em> 本地的代码已经更新完了，接下来就是进行项目的开发</p>
+<h1 id="对项目进行开发"><a href="#对项目进行开发" class="headerlink" title="对项目进行开发"></a>对项目进行开发</h1><p>因为 <em><strong>follower</strong></em> 是作为 <em><strong>master</strong></em> 合作者的，所以 <em><strong>follower</strong></em> 在开发时最好能建立一个分支，然后在分支上进行开发</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git banch dev</span><br><span class="line">$ git checkout dev</span><br></pre></td></tr></table></figure>
+
+<p>上面两个命令分别是创建一个 dev 分支，并且把本地分支切换至 dev 分支</p>
+<p>也可以使用下面的命令，创建加切换一起完成</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b dev</span><br></pre></td></tr></table></figure>
+
+<p>现在就已经到 dev 分支上了，那么我们就在这个分支上进行开发，因为项目很简单，所以简单修改下 README 即可，接着就可以 add、commit、push 三部曲更新 <em><strong>follower</strong></em> 的代码了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">&quot;:memo: update&quot;</span></span><br><span class="line">$ git push -u origin dev</span><br></pre></td></tr></table></figure>
+
+<p>这时候 <em><strong>follower</strong></em> 进入 Github 就会发现在该项目下多了一行下面的东西</p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/compare.jpg"></p>
+<p>点击 <code>Compare &amp; pull request</code> ，然后填写一些必要信息再点击 <code>Create pull request</code> 即可</p>
+<p>至此， <em><strong>follower</strong></em> 的代码编写与提交就算完成，接下来就是 <em><strong>master</strong></em> 的任务了</p>
+<h1 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h1><p>此时 <em><strong>master</strong></em> 在 Github 就可以看到在项目顶部栏上多了一个 pull request</p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/jotter/source//%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/one_pull_request.jpg"></p>
+<p>那么点击去找到这个 pull request 请求就可以看到下面的信息</p>
+<p><img src="https://github.com/InnoFang/StudyNotes/blob/master/notimportant/%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/merge.jpg?raw=true"></p>
+<p>点击 <code>Merge pull request</code> 然后 confirm 就可以把 <em><strong>follower</strong></em> 更新的代码合并到自己的项目里。</p>
+<p>此时 <em><strong>master</strong></em> 再在本地使用下面的命令就可以把远端的代码更新到本地了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull</span><br></pre></td></tr></table></figure>
+
+<h1 id="同步本地代码"><a href="#同步本地代码" class="headerlink" title="同步本地代码"></a>同步本地代码</h1><p>这里要注意的就是，如果 <em><strong>master</strong></em> 更新了代码，就会导致 <em><strong>follower</strong></em> 的本地与 <em><strong>master</strong></em> 的远端不一致，那么 <em><strong>follower</strong></em> 就没办法提交 pull request 了，所以 <em><strong>follower</strong></em> 在开发前最好进行代码的更新</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote update</span><br><span class="line">$ git merge upstream/master</span><br></pre></td></tr></table></figure>
+<p>同之前的更新操作是一样的。或者使用下面的命令进行更新也是可以的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch upstream</span><br><span class="line">$ git merge upstream/master</span><br></pre></td></tr></table></figure>
+
+<h1 id="尽量减少冲突"><a href="#尽量减少冲突" class="headerlink" title="尽量减少冲突"></a>尽量减少冲突</h1><p>用 Github 进行协同开发我觉得实在所难免，但要尽量的减少冲突，那么就需要在<strong>进行开发的时候做好一个约定</strong>，大家在进行开发的时候就按照这个约定进行开发。</p>
+<p>其次，在 Github 上开发的项目最好不要上传一些不必要的文件，比如 IDE 的配置文件（ Intellij IDEA 的 .idea、*.iml） 等，那么如何忽略这些文件，或者如果你已经开始了一些项目，怎么把 Github 上的不必要的文件去掉而不影响本地，可以参考我的另一篇文章 <a href="https://innofang.github.io/2018/03/09/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">如何管理你Github上的开源项目</a></p>
+<h1 id="多说一句"><a href="#多说一句" class="headerlink" title="多说一句"></a>多说一句</h1><p>因为平常都是一个人在写代码，所以还没有机会尝试如何去进行真正的协同开发，但是这又是一个必备的技能，所以在简单的实践过后，分享了一下自己的经验。因为没有实际合作经验，难免有疏漏和不足，所以在实际开发中遇到了问题还需要自己去查阅，具体情况具体分析，这样协同合作才能游刃有余。</p>
+<!-- image resource -->
+
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2018/03/17/%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/">http://innofang.github.io/2018/03/17/%E5%A6%82%E4%BD%95%E5%80%9F%E5%8A%A9Github%E8%BF%9B%E8%A1%8C%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Github/">Github</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/05/07/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%85%AB-%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/"><i class="fa fa-chevron-left">  </i><span>设计模式(十八):访问者模式</span></a></div><div class="next-post pull-right"><a href="/2018/03/09/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E4%BD%A0Github%E4%B8%8A%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"><span>如何管理你Github上的开源项目</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7dgp763j315o0owq6x.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="汇编语言学习笔记（五）：[BX] 和 loop 指令"><meta name="keywords" content="汇编语言"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>汇编语言学习笔记（五）：[BX] 和 loop 指令 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bx"><span class="toc-number">1.</span> <span class="toc-text">[bx]</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#loop-%E6%8C%87%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">loop 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AE%B5%E5%89%8D%E7%BC%80"><span class="toc-number">3.</span> <span class="toc-text">段前缀</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E6%AE%B5%E5%AE%89%E5%85%A8%E7%9A%84%E7%A9%BA%E9%97%B4"><span class="toc-number">4.</span> <span class="toc-text">一段安全的空间</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">汇编语言学习笔记（五）：[BX] 和 loop 指令</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-11-22</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><blockquote>
+<p>学习参考：汇编语言（第2版）王爽</p>
+</blockquote>
+<ul>
+<li>[bx]</li>
+<li>loop 指令</li>
+<li>段前缀</li>
+<li>一段安全的空间</li>
+</ul>
+ <span id="more"></span>
+
+<h1 id="bx"><a href="#bx" class="headerlink" title="[bx]"></a>[bx]</h1><p>[bx] 表示一个内存单元，它的偏移地址在 bx 中，比如下面的指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov ax,[bx]</span><br></pre></td></tr></table></figure>
+
+<p>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址 EA 在 bx 中，段地址 SA 在 ds 中。即 (ax)=((ds)*16+(bx))</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov al,[bx]</span><br></pre></td></tr></table></figure>
+<p>将一个内存单元的内容送入 al，这个内存单元的长度为 1 字节（字节单元），存放一个字节，偏移地址在 bx 中，段地址在 ds 中</p>
+<h1 id="loop-指令"><a href="#loop-指令" class="headerlink" title="loop 指令"></a>loop 指令</h1><blockquote>
+<p>loop 指令的格式是：loop 标号，CPU 执行 loop 指令的时候，要进行两步操作</p>
+</blockquote>
+<ol>
+<li>(cx)=(cx)-1</li>
+<li>判断 cx 中的值，不为零则转至标号处执行程序，如果为零则向下执行</li>
+</ol>
+<p>上述中，可见 cx 中的值影响着 loop 指令的执行结果。<strong>通常</strong>  cx 中存放循环次数</p>
+<p>例如，求 2^12 的结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line">code segment</span><br><span class="line">    mov ax,2</span><br><span class="line">    </span><br><span class="line">    mov cx,11</span><br><span class="line">s:  add ax,ax</span><br><span class="line">    loop s</span><br><span class="line">    </span><br><span class="line">    mov ax,4c00h</span><br><span class="line">    int 21h</span><br><span class="line">code ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>程序中出现了一个标号 <code>s:</code> ，这个实际上标识了一条指令:<code>add ax,ax</code></p>
+<p>根据程序，我们可以总结出用 cx 和 loop 指令相配合实现循环功能的 3 个要点：</p>
+<ol>
+<li>在 cx 中存放循环次数</li>
+<li>loop 指令中的标号所标识地址要在前面</li>
+<li>要循环执行的程序段，要写在标号和 loop 指令的中间</li>
+</ol>
+<p>用 cx 和 loop 指令相配合实现循环功能的程序框架如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    mov cx,循环次数</span><br><span class="line">s:  </span><br><span class="line">    循环执行的程序段</span><br><span class="line">    loop s</span><br></pre></td></tr></table></figure>
+<p>例程2：用加法计算 123*236，结果存在 ax 中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">    mov ax,0</span><br><span class="line">    </span><br><span class="line">    mov cx,123</span><br><span class="line">s:</span><br><span class="line">    add ax,236</span><br><span class="line">    loop s</span><br><span class="line">    </span><br><span class="line">    mov ax,4c00h</span><br><span class="line">    int 21h</span><br><span class="line">code ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h1 id="段前缀"><a href="#段前缀" class="headerlink" title="段前缀"></a>段前缀</h1><blockquote>
+<p>指令 “mov ax,[bx]” 中，内存单元的偏移地址由 bx 给出，而段地址默认在 ds 中。我们可以在访问内存的单元的指令中显示地给出内存单元的段地址所在的段寄存器。比如</p>
+</blockquote>
+<ol>
+<li><code>mov ax,ds:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 ds 中</strong>。</li>
+<li><code>mov ax,cs:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 cs 中</strong>。</li>
+<li><code>mov ax,ss:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 ss 中</strong></li>
+<li><code>mov ax,es:[bx]</code><br>将一个内存单元的内容送入 ax，这个内存单元的长度为 2 字节（字单元），存放一个字，偏移地址在 bx 中，<strong>段地址在 es 中</strong></li>
+</ol>
+<blockquote>
+<p>这种显式地指明内存单元的段地址的 “ds:” “cs:” “ss:” “es:”，在汇编中称为<strong>段前缀</strong></p>
+</blockquote>
+<h1 id="一段安全的空间"><a href="#一段安全的空间" class="headerlink" title="一段安全的空间"></a>一段安全的空间</h1><ol>
+<li>我们需要直接向一段内存中写入内容；</li>
+<li>这段内存空间不应该存放系统或其他程序的数据或代码，否则写入操作很可能引发错误；</li>
+<li>DOS 方式下，一般情况，0:200~0:2ff 空间中没有系统或其他程序的数据或代码；</li>
+<li>以后，我们需要直接向一段内存中写入内容时，就使用 0:200~0:2ff 这段空间。</li>
+</ol>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2017/11/22/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%94%EF%BC%89%EF%BC%9A-BX-%E5%92%8C-loop-%E6%8C%87%E4%BB%A4/">http://innofang.github.io/2017/11/22/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%94%EF%BC%89%EF%BC%9A-BX-%E5%92%8C-loop-%E6%8C%87%E4%BB%A4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/11/23/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%85%AD%EF%BC%89%EF%BC%9A%E5%8C%85%E5%90%AB%E5%A4%9A%E4%B8%AA%E6%AE%B5%E7%9A%84%E7%A8%8B%E5%BA%8F/"><i class="fa fa-chevron-left">  </i><span>汇编语言学习笔记（六）：包含多个段的程序</span></a></div><div class="next-post pull-right"><a href="/2017/11/20/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F/"><span>汇编语言学习笔记（四）：第一个程序</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

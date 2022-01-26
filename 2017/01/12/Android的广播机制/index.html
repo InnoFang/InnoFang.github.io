@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Android的广播机制"><meta name="keywords" content="Android"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>Android的广播机制 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">Android的广播机制</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-01-12</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Android/">Android</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>广播的应用场景：</p>
+<ul>
+<li>同一app内部的同一组件内的消息通信（单个或多个线程之间）</li>
+<li>同一app内部的不同组件之间的消息通信</li>
+<li>同一app具有多个线程的不同组件之间的消息通信</li>
+<li>不同app之间的组建之间消息通信</li>
+<li>Android系统在特定情况下与App之间的消息通信</li>
+</ul>
+<span id="more"></span>
+
+<p>广播分为两种：</p>
+<ul>
+<li>有序广播</li>
+</ul>
+<ul>
+<li>类似于击鼓传花的游戏，游戏开始时发送广播，每个游戏者就是广播接收器，依次向下传递，只能由前一个游戏者传递给下一个游戏者。若某一个游戏者的花掉了，这就是广播截断，广播就不能继续传下去</li>
+</ul>
+<ul>
+<li>无序广播</li>
+</ul>
+<ul>
+<li>类似于老师宣布下课，学生就是广播接收者，基本都是按照同一时间执行某些操作</li>
+</ul>
+<p>广播的使用，需要继承BroadcastReceiver并实现抽象方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcast</span>  <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span></span>&#123;</span><br><span class="line">        Toast.makeText(context, <span class="string">&quot;收到广播，执行onReceiver()方法&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当BroadcastReceiver作为Android的四大组件之一，在使用时，必须对BroadcastReceiver进行注册<br>注册方式分为两种：</p>
+<ul>
+<li><p>静态注册</p>
+<ul>
+<li>类似于Activity，自定义广播接收器之后，在AndroidManifest.xml中注册即为静态注册</li>
+</ul>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver</span> <span class="attr">android:name</span>=<span class="string">&quot;.MyBroadcast&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;io.innofang.broadcastdemo.MYBROADCAST&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">reveiver</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>  其中action类似于显示广播的频段，当广播发送的时候需要指定后面的字符串。接收器接收的时候，也会根据该处指定的字符串进行过滤</p>
+</li>
+<li><p>动态注册</p>
+<ul>
+<li>动态注册，即在java代码中进行注册，也就是程序启动后，执行到注册的代码才会注册成功，并且动态注册的广播需要接触注册<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MY_ACTION = <span class="string">&quot;io.innofang.broadcastdemo.MYBROADCAST&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> MyBroadcast mMyBroadcast;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">final</span> Intent intent = <span class="keyword">new</span> Intent(MY_ACTION);</span><br><span class="line">        <span class="comment">// 初始化广播接收器</span></span><br><span class="line">        mMyCast = <span class="keyword">new</span> MyBroadcast();</span><br><span class="line">        <span class="comment">// 初始化过滤器，对应Manifest文件中的receiver的字段</span></span><br><span class="line">        IntentFilter filter = <span class="keyword">new</span> IntentFilter();</span><br><span class="line">        <span class="comment">// 在过滤器中添加action</span></span><br><span class="line">        filter.addAction(MY_ACTION);</span><br><span class="line">        <span class="comment">// 注册广播接收器</span></span><br><span class="line">        registerReceiver(mMyCast, filter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        <span class="comment">// 在onDestroy中取消注册</span></span><br><span class="line">        unregisterReceiver(mMyCast);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>动态注册的广播接收者要优先于静态注册的广播接收者</li>
+<li>当程序被销毁掉之后，静态注册的广播接收者任然可以接受到广播，但是动态注册的广播接收者则不可以</li>
+</ul>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2017/01/12/Android%E7%9A%84%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6/">http://innofang.github.io/2017/01/12/Android%E7%9A%84%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/02/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%B8%80-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><i class="fa fa-chevron-left">  </i><span>设计模式(一):单例模式</span></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

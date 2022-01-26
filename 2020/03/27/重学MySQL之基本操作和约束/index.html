@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="重学MySQL之基本操作和约束"><meta name="keywords" content="MySQL"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>重学MySQL之基本操作和约束 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C-MySQL-%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">使用终端操作 MySQL 数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A2%9E%E6%94%B9%E5%88%A0"><span class="toc-number">2.</span> <span class="toc-text">数据的增改删</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E8%A1%A8%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.</span> <span class="toc-text">建表约束</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%BB%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.0.1.</span> <span class="toc-text">1. 主键约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%81%94%E5%90%88%E4%B8%BB%E9%94%AE"><span class="toc-number">3.0.2.</span> <span class="toc-text">2. 联合主键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%87%AA%E5%A2%9E%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.0.3.</span> <span class="toc-text">3. 自增约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%94%AF%E4%B8%80%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.0.4.</span> <span class="toc-text">4. 唯一约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E9%9D%9E%E7%A9%BA%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.0.5.</span> <span class="toc-text">5. 非空约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E9%BB%98%E8%AE%A4%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.0.6.</span> <span class="toc-text">6. 默认约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="toc-number">3.0.7.</span> <span class="toc-text">7. 外键约束</span></a></li></ol></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7cv90aej31400k9n4i.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">重学MySQL之基本操作和约束</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-03-27</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MySQL/">MySQL</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>重新学习 MySQL 的基础知识，本章内容为数据库的基本操作和约束的介绍</p>
+<span id="more"></span>
+
+<h2 id="使用终端操作-MySQL-数据库"><a href="#使用终端操作-MySQL-数据库" class="headerlink" title="使用终端操作 MySQL 数据库"></a>使用终端操作 MySQL 数据库</h2><ol>
+<li><strong>如何登录 MySQL？</strong><blockquote>
+<p>mysql -u用户名 -p密码</p>
+</blockquote>
+</li>
+<li><strong>如何查看所有数据库？</strong><blockquote>
+<p>SHOW DATABASES;</p>
+</blockquote>
+</li>
+<li><strong>如何选择数据库？</strong><blockquote>
+<p>USE 数据库名;</p>
+</blockquote>
+</li>
+<li><strong>如何查看数据库中所有数据表？</strong><blockquote>
+<p>SHOW TABLES;</p>
+</blockquote>
+</li>
+<li><strong>如何查看数据表结构？</strong><blockquote>
+<p>DESCRIBE 数据表名; / DESC 数据表名;</p>
+</blockquote>
+</li>
+<li><strong>如何查看数据表定义？</strong><blockquote>
+<p>SHOW CREATE TABLE 数据表名;</p>
+</blockquote>
+</li>
+<li><strong>如何查看数据表中所有数据？</strong><blockquote>
+<p>SELECT * FROM 数据表名;</p>
+</blockquote>
+</li>
+<li><strong>如何创建数据库？</strong><blockquote>
+<p>CREATE DATABASE 数据库名;</p>
+</blockquote>
+</li>
+<li><strong>如何退出 MySQL？</strong><blockquote>
+<p>EXIT;</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="数据的增改删"><a href="#数据的增改删" class="headerlink" title="数据的增改删"></a>数据的增改删</h2><ol>
+<li><strong>如何创建数据表？</strong>(定义 person 表)<blockquote>
+<p>CRAETE TABLE person(<br>  id INT PRIMARY KEY,<br>  name VARCHAR(20),<br>  gender CHAR(1),<br>  birthday DATE<br>);</p>
+</blockquote>
+</li>
+<li><strong>如何往数据表中新添一条记录？</strong>（新增 Mike, id 为 1，性别男，生日2000-1-1）<blockquote>
+<p>INSERT INTO person VALUES(1, ‘Mike’, ‘M’, ‘2000-1-1’);<br>INSERT INTO person(id, name, birthday, gender) VALUES(1, ‘Mike’, ‘M’, ‘2000-1-1’);</p>
+</blockquote>
+</li>
+<li><strong>如何修改数据表中的记录？</strong>（将 id 为 1 的人姓名更改为 Amy，性别更改为 F）<blockquote>
+<p>UPDATE 数据表 SET 字段1=值1,字段2=值2 … WHERE 条件;<br>UPDATE person SET name=’Amy’, gender=’F’ WHERE id=1;</p>
+</blockquote>
+</li>
+<li><strong>如何修改列名？</strong>（将 birthday 修改为 birth）<blockquote>
+<p>ALTER TABLE 数据表 CHANGE [COLUMN] 旧列名 新列名 列定义 [FIRST| AFTER 列名]<br>ALTER TABLE person CHANGE COLUMN birthday birth DATE</p>
+</blockquote>
+</li>
+<li><strong>如何修改列的定义？</strong>（修改 id 为自增）<blockquote>
+<p>ALTER TABLE 数据表 MODIFY [COLUMN] 列名 列定义 [FIRST| AFTER 列名]<br>ALTER TABLE person MODIFY COLUMN id INT PRIMARY KEY AUTO_INCREMENT</p>
+</blockquote>
+</li>
+<li><strong>如何删除数据表中的一条记录？</strong>（删除 id 为 1 的记录）<blockquote>
+<p>DELETE FROM 数据表 WHERE 条件;<br>DELETE FROM person WHERE id=1;</p>
+</blockquote>
+</li>
+<li><strong>如何删除数据表？</strong>（删除 person 表）<blockquote>
+<p>DROP TABLE person;</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="建表约束"><a href="#建表约束" class="headerlink" title="建表约束"></a>建表约束</h2><h4 id="1-主键约束"><a href="#1-主键约束" class="headerlink" title="1. 主键约束"></a>1. 主键约束</h4><p><strong>作用</strong> 使得某个字段不重复且不得为空，确保表内所有数据的唯一性</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">20</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>建表后如何添加主键约束？</strong><blockquote>
+<p>ALTER TABLE user ADD PRIMARY KEY(id);<br>ALTER TABLE user MODIFY id INT PRIMARY KEY;</p>
+</blockquote>
+</li>
+<li><strong>如何删除主键约束？</strong><blockquote>
+<p>ALTER TABLE user DROP PRIMARY KEY;</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="2-联合主键"><a href="#2-联合主键" class="headerlink" title="2. 联合主键"></a>2. 联合主键</h4><p><strong>作用：</strong> 使用多个字段来确定一条记录，受约束字段可以分别重复但不能为空</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">INT</span>,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">    password <span class="type">VARCHAR</span>(<span class="number">20</span>)</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY(id, name)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-自增约束"><a href="#3-自增约束" class="headerlink" title="3. 自增约束"></a>3. 自增约束</h4><p><strong>作用</strong> 受约束字段的值由系统自动递增分配</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE user (</span><br><span class="line">    id INT PRIMARY KEY AUTO_INCREMENT,</span><br><span class="line">    name VARCHAR(20)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-唯一约束"><a href="#4-唯一约束" class="headerlink" title="4. 唯一约束"></a>4. 唯一约束</h4><p><strong>作用</strong> 受约束字段的值不能重复</p>
+<p><strong>注意</strong> 一张表可以有多个唯一约束，但只能有一个主键约束</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">INT</span>,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">UNIQUE</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>如果要联合多个唯一约束，可以在末尾指定，联合唯一约束只需任意受约束字段不重复即可</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">INT</span>,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">    <span class="keyword">UNIQUE</span>(id, name)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>建表后如何添加唯一约束？</strong><blockquote>
+<p>ALTER TABLE user ADD UNIQUE(name);<br>ALTER TABLE user MODIFY name VARCHAR(20) UNIQUE;</p>
+</blockquote>
+</li>
+<li><strong>如何删除唯一约束？</strong><blockquote>
+<p>ALTER TABLE user DROP INDEX name;</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="5-非空约束"><a href="#5-非空约束" class="headerlink" title="5. 非空约束"></a>5. 非空约束</h4><p><strong>作用</strong> 受约束字段的值不能为空（NULL）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">INT</span>,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>建表后如何添加非空约束？</strong> <blockquote>
+<p>ALTER TABLE user MODIFY name VARCHAR(20) NOT NULL;</p>
+</blockquote>
+</li>
+<li><strong>如何删除非空约束？</strong><blockquote>
+<p>ALTER TABLE user MODIFY name VARCHAR(20);</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="6-默认约束"><a href="#6-默认约束" class="headerlink" title="6. 默认约束"></a>6. 默认约束</h4><p><strong>作用</strong> 未对受约束字段传值时，会使用默认值代替</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">INT</span>,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="string">&#x27;anonymous&#x27;</span>,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>建表后如何添加默认约束？</strong> <blockquote>
+<p>ALTER TABLE user ALTER COLUMN name SET DEFAULT ‘anonymous’;</p>
+</blockquote>
+</li>
+<li><strong>如何删除默认约束？</strong><blockquote>
+<p>ALTER TABLE user ALTER COLUMN name DROP DEFAULT;</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="7-外键约束"><a href="#7-外键约束" class="headerlink" title="7. 外键约束"></a>7. 外键约束</h4><p><strong>作用</strong> 用来在两个表的数据之间建立链接，保持主表（父表）和从表（子表）数据的一致性、完整性</p>
+<p><strong>注意</strong> </p>
+<ol>
+<li>主表（父表）需先于从表（子表）存在于数据库中</li>
+<li>必须为父表定义主键</li>
+<li>外键中列的数目必须和父表的主键中列的数目相同</li>
+<li>外键中列的数据类型必须和父表主键中对应列的数据类型相同</li>
+<li>主表（父表）没有的记录，从表（子表）是无法引用的</li>
+<li>主表（父表）中的记录若正在被从表（子表）引用，则无法被删除；若想删除，需先将从表（子表）中引用了该记录的数据删除</li>
+</ol>
+<p>首先定义主表（父表）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> class (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY AUTO_INCREMENT,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">20</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>再定义从表（子表）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> student (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY AUTO_INCREMENT,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">    class_id <span class="type">INT</span>,</span><br><span class="line">    <span class="keyword">FOREIGN</span> KEY (class_id) <span class="keyword">REFERENCES</span> class(id) </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>在往从表（子表）中添加数据时，class_id 字段值必须是 class 表中已存在的值，否则会报错</p>
+<ol>
+<li><strong>建表后如何添加外键约束？</strong> <blockquote>
+<p>ALTER TABLE &lt;数据表名&gt; ADD &lt;索引名&gt; FOREIGN KEY(&lt;列名&gt;) REFERENCES &lt;主表名&gt; (&lt;列名&gt;);<br>ALTER TABLE student ADD CONSTRAINT student_class FOREIGN KEY(class_id) REFERENCE class(id);</p>
+</blockquote>
+</li>
+<li><strong>如何删除外键约束？</strong><blockquote>
+<p>ALTER TABLE student DROP FOREIGN KEY student_class;</p>
+</blockquote>
+</li>
+</ol>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2020/03/27/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E5%92%8C%E7%BA%A6%E6%9D%9F/">http://innofang.github.io/2020/03/27/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E5%92%8C%E7%BA%A6%E6%9D%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/03/28/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E8%8C%83%E5%BC%8F/"><i class="fa fa-chevron-left">  </i><span>重学MySQL之范式</span></a></div><div class="next-post pull-right"><a href="/2020/03/03/%E4%B8%BA%E4%BD%A0%E7%9A%84Web%E5%BA%94%E7%94%A8%E6%8F%90%E4%BE%9BHTTPS%E6%9C%8D%E5%8A%A1/"><span>为你的Web应用提供HTTPS服务</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7cv90aej31400k9n4i.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

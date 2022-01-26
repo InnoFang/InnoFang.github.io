@@ -1,0 +1,326 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="重学MySQL之范式"><meta name="keywords" content="MySQL"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>重学MySQL之范式 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E7%9A%84%E8%8C%83%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">数据库设计的范式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">例子分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E8%8C%83%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">第一范式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E8%8C%83%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">第二范式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E8%8C%83%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">第三范式</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7e2tnvgj31cb0p0188.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">重学MySQL之范式</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-03-28</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MySQL/">MySQL</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>重新学习 MySQL 的基础知识，本章内容为数据库的第一范式，第二范式和第三方式的讲解</p>
+<span id="more"></span>
+
+<h2 id="数据库设计的范式"><a href="#数据库设计的范式" class="headerlink" title="数据库设计的范式"></a>数据库设计的范式</h2><p>简要的地说，范式就是设计数据库时，需要遵循的一些规范。通过遵从不同的规范要求，设计出合理的关系型数据库。各种范式呈递次规范，越高的范式数据库冗余越小，要遵循后面的范式，必须先遵循前边的所有范式。</p>
+<p>目前数据库共有六种范式：第一范式（1NF）、第二范式（2NF）、第三范式（3NF）、巴斯-科德范式（BNF）、第四范式（4NF）、第五范式（5NF，又称完美范式）。</p>
+<p>在实际数据库设计过程中，符合前三个范式就可以解决大部分的问题，因此本章着重讲解前三个范式。</p>
+<h2 id="例子分析"><a href="#例子分析" class="headerlink" title="例子分析"></a>例子分析</h2><p>在讲解各个范式的概念之前，我决定先引出需要讲解的例子，通过问题来引出范式的概念</p>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+<th>系主任</th>
+<th>课程名称</th>
+<th>分数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10010</td>
+<td>张三</td>
+<td>计算机系陈续缘</td>
+<td>数据结构</td>
+<td>90</td>
+</tr>
+<tr>
+<td>10010</td>
+<td>张三</td>
+<td>计算机系陈续缘</td>
+<td>数据库</td>
+<td>85</td>
+</tr>
+<tr>
+<td>10010</td>
+<td>张三</td>
+<td>计算机系陈续缘</td>
+<td>编译原理</td>
+<td>77</td>
+</tr>
+<tr>
+<td>10020</td>
+<td>李四</td>
+<td>经管系刘快计</td>
+<td>大学英语</td>
+<td>86</td>
+</tr>
+<tr>
+<td>10020</td>
+<td>李四</td>
+<td>经管系刘快计</td>
+<td>高等数学</td>
+<td>80</td>
+</tr>
+<tr>
+<td>10020</td>
+<td>李四</td>
+<td>经管系刘快计</td>
+<td>工商管理</td>
+<td>82</td>
+</tr>
+<tr>
+<td>10030</td>
+<td>王五</td>
+<td>自动化系赵是福</td>
+<td>大学物理</td>
+<td>72</td>
+</tr>
+<tr>
+<td>10030</td>
+<td>王五</td>
+<td>自动化系赵是福</td>
+<td>电路</td>
+<td>75</td>
+</tr>
+<tr>
+<td>10030</td>
+<td>王五</td>
+<td>自动化系赵是福</td>
+<td>单片机技术</td>
+<td>79</td>
+</tr>
+</tbody></table>
+<h3 id="第一范式"><a href="#第一范式" class="headerlink" title="第一范式"></a>第一范式</h3><p>上表为学生的选课表。观察表的结构，可以发现学号，姓名、课程名称和分数，在字面意义上都是无法继续被分割的数据项，倘如我们观察 <code>系主任</code> 这一列，就会发现系名和主任名称是连在一起的，很明显可以对该列进行简化，比如新增一个 <code>系名</code> 列</p>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+<th>系名</th>
+<th>系主任</th>
+<th>课程名称</th>
+<th>分数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10010</td>
+<td>张三</td>
+<td>计算机系</td>
+<td>陈续缘</td>
+<td>数据结构</td>
+<td>90</td>
+</tr>
+<tr>
+<td>10010</td>
+<td>张三</td>
+<td>计算机系</td>
+<td>陈续缘</td>
+<td>数据库</td>
+<td>85</td>
+</tr>
+<tr>
+<td>10010</td>
+<td>张三</td>
+<td>计算机系</td>
+<td>陈续缘</td>
+<td>编译原理</td>
+<td>77</td>
+</tr>
+<tr>
+<td>10020</td>
+<td>李四</td>
+<td>经管系</td>
+<td>刘快计</td>
+<td>大学英语</td>
+<td>86</td>
+</tr>
+<tr>
+<td>10020</td>
+<td>李四</td>
+<td>经管系</td>
+<td>刘快计</td>
+<td>高等数学</td>
+<td>80</td>
+</tr>
+<tr>
+<td>10020</td>
+<td>李四</td>
+<td>经管系</td>
+<td>刘快计</td>
+<td>工商管理</td>
+<td>82</td>
+</tr>
+<tr>
+<td>10030</td>
+<td>王五</td>
+<td>自动化系</td>
+<td>赵是福</td>
+<td>大学物理</td>
+<td>72</td>
+</tr>
+<tr>
+<td>10030</td>
+<td>王五</td>
+<td>自动化系</td>
+<td>赵是福</td>
+<td>电路</td>
+<td>75</td>
+</tr>
+<tr>
+<td>10030</td>
+<td>王五</td>
+<td>自动化系</td>
+<td>赵是福</td>
+<td>单片机技术</td>
+<td>79</td>
+</tr>
+</tbody></table>
+<p>此时，该表的<strong>每一列都成了不可分割的原子数据项</strong>，对于这类数据表，称之为符合<strong>第一范式（1NF）</strong>。</p>
+<p>这也是绝大部分数据表都符合的基本范式。那么再次观察这张数据表存在哪些问题？</p>
+<ol>
+<li>存在非常严重的数据冗余（重复）：<code>姓名</code>、<code>系名</code>、<code>系主任</code></li>
+<li>数据添加存在问题：添加新开设的系和系主任时，数据不合法（因为新增一条数据还需要 <code>学号</code>、<code>姓名</code>、<code>课程</code> 和 <code>分数</code>）</li>
+<li>数据删除存在问题：张三毕业时，删除数据会把 <code>系名</code> 和 <code>系主任</code> 的数据一起删除</li>
+</ol>
+<h3 id="第二范式"><a href="#第二范式" class="headerlink" title="第二范式"></a>第二范式</h3><p>在介绍第二范式之前，通过观察符合第一范式的数据表来弄清楚几个概念：</p>
+<ul>
+<li>函数依赖：可以发现通过 <code>学号</code>，可以确定 <code>姓名</code>。因此说 <code>姓名</code> 依赖于  <code>学号</code>，记为 <code>学号 --&gt; 姓名</code><blockquote>
+<p><strong>概念</strong> 如果通过 A 属性（属性组）的值，能够唯一确定 B 属性的值，则称 B 依赖于 A</p>
+</blockquote>
+</li>
+<li>完全函数依赖：通过 <code>学号</code> 和 <code>课程名称</code> 可以唯一确定该学生的 <code>分数</code>。因此说 <code>分数</code> 完全函数依赖于属性组 <code>学号</code> 和 <code>课程名称</code>，记为 <code>(学号, 课程名称) --&gt; 分数</code><blockquote>
+<p><strong>概念</strong> 如果属性值 B 的确定需要依赖于属性组 A 的所有值，则称 B 完全依赖于属性组 A</p>
+</blockquote>
+</li>
+<li>部分函数依赖：因为 <code>学号</code> 可以唯一确定 <code>姓名</code>，那么属性组 <code>学号</code> 和 <code>课程名称</code> 也可以确定 <code>姓名</code>，但是 <code>课程名称</code> 不能确定 <code>姓名</code>，因此说 <code>姓名</code> 部分函数依赖于属性组 <code>学号</code> 和 <code>课程名称</code>，记为 <code>(学号, 课程名称) --&gt; 姓名</code><blockquote>
+<p><strong>概念</strong> 如果属性值 B 的确定需要依赖于属性组 A 的部分值，则称 B 部分依赖于属性组 A</p>
+</blockquote>
+</li>
+<li>传递函数依赖: <code>学号</code> 可以确定 <code>系名</code> ， <code>系名</code> 可以确定 <code>系主任</code> ， 因此通过传递关系 <code>学号</code> 可以确定 <code>系主任</code>, 因此称 <code>系主任</code> 传递函数依赖与 <code>学号</code> ，记为 <code>学号 --&gt; 系名, 系名 --&gt; 系主任</code><blockquote>
+<p><strong>概念</strong> 如果通过 A 属性（属性组）可以唯一确定 B 属性（属性组），再通过 B 属性（属性组）可以唯一确定 C 属性（属性组），则称 C 传递函数依赖于 A</p>
+</blockquote>
+</li>
+<li>（候选）码：类似于数据表的主键，<em>数据表中的其他所有属性都完全依赖于（候选）码</em>，或者说完全依赖于主键。观察符合第一范式的数据表，可以发现上表的（候选）码为 <code>(学号，课程名称)</code><ul>
+<li>主属性：（候选）码属性组中的所有属性</li>
+<li>非主属性：除（候选）码属性组以外的属性</li>
+</ul>
+</li>
+</ul>
+<p>我们要设计数据表符合<strong>第二范式</strong>，就需要<strong>在符合第一范式的基础上，消除非主属性对（候选）码的部分函数依赖</strong>。</p>
+<p>在上表中， <code>分数</code> 完全函数依赖于  <code>(学号，课程名称)</code> ，<code>姓名</code> 、 <code>系名</code> 和 <code>系主任</code> <strong>部分依赖于</strong> <code>(学号，课程名称)</code> ，因此我们需要将 <code>姓名</code> 、 <code>系名</code> 和 <code>系主任</code> 三列从原表中提出，以次来消除选课表中非主属性对（候选）码的部分函数依赖，并另建一个学生表来存放这些数据，修改如下</p>
+<blockquote>
+<p>选课表</p>
+</blockquote>
+<p>学号 | 姓名   | 课程名称 | 分数<br>—- | —   | – | — | —<br>10010 | 张三 | 数据结构 | 90<br>10010 | 张三 | 数据库 | 85<br>10010 | 张三 | 编译原理 | 77<br>10020 | 李四  | 大学英语 | 86<br>10020 | 李四  | 高等数学 | 80<br>10020 | 李四  | 工商管理 | 82<br>10030 | 王五 | 大学物理 | 72<br>10030 | 王五 | 电路      | 75<br>10030 | 王五 | 单片机技术 | 79</p>
+<blockquote>
+<p>学生表</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+<th>系名</th>
+<th>系主任</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10010</td>
+<td>张三</td>
+<td>计算机系</td>
+<td>陈续缘</td>
+</tr>
+<tr>
+<td>10020</td>
+<td>李四</td>
+<td>经管系</td>
+<td>刘快计</td>
+</tr>
+<tr>
+<td>10030</td>
+<td>王五</td>
+<td>自动化系</td>
+<td>赵是福</td>
+</tr>
+</tbody></table>
+<p>此时第二张表的（候选）码就为 <code>学号</code>，其他属性都完全依赖于 <code>学号</code>，因此现在这两张表的设计都符合第二范式，此外我们还解决了之前遇到的第一个问题，解决了数据冗余的问题。但是后两个问题任然存在，如果要添加新的 <code>系名</code> 和 <code>系主任</code> ，任然无法添加到学生表中，此外当张三毕业后，对应的 <code>系名</code> 和 <code>系主任</code> 的数据就会被删除。</p>
+<h3 id="第三范式"><a href="#第三范式" class="headerlink" title="第三范式"></a>第三范式</h3><p>要<strong>符合第三范式</strong>，就需要<strong>在符合第二范式的基础之上消除传递依赖</strong></p>
+<p>观察上面新建的学生表，可以发现，其实 <code>系主任</code> 依赖于 <code>系名</code> ， 而 <code>系名</code> 又依赖于 <code>学号</code> ，因此学生表中存在 <code>系主任</code> 对 <code>学号</code> 的传递函数依赖</p>
+<p>因此我们需要将 <code>系名</code> 和 <code>系主任</code> 从原表中提出，以此来消除学生表中的传递函数依赖，并新建一个系表来存储数据</p>
+<blockquote>
+<p>学生表</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>学号</th>
+<th>姓名</th>
+<th>系名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10010</td>
+<td>张三</td>
+<td>计算机系</td>
+</tr>
+<tr>
+<td>10020</td>
+<td>李四</td>
+<td>经管系</td>
+</tr>
+<tr>
+<td>10030</td>
+<td>王五</td>
+<td>自动化系</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>系表</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>系名</th>
+<th>系主任</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>计算机系</td>
+<td>陈续缘</td>
+</tr>
+<tr>
+<td>经管系</td>
+<td>刘快计</td>
+</tr>
+<tr>
+<td>自动化系</td>
+<td>赵是福</td>
+</tr>
+</tbody></table>
+<p>此时，如果我们需要新添系名和系主任的数据，就不会出现错误了；当张三毕业后，系名和系主任的数据也不会消失，从而最后两个问题也得到了解决。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2020/03/28/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E8%8C%83%E5%BC%8F/">http://innofang.github.io/2020/03/28/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E8%8C%83%E5%BC%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/03/29/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E4%BA%8B%E5%8A%A1/"><i class="fa fa-chevron-left">  </i><span>重学MySQL之事务</span></a></div><div class="next-post pull-right"><a href="/2020/03/27/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E5%92%8C%E7%BA%A6%E6%9D%9F/"><span>重学MySQL之基本操作和约束</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7e2tnvgj31cb0p0188.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

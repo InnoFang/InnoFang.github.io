@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="汇编语言学习笔记（一）：基础知识"><meta name="keywords" content="汇编语言"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>汇编语言学习笔记（一）：基础知识 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">存储器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E5%92%8C%E6%95%B0%E6%8D%AE"><span class="toc-number">2.</span> <span class="toc-text">指令和数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%8D%95%E5%85%83"><span class="toc-number">3.</span> <span class="toc-text">存储单元</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CPU-%E5%AF%B9%E5%AD%98%E5%82%A8%E5%99%A8%E7%9A%84%E8%AF%BB%E5%86%99"><span class="toc-number">4.</span> <span class="toc-text">CPU 对存储器的读写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E6%80%BB%E7%BA%BF"><span class="toc-number">5.</span> <span class="toc-text">地址总线</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%80%BB%E7%BA%BF"><span class="toc-number">6.</span> <span class="toc-text">数据总线</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E6%80%BB%E7%BA%BF"><span class="toc-number">7.</span> <span class="toc-text">控制总线</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="toc-number">9.</span> <span class="toc-text">内存地址空间</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E6%9D%BF"><span class="toc-number">10.</span> <span class="toc-text">主板</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E5%8D%A1"><span class="toc-number">11.</span> <span class="toc-text">接口卡</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%84%E7%B1%BB%E5%AD%98%E5%82%A8%E5%99%A8%E8%8A%AF%E7%89%87"><span class="toc-number">12.</span> <span class="toc-text">各类存储器芯片</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4-1"><span class="toc-number">13.</span> <span class="toc-text">内存地址空间</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">汇编语言学习笔记（一）：基础知识</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-11-17</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><blockquote>
+<p><strong>学习参考：汇编语言（第2版）王爽</strong></p>
+</blockquote>
+<ul>
+<li>存储器</li>
+<li>指令和数据</li>
+<li>存储单元</li>
+<li>CPU 对存储器的读写</li>
+<li>地址总线</li>
+<li>数据总线</li>
+<li>控制总线</li>
+<li>小结</li>
+<li>内存地址空间</li>
+<li>主板</li>
+<li>接口卡</li>
+<li>各类存储器芯片</li>
+<li>内存地址空间</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h1><blockquote>
+<p>CPU 是计算机的核心部件，控制整个计算机的运行并进行计算。<br>要让一个 CPU 工作，就必须向它提供指令和数据。指令和数据在存储器中存放，即平常所说的内存。<br>磁盘上的数据或程序要读到内存中才可以被 CPU 使用。</p>
+</blockquote>
+<h1 id="指令和数据"><a href="#指令和数据" class="headerlink" title="指令和数据"></a>指令和数据</h1><blockquote>
+<p>在内存或磁盘上，指令和数据没有任何区别，都是二进制信息。CPU 在工作时为同样的信息赋予了不同的意义。</p>
+</blockquote>
+<h1 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h1><blockquote>
+<p>存储器被划分成若干个存储单元，每个存储器单元从 0 开始顺序编号，如一个存储器有 128 个存储单元，编号从 0 到 127<br>微型机存储器的存储单元可以存储一个 Byte（1 字节 8 bit，即 8 个二进制位）。含有 128 个存储单元的存储器可以存储 128 个 Byte。</p>
+</blockquote>
+<h1 id="CPU-对存储器的读写"><a href="#CPU-对存储器的读写" class="headerlink" title="CPU 对存储器的读写"></a>CPU 对存储器的读写</h1><blockquote>
+<p>CPU 要从内存中读取数据，首先要指定存储单元的地址（即存储单元的编号）。<br>在一台微机中，不只有存储器一中起见。CPU 在读写数据时还要指明，它对哪一个器件进行操作，进行哪种操作，是从中读出数据，还是向里面写入数据</p>
+</blockquote>
+<p>CPU 要想进行数据的读写，必须和外部起见（标准说法是芯片）进行下面 3 类信息的交互</p>
+<ul>
+<li>存储单元的地址（地址信息）；</li>
+<li>起见的选择，读或写的命令（控制信息）；</li>
+<li>读或写的数据（数据信息）</li>
+</ul>
+<p> 在 CPU 中通过 <strong>总线</strong> 将地址、数据和控制信息传到存储器芯片中。</p>
+<p> 根据传送信息的不同，总线从逻辑上分为 3 类</p>
+<ul>
+<li>地址总线</li>
+<li>控制总线</li>
+<li>数据总线</li>
+</ul>
+<p>CPU 从 3 号单元中读取数据的过程</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljseen73zj30im0bnq3e.jpg"></p>
+<ol>
+<li>CPU 通过地址线将地址信息 3 发出</li>
+<li>CPU 通过控制线发出内存读命令，选中存储器芯片，并通知它，将要从中读取数据</li>
+<li>存储器将 3 号单元中的数据 8 通过数据线送入 CPU</li>
+</ol>
+<p>写操作与读操作的步骤类似。如向 3 号单元写入数据 26</p>
+<ol>
+<li>CPU 通过地址线将地址信息 3 发出</li>
+<li>CPU 通过控制线发出内存命令，选中存储器芯片，并通知它，要想其中写入数据</li>
+<li>CPU 通过数据线将数据 26 送入内存的 3 号单元中</li>
+</ol>
+<h1 id="地址总线"><a href="#地址总线" class="headerlink" title="地址总线"></a>地址总线</h1><blockquote>
+<p>CPU 通过地址总线来指定存储器单元。地址总线上能传送多少个不同的信息，CPU 就可以对多少个存储单元进行寻址。<br>一个 CPU 有 N 根地址线，则可以说这个 CPU 的地址总线的宽度为 N。这样的 CPU 最多可以寻找 2 的 N 次方个内存单元</p>
+</blockquote>
+<h1 id="数据总线"><a href="#数据总线" class="headerlink" title="数据总线"></a>数据总线</h1><blockquote>
+<p>CPU 与内存或其他器件之间的数据传送是通过数据总线来进行的。数据总线的宽度决定了 CPU 和外界的数据传送速度。8 根数据总线一次可传送一个 8 位二进制数据（即一个字节）。16 根数据总线一次可以传送两个字节。</p>
+</blockquote>
+<h1 id="控制总线"><a href="#控制总线" class="headerlink" title="控制总线"></a>控制总线</h1><blockquote>
+<p>CPU 对外部器件的控制是通过控制总线来进行的。在这里控制总线是一个总称，控制总线是一些不同控制线的集合。有多少个控制总线，就意味着 CPU 提供了对外部器件的多少种控制。所以，控制总线的宽度决定了 CPU 对外部器件的控制能力。</p>
+</blockquote>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol>
+<li>汇编指令是机器指令的助记符，同机器指令一一对应</li>
+<li>每一种 CPU 都有自己的汇编指令集</li>
+<li>CPU 可以直接使用的信息在存储器中存放</li>
+<li>在存储器中指令和数据没有任何区别，都是二进制信息</li>
+<li>存储单元从零开始顺序编号</li>
+<li>一个存储单元可以存储 8 个 bit，即 8 位二进制数，一个存储单元是一个字节</li>
+<li>1Byte = 8bit  1KB = 1024B  1MB = 1024KB  1GB = 1024MB（1GB = 2^30Byte, 1MB = 2^20Byte, 1KB = 2^10Byte）</li>
+<li>每一个 CPU 芯片都有许多管脚，这些管脚和总线相连。也可以说，这些管脚引出总线。一个 CPU 可以引出 3 种总线的宽度标志了这个 CPU 的不同方面的性能：</li>
+</ol>
+<ul>
+<li>地址总线的宽度决定了 CPU 的寻址能力</li>
+<li>数据总线的宽度决定了 CPU 与其他器件进行数据传送时的一次数据传送量</li>
+<li>控制总线的宽度决定了 CPU 对系统中其他器件的控制能力</li>
+</ul>
+<ol start="9">
+<li>总线宽度 N 与寻址能力的关系： 寻址能力=2^N</li>
+<li>8 根数据总线一次可传送一个 8 位二进制数据（即一个字节），即宽度为 8 的数据总线读取 1024 字节的内容需要读 1024 次</li>
+</ol>
+<blockquote>
+<p>Q：一个 CPU 的寻址能力为 8 KB，那么它的地址总线的宽度为？<br>A：<br>8 KB = 1024 * 8 Byte = 8192 Byte<br>设地址总线宽度为 N，则内存单元个数为 2 的 N 次方个，即 N = log(2)(8192) = 13<br>所以宽度为 13</p>
+</blockquote>
+<h1 id="内存地址空间"><a href="#内存地址空间" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><blockquote>
+<p>举例来说，一个 CPU 的地址总线宽度为 10，那么可以寻址 1024 个内存单元，这 1024 个可寻到的内存单元就构成这个 CPU 的内存地址空间</p>
+</blockquote>
+<h1 id="主板"><a href="#主板" class="headerlink" title="主板"></a>主板</h1><blockquote>
+<p>每一台 PC 机中，都有一个主板，主板上有核心器件和一些主要器件，这些器件通过总线（地址总线、数据总线、控制总线）相连。这些器件有 CPU、存储器、外围芯片组、扩展插槽等。扩展插槽上一般插有 RAM 内存条和各类接口卡</p>
+</blockquote>
+<h1 id="接口卡"><a href="#接口卡" class="headerlink" title="接口卡"></a>接口卡</h1><blockquote>
+<p>接口卡直接控制外部设备，CPU 通过总线向接口卡发送命令，接口卡根据 CPU 的命令控制外设进行工作，从而实现 CPU 对外设的间接控制</p>
+</blockquote>
+<h1 id="各类存储器芯片"><a href="#各类存储器芯片" class="headerlink" title="各类存储器芯片"></a>各类存储器芯片</h1><p>从读写属性上看分为两类：</p>
+<ul>
+<li>随机存储器（RAM）：可读可写，但必须带电存储，关机后存储的内容丢失</li>
+<li>只读存储器（ROM）：只能读不能写入，关机后其中的内容buu’i不会丢失</li>
+</ul>
+<p>从功能和连接上可分为一下几类：</p>
+<ul>
+<li>随机存储器<ul>
+<li>存放供 CPU 使用的绝大部分程序和数据</li>
+<li>主随机存储器由装在主板上 RAM 和插在扩展插槽上的 RAM 组成</li>
+</ul>
+</li>
+<li>装有 BIOS 的 ROM</li>
+<li>接口卡上的 RAM</li>
+</ul>
+<h1 id="内存地址空间-1"><a href="#内存地址空间-1" class="headerlink" title="内存地址空间"></a>内存地址空间</h1><p>上述的那些存储器，在物理上是独立的器件，但是在以下两点两点上相同：</p>
+<ul>
+<li>都和 CPU 的总线相连</li>
+<li>CPU 对它们进行读或写的时候都通过控制线发出内存读写命令</li>
+</ul>
+<blockquote>
+<p>对 CPU 来讲，系统中的所有存储器中的存储单元都处于一个统一的逻辑存储器中，它的容量受 CPU 寻址能力的限制。这个逻辑存储器即是我们所说的内存地址空间</p>
+</blockquote>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2017/11/17/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">http://innofang.github.io/2017/11/17/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/11/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8/"><i class="fa fa-chevron-left">  </i><span>汇编语言学习笔记（二）：寄存器</span></a></div><div class="next-post pull-right"><a href="/2017/07/23/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%A1%A8(%E4%B8%80)%20/"><span>MySQL 学习之数据表(一)</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

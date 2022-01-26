@@ -1,0 +1,279 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="汇编语言学习笔记（二）：寄存器"><meta name="keywords" content="汇编语言"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>汇编语言学习笔记（二）：寄存器 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">通用寄存器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%97%E5%9C%A8%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">2.</span> <span class="toc-text">字在寄存器中的存储</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%A0%E6%9D%A1%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">几条汇编指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-number">4.</span> <span class="toc-text">物理地址</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#16-%E4%BD%8D%E7%BB%93%E6%9E%84%E7%9A%84-CPU"><span class="toc-number">5.</span> <span class="toc-text">16 位结构的 CPU</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8086CPU-%E7%BB%99%E5%87%BA%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">8086CPU 给出物理地址的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%80%9C%E6%AE%B5%E5%9C%B0%E5%9D%80-16-%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80-%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E2%80%9D-%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%90%AB%E4%B9%89"><span class="toc-number">7.</span> <span class="toc-text">“段地址*16+偏移地址&#x3D;物理地址” 的本质含义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AE%B5%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">8.</span> <span class="toc-text">段的概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">9.</span> <span class="toc-text">段寄存器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CS-%E5%92%8C-IP"><span class="toc-number">10.</span> <span class="toc-text">CS 和 IP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-CS%E3%80%81IP-%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="toc-number">11.</span> <span class="toc-text">修改 CS、IP 的指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B5"><span class="toc-number">12.</span> <span class="toc-text">代码段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">13.</span> <span class="toc-text">小结</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">汇编语言学习笔记（二）：寄存器</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-11-18</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><blockquote>
+<p><strong>学习参考：汇编语言（第2版）王爽</strong></p>
+</blockquote>
+<ul>
+<li>通用寄存器</li>
+<li>字在寄存器中的存储</li>
+<li>几条汇编指令</li>
+<li>物理地址</li>
+<li>16 位结构的 CPU</li>
+<li>8086CPU 给出物理地址的方法</li>
+<li>“段地址*16+偏移地址=物理地址” 的本质含义</li>
+<li>段的概念</li>
+<li>段寄存器</li>
+<li>CS 和 IP</li>
+<li>修改 CS、IP 的指令</li>
+<li>代码段</li>
+<li>小结</li>
+</ul>
+<span id="more"></span>
+
+
+<p>一个典型的 CPU 由元算器、控制器、寄存器等器件构成，这些器件靠内部总线相连。在 CPU 中：</p>
+<ul>
+<li>运算器进行信息处理</li>
+<li>寄存器进行信息存储</li>
+<li>控制器控制各种器件进行工作</li>
+<li>内部总线连接各种器件，在它们之间进行数据的传送</li>
+</ul>
+<p>8086CPU 有 14 个寄存器，每个寄存器有一个名称。这些寄存器是：<br>AX、BX、CX、DX、SI、DI、SP、BP、IP、CS、SS、DS、ES、PSW</p>
+<h1 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h1><blockquote>
+<p>8086CPU 的所有寄存器都是 16 位的，可以存放两个字节。AX、BX、CX、DX 这 4个存储器通常用来存放一般性到的数据，被称为通用寄存器</p>
+</blockquote>
+<p>一个 16 位寄存器可以存储一个 16 位的数据。8086CPU 的 AX、BX、CX、DX 这 4 个寄存器都可分为两个可独立使用的 8 位寄存器来用：</p>
+<ul>
+<li>AX 可分为 AH 和 AL</li>
+<li>BX 可分为 BH 和 BL</li>
+<li>CX 可分为 CH 和 CL</li>
+<li>DX 可分为 DH 和 DL</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljz7meu61j30ik0cddge.jpg"></p>
+<p>以 AX 为例， 8086CPU 的 16 位寄存器分为两个 8 位寄存器的情况</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljzbcgovnj31830dmgnc.jpg"></p>
+<p>AX 的低 8 位 （0位 ~ 7位）构成了 AL 寄存器， 高 8 位（8位 ~ 15位）构成了 AH 寄存器。AH 和 AL 寄存器可以独立使用的 8 位寄存器。下图为 16位寄存器及它所分成的两个 8 位寄存器的数据存储的情况，在 AH 中存储了它的高 8 位，在 AL 中存储了它的低 8 位。</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fljzkvaywkj30zc0m640o.jpg"></p>
+<h1 id="字在寄存器中的存储"><a href="#字在寄存器中的存储" class="headerlink" title="字在寄存器中的存储"></a>字在寄存器中的存储</h1><p>8086CPU 可以一次性处理以下两种尺寸的数据</p>
+<ul>
+<li>字节：记为 byte，一个字节由 8 个 bit 组成，可以存在 8 位寄存器中</li>
+<li>字：记为 word，一个字由两个字节组成，这两个字节分别称为这个字的高位字节和低位字节</li>
+</ul>
+<p>一个字可以存在一个 16 位寄存器中，这个字的高位字节和低位字节自然就存在这个寄存器的高 8 位寄存器和低 8 位寄存器中</p>
+<h1 id="几条汇编指令"><a href="#几条汇编指令" class="headerlink" title="几条汇编指令"></a>几条汇编指令</h1><p>通过汇编指令控制 CPU 进行工作</p>
+<blockquote>
+<p>汇编指令举例</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>汇编指令</th>
+<th>控制 CPU 完成的操作</th>
+<th>用高级语言的语法描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mov ax,18</td>
+<td>将 18 送入寄存器 AX</td>
+<td>AX=18</td>
+</tr>
+<tr>
+<td>mov ah,78</td>
+<td>将 78 送入寄存器 AH</td>
+<td>AH=78</td>
+</tr>
+<tr>
+<td>add ax,8</td>
+<td>将寄存器 AX 中的数值加上 8</td>
+<td>AX=AX+8</td>
+</tr>
+<tr>
+<td>mov ax,bx</td>
+<td>将寄存器 BX 中的数据送入寄存器 AX</td>
+<td>AX=BX</td>
+</tr>
+<tr>
+<td>add ax,bx</td>
+<td>将 AX 和 BX 中的数值相加，结果存在 AX 中</td>
+<td>AX=AX+BX</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>程序段中指令的执行情况之一（原 AX 中的值：0000H，原 BX 中的值：0000H）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>程序段中的指令</th>
+<th>指令执行后 AX 中的数据</th>
+<th>指令执行后 BX 中的数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mov ax,4E20H</td>
+<td>4e20H</td>
+<td>0000H</td>
+</tr>
+<tr>
+<td>add ax,1406H</td>
+<td>6226H</td>
+<td>0000H</td>
+</tr>
+<tr>
+<td>mov bx,2000H</td>
+<td>6226H</td>
+<td>2000H</td>
+</tr>
+<tr>
+<td>add ax,bx</td>
+<td>8226H</td>
+<td>2000H</td>
+</tr>
+<tr>
+<td>mov bx,ax</td>
+<td>8226H</td>
+<td>8226H</td>
+</tr>
+<tr>
+<td>add ax,bx</td>
+<td>044cH</td>
+<td>8226H</td>
+</tr>
+</tbody></table>
+<p>因为 8226H + 8226H = 1044CH ，但是 ax 为 16 位寄存器，只能存放 4 位十六进制的数据，所以最高位的 1 不能在 ax 中保存， ax 中的数据为： 044CH</p>
+<p>在对 al， ah 进行操作时，注意，此是 al 是作为一个独立的 8 位寄存器来使用的，和 ah 没有关系， CPU 在执行这条指令时认为 ah 和 al 是两个不相关的寄存器，如果操作数超过范围则高位会丢失</p>
+<blockquote>
+<p>在进行数据传送或运算时，要注意指令的两个操作对象的位数应当是一致的</p>
+</blockquote>
+<h1 id="物理地址"><a href="#物理地址" class="headerlink" title="物理地址"></a>物理地址</h1><blockquote>
+<p>CPU 访问内存单元时，要给出内存单元的地址。所有的内存单元构成的存储空间是一个一维的线性空间，每一个内存单元在这个空间中都有唯一的地址，这个唯一的地址称为物理地址<br>CPU 通过地址总线送入存储器的，必须是一个内存单元的物理地址。在 CPU 想地址总线上发出物理地址之前，必须要在内部先形成这个物理地址</p>
+</blockquote>
+<h1 id="16-位结构的-CPU"><a href="#16-位结构的-CPU" class="headerlink" title="16 位结构的 CPU"></a>16 位结构的 CPU</h1><p>16 位结构描述了一个 CPU 具有下面几方面的结构特性：</p>
+<ul>
+<li>运算器一次最多可以处理 16 位的数据</li>
+<li>寄存器的最大宽度为 16 位</li>
+<li>寄存器和运算器之间的通路为 16 位</li>
+</ul>
+<blockquote>
+<p>在 8086 内部， 一次性处理、传输、暂时存储的信息的最大长度是 16 位的</p>
+</blockquote>
+<h1 id="8086CPU-给出物理地址的方法"><a href="#8086CPU-给出物理地址的方法" class="headerlink" title="8086CPU 给出物理地址的方法"></a>8086CPU 给出物理地址的方法</h1><blockquote>
+<p>8086CPU 有 20 位地址总线，可以传送 20 位地址，达到 1MB 寻址能力。8086CPU 是 16 位结构的， 一次性处理、传输、暂时存储的信息的最大长度是 16 位的。从内部结构看，如果将地址从内部简单地发出，那么它只能送出 16 位的地址，表现出的寻址能力只有 64 KB</p>
+</blockquote>
+<blockquote>
+<p>8086CPU 采用一种在内部用两个 16 位地址合成的方法来形成一个 20 位的物理地址</p>
+</blockquote>
+<p> <img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fll8swyu6jj30ez09oglx.jpg"></p>
+<ol>
+<li>CPU 中的相关部件提供连<strong>两个 16 位的地址，一个称为段地址，一个称为偏移地址</strong></li>
+<li>段地址和偏移地址通过内部总线送入一个称为地址加法器的部件</li>
+<li>地址加法器将两个 16 位地址合成为一个 20 位的物理地址</li>
+<li>地址加法器通过内部总线将 20 位物理地址送入输入输出控制电路</li>
+<li>输入输出控制电路将 20 位物理地址送上地址总线</li>
+<li>20 位物理地址被地址总线送到存储器</li>
+</ol>
+<blockquote>
+<p>地址加法器采用 <strong>物理地址=段地址*16+偏移地址</strong> 的方法用段地址和偏移地址合成物理地址。</p>
+</blockquote>
+<blockquote>
+<p>一个十六进制的数据左移 1 位，相当于乘以 16<br>一个 X 进制的数据左移 1 位，相当于乘以 X</p>
+</blockquote>
+<h1 id="“段地址-16-偏移地址-物理地址”-的本质含义"><a href="#“段地址-16-偏移地址-物理地址”-的本质含义" class="headerlink" title="“段地址*16+偏移地址=物理地址” 的本质含义"></a>“段地址*16+偏移地址=物理地址” 的本质含义</h1><blockquote>
+<p>CPU 在访问内存时，用一个基础地址（段地址*16）和一个相对于基础地质的偏移地址相加，给出内存单元的物理地址</p>
+</blockquote>
+<h1 id="段的概念"><a href="#段的概念" class="headerlink" title="段的概念"></a>段的概念</h1><blockquote>
+<p>内存并没有分段，段的划分来自于 CPU，我们可以用分段的方式来管理内存</p>
+</blockquote>
+<blockquote>
+<p>地址 10000H ~ 100FFH 的内存单元组成一个段，该段的起始地址为 10000H，段地址为 1000H 大小为 100H </p>
+</blockquote>
+<p><strong>注意</strong></p>
+<ul>
+<li>CPU 可以用不同的段地址和偏移地址形成同一个物理地址</li>
+<li>偏移地址 16 位，变化范围为 0~FFFFH，仅用偏移地址来寻址最多可寻 64KB 个内存单元</li>
+</ul>
+<blockquote>
+<p>“数据在 21F60H 内存单元中” 的一般说法是：</p>
+</blockquote>
+<ul>
+<li>数据存在内存 2000：1F60 单元中</li>
+<li>数据存在内存的 2000 段中的 1F60 单元中</li>
+</ul>
+<h1 id="段寄存器"><a href="#段寄存器" class="headerlink" title="段寄存器"></a>段寄存器</h1><blockquote>
+<p>段地址在 8086CPU 的段寄存器中存放。8086CPU 有 4 个段寄存器：CS、DS、SS、ES。当 8086CPU 要访问内存时由这 4 个段寄存器提供内存单元的段地址</p>
+</blockquote>
+<h1 id="CS-和-IP"><a href="#CS-和-IP" class="headerlink" title="CS 和 IP"></a>CS 和 IP</h1><blockquote>
+<p>CS 和 IP 是 8086CPU 中两个最关键的寄存器，它们指示了 CPU 当前要读取指令的地址</p>
+</blockquote>
+<ul>
+<li>CS : 代码段寄存器 （Code Segment register）</li>
+<li>IP : 指令指针寄存器 （Instruction Pointer register）</li>
+</ul>
+<blockquote>
+<p>在 8086CPU 机中，任意时刻，设 CS 中的内容为 M，IP 中的内容为 N，8086CPU 将从内存  M*16+N 单元开始，读取一条指令并执行。即任意时刻，CPU 将 CS:IP 指向的内容当作指令执行</p>
+</blockquote>
+<p>8086CPU 的工作过程可以简要描述如下：</p>
+<ol>
+<li>从 CS:IP 指向的内存单元读取指令，读取的指令进入指令缓冲器</li>
+<li>IP=IP+所都去指令的长度，从而指向下一条指令</li>
+<li>执行指令。转到（1），重复这个过程</li>
+</ol>
+<p>Q：CPU 根据什么将内存中的信息看作指令？<br>A：CPU 将 CS:IP 指向的内存单元中的内容看作指令，因为，在任何时候，CPU 将 CS、IP 中的内容当作指令的段地址和偏移地址，用它们合成指令的物理地址，到内存中读取指令码，执行。如果说，内存中的一段信息曾被 CPU 执行过的话，那么，它所在的内存单元必然被 CS:IP 指向过。</p>
+<h1 id="修改-CS、IP-的指令"><a href="#修改-CS、IP-的指令" class="headerlink" title="修改 CS、IP 的指令"></a>修改 CS、IP 的指令</h1><blockquote>
+<p>在 CPU 中，程序员能够用指令读写的部件只有寄存器，程序员可以通过改变寄存器中的内容实现对 CPU 的控制。CPU 从何处执行指令是由 CS、IP 中的内容决定的，程序员可以通过改变 CS、IP 中的内容来控制 CPU</p>
+</blockquote>
+<blockquote>
+<p><strong>8086CPU 大部分寄存器的值，都可以用 mov 指令来改变，mov 指令被称为传送指令</strong></p>
+</blockquote>
+<blockquote>
+<p>mov 指令不能用于设置 CS、IP 的值，因为 8086CPU 没有提供该功能</p>
+</blockquote>
+<blockquote>
+<p>能够改变 CS、IP 的内容的指令被称为转移指令</p>
+</blockquote>
+<p>一个简单的可以修改 CS、IP 的指令：JMP 指令。若想同时修改 CS、IP 的内容，可用形如 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmp 段地址：偏移地址</span><br></pre></td></tr></table></figure>
+<p>的指令完成。其功能为：<strong>用指令中给出的段地址修改 CS，偏移地址修改 IP</strong></p>
+<p>例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmp 2AE3:3  ;执行后：CS=2AE3H, IP=0003H, CPU 将从 2AE33H 处读取指令</span><br><span class="line">jmp 3:0B16  ;执行后：CS=0003H, IP=0B16H, CPU 将从 00B46H 处读取指令</span><br></pre></td></tr></table></figure>
+
+<p>若想仅修改 IP 的内容，可用形如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmp 某一合法寄存器</span><br></pre></td></tr></table></figure>
+<p>的指令完成。其功能为：<strong>用寄存器中的值修改 IP</strong></p>
+<p>例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jmp ax  ;指令执行前：ax=1000H, CS=2000H, IP=0003H</span><br><span class="line">        ;指令执行后：ax=1000H, CS=2000H, IP=1000H</span><br><span class="line">        </span><br><span class="line">jmp bx  ;指令执行前：bx=0B16H, CS=2000H, IP=0003H</span><br><span class="line">        ;指令执行后：bx=0B16H, CS=2000H, IP=0B16H</span><br></pre></td></tr></table></figure>
+
+<p>举个不恰当的比喻，这有点类似于 <code>mov IP,ax</code>，当然这个指令是不存在的，不过可以这么理解</p>
+<h1 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h1><p>首先我们可以将长度为 N （N &lt;= 64KB）的一组代码，存在一组地址连续、起始地址为 16 的倍数的内存单元中，可以认为这段内存是用来存放代码的，从而定义一个代码段。</p>
+<p>那么如何使得代码段中的指令被执行？CPU 只认被 CS:IP 指向所定义的代码段中的第一条指令的首地址。所以，要让 CPU 执行我们放在代码段中的指令，必须要将 CS:IP 指向所定义的代码段中的第一条指令的首地址。比如代码段存放在 123B0H ~ 123B9H 的一组内存单元中，要让这段代码得到执行，可设 CS=123BH、IP=0000H</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol>
+<li>段地址在 8086CPU 的段寄存器中存放。当 8086CPU 要访问内存时，由段寄存器提供内存单元的段地址。8086CPU 有 4 个段寄存器，其中 CS 用来存放指令的段地址</li>
+<li>CS 存放指令的段地址，IP 存放指令的偏移地址。8086 机中，任意时刻，CPU 将 CS:IP 指向的内容当作指令执行。</li>
+<li>8086CPU 的工作过程：<br>i. 从 CS:IP 指向的内存单元读取指令，读取的指令进入指令缓冲器<br>ii. IP 指向下一条指令<br>iii. 执行指令（转到步骤 i ，重复这个过程）     </li>
+<li>8086 提供转移指令修改 CS、IP 的内容</li>
+</ol>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2017/11/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8/">http://innofang.github.io/2017/11/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/11/19/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8%EF%BC%88%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%EF%BC%89/"><i class="fa fa-chevron-left">  </i><span>汇编语言学习笔记（三）：寄存器（内存访问）</span></a></div><div class="next-post pull-right"><a href="/2017/11/17/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><span>汇编语言学习笔记（一）：基础知识</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

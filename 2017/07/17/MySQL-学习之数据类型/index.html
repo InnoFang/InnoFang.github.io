@@ -1,0 +1,275 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="MySQL 学习之数据类型"><meta name="keywords" content="MySQL"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>MySQL 学习之数据类型 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">整型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">浮点型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">日期和时间类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">字符串类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-number">1.5.</span> <span class="toc-text">数据类型的属性</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">MySQL 学习之数据类型</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-07-17</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/MySQL/">MySQL</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><blockquote>
+<p>数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>存储范围（有符号值）</th>
+<th>存储范围（无符号值）</th>
+<th>字节</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYINT</td>
+<td>(-128，127)（-2^(7) 到 2^(7) - 1）</td>
+<td>(0，255) （0 到 2^(8) - 1）</td>
+<td>1</td>
+<td>小整数值</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>(-32 768，32 767)（-2^(15) 到 2^(15) - 1）</td>
+<td>(0，65 535) （0 到 2^(24) - 1）</td>
+<td>2</td>
+<td>大整数值</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>(-8 388 608，8 388 607)（-2^(23) 到 2^(23) - 1）</td>
+<td>(0，16 777 215) （0 到 2^(16) - 1）</td>
+<td>3</td>
+<td>大整数值</td>
+</tr>
+<tr>
+<td>INT或INTEGER</td>
+<td>(-2 147 483 648，2 147 483 647)（-2^(31) 到 2^(31) - 1）</td>
+<td>(0，4 294 967 295) （0 到 2^(32) - 1）</td>
+<td>4</td>
+<td>大整数值</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>(-9 233 372 036 854 775 808，9 223 372 036 854 775 807)（-2^(63) 到 2^(63) - 1）</td>
+<td>(0，18 446 744 073 709 551 615) （0 到 2^(64) - 1）</td>
+<td>8</td>
+<td>极大整数值</td>
+</tr>
+</tbody></table>
+<h2 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h2><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>存储范围（有符号值）</th>
+<th>存储范围（无符号值）</th>
+<th>字节</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FLOAT[(M,D)]</td>
+<td>(-3.402 823 466 E+38，-1.175 494 351 E-38)，0，(1.175 494 351 E-38，3.402 823 466 351 E+38)</td>
+<td>0，(1.175 494 351 E-38，3.402 823 466 E+38)</td>
+<td>4</td>
+<td>单精度浮点数值</td>
+</tr>
+<tr>
+<td>DOUBLE[(M,D)]</td>
+<td>(-1.797 693 134 862 315 7 E+308，-2.225 073 858 507 201 4 E-308)，0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308)</td>
+<td>0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308)</td>
+<td>8</td>
+<td>双精度浮点数值</td>
+</tr>
+</tbody></table>
+<p><strong>PS</strong>   M 是数字总位数，D 是小数点后后面的位数，如果 M 和 D 被省略，根据硬件允许的限制来保存值</p>
+<h2 id="日期和时间类型"><a href="#日期和时间类型" class="headerlink" title="日期和时间类型"></a>日期和时间类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>字节</th>
+<th>范围</th>
+<th>格式</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DATE</td>
+<td>3</td>
+<td>1000-01-01/9999-12-31</td>
+<td>YYYY-MM-DD</td>
+<td>日期值</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>3</td>
+<td>‘-838:59:59’/‘838:59:59’</td>
+<td>HH:MM:SS</td>
+<td>时间值或持续时间</td>
+</tr>
+<tr>
+<td>YEAR</td>
+<td>1</td>
+<td>1901/2155</td>
+<td>YYYY</td>
+<td>年份值</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td>8</td>
+<td>1000-01-01 00:00:00/9999-12-31 23:59:59</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+<td>混合日期和时间值</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>4</td>
+<td>1970-01-01 00:00:00/2037 年某时</td>
+<td>YYYYMMDD HHMMSS</td>
+<td>混合日期和时间值，时间戳</td>
+</tr>
+</tbody></table>
+<h2 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>字节</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CHAR(n)</td>
+<td>0-255</td>
+<td>定长字符串</td>
+</tr>
+<tr>
+<td>VARCHAR(n)</td>
+<td>0-65535</td>
+<td>变长字符串</td>
+</tr>
+<tr>
+<td>TINYBLOB</td>
+<td>0-255</td>
+<td>不超过 255 个字符的二进制字符串</td>
+</tr>
+<tr>
+<td>TINYTEXT</td>
+<td>0-255</td>
+<td>短文本字符串</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>0-65 535</td>
+<td>二进制形式的长文本数据</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>0-65 535</td>
+<td>长文本数据</td>
+</tr>
+<tr>
+<td>MEDIUMBLOB</td>
+<td>0-16 777 215</td>
+<td>二进制形式的中等长度文本数据</td>
+</tr>
+<tr>
+<td>MEDIUMTEXT</td>
+<td>0-16 777 215</td>
+<td>中等长度文本数据</td>
+</tr>
+<tr>
+<td>LONGBLOB</td>
+<td>0-4 294 967 295</td>
+<td>二进制形式的极大文本数据</td>
+</tr>
+<tr>
+<td>LONGTEXT</td>
+<td>0-4 294 967 295</td>
+<td>极大文本数据</td>
+</tr>
+<tr>
+<td>ENUM(‘value1’, ‘value2’)</td>
+<td>1 或 2 个字节，取决于枚举类型的个数（最多 65 535 个值）</td>
+<td>枚举</td>
+</tr>
+<tr>
+<td>SET(‘value1’, ‘value2’)</td>
+<td>1、2、3、4 或者 8 个字节，取决于 set 成员的数目（最多 64 个成员）</td>
+<td>集合</td>
+</tr>
+</tbody></table>
+<p><strong>PS</strong> CHAR 和 VARCHAR   </p>
+<ol>
+<li>CHAR(n) 若存入字符数小于 n，则以空格补于其后，查询之时再将空格去掉。所以 CHAR 类型存储的字符串末尾不能有空格，VARCHAR 不限于此。 </li>
+<li>CHAR(n) 固定长度，CHAR(4) 不管是存入几个字符，都将占用 4 个字节，VARCHAR 是存入的实际字符数 +1 个字节（n&lt;=255）或 2 个字节 (n&gt;255)，所以 VARCHAR(4),存入3个字符将占用4个字节。 </li>
+<li>CHAR 类型的字符串检索速度要比 VARCHAR 类型的快。</li>
+</ol>
+<h2 id="数据类型的属性"><a href="#数据类型的属性" class="headerlink" title="数据类型的属性"></a>数据类型的属性</h2><table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NULL</td>
+<td>数据列可包含NULL值</td>
+</tr>
+<tr>
+<td>NOT NULL</td>
+<td>数据列不允许包含NULL值</td>
+</tr>
+<tr>
+<td>PRIMARY KEY</td>
+<td>主键约束，每张数据表只能存在一个主键，保证记录的唯一性，自动为 NOT NULL</td>
+</tr>
+<tr>
+<td>UNIQUE KEY</td>
+<td>唯一约束，每张数据表可以存在多个唯一约束，保证记录唯一性，可以为空值（NULL）</td>
+</tr>
+<tr>
+<td>AUTO_INCREMENT</td>
+<td>自动递增，适用于整数类型，默认情况下，起始值为1，每次增量为1，且必须与主键组合使用</td>
+</tr>
+<tr>
+<td>DEFAULT</td>
+<td>默认值</td>
+</tr>
+<tr>
+<td>UNSIGNED</td>
+<td>无符号</td>
+</tr>
+<tr>
+<td>CHARACTER SET name</td>
+<td>指定一个字符集</td>
+</tr>
+</tbody></table>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2017/07/17/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">http://innofang.github.io/2017/07/17/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/07/17/MySQL-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%BA%A6%E6%9D%9F/"><i class="fa fa-chevron-left">  </i><span>MySQL 学习之约束</span></a></div><div class="next-post pull-right"><a href="/2017/07/16/MySQL%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%88%9D%E8%AF%86/"><span>MySQL 学习之初识</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

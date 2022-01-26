@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="设计模式(十四):适配器模式"><meta name="keywords" content="设计模式"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>设计模式(十四):适配器模式 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Adapter-Class-Object%EF%BC%88%E9%80%82%E9%85%8D%E5%99%A8%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Adapter Class&#x2F;Object（适配器）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Adapter-Class-Object%EF%BC%88%E9%80%82%E9%85%8D%E5%99%A8%EF%BC%89%E7%9A%84-UML-%E7%B1%BB%E5%9B%BE"><span class="toc-number">1.1.</span> <span class="toc-text">Adapter Class&#x2F;Object（适配器）的 UML 类图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text">适配器模式的简单实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.1.</span> <span class="toc-text">类适配器模式的简单实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.2.</span> <span class="toc-text">对象适配器模式的简单实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">设计模式(十四):适配器模式</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-04-27</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="Adapter-Class-Object（适配器）"><a href="#Adapter-Class-Object（适配器）" class="headerlink" title="Adapter Class/Object（适配器）"></a>Adapter Class/Object（适配器）</h1><p>在平常开发当中，适配器 ( Adapter ) 是十分常用的模式，比如常用的 RecyclerView 的 Adapter，ListView 的 Adapter 等。但是在经常使用，但是并不知道适配器模式的具体实现原理是什么？那么下面就将结合具体案例分析一下这个适配器模式。</p>
+<span id="more"></span>
+
+<p>首先先理解什么是适配器？平常在手机充电或者给笔记本电脑充电时，都会使用到充电器。因为我们知道插板上的电压是 220 V ，如果直接连接上设备，则会将给烧坏，那么适配器的作用就是这样 ———— <strong>将原本因接口不匹配而无法在一起工作的两样东西能够在一起工作</strong></p>
+<h2 id="Adapter-Class-Object（适配器）的-UML-类图"><a href="#Adapter-Class-Object（适配器）的-UML-类图" class="headerlink" title="Adapter Class/Object（适配器）的 UML 类图"></a>Adapter Class/Object（适配器）的 UML 类图</h2><p>这里要说明的是，适配器按类型来分有两种：</p>
+<ul>
+<li>类适配器</li>
+<li>对象适配器</li>
+</ul>
+<p>下面是对应的 UML 类图</p>
+<blockquote>
+<p>类适配器</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/class_adapter.png"></p>
+<ul>
+<li>Target : 适配器接口</li>
+<li>Adaptee : 需要适配的角色</li>
+<li>Adapter : 适配器，将需要适配的角色的对应操作进行适配</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/InnoFang/DesignPatterns/master/uml/object_adapter.png"></p>
+<p> 这里的三个角色同上，但是这里使用了组合的方式</p>
+<p>那么这里这两种实现方式有什么不同的呢？</p>
+<ul>
+<li>相同点：都是将被适配的类的 API 转换成目标类的 API</li>
+<li>不同点：<ul>
+<li>类适配器使用<strong>继承</strong>的方式连接到 Adaptee 类</li>
+<li>对象适配器使用<strong>组合</strong>的方式连接到 Adaptee 类</li>
+</ul>
+</li>
+</ul>
+<p>使用组合的方式实现接口兼容的效果更为灵活，好处就是被适配对象中的方法不会暴露出来，而类适配器由于继承了被适配对象，因此也能使用被适配对象中的方法</p>
+<p>相比之下，<strong>使用对象适配器模式更加灵活、使用</strong></p>
+<h2 id="适配器模式的简单实现"><a href="#适配器模式的简单实现" class="headerlink" title="适配器模式的简单实现"></a>适配器模式的简单实现</h2><p>为了对两种方式进行比较，下面会分别实现这两中方式，以给移动设备充电为例，将 220 V 电压转换成 5 V 电压</p>
+<h3 id="类适配器模式的简单实现"><a href="#类适配器模式的简单实现" class="headerlink" title="类适配器模式的简单实现"></a>类适配器模式的简单实现</h3><p>首先就是提供目标接口，表示我们期望进行怎样的适配，这里期望将电压适配成 5 V</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">VoltFive</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来就是实现被适配类，这里被适配对象为 220 V 电压</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Volt220</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVolt220</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">220</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就可根据类适配器的实现方式实现具体的适配器了，继承 220 V 被适配对象，并实现将电压转换成 5 V 的接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VoltAdapter</span> <span class="keyword">extends</span> <span class="title">Volt220</span> <span class="keyword">implements</span> <span class="title">VoltFive</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">5</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">VoltAdapter adapter = <span class="keyword">new</span> VoltAdapter();</span><br><span class="line"><span class="keyword">int</span> volt = adapter.provideVoltFive();</span><br><span class="line">System.out.println(<span class="string">&quot;After adapted, the volt is :&quot;</span> + volt);</span><br></pre></td></tr></table></figure>
+
+<p>测试结果</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">After adapted, the volt is :5</span><br></pre></td></tr></table></figure>
+
+<p>同时根据上面的分析可以知道，因为继承了被适配对象，所以这里的适配还可以输出 220 V 电压，具体操作可以自己尝试</p>
+<h3 id="对象适配器模式的简单实现"><a href="#对象适配器模式的简单实现" class="headerlink" title="对象适配器模式的简单实现"></a>对象适配器模式的简单实现</h3><p>因为目标接口和被适配对象与上面相同，所以这里不再贴出，具体的可以参考上面。下面来看一下对象适配器模式的具体实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VoltAdapter</span> <span class="keyword">implements</span> <span class="title">VoltFive</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Volt220 volt220;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">VoltAdapter</span><span class="params">(Volt220 volt220)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.volt220 = volt220;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVoltFive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> volt = volt220.provideVolt220();</span><br><span class="line">        <span class="comment">/* convert the 220V to 5V */</span></span><br><span class="line">        volt = <span class="number">5</span>;</span><br><span class="line">        <span class="keyword">return</span> volt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">provideVolt220</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> volt220.provideVolt220();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为使用了组合的方式，所以这里需要给构造函数传入一个被适配对象实例，而具体如何实现转换方式，就需要在 <code>provideVoltFive()</code> 中进行操作，因为这次的示例比较简单，所以这里的操作仅供参考</p>
+<p>测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Volt220 volt220 = <span class="keyword">new</span> Volt220();</span><br><span class="line">VoltAdapter adapter = <span class="keyword">new</span> VoltAdapter(volt220);</span><br><span class="line"><span class="keyword">int</span> volt = adapter.provideVoltFive();</span><br><span class="line">System.out.println(<span class="string">&quot;After adapted, the volt is :&quot;</span> + volt);</span><br></pre></td></tr></table></figure>
+
+<p>测试结果同上</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>优点<ul>
+<li>复用性：通过使用适配器让不符合系统需求的接口得到更好的复用</li>
+<li>扩展性：通过使用适配器模式，可以在原有的功能上扩展自己实现的功能</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>过多的使用适配器模式，会使系统变得凌乱，不易整体把握。若非必要可以直接对功能进行重构</li>
+</ul>
+</li>
+</ul>
+<p>END.</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://github.com/InnoFang/DesignPatterns/tree/master/src/io/innofang/adapter">源码地址</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2017/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%9B%9B-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">http://innofang.github.io/2017/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%81%E5%9B%9B-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/04/28/RxJava2-%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/"><i class="fa fa-chevron-left">  </i><span>RxJava2 使用小记</span></a></div><div class="next-post pull-right"><a href="/2017/04/16/Android-NDK%E5%BC%80%E5%8F%91%E4%BB%8E0%E5%88%B01/"><span>Android NDK开发从0到1</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

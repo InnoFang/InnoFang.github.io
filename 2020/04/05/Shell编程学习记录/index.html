@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Shell编程学习记录"><meta name="keywords" content="Shell"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>Shell编程学习记录 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell-%E8%84%9A%E6%9C%AC%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">Shell 脚本的格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%E4%B8%8E%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">2.</span> <span class="toc-text">管道与重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E9%81%93"><span class="toc-number">2.1.</span> <span class="toc-text">管道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">2.2.</span> <span class="toc-text">重定向</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">3.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E8%B5%8B%E5%80%BC"><span class="toc-number">3.1.</span> <span class="toc-text">变量的赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E5%BC%95%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">变量的引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E4%BD%9C%E7%94%A8%E8%8C%83%E5%9B%B4"><span class="toc-number">3.3.</span> <span class="toc-text">变量的作用范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E7%9A%84%E5%8F%98%E9%87%8F"><span class="toc-number">3.4.</span> <span class="toc-text">系统环境的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">3.5.</span> <span class="toc-text">环境变量的配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-number">4.</span> <span class="toc-text">数组</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7d550vjj31hc0u0guq.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">Shell编程学习记录</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-04-05</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Shell/">Shell</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>本文主要是记录学习 Shell 编程时所记录的一些笔记。</p>
+<span id="more"></span>
+
+<h2 id="Shell-脚本的格式"><a href="#Shell-脚本的格式" class="headerlink" title="Shell 脚本的格式"></a>Shell 脚本的格式</h2><p>在 Linux 中有很多命令，每一条命令都可以完成某种特定的任务，这也是 UNIX 的设计哲学：一条命令只做一件事。因此为了组合命令以及便于多次执行，可以使用脚本文件来保存需要执行的命令。</p>
+<p>创建一个以 <code>.sh</code> 为后缀的文件，我们可以在其中编写很多指令。如果执行的是刚编写好的脚本文件，那么在执行前还需要为其赋予可执行权限 <code>chmod u+rx filename</code>。</p>
+<p>说到 Shell 脚本执行方式，有下面几种：</p>
+<ol>
+<li><code>bash ./filename.sh</code></li>
+<li><code>./filename.sh</code></li>
+<li><code>source ./filename.sh</code></li>
+<li><code>.filename.sh</code></li>
+</ol>
+<p>在 1、2 中，会创建一个名叫 bash 的子进程，Shell 脚本就会运行在该子进程中，两者的区别就在于 2 需要在脚本开头使用 <code>#!/bin/bash</code> 来指定使用 bash，而方式 1 在执行时就明确需要使用 bash 了。方式 3、4 则是在当前进程中执行 Shell 脚本。</p>
+<p>如何理解前两种和后两种执行方式的区别呢？比如在 Shell 脚本中存在切换目录的操作 <code>cd</code> ，在前两种方式中，在脚本执行完成后，当前的路径是不会被改变的，因为是使用另一个进程执行的该脚本，而后两种方式在脚本执行完成后，当前路径就会被改变，因为它就是在当前进程下执行的。</p>
+<p>有时候我们会发现 Shell 脚本的第一行往往都是 <code>#!/bin/bash</code>，写这一行代码有什么作用呢？或者说有什么好处呢？</p>
+<p>简而言之，在第一行开头使用 <code>#!</code> 可以在文件中指定脚本的解析方式，在使用  <code>bash filename.sh</code> 来执行 Shell 时，就是直接指定 bash 作为解析方式，文件内以 <code>#</code> 开头的部分都会被当作注释。而在使用 <code>./filename.sh</code> 来执行脚本文件时，会使用系统自带的 Shell 来解析脚本文件，遇到以 <code>#!</code> 开头的行时就会被当成非注释，因此在开头写上 <code>#!/bin/bash</code> 就表示需要使用 bash 来解析脚本文件。换句话说，如果第一行写的是，<code>#!/usr/bin/python</code> 或者 <code>#!/usr/bin/python3</code> 就表示该文件需要使用 Python 来解析，即使文件后缀为 <code>.sh</code>。</p>
+<h2 id="管道与重定向"><a href="#管道与重定向" class="headerlink" title="管道与重定向"></a>管道与重定向</h2><ul>
+<li><strong>管道</strong>：进程通信的主要工具，在 Shell 中是为了方便两条命令能够进行通信</li>
+<li><strong>重定向</strong>：将标准输出输出到指定的位置</li>
+</ul>
+<h3 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h3><p>因为在 Shell 编程中，管道是没有名字的，所以也叫匿名管道或者管道符。管道符是 <code>|</code> ，其作用就是将前一个命令执行的结果传递给后面的命令。比如，<code>echo 123 | cat</code>。</p>
+<p>值得注意的是，管道会为两条命令创建一个子进程来进行通信，所以在使用 <code>cd</code> 、<code>pwd</code> 等内部命令时，当前的进程是得不到相应的结果的。</p>
+<h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><p>一个进程默认会打开标准输入、标准输出、错误输出三个文件描述符</p>
+<ul>
+<li><strong>输入重定向 <code>&lt;</code></strong> 比如 <code>read var &lt; /path/filename</code></li>
+<li><strong>输出重定向 <code>&gt;</code>、<code>&gt;&gt;</code>、<code>2&gt;</code>、<code>&amp;&gt;</code></strong> 比如 <code>echo 123 &gt; /path/filename</code><ul>
+<li><code>&gt;</code> 清空文件内容并输入</li>
+<li><code>&gt;&gt;</code> 在文件末尾追加</li>
+<li><code>2&gt;</code> 当命令执行错误时，会将错误信息输出到指定文件</li>
+<li><code>&amp;&gt;</code> 无论命令执行成功与否，都会将信息输出到指定文件中</li>
+</ul>
+</li>
+</ul>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><blockquote>
+<p><strong>定义</strong> 变量的命名与大多数编程语言的区别相差不大，都是由字母、数字以及下划线组成且不以数字开头。</p>
+</blockquote>
+<h3 id="变量的赋值"><a href="#变量的赋值" class="headerlink" title="变量的赋值"></a>变量的赋值</h3><ul>
+<li><code>变量名=变量值</code>（<code>=</code> 两边不允许出现空格，因为出现空格后，变量名会被当作命令，因此会报错）<ul>
+<li><code>a=123</code></li>
+</ul>
+</li>
+<li>使用 let 为变量赋值<ul>
+<li><code>let a=10+20</code></li>
+</ul>
+</li>
+<li>将命令赋值给变量<ul>
+<li><code>l=ls</code></li>
+</ul>
+</li>
+<li>将命令结果赋值给变量，使用 <code>$()</code> 或者 <code>&#39;&#39;</code><ul>
+<li><code>letc=$(ls -l /etc)</code></li>
+</ul>
+</li>
+<li>变量值有空格等特殊字符可以包含在 <code>&quot;&quot;</code> 或 <code>&#39;&#39;</code> 中</li>
+</ul>
+<h3 id="变量的引用"><a href="#变量的引用" class="headerlink" title="变量的引用"></a>变量的引用</h3><p>定义完变量后就需要使用它，使用方式为 <code>$&#123;变量名&#125;</code>，当然如果变量在引用时不会引发歧义的话，是可以省略掉 <code>&#123;&#125;</code> 的，什么叫不会引发歧义呢？</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s1=<span class="string">&#x27;hello&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接引用变量，往往是可以省略掉 &#123;&#125;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$s1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果还需要在变量之后衔接其他东西，那么就能会识别成别的变量，导致无法输出想要的值</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$s123</span>   <span class="comment"># 没有该变量，输出空串</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;s1&#125;</span>23 <span class="comment"># 输出 hello23</span></span><br></pre></td></tr></table></figure>
+
+<p>此外，还有一种使用场景，如果我需要使用的变量为空值，是否可以使用别的值来代替空值，而当变量被被复赋值后，又可以直接输出变量值而非控制？有一种才做叫做变量替换，形式为 <code>变量=$&#123;引用变量-替换值&#125;</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设定 path 为文件名，如果为空则输出下划线 _</span></span><br><span class="line">path=<span class="variable">$&#123;filename-_&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> path</span><br><span class="line"><span class="comment"># 如果设定了 filename 的值，则输出该值，否则会输出下划线 _</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="变量的作用范围"><a href="#变量的作用范围" class="headerlink" title="变量的作用范围"></a>变量的作用范围</h3><p>变量的默认作用范围是只在当前的进程当中，也就是说，别的进程想要引用另外一个进程的变量是取不到的。</p>
+<p>这就需要用到之前提及过的 Shell 脚本的几种解析方式了，如果我们想在脚本中使用该进程中设置的其他变量，就需要使用到 <code>source filename.sh</code> 或者 <code>. filename.sh</code>，因为这样脚本就会运行在当前进程下。</p>
+<ul>
+<li>那如果子进程也想访问父进程中的变量，该如何实现呢？<blockquote>
+<p>可以使用 <strong>export</strong> 关键字，通过 <code>export 变量</code> 的方式，让别的进程也可以放到这一变量。</p>
+</blockquote>
+</li>
+<li>如果想要删除设置过的变量，又该如何实现呢？<blockquote>
+<p> 可以使用 <strong>unset</strong> 关键字，通过 <code>unset 变量</code> 来删除变量。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="系统环境的变量"><a href="#系统环境的变量" class="headerlink" title="系统环境的变量"></a>系统环境的变量</h3><p>系统的环境变量都为大写字母加下划线的组合，要查看有哪些环境变量可以使用命令 <code>env | more</code> 或者 <code>set | more</code> 来查看，使用 <code>set</code> 可以查看更多的命令，这里还是用了管道加 <code>more</code> 指令的方式来分页查看命令</p>
+<p>常见的系统变量，比如有 <code>PATH</code>，当我们要使用非系统自带的指令时，就需要将可执行命令的路劲<strong>追加</strong>到 <code>PATH</code> 中，也就是使用冒号 <code>:</code> 来分割 <code>PATH=$PATH:新的命令路径</code>，并记得用 <code>export</code> 来到处 <code>PATH</code>，这样在使用时，系统就可以找到需要使用的命令。</p>
+<p>除了系统变量外，还有一些预定义变量</p>
+<ul>
+<li><code>$?</code>：用来表示上一条命令是否成功执行，成功为 0， 失败为 1</li>
+<li><code>$$</code>：用来查看当前进程的 PID，在对脚本的运行状态以及监测时会用到</li>
+<li><code>$0</code>：用来查看当前进程的名称</li>
+</ul>
+<p>此外，还有用于为脚本传递参数的位置变量，比如 <code>$1</code>、<code>$2</code>、<code>$3</code>、<code>$4</code>、<code>$5</code>、<code>$6</code>、<code>$7</code>、<code>$8</code>、<code>$9</code>、<code>$&#123;10&#125;</code>…… ……</p>
+<p>它们分别用来代替第一个脚本参数以及之后的参数，这样我们在编写 Shell 脚本时就可以很方便的指代传进来的参数。</p>
+<h3 id="环境变量的配置"><a href="#环境变量的配置" class="headerlink" title="环境变量的配置"></a>环境变量的配置</h3><p>环境变量的配置文件有很多个</p>
+<ul>
+<li><code>/etc/profile</code> 保存系统或终端启动时的运行环境，在登录情况下，会被第一个加载</li>
+<li><code>~/.bash_profile</code></li>
+<li><code>/etc/profile.d/</code> 这是一个目录，根据不同的 Shell 版本会执行下面不同的脚本</li>
+<li><code>~/.bashrc</code></li>
+<li><code>/etc/bashrc</code></li>
+</ul>
+<p>简单区别，在 <code>etc</code> 目录下的配置文件，是所有用户通用的；而其他跟在 <code>~</code> 后的配置文件，表示在家（home）目录下，当前用户特有的配置文件。此外，除了目录的不同，还区分了 <code>profile</code> 和 <code>bashrc</code> 这几种配置文件，这是因为登录当前用户的情况分为 <code>loggin shell</code> 和 <code>no login shell</code>，也就是说对于 <code>login shell</code> 会使用当前的所有配置文件，而对于 <code>no login shell</code> 则会只使用 <code>bashrc</code> 的文件。</p>
+<p>各个配置文件在加载时也分先后，相同的变量，后加载的会覆盖掉先加载的。在登陆状态下，配置文件的加载顺序为</p>
+<ol>
+<li><code>/etc/profile</code></li>
+<li><code>~/.bash_profile</code></li>
+<li><code>~/.bashrc</code></li>
+<li><code>/etc/bashrc</code></li>
+</ol>
+<p>而在非登录的情况下，配置文件是加载不完全的，其加载顺序如下：</p>
+<ol>
+<li><code>~/.bashrc</code></li>
+<li><code>/etc/bashrc</code></li>
+</ol>
+<p>值得注意的是，这些配置文件都是在每次打开终端或者 Shell 时会去加载，因此如果新添加了环境变量是不会立即生效的，所以要使得环境变量立即生效可以使用 <code>source</code> 来重新加载添加了新环境变量的的配置文件。</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><ul>
+<li><strong>定义数组</strong> <code>array=( 1 2 3 4 5 )</code> 元素间用空格区分</li>
+<li><strong>显示数组的所有元素</strong> <code>echo $&#123;array[@]&#125;</code></li>
+<li><strong>显示数组元素个数</strong> ```echo $</li>
+</ul>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2020/04/05/Shell%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">http://innofang.github.io/2020/04/05/Shell%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Shell/">Shell</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/06/22/Hadoop%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%AD%E5%BB%BA%E5%85%A8%E6%B5%81%E7%A8%8B%E8%AE%B0%E5%BD%95/"><i class="fa fa-chevron-left">  </i><span>Hadoop分布式搭建全流程记录</span></a></div><div class="next-post pull-right"><a href="/2020/04/02/%E9%87%8D%E5%AD%A6MySQL%E4%B9%8B%E8%A7%86%E5%9B%BE/"><span>重学MySQL之视图</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7d550vjj31hc0u0guq.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

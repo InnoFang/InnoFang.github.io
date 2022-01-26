@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="HDFS 架构"><meta name="keywords" content="Hadoop"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>HDFS 架构 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HDFS-%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">HDFS 架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NameNode-%E5%92%8C-DataNode"><span class="toc-number">2.</span> <span class="toc-text">NameNode 和 DataNode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">3.</span> <span class="toc-text">文件系统命名空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%89%AF%E6%9C%AC"><span class="toc-number">4.</span> <span class="toc-text">数据副本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HDFS-%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">HDFS 优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">6.</span> <span class="toc-text">Reference</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7d9245mj31b80sc42q.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">HDFS 架构</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-22</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Hadoop/">Hadoop</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="HDFS-架构"><a href="#HDFS-架构" class="headerlink" title="HDFS 架构"></a>HDFS 架构</h2><p>HDFS 即分布式文件系统（Hadoop Distributed File System)。HDFS 具有高容错性，且能运行在低廉的硬件上。HDFS 提供对应用程序数据的高吞吐量访问，适用于具有大数据集的应用程序。</p>
+<span id="more"></span>
+
+<h2 id="NameNode-和-DataNode"><a href="#NameNode-和-DataNode" class="headerlink" title="NameNode 和 DataNode"></a>NameNode 和 DataNode</h2><p>HDFS 具有 Master/Slave 架构，根据名字可以联想到古时候<code>奴隶主</code>和<code>奴隶</code>的关系。一个 Hadoop 集群由单个 NameNode 和多个 DataNode 组成。</p>
+<ul>
+<li>NameNode <ul>
+<li>负责客户端请求的响应</li>
+<li>负责元数据的管理，比如文件名称、副本系数、数据块存放的位置等</li>
+</ul>
+</li>
+<li>DataNode <ul>
+<li>通常是集群中每个节点一个，存储文件对应的数据块（Block)</li>
+<li>定期向 NameNode 发送心跳信息，汇报本身及其所有的 block 信息  </li>
+</ul>
+</li>
+</ul>
+<p>HDFS 暴露了一个文件系统并允许用户数据存储在这些文件中。此外，一个文件会把被<strong>拆分</strong>到一个或多个数据块（block）中，这些数据块就存储在一系列 DataNode 中。NameNode 则是执行诸如打开、关闭、重命名文件和文件夹等文件系统操作，并且它还决定了数据块到 DataNode 的映射，即哪个数据块在哪个 DataNode 中，是由 NameNode 来决定的。DataNode 负责提供来自文件系统客户机的读写请求，还会根据来自 NameNode 的指令来执行对数据块的创建、删除和复制。 </p>
+<p><strong>PS</strong> 文件拆分的依据是由底层的 blocksize 来决定。如果 blocksize 定义为 128M，那么对于一个 130M 的文件就会被拆分成两个分别为 128M 和 2M 的文件。</p>
+<p><img src="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png"></p>
+<p>NameNode 和 DataNode 可以运行在廉价的机器上，通常是运行在具有 GNU/Linux 操作系统的机器上。HDFS 由 Java 语言构建，所以任何支持 Java 的机器都可以运行 NameNode 和 DataNode。</p>
+<p>一个典型的部署方式是<strong>一个专有机器运行 NameNode，其它每台机器运行一个 DataNode</strong>。当然，并不排除一台机器运行多个 DataNode，但是在实际情况中很少发生。</p>
+<h2 id="文件系统命名空间"><a href="#文件系统命名空间" class="headerlink" title="文件系统命名空间"></a>文件系统命名空间</h2><p>HDFS 支持传统的层级文件结构。用户或应用可以创建文件夹并在文件夹内存储文件。文件系统命名空间与其它大多数现存的文件一同类似，支持文件的创建、删除，移动和重命名。</p>
+<p>NameNode 维护着文件系统命名空间。任何对命名空间或对它的属性的改变都会被 NameNode 记录下来。应用可以指定 HDFS 应当维护的文件副本系数。文件副本系数也叫做文件的<strong>副本因子</strong>（Replication Factor），这些信息由 NameNode 进行存储。</p>
+<h2 id="数据副本"><a href="#数据副本" class="headerlink" title="数据副本"></a>数据副本</h2><p>HDFS 旨在可靠地在大型集群中跨机器存储大文件，将文件存储为一系列数据块中。为了实现容错，一个文件的数据块会被复制多份。数据块大小和副本因子可以根据文件进行配置。</p>
+<p>所有数据块中除了最后一个数据块之外的大小都是相同的。</p>
+<p>应用可以指定文件的副本数。副本因子可以在文件创建时指定并可以在以后进行更改。HDFS 中的文件是一次写入的（除非追加和截断），并且任何时候只能有一个 Writer，并不支持多并发。</p>
+<p>NameNode 会根据数据块的副本作出决定。它会定期接收集群中每个 DataNode 的心跳（Hearbeat）和数据块报告（Blockreport）。收到心跳意味着这个 DataNode 是正常工作的。数据块报告则包含 DataNode 上所有数据块的列表。</p>
+<p><img src="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/images/hdfsdatanodes.png"></p>
+<h2 id="HDFS-优缺点"><a href="#HDFS-优缺点" class="headerlink" title="HDFS 优缺点"></a>HDFS 优缺点</h2><ul>
+<li>数据冗余、硬件容错</li>
+<li>适合存储大文件</li>
+<li>处理流式的数据访问</li>
+<li>可构建在廉价机器上</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>低延迟的数据访问</li>
+<li>不适合小文件存储</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html">HDFS Architecture</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2019/03/22/HDFS-%E6%9E%B6%E6%9E%84/">http://innofang.github.io/2019/03/22/HDFS-%E6%9E%B6%E6%9E%84/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hadoop/">Hadoop</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2019/03/23/YARN-%E6%9E%B6%E6%9E%84/"><i class="fa fa-chevron-left">  </i><span>YARN 架构</span></a></div><div class="next-post pull-right"><a href="/2018/07/12/%E6%AD%A3%E5%88%99%E4%B8%AD%E5%85%B3%E4%BA%8E%E7%8E%AF%E8%A7%86%EF%BC%88lookaround%EF%BC%89%E7%9A%84%E5%B0%8F%E4%BE%8B%E5%AD%90/"><span>正则中关于环视（lookaround）的小例子</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7d9245mj31b80sc42q.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

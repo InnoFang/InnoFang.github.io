@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="汇编语言学习笔记（三）：寄存器（内存访问）"><meta name="keywords" content="汇编语言"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>汇编语言学习笔记（三）：寄存器（内存访问） | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%B8%AD%E5%AD%97%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">1.</span> <span class="toc-text">内存中字的存储</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DS-%E5%92%8C-address"><span class="toc-number">2.</span> <span class="toc-text">DS 和 [address]</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mov%E3%80%81add%E3%80%81sub-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">mov、add、sub 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CPU-%E6%8F%90%E4%BE%9B%E7%9A%84%E6%A0%88%E6%9C%BA%E5%88%B6"><span class="toc-number">5.</span> <span class="toc-text">CPU 提供的栈机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#push%E3%80%81pop-%E6%8C%87%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">push、pop 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="toc-number">7.</span> <span class="toc-text">小结</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">汇编语言学习笔记（三）：寄存器（内存访问）</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-11-19</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><blockquote>
+<p>学习参考：汇编语言（第2版）王爽</p>
+</blockquote>
+<ul>
+<li>内存中字的存储</li>
+<li>DS 和 [address]</li>
+<li>mov、add、sub 指令</li>
+<li>小结</li>
+<li>CPU 提供的栈机制</li>
+<li>push、pop 指令 </li>
+<li>小结</li>
+</ul>
+ <span id="more"></span>
+
+<h1 id="内存中字的存储"><a href="#内存中字的存储" class="headerlink" title="内存中字的存储"></a>内存中字的存储</h1><blockquote>
+<p>字单元的概念：字单元，即存放一个字形数据（16 位）的内存单元，由两个地址连续的内存单元组成。高地址内存单元中存放字形数据的高位字节，低地址内存单元中存放字形数据的低位字节</p>
+</blockquote>
+<blockquote>
+<p>我们将起始地址为 N 的字单元简称为 N 地址字单元。比如一个字单元由 2、3 两个内存单元组成，则这个字单元的起始地址为 2，我们可以说这是 2 地址字单元。</p>
+</blockquote>
+<p>举例来说，下面有一个内存中字的存储</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  |-----|</span><br><span class="line">0 | 20H |</span><br><span class="line">  |-----|</span><br><span class="line">1 | 4EH |</span><br><span class="line">  |-----|</span><br><span class="line">2 | 12H |</span><br><span class="line">  |-----|</span><br><span class="line">3 | 00H |</span><br><span class="line">  |-----|</span><br><span class="line">4 |     |</span><br><span class="line">  |-----|</span><br></pre></td></tr></table></figure>
+<p>对 0 地址字单元来说，0 号单元是低地址单元，1 号单元是高地址单元，则字型数据 4E20H 的低位字节存放在 0 号单元中，高位字节存放在 1 号单元中。</p>
+<ul>
+<li>0 地址单元中存放的字节型数据是 20H</li>
+<li>0 地址字单元中存放的字型数据是 4E20H</li>
+<li>…</li>
+</ul>
+<p>综上，任何两个地址连续的内存单元，N 号单元和 N+1 号单元，可以将它们看成两个内存单元，也可以看成一个地址为 N 的字单元中的高位字节单元和低位字节单元</p>
+<h1 id="DS-和-address"><a href="#DS-和-address" class="headerlink" title="DS 和 [address]"></a>DS 和 [address]</h1><blockquote>
+<p>DS 寄存器，通常用来存放要访问数据的段地址</p>
+</blockquote>
+<p>比如我们要读取 10000H 单元的内容，可以用如下的程序段进行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov bx,1000H</span><br><span class="line">mov ds,bx</span><br><span class="line">mov al,[0]</span><br></pre></td></tr></table></figure>
+
+<p>上面三条指令将 10000H (1000:0) 中的数据读到 al 中</p>
+<p>下面详细说明指令的含义</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov al,[0]</span><br></pre></td></tr></table></figure>
+<p>使用 mov 指令讲一个内存单元的内容送入一个寄存器中。</p>
+<blockquote>
+<p>“[…]” 表示一个内存单元，“[…]” 中的 0 表示内存单元的偏移地址。但是只有偏移地址是不能定位一个内存单元的，那么内存单元的段地址是在指令执行时，8086CPU 自动取 ds 中的数据为内存单元的段地址。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov bx,1000H</span><br><span class="line">mov ds,bx</span><br></pre></td></tr></table></figure>
+
+<p>*<strong>如何用 mov 指令从 10000H 中读取数据？</strong><br>10000H 用段地址和偏移地址表示为 1000:0，我们先将 1000H 放入 ds，然后用 <code>mov al,[0]</code> 完成传送。若要用该指令完成数据从 1000:0 单元到 al 的传送，这条指令执行时，ds 中的内容应为段地址 1000H，所以在这条指令之前应该将 1000H 送入 ds</p>
+<p><strong>如何把一个数据送入寄存器？</strong></p>
+<p>8086CPU 不支持直接将数据送入段寄存器的操作，ds 是一个段寄存器，所以 <code>mov ds,1000H</code> 这条指令是非法的。所以，只好使用一个寄存器进行中转，即先将 1000H 送入一个一般的寄存器，如 bx，再将 bx 中的内容送入 ds。</p>
+<p>Q:写几条指令，将 al 中的数据送入内存单元 10000H 中<br>A:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov bx,1000H</span><br><span class="line">mov ds,bx</span><br><span class="line">mov [0],al</span><br></pre></td></tr></table></figure>
+
+<h1 id="mov、add、sub-指令"><a href="#mov、add、sub-指令" class="headerlink" title="mov、add、sub 指令"></a>mov、add、sub 指令</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mov 寄存器,数据          比如:mov ax,8</span><br><span class="line">mov 寄存器,寄存器        比如:mov ax,bx</span><br><span class="line">mov 寄存器,内存单元      比如:mov ax,[0]</span><br><span class="line">mov 内存单元,寄存器      比如:mov [0],ax</span><br><span class="line">mov 寄存器,内存单元      比如:mov ax,[0]</span><br><span class="line">mov 段寄存器,寄存器      比如:mov ds,ax</span><br><span class="line">mov 寄存器,段寄存器      比如:mov ax,ds</span><br><span class="line">mov 段寄存器,内存单元    比如:mov ds,[0]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">add 寄存器,数据          比如:add ax,8</span><br><span class="line">add 寄存器,寄存器        比如:add ax,bx</span><br><span class="line">add 寄存器,内存单元      比如:add ax,[0]</span><br><span class="line">add 内存单元,寄存器      比如:add [0],ax</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sub 寄存器,数据          比如:sub ax,9</span><br><span class="line">sub 寄存器,寄存器        比如:sub ax,bx</span><br><span class="line">sub 寄存器,内存单元      比如:sub ax,[0]</span><br><span class="line">sub 内存单元,寄存器      比如:sub [0],ax</span><br></pre></td></tr></table></figure>
+
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol>
+<li>字在内存中存储时，要用两个地址连续的内存单元来存放，字的低位字节存放在低地址单元中，高位字节存放在高地址单元中</li>
+<li>用 mov 指令访问内存单元，可以在 mov 指令中只给出单元的偏移地址，此时，段地址默认在 DS 寄存器中</li>
+<li>[address] 表示一个偏移地址为 address 的内存单元</li>
+<li>在内存和寄存器之间传送字形数据时，高地址单元和高 8 位寄存器、低地址单元和低 8 位寄存器相对应</li>
+<li>mov、add、sub 是具有两个操作对象的指令。jmp 是具有一个操作对象的指令</li>
+<li>可以根据自己的推测，在 Debug 中实验指令的新格式</li>
+</ol>
+<h1 id="CPU-提供的栈机制"><a href="#CPU-提供的栈机制" class="headerlink" title="CPU 提供的栈机制"></a>CPU 提供的栈机制</h1><blockquote>
+<p>在基于 8086CPU 编程的时候，可以将一段内存当作栈来使用。8086CPU 提供入栈和出栈指令，最基本的两个是 PUSH（入栈）和 POP （出栈）</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push ax     ;表示将寄存器 ax 中的数据送入栈中</span><br><span class="line">pop ax      ;表示从栈顶取出数据送入 ax</span><br></pre></td></tr></table></figure>
+
+<p><strong>8086CPU 的入栈和出栈操作都是以字为单位进行的</strong></p>
+<p>Q：CPU 如何知道栈顶的位置？<br>A：8086CPU 中，有两个寄存器，段寄存器 SS 和寄存器 SP，栈顶的段地址存放在 SS 中，偏移地址存放在 SP 中，<strong>任意时刻，SS:SP 指向栈顶元素</strong>。push 指令和 pop 指令执行时，CPU 从 SS 和 SP 中得到栈顶地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">push ax</span><br></pre></td></tr></table></figure>
+<p>该指令的执行，由一下两步完成</p>
+<ul>
+<li>SP=SP-2，SS:SP 指向当前栈顶前面的单元，以当前栈顶前面的单元为新的栈顶</li>
+<li>将 ax 中的内容送入 SS:SP 指向的内存单元处，SS:SP 此时指向新栈顶</li>
+</ul>
+<p>8086CPU 对 push 指令的执行过程如下图</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fln7yuhvj5j30fc07zwez.jpg"></p>
+<p>可见，<strong>入栈时，栈顶从高地址向低地址方向增长</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pop ax</span><br></pre></td></tr></table></figure>
+<p>该指令的执行过程和 <code>push ax</code> 相反，由一下两步完成</p>
+<ul>
+<li>将 SS:SP 指向的内存单元处的数据送入 ax 中</li>
+<li>SP=SP+2，SS:SP 指向当前栈顶下面的单元，以当前栈顶下面的单元为新的栈顶</li>
+</ul>
+<p>8086CPU 对 pop 指令的执行过程如下图</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fln8ag9l39j30f4077glz.jpg"></p>
+<p>注意，出栈后，SS:SP 指向新的栈顶 1000EH，pop 操作前的栈顶元素，1000CH 处的 2266H 依然存在，但已不在栈中，当再次执行 push 等入栈指令后，SS:SP 移至 1000CH，并在里面写入新的数据，将其覆盖</p>
+<p>Q：如果将 10000H ~ 1000FH 这段空间当作栈，初始状态是空的，此时，SS=1000H，SP=？<br>A：SP=0010H</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fln8f4awjkj30fa04raa8.jpg"></p>
+<p>换一个角度看，任意时刻，SS:SP 指向栈顶元素，当栈为空的时候，栈中没有元素，也就不存在栈顶元素，所以 SS:SP 只能指向栈的最底部单元下面的单元，该单元的偏移地址为栈最底部的<strong>字单元</strong>的偏移地址+2，栈最底部字单元的地址为 1000:000E，所以栈空时，SP=0010H</p>
+<h1 id="push、pop-指令"><a href="#push、pop-指令" class="headerlink" title="push、pop 指令"></a>push、pop 指令</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">push 寄存器     ; 将一个寄存器中的数据入栈</span><br><span class="line">pop  寄存器     ; 出栈，用一个寄存器接收出栈的数据</span><br><span class="line"></span><br><span class="line">push 段寄存器   ; 将一个段寄存器中的数据入栈</span><br><span class="line">pop  段寄存器   ; 出栈，用一个段寄存器接收出栈的数据</span><br><span class="line"></span><br><span class="line">push 内存单元   ; 将一个内存单元处的字入栈（注意：栈操作都是以字为单位）</span><br><span class="line">pop  内存单元   ; 出栈，用一个内存单元接收出栈的字</span><br></pre></td></tr></table></figure>
+
+<p>举例如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov ax,1000H</span><br><span class="line">mov ds,ax       ;内存单元的段地址要放在 ds 中</span><br><span class="line">push [0]        ;将 1000:0 处的字压入栈中</span><br><span class="line">pop  [2]        ;出栈，出栈的数据送入 1000:2 处</span><br></pre></td></tr></table></figure>
+<p>指令执行时，CPU 要知道内存单元的地址，可以从 push、pop 指令中给出内存单元的偏移地址，段地址在指令执行时，CPU 从 ds 中获得 </p>
+<p>Q：编程</p>
+<ul>
+<li>将 10000H ~ 1000FH 这段空间当作栈，初始状态栈是空的</li>
+<li>设置 AX=001AH，BX=001BH</li>
+<li>利用栈，交换 AX 和 BX 中的数据</li>
+</ul>
+<p>A：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mov ax,1000H</span><br><span class="line">mov ss,ax       ;设置栈的段地址，不能直接想段寄存器送入数据，需要使用寄存器做中转</span><br><span class="line">mov sp,0010H    ;设置偏移地址，栈为空，所以偏移地址应该为最低部单元的偏移地址+1</span><br><span class="line"></span><br><span class="line">mov ax,001AH</span><br><span class="line">mov bx,001BH</span><br><span class="line"></span><br><span class="line">push ax</span><br><span class="line">push bx</span><br><span class="line"></span><br><span class="line">pop ax</span><br><span class="line">pop bx</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h1><ul>
+<li>8086CPU 提供了栈操作机制，方案如下<ol>
+<li>在 SS、SP 中存放栈顶的段地址和偏移地址</li>
+<li>提供入栈和出栈指令，它们根据 SS:SP 指示的地址，按照栈的方式访问内存单元</li>
+</ol>
+</li>
+<li>push 指令的执行步骤<ol>
+<li>SP=SP-2</li>
+<li>向 SS:SP 指向的字单元中送入数据</li>
+</ol>
+</li>
+<li>pop 指令的执行步骤<ol>
+<li>从 SS:SP 指向的字单元中送出数据</li>
+<li>SP=SP+2</li>
+</ol>
+</li>
+<li>任意时刻，SS:SP 指向栈顶元素</li>
+<li>8086CPU 只记录栈顶，栈空间的大小我们要自己管理</li>
+<li>用栈来暂存以后要恢复的寄存器的内容时，寄存器出栈的顺序要和入栈的顺序相反</li>
+<li>push、pop 实质上是一种内存传送指令，注意它们的灵活应用</li>
+</ul>
+<p>Q：一个栈段最大可以设为多少？为什么？<br>A：从栈操作指令所完成的功能上看，push、pop 等指令在执行的时候只修改 SP，所以栈顶的变化范围为 0 ~ FFFFH，从栈空时候的 SP=0，一直压栈，直到栈满时 SP=0；如果再次压栈，栈顶将环绕，覆盖原来栈中的内容。所以<strong>一个栈段的容量最大为 64KB</strong>。</p>
+<p>一段内存，可以既是代码的存储空间，又是数据的存储空间，还可以是栈空间，也可以什么也不是，关键在于CPU 中寄存器的设置，即 CS、IP、SS、SP、DS 的指向</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2017/11/19/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8%EF%BC%88%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%EF%BC%89/">http://innofang.github.io/2017/11/19/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8%EF%BC%88%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/11/20/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F/"><i class="fa fa-chevron-left">  </i><span>汇编语言学习笔记（四）：第一个程序</span></a></div><div class="next-post pull-right"><a href="/2017/11/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%AF%84%E5%AD%98%E5%99%A8/"><span>汇编语言学习笔记（二）：寄存器</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

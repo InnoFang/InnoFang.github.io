@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="汇编语言学习笔记（九）：转移指令的原理"><meta name="keywords" content="汇编语言"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>汇编语言学习笔记（九）：转移指令的原理 | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6-offset"><span class="toc-number">1.</span> <span class="toc-text">操作符 offset</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">jmp 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BE%9D%E6%8D%AE%E4%BD%8D%E7%A7%BB%E8%BF%9B%E8%A1%8C%E8%BD%AC%E7%A7%BB%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">依据位移进行转移的 jmp 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E7%9A%84%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E5%9C%A8%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">转移的目的地址在指令中的 jmp 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%9C%A8%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%AD%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">5.</span> <span class="toc-text">转移地址在寄存器中的 jmp 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">转移地址在内存中的 jmp 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#jcxz-%E6%8C%87%E4%BB%A4"><span class="toc-number">7.</span> <span class="toc-text">jcxz 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#loop-%E6%8C%87%E4%BB%A4"><span class="toc-number">8.</span> <span class="toc-text">loop 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E5%AF%B9%E8%BD%AC%E7%A7%BB%E4%BD%8D%E7%A7%BB%E8%B6%85%E7%95%8C%E7%9A%84%E6%A3%80%E6%B5%8B"><span class="toc-number">9.</span> <span class="toc-text">编译器对转移位移超界的检测</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">汇编语言学习笔记（九）：转移指令的原理</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-11-26</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><blockquote>
+<p>学习参考：汇编语言（第2版）王爽</p>
+</blockquote>
+<ul>
+<li>操作符 offset</li>
+<li>jmp 指令</li>
+<li>依据位移进行转移的 jmp 指令</li>
+<li>转移的目的地址在指令中的 jmp 指令</li>
+<li>转移地址在寄存器中的 jmp 指令</li>
+<li>转移地址在内存中的 jmp 指令</li>
+<li>jcxz 指令</li>
+<li>loop 指令</li>
+<li>编译器对转移位移超界的检测</li>
+</ul>
+<span id="more"></span>
+
+<blockquote>
+<p><strong>可以修改 IP，或同时修改 CS 和 IP 的指令统称为转移指令</strong>。概括地讲，转移指令就是可以控制 CPU 执行内存中某处代码的指令</p>
+</blockquote>
+<p>8086CPU 的转移行为有以下几类</p>
+<ul>
+<li>只修改 IP 时，称为段内转移，比如：<code>jmp ax</code></li>
+<li>同时修改 CS 和 IP 时，称为段间转移，比如：<code>jmp 1000:0</code></li>
+</ul>
+<p>由于转移指令对 IP 的修改范围不同，段内转移又分为：短转移和近转移</p>
+<ul>
+<li>短转移 IP 的修改范围为 -128~127 （2^7-1）</li>
+<li>近转移 IP 的修改范围为 -32768~32767 (2^15-1)</li>
+</ul>
+<p>8086CPU 的转移指令分为一下几类</p>
+<ul>
+<li>无条件转移指令（如 jmp）</li>
+<li>条件转移指令</li>
+<li>循环指令（如 loop）</li>
+<li>过程</li>
+<li>中断</li>
+</ul>
+<h1 id="操作符-offset"><a href="#操作符-offset" class="headerlink" title="操作符 offset"></a>操作符 offset</h1><blockquote>
+<p>由编译器处理的符号，功能是取得<strong>标号的偏移地址</strong></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line">codesg segment</span><br><span class="line">  start: mov ax,offset start    ;相当于 mov ax,0</span><br><span class="line">      s: mov ax,offset s        ;相当于 mov ax,3，第一条指令长度为 3 个字节，则 s 的偏移地址为 3</span><br><span class="line">codesg ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+
+<h1 id="jmp-指令"><a href="#jmp-指令" class="headerlink" title="jmp 指令"></a>jmp 指令</h1><blockquote>
+<p>jmp 为无条件转移指令，可以只修改 IP，也可以同时修改 CS 和 IP</p>
+</blockquote>
+<p>jmp 指令要给出两种信息：</p>
+<ul>
+<li>转移的目的地址</li>
+<li>转移的距离（段间转移、段内短转移，段内近转移）</li>
+</ul>
+<h1 id="依据位移进行转移的-jmp-指令"><a href="#依据位移进行转移的-jmp-指令" class="headerlink" title="依据位移进行转移的 jmp 指令"></a>依据位移进行转移的 jmp 指令</h1><blockquote>
+<p>jmp short 标号（转到标号处执行指令）</p>
+</blockquote>
+<p>这种格式的jmp 指令实现的是段内短转移，它对 IP 的修改范围为-128-127,也就是说,它向前转移时可以最多越过128 个字节，向后转移可以最多越过127 个字节。jmp 指令中的 “short” 符号，说明指令进行的是短转移。jmp 指令中的“标号”是代码段中的标<br>号,指明了指令要转移的目的地，转移指令结束后，CS:IP 应该指向标号处的指令。</p>
+<p><strong>CPU在执行 jmp 指令的时候并不需要转移的目的地址</strong></p>
+<p>在 <code>jmp short 标号</code> 指令所对应的机器码中，并不包含转移的目的地址，而包含的是转移的位移。这个位移，是编译器根据汇编指令中的 “标号” 计算出来的。</p>
+<p>实际上，<code>jmp short 标号</code> 的功能为: (IP)-(IP)+8位位移。<br>(1) 8位位移=标号处的地址-jmp指令后的第一个字节的地址;<br>(2) short指明此处的位移为8位位移;<br>(3) 8 位位移的范围为-128~127.用补码表示<br>(4) 8 位位移由编译程序在编译时算出。</p>
+<p>还有一种和 <code>jmp short 标号</code> 功能相近的指令格式，<code>jmp near ptr 标号</code>，它实现的是段内近转移。<br><code>jmp near ptr 标号</code> 的功能为: (IP)=(IP)+16位位移。</p>
+<p>(1) 16位位移=标号处的地址-jmp指令后的第一个字节的地址;<br>(2) near ptr 指明此处的位移为16位位移，进行的是段内近转移;<br>(3) 16 位位移的范围为-32768~32767，用补码表示<br>(4) 16 位位移由编译程序在编译时算出。</p>
+<h1 id="转移的目的地址在指令中的-jmp-指令"><a href="#转移的目的地址在指令中的-jmp-指令" class="headerlink" title="转移的目的地址在指令中的 jmp 指令"></a>转移的目的地址在指令中的 jmp 指令</h1><p><code>jmp far ptr 标号</code> 实现的是段间转移，又称为远转移。功能如下：</p>
+<ul>
+<li>(CS)=标号所在段的段地址；(IP)=标号在段中的偏移地址</li>
+<li><code>far ptr</code> 指明了指令用标号的段地址和偏移地址修改 CS 和 IP</li>
+</ul>
+<h1 id="转移地址在寄存器中的-jmp-指令"><a href="#转移地址在寄存器中的-jmp-指令" class="headerlink" title="转移地址在寄存器中的 jmp 指令"></a>转移地址在寄存器中的 jmp 指令</h1><p>指令格式：jmp 16位 reg<br>功能：(IP)=(16 位 reg)</p>
+<h1 id="转移地址在内存中的-jmp-指令"><a href="#转移地址在内存中的-jmp-指令" class="headerlink" title="转移地址在内存中的 jmp 指令"></a>转移地址在内存中的 jmp 指令</h1><p>有两种格式</p>
+<ul>
+<li><code>jmp word ptr 内存单元地址(段内转移)</code> 功能：从内存单元地址处开始存放一个字，是转移的目的偏移地址<br> 比如，下面的指令 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov ax,0123H</span><br><span class="line">mov ds:[0],ax</span><br><span class="line">jmp word ptr ds:[0]</span><br></pre></td></tr></table></figure>
+ 执行后，(IP)=0123H</li>
+<li><code>jmp dword ptr 内存单元地址(段间转移)</code><br> 功能：从内存单元地址处开始存放两个字，高地址处的字是转移的目的段地址，低地址处是转移的目的偏移地址<br> (CS)=(内存单元地址+2)<br> (IP)=(内存单元地址)<br> 比如，下面的指令 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov ax,0123H</span><br><span class="line">mov ds:[0],ax</span><br><span class="line">mov word ptr ds:[2],0</span><br><span class="line">jmp dword ptr ds:[0]</span><br></pre></td></tr></table></figure>
+ 执行后，(CS)=0，(IP)=0123H，CS:IP 指向 0000:0123</li>
+</ul>
+<h1 id="jcxz-指令"><a href="#jcxz-指令" class="headerlink" title="jcxz 指令"></a>jcxz 指令</h1><p>jcxz 指令为有条件转移指令，所有的有条件转移指令都是短转移，在对应的机器码中包含转移的位移，而不是目的地址。对IP的修改范围都为: -128~127。</p>
+<ul>
+<li>指令格式: jcxz 标号(如果(cx)=0,转移到标号处执行。)</li>
+<li>操作: 当(cx)=0 时，(IP)-(IP)+8 位位移;</li>
+<li>8位位移=标号处的地址 - jcxz指令后的第一个字节的地址;</li>
+<li>8位位移的范围为 -128-127,用补码表示;</li>
+<li>8位位移由编译程序在编译时算出。</li>
+</ul>
+<p>当 (cx)!=0 时，什么也不做(程序向下执行)。<br>我们从 jcxz 的功能中可以看出，<code>jcxz 标号</code> 的功能相当于:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">it((cx)==<span class="number">0</span>) jmp <span class="keyword">short</span> 标号;</span><br></pre></td></tr></table></figure>
+
+<h1 id="loop-指令"><a href="#loop-指令" class="headerlink" title="loop 指令"></a>loop 指令</h1><p>loop 指令为循环指令，所有的循环指令都是短转移，在对应的机器码中包含转移的位移，而不是目的地址。对IP的修改范围都为:-128-127。</p>
+<ul>
+<li>指令格式: loop 标号( (cx)=(cx)-1,如果 (cx) != 0,转移到标号处执行。)</li>
+<li>操作:<ol>
+<li>(cx)=(cx)-l;</li>
+<li>如果(cx)!=0,(IP)=(IP)+8 位位移。</li>
+</ol>
+</li>
+<li>8位位移=标号处的地址-loop指令后的第一个字节的地址;</li>
+<li>8 位位移的范围为-128-127,用补码表示;</li>
+<li>8位位移由编译程序在编译时算出。</li>
+</ul>
+<p>如果(ex)=0,什么也不做(程序向下执行)。<br>我们从1OOP的功能中可以看出，“loop 标号”的功能相当于:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(cx)--;</span><br><span class="line"><span class="keyword">if</span>((cx)!=<span class="number">0</span>) jmp <span class="keyword">short</span> 标号;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="编译器对转移位移超界的检测"><a href="#编译器对转移位移超界的检测" class="headerlink" title="编译器对转移位移超界的检测"></a>编译器对转移位移超界的检测</h1><blockquote>
+<p><strong>注意</strong>，根据位移进行转移的指令，它们的转移范围受到转移位移的限制，如果在源程<br>序中出现了转移范围超界的问题，在编译的时候，编译器将报错。</p>
+</blockquote>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2017/11/26/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B9%9D%EF%BC%89%EF%BC%9A%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8E%9F%E7%90%86/">http://innofang.github.io/2017/11/26/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B9%9D%EF%BC%89%EF%BC%9A%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8E%9F%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">汇编语言</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/11/27/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%8D%81%EF%BC%89%EF%BC%9ACALL-%E5%92%8C-RET-%E6%8C%87%E4%BB%A4/"><i class="fa fa-chevron-left">  </i><span>汇编语言学习笔记（十）：CALL 和 RET 指令</span></a></div><div class="next-post pull-right"><a href="/2017/11/25/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%85%AB%EF%BC%89%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98/"><span>汇编语言学习笔记（八）：数据处理的两个基本问题</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1cuf0dr09j31hc0u049j.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="刷题小知识积累（Java）"><meta name="keywords" content="Algorithm"><meta name="author" content="Inno Fang"><meta name="copyright" content="Inno Fang"><title>刷题小知识积累（Java） | Inno' Blog</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Inno' Blog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9A%E9%A2%98%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">做题经验总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="toc-number">1.1.</span> <span class="toc-text">输入输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">字符串操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E7%A8%8B%E5%BA%8F%E8%B6%85%E6%97%B6"><span class="toc-number">1.3.</span> <span class="toc-text">关于程序超时</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%BF%90%E8%A1%8C%E9%94%99%E8%AF%AF"><span class="toc-number">1.4.</span> <span class="toc-text">关于运行错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">1.5.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4"><span class="toc-number">1.6.</span> <span class="toc-text">提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#length-size-length"><span class="toc-number">1.7.</span> <span class="toc-text">length, size(), length()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%9F%A5%E8%AF%86%E6%94%B6%E9%9B%86"><span class="toc-number">2.</span> <span class="toc-text">小知识收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%99%E6%A8%A1%E5%AE%9A%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">余模定理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E5%88%A4%E6%96%AD"><span class="toc-number">2.2.</span> <span class="toc-text">浮点数判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8D%A2%E5%BA%95%E5%85%AC%E5%BC%8F%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E6%95%B0%E6%98%AF%E5%90%A6%E6%98%AF-3-%E7%9A%84-n-%E6%AC%A1%E6%96%B9%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">使用换底公式判断一个数是否是 3 的 n 次方数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%BC%82%E6%88%96%E6%89%BE%E5%88%B0%E6%AF%8F%E4%B8%AA%E5%85%83%E7%B4%A0%E9%83%BD%E5%87%BA%E7%8E%B02%E6%AC%A1%E9%99%A4%E4%BA%86%E5%85%B6%E4%B8%AD%E7%9A%84%E4%B8%80%E4%B8%AA%E7%9A%84%E6%95%B0%E7%BB%84%E4%B8%AD%E5%94%AF%E4%B8%80%E4%B8%8D%E9%87%8D%E5%A4%8D%E7%9A%84%E5%85%83%E7%B4%A0"><span class="toc-number">2.4.</span> <span class="toc-text">使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9B%E6%B4%9B%E4%BE%9D%E5%BE%B7%E5%88%A4%E7%8E%AF%E5%88%A4%E6%96%AD%E5%BE%AA%E7%8E%AF%E5%86%85%E6%98%AF%E5%90%A6%E5%87%BA%E7%8E%B0%E5%BE%AA%E7%8E%AF%E6%95%B0%E5%AD%97"><span class="toc-number">2.5.</span> <span class="toc-text">佛洛依德判环判断循环内是否出现循环数字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BF%E5%88%B0%E6%95%B0%E5%AD%97%E7%9A%84%E6%9C%80%E9%AB%98%E4%BD%8D%E4%B8%BA-1-%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0"><span class="toc-number">2.6.</span> <span class="toc-text">拿到数字的最高位为 1 的二进制数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-n-%E9%98%B6%E7%9F%A9%E9%98%B5%E7%9A%84%E8%A7%84%E5%BE%8B"><span class="toc-number">2.7.</span> <span class="toc-text">关于 n 阶矩阵的规律</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%EF%BC%8C%E5%B0%9D%E8%AF%95%E5%AF%B9%E5%9B%9B%E4%B8%AA%E6%96%B9%E5%90%91%E8%BF%9B%E8%A1%8C%E9%81%8D%E5%8E%86"><span class="toc-number">2.8.</span> <span class="toc-text">在二维数组中，尝试对四个方向进行遍历</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/15724026?s=400&amp;u=ee5d1bee0d44d91b01465f82910464fda54b91cc&amp;v=4"></div><div class="author-info__name text-center">Inno Fang</div><div class="author-info__description text-center">Programming is an art form</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/InnoFang">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">64</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">17</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">17</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链 / links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wmpscc.github.io/">HeoLis</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://barackbao.com/">Brarack Bao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://wanghao15536870732.github.io/">HyYyr Wang</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.ingernotes.cn/">Inger Chao</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.angus-liu.cn/">Angus Liu 's Blog</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7d44vddj31do0rntdl.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Inno' Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/gallery">Gallery</a><a class="site-page" href="/about">About</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">刷题小知识积累（Java）</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-12-07</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Algorithm/">Algorithm</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>OJ Java 环境 ： JDK 1.6</p>
+<p>即需注意不要使用只有 JDK1.7 和 JDK1.8 的新特性，为了简便起见，只列出这两个版本的新特性的常用特性，</p>
+<ul>
+<li><strong>switch 中可以使用字符串</strong></li>
+<li><strong>“&lt;&gt;”这个玩意儿的运用List<String> tempList = new ArrayList&lt;&gt;(); 即泛型实例化类型自动推断</strong></li>
+<li>** 两个 char 间的 equals**</li>
+</ul>
+<p><strong>务必注意第二点</strong></p>
+<span id="more"></span>
+
+<h2 id="做题经验总结"><a href="#做题经验总结" class="headerlink" title="做题经验总结"></a>做题经验总结</h2><h3 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h3><p>使用输入输出时，最好带入缓冲流</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Scanner in = <span class="keyword">new</span> Scanner(<span class="keyword">new</span> BufferedInputStream(System.in));</span><br><span class="line">PrintWriter out = <span class="keyword">new</span> PrintWriter(<span class="keyword">new</span> BufferedOutputStream(System.out));</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong> 使用<code>out</code>输出时，记得在输出之后调用那个<code>flush()</code>函数，否则无法输出<br>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">out.println(str);</span><br><span class="line">out.flush();</span><br></pre></td></tr></table></figure>
+<p>若要使用<code>close()</code>方法也是可以得，但要注意题目要求，若还有多行数据需要输入，则不应该使用<code>close()</code><br>同时，好习惯是在程序结束之前将输入输出关闭 </p>
+<hr>
+<p>在使用<code>in.nextLine()</code>读入一整行时，需注意<br>如果在读入一整行之前要求输入其他的数，比如整型时，具体情况举例如下：</p>
+<pre><code>       输入的第一行为一个正整数n （1&lt;=n&lt;=10）。
+　　    接下来n行... 
+</code></pre>
+<p><code>nextLine()</code>会将上一行末尾的<code>\n</code>当作一行，即在输入时会少输一行，这里提出两种解决方式</p>
+<p>解决方式一：输入数字时使用nextLine，并用<code>Integer.parseInt()</code>进行转换</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = Integer.parseInt(in.nextLine());</span><br><span class="line">String str = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">    str = in.nextLine();</span><br><span class="line">    out.println(str);</span><br><span class="line">    out.flush();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解决方式二：在输入完整数之后，加一行<code>nextLine()</code>，消除\n防止影响后面的结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = in.nextInt();</span><br><span class="line">in.nextLine();</span><br><span class="line">String str = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">    str = in.nextLine();</span><br><span class="line">    out.println(str);</span><br><span class="line">    out.flush();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h3><p><strong>对于需要大量字符串操作的题，最好使用<code>StringBuilder</code>进行操作</strong></p>
+<p>这里也可以使用StringBuffer，但是需要注意一点，StringBuffer是线程安全的，StringBuilder是线程不安全的，什么意思？</p>
+<p>换句话说，就是StringBuffer为了保证线程安全，在效率上会略低于StringBuilder</p>
+<p>而在这种程序设计中，一般是不会出现使用多线程的情况的，所以这里建议使用StringBuilder</p>
+<h3 id="关于程序超时"><a href="#关于程序超时" class="headerlink" title="关于程序超时"></a>关于程序超时</h3><ul>
+<li>如是多字符串有很多操作，最好使用StringBuilder</li>
+<li>如果采用了打表的方式检索数据，最好使用手动创建hashMap，因为hashMap检索很快（ArrayMap）</li>
+<li>对于大量数组计算，减少循环使用，采用计算公式，或者做判断，剔除不必要的数据</li>
+</ul>
+<hr>
+<h3 id="关于运行错误"><a href="#关于运行错误" class="headerlink" title="关于运行错误"></a>关于运行错误</h3><ul>
+<li>除以零</li>
+<li>数组越界</li>
+<li>指针越界</li>
+<li>使用已经释放的空间</li>
+<li>数组开得太大，超出了栈的范围，造成栈溢出</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>比较两个数组是否相等应该用 <code>Arrays.equals( , )</code></li>
+<li>数组的复制 <code>Arrays.copyOf()</code></li>
+</ul>
+<hr>
+<h3 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h3><ul>
+<li>类名务必是 <code>Main</code>，否则无法通过</li>
+<li>复制代码时，需要将除包名以外所有代码复制，即全部代码除了package语句，其他全部复制</li>
+<li>提交之前，务必多测试几组，在思考测试用例时，建议<ul>
+<li>若题目给出了输入范围，最好测试一下输入最大的情况和输入最小的情况</li>
+<li>关于数字操作的题，格外注意0，int的范围（-2^31<del>2^31-1，即-2,147,483,648</del>2,147,483,647），long的范围（-263<del>263-1，即-9,223,372,036,854,775,808</del>9,223,372,036,854,775,807）</li>
+<li>在使用浮点型计算时，注意浮点数陷阱</li>
+<li>测试时，最好注意一下每组测试时是否把上组测试用例的结果清空，不然后导致编译错误</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="length-size-length"><a href="#length-size-length" class="headerlink" title="length, size(), length()"></a>length, size(), length()</h3><p>在使用编译器时，并不会太注意这个问题，但是在白板编程时，经常会弄混，那么这里总结一下</p>
+<p>在 Java 中</p>
+<ul>
+<li>数组相关，用 <code>length</code></li>
+<li>集合相关，用 <code>size()</code></li>
+<li>字符串相关，用 <code>length()</code></li>
+</ul>
+<p>BTW，在 kotlin 中</p>
+<ul>
+<li>数组、集合相关，用 <code>size</code></li>
+<li>字符串相关，用 <code>length</code> </li>
+</ul>
+<p>并且都不需要圆括号</p>
+<hr>
+<h2 id="小知识收集"><a href="#小知识收集" class="headerlink" title="小知识收集"></a>小知识收集</h2><h3 id="余模定理"><a href="#余模定理" class="headerlink" title="余模定理"></a>余模定理</h3><blockquote>
+<p>(a + b) % mod = (a % mod + b % mod) % mod<br>(a * b) % mod = ((a % mod) * (b % mod)) % mod</p>
+</blockquote>
+<h3 id="浮点数判断"><a href="#浮点数判断" class="headerlink" title="浮点数判断"></a>浮点数判断</h3><p>在 Java 中存在浮点数陷阱，即</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> a = <span class="number">2.0</span> - <span class="number">1.9</span>;</span><br><span class="line"><span class="keyword">double</span> b = <span class="number">0.1</span>;</span><br><span class="line">System.out.println(a == b); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>其原因是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="number">2.0</span> - <span class="number">1.9</span>);</span><br><span class="line"><span class="comment">// 0.10000000000000009</span></span><br></pre></td></tr></table></figure>
+
+<p>那么解决这个问题的方法则是做减法，当值小于一个特定的数时，则认为相等</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(a - b &lt; <span class="number">1e-10</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>这里差值只要小于 1^-10 则认为相等</p>
+<h3 id="使用换底公式判断一个数是否是-3-的-n-次方数"><a href="#使用换底公式判断一个数是否是-3-的-n-次方数" class="headerlink" title="使用换底公式判断一个数是否是 3 的 n 次方数"></a>使用换底公式判断一个数是否是 3 的 n 次方数</h3><blockquote>
+<p>换底公式 : log_3(num) = log10(num) / log10(3.0)</p>
+</blockquote>
+<p>举例如下，输入一个数 num，使用换底公式可以得到它是 3 的几次方</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> res = Math.log10(num) / Math.log10(<span class="number">3.0</span>)</span><br></pre></td></tr></table></figure>
+<p>这里需要判断 res 是否为整数即可，方法就是做浮点数减法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(res - (<span class="keyword">int</span>)res) &lt; <span class="number">1e-10</span></span><br></pre></td></tr></table></figure>
+<p>刚发对判断 2^n 数、4^n 数都可行</p>
+<h3 id="使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素"><a href="#使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素" class="headerlink" title="使用异或找到每个元素都出现2次除了其中的一个的数组中唯一不重复的元素"></a>使用异或找到<strong>每个元素都出现2次除了其中的一个的</strong>数组中唯一不重复的元素</h3><p>比如数组 <code>[6,4,3,3,4,4]</code>，根据要找到数组中唯一不重复的那个元素</p>
+<p>这里的小技巧是使用<strong>异或</strong></p>
+<p>原理是 <code>a ^ b = b ^ a</code>，即异或满足交换律<br>同时</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span> ^ a = a</span><br><span class="line">a ^ a = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>所以当重复的元素取异或时会变为 0，而 0 异或任何一个数都是他本身。方法如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    res = res ^ nums[i];</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(res);</span><br></pre></td></tr></table></figure>
+
+<h3 id="佛洛依德判环判断循环内是否出现循环数字"><a href="#佛洛依德判环判断循环内是否出现循环数字" class="headerlink" title="佛洛依德判环判断循环内是否出现循环数字"></a>佛洛依德判环判断循环内是否出现循环数字</h3><p>原理解释如下</p>
+<blockquote>
+<p>两个人同时跑步，第二个人的速度是第一个人的两倍，那么第二个人能在下一圈的同一个位置遇到第一个人</p>
+</blockquote>
+<p>比如现在有个方法 <code>public int calc(int n)</code> 用于对数字 n 转化为另一个数字，通过如下方法可以判断在循环中该数是否会循环出现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> one = n;</span><br><span class="line">	<span class="keyword">int</span> two = n;</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		one = calc(one);	   		 <span class="comment">// 相当于第一个人的速度</span></span><br><span class="line">		two = calc(calc(two));		 <span class="comment">// 相当于第二个人的速度，是第一个人的两倍</span></span><br><span class="line">		<span class="comment">// if (one 为何值）有什么结果</span></span><br><span class="line">		<span class="comment">// if (two 为何值) 有什么结果</span></span><br><span class="line">		<span class="keyword">if</span> (one == two) <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// 表示会出现循环</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="拿到数字的最高位为-1-的二进制数"><a href="#拿到数字的最高位为-1-的二进制数" class="headerlink" title="拿到数字的最高位为 1 的二进制数"></a>拿到数字的最高位为 1 的二进制数</h3><p>比如数字 5，对应的二进制码为 101<br>那么就可以拿到对应最高位为一 100</p>
+<p>在 Java 的 Integer 类中，有一个 <code>highestOneBit</code> 方法，具体实现如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">highestOneBit</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    i |= (i &gt;&gt;  <span class="number">1</span>);</span><br><span class="line">    i |= (i &gt;&gt;  <span class="number">2</span>);</span><br><span class="line">    i |= (i &gt;&gt;  <span class="number">4</span>);</span><br><span class="line">    i |= (i &gt;&gt;  <span class="number">8</span>);</span><br><span class="line">    i |= (i &gt;&gt; <span class="number">16</span>);</span><br><span class="line">    <span class="keyword">return</span> i - (i &gt;&gt;&gt; <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里解释一下中间的实现部分</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">i |= (i &gt;&gt;  <span class="number">1</span>);</span><br><span class="line">i |= (i &gt;&gt;  <span class="number">2</span>);</span><br><span class="line">i |= (i &gt;&gt;  <span class="number">4</span>);</span><br><span class="line">i |= (i &gt;&gt;  <span class="number">8</span>);</span><br><span class="line">i |= (i &gt;&gt; <span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+
+<p>比如数字 5，二进制为 101，经过这一步骤后，可以得到 111</p>
+<p>解释如下：</p>
+<blockquote>
+<p>i |= (i &gt;&gt;  1);</p>
+</blockquote>
+<p>即 i 本身和向右移一位的 i 取位或运算，相当于</p>
+<pre><code>    101 | 010
+</code></pre>
+<p>此时 i 等于 111</p>
+<p>再比如 16，二进制为 10000，经过这一步骤过后，可以得到 11111</p>
+<p>解释如下</p>
+<blockquote>
+<p>i |= (i &gt;&gt;  1); // =》 10000 | 01000 = 11000<br>  i |= (i &gt;&gt;  2); // =》 11000 | 00110 = 11110<br>  i |= (i &gt;&gt;  4); // =》 11110 | 00001 = 11111<br>  i |= (i &gt;&gt;  8); // =》 11111 | 11111 = 11111<br>  i |= (i &gt;&gt; 16); // =》 11111 | 11111 = 11111</p>
+</blockquote>
+<p> 这个方式的运用可以算出一个<strong>正数</strong>的反码</p>
+<p> 当我用 10000 与 11111 异或时，可以得到 10000 的反码 01111</p>
+<h3 id="关于-n-阶矩阵的规律"><a href="#关于-n-阶矩阵的规律" class="headerlink" title="关于 n 阶矩阵的规律"></a>关于 n 阶矩阵的规律</h3><p> 以 4 阶矩阵的正对角线 ‘/‘ 为例</p>
+<p> <img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fnesp9mup3j30ft0fxjs8.jpg"></p>
+<p> 对于 4 阶矩阵，对角线个数为 <code>2 x 4 - 1 = 7</code> 条<br> 对于 n 阶矩阵，对角线个数为 <code>2 x n - 1</code> 条</p>
+<p> 若用 i 表示行元素，j 表示列元素，那么每条对角线上的元素的 行下标 + 列下标 可得，从第一条正对角线开始，i + j 的值分别为<br> <code> 0, 1, 2 .. 2*n-2</code></p>
+<p>以 4 阶矩阵的反对角线 ‘&#39; 为例</p>
+<p><img src="https://ws1.sinaimg.cn/large/0067fiZ7ly1fnesp9z3hjj30gk0f80tl.jpg"></p>
+<p>反对角线个数同上：2 * n + 1</p>
+<p>若用 i 表示行元素，j 表示列元素，那么每条对角线上的元素的 行下标 - 列下标 可得，从第一条反对角线开始，i + j 的值分别为<br><code>-(n-1), -(n-2), -(n-3), ..., -1, 0, 1, ..., n-3, n-2, n-1</code></p>
+<h3 id="在二维数组中，尝试对四个方向进行遍历"><a href="#在二维数组中，尝试对四个方向进行遍历" class="headerlink" title="在二维数组中，尝试对四个方向进行遍历"></a>在二维数组中，尝试对四个方向进行遍历</h3><p> 假如现在的坐标为 (x, y)，那么要对四个方向进行遍历的话，可以先定义一个二维方向数组，用来存储 x 轴方向和 y 轴方向可移动的<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 顺时针方向</span></span><br><span class="line"><span class="keyword">int</span>[][] direct = &#123;</span><br><span class="line">			&#123;<span class="number">1</span>, <span class="number">0</span>&#125;, <span class="comment">// 右</span></span><br><span class="line">			&#123;<span class="number">0</span>, <span class="number">1</span>&#125;, <span class="comment">// 下</span></span><br><span class="line">			&#123;-<span class="number">1</span>, <span class="number">0</span>&#125;,<span class="comment">// 左</span></span><br><span class="line">			&#123;<span class="number">0</span>, -<span class="number">1</span>&#125; <span class="comment">// 上</span></span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>这四个方向可以颠倒顺序，具体是怎样的应该根据具体情况分析</p>
+<p> 那么在对四个方向进行遍历时，就可以用循环操作了，这样代码会显得更加紧凑<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i ++ ) &#123;</span><br><span class="line">	<span class="keyword">int</span> newX = x + direct[i][<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">int</span> newY = y + direct[i][<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (newX &gt;= <span class="number">0</span> &amp;&amp; newX &lt; rows &amp;&amp; newY &gt;= <span class="number">0</span> &amp;&amp; newY &lt; cols) &#123;</span><br><span class="line">		<span class="comment">// 只要新坐标没越界就继续操作，rows 为行数，cols 为列数</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Inno Fang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://innofang.github.io/2017/12/07/%E5%88%B7%E9%A2%98%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF%EF%BC%88Java%EF%BC%89/">http://innofang.github.io/2017/12/07/%E5%88%B7%E9%A2%98%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF%EF%BC%88Java%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Algorithm/">Algorithm</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/02/17/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4%EF%BC%8C%E4%B8%80%E5%B9%B4%E6%9C%9F%E7%9B%AE%E6%A0%87%E8%BE%BE%E6%88%90%EF%BC%81/"><i class="fa fa-chevron-left">  </i><span>新的一年，一年期目标达成！</span></a></div><div class="next-post pull-right"><a href="/2017/11/28/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89%EF%BC%9A%E6%A0%87%E5%BF%97%E5%AF%84%E5%AD%98%E5%99%A8/"><span>汇编语言学习笔记（十一）：标志寄存器</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/0067fiZ7ly1g1i7d44vddj31do0rntdl.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2022 By Inno Fang</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Programming is an art form.</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>
