@@ -709,6 +709,13 @@
   </url>
   
   <url>
+    <loc>http://innofang.github.io/tags/Python-Tensorflow-Flask-Heroku/</loc>
+    <lastmod>2022-10-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://innofang.github.io/tags/C%E8%AF%AD%E8%A8%80/</loc>
     <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -745,13 +752,6 @@
   
   <url>
     <loc>http://innofang.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2022-10-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://innofang.github.io/tags/Python-Tensorflow-Flask-Heroku/</loc>
     <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -837,6 +837,13 @@
   </url>
   
   <url>
+    <loc>http://innofang.github.io/categories/Python/</loc>
+    <lastmod>2022-10-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://innofang.github.io/categories/C%E8%AF%AD%E8%A8%80/</loc>
     <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -873,13 +880,6 @@
   
   <url>
     <loc>http://innofang.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2022-10-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://innofang.github.io/categories/Python/</loc>
     <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
