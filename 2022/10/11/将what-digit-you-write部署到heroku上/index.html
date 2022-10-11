@@ -30,7 +30,7 @@
 
 <h3 id="容易踩坑的地方"><a href="#容易踩坑的地方" class="headerlink" title="容易踩坑的地方"></a>容易踩坑的地方</h3><h4 id="关于存在与-GPU-相关的依赖"><a href="#关于存在与-GPU-相关的依赖" class="headerlink" title="关于存在与 GPU 相关的依赖"></a>关于存在与 GPU 相关的依赖</h4><p>首先 <code>Heroku</code> 服务器是没有 GPU 的，所以既然我们使用了 <code>Tensorflow</code>，那么我们就要<strong>注意把与 GPU 和 CUDA 相关的依赖项去掉</strong>（比如 <code>cudnn</code> 和 <code>cudatoolkit</code>，如果不去掉会因为无法下载依赖导致部署失败），并下载 <code>tensorflow-cpu</code> 版本（默认的 <code>Tensorflow</code> 会包含 GPU 模块，这会导致最终项目的空间占用大于 500M，从而导致部署失败）。如果你使用的是 <code>Pytorch</code>，也是一样的操作逻辑。</p>
 <h4 id="关于-Python-版本的问题"><a href="#关于-Python-版本的问题" class="headerlink" title="关于 Python 版本的问题"></a>关于 Python 版本的问题</h4><p>不同的 <code>Heroku</code> 版本，在后台运行的 Python 版本都是不同的，具体的可以查看这个<a target="_blank" rel="noopener" href="https://devcenter.heroku.com/articles/python-support">文档</a> 。</p>
-<p><img src="%5Bcrash-when-deploy%5D:"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/innofang.github.io@master/pic/%E5%B0%86what-digit-you-write%E9%83%A8%E7%BD%B2%E5%88%B0heroku%E4%B8%8A/supported-python.png"></p>
 <p>我们的项目需要依赖 Python3.7，并且我们使用的 tensorflow-cpu 版本为 <code>2.1.0</code> 这也与 Python 的版本相关。而我们下载 Heroku 版本为 22，是不支持 Python3.7 的。此时，我们有两个方式可以选择：</p>
 <ol>
 <li>继续使用当前的 <code>Heroku</code> 版本，但是需要修改 <code>tensorflow-cpu</code> 的版本 (对于 Python3.10 能支持的 <code>tensorflow-cpu</code> 最低版本为 <code>2.8.0</code>);</li>
@@ -63,7 +63,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">heroku logs</span><br></pre></td></tr></table></figure>
 
 <p>如果是一般的项目问题此时应该可以正常启动了，但是如果你的项目用了 <code>Tensorflow</code>（可能用了 <code>Pytorch</code> 也是）会出现下面的问题，导致项目部署失败。</p>
-<p>![][crash-when-deploy]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/innofang/innofang.github.io@master/pic/%E5%B0%86what-digit-you-write%E9%83%A8%E7%BD%B2%E5%88%B0heroku%E4%B8%8A/crash-when-deploy.png"></p>
 <p>这里我参照的解决方法是<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_51447436/article/details/125573273">这篇博客</a>。简单来说，我们只需要往 <code>requirements.txt</code> 中添加一个 <code>3.19.0</code> 版本以上的 <code>protobuf</code> 的依赖就可以了。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protobuf==3.19.0</span><br></pre></td></tr></table></figure>
 
